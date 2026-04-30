@@ -134,7 +134,7 @@ export default function HomePage() {
           onClick={() => navigate("/applications/status")}
         >
           <span className="big-action-icon">▤</span>
-          <span>申込状況を<br />確認する</span>
+          <span>申込状況を確認する</span>
           <span className="big-action-arrow">›</span>
         </button>
       </section>
