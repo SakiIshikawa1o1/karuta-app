@@ -2371,3 +2371,789 @@ body {
       rgba(255, 255, 255, 0.18) 100%
     );
 }
+
+/* =========================================================
+   Mobile compact layout
+   スマホ表示時に全体を少し小さくし、お知らせまで見えやすくする
+========================================================= */
+
+@media (max-width: 768px) {
+  /* ヘッダーを低くする */
+  .site-header {
+    height: 58px;
+    padding: 0 14px;
+  }
+
+  .logo-flower {
+    width: 34px;
+    height: 34px;
+    font-size: 19px;
+  }
+
+  .site-logo strong {
+    font-size: 17px;
+  }
+
+  .site-logo small {
+    font-size: 10px;
+  }
+
+  .hamburger-button {
+    width: 36px;
+    height: 36px;
+    gap: 5px;
+  }
+
+  .hamburger-button span {
+    width: 25px;
+    height: 2px;
+  }
+
+  /* ホーム全体の余白を詰める */
+  .home-page {
+    padding: 0 12px 36px;
+  }
+
+  /* 上部写真エリアを低くする */
+  .home-hero {
+    margin: 0 -12px;
+    min-height: 210px;
+  }
+
+  .home-hero-copy {
+    min-height: 210px;
+    padding: 24px 18px;
+    width: calc(100% - 24px);
+  }
+
+  /* メインコピーを小さくする */
+  .home-hero-copy h1 {
+    margin-bottom: 10px;
+    font-size: 24px;
+    line-height: 1.28;
+  }
+
+  .home-hero-copy p {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  /* PC用CTAはスマホでは非表示のまま */
+  .pc-only {
+    display: none;
+  }
+
+  /* 「大会を探す」「申込状況を確認する」を低くする */
+  .home-action-row {
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .big-action-button {
+    min-height: 50px;
+    padding: 0 10px;
+    border-radius: 10px;
+    font-size: 14px;
+    line-height: 1.18;
+  }
+
+  .big-action-arrow {
+    font-size: 18px;
+  }
+
+  /* セクション間の余白を詰める */
+  .content-section {
+    margin-top: 22px;
+  }
+
+  .section-heading {
+    margin-bottom: 10px;
+  }
+
+  .section-heading h2 {
+    font-size: 18px;
+    gap: 6px;
+  }
+
+  .section-heading button {
+    font-size: 12px;
+  }
+
+  .section-heading button span {
+    font-size: 18px;
+    margin-left: 4px;
+  }
+
+  /* 大会カードは横スクロールのまま、少しだけコンパクトにする */
+  .home-tournament-grid {
+    grid-auto-flow: column;
+    grid-auto-columns: 40%;
+    grid-template-columns: none;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+  }
+
+  .home-tournament-card {
+    max-width: none;
+    border-radius: 10px;
+  }
+
+  .home-tournament-card .home-tournament-image {
+    height: 56px;
+  }
+
+  .home-tournament-card .tournament-status-label {
+    left: 6px;
+    top: 6px;
+    padding: 3px 6px;
+    font-size: 9px;
+    border-radius: 5px;
+  }
+
+  .home-tournament-card .home-tournament-body {
+    padding: 8px;
+  }
+
+  .home-tournament-card .home-tournament-body h3 {
+    margin-bottom: 4px;
+    font-size: 12px;
+    line-height: 1.3;
+  }
+
+  .home-tournament-card .home-tournament-body p {
+    margin: 2px 0;
+    font-size: 9px;
+    line-height: 1.35;
+  }
+
+  .home-tournament-card .outline-detail-button {
+    min-height: 26px;
+    margin-top: 6px;
+    font-size: 10px;
+    border-radius: 6px;
+    padding: 0 6px;
+  }
+
+  /* お知らせ部分も少しコンパクトにする */
+  .notice-item {
+    min-height: 56px;
+    grid-template-columns: 72px 58px 1fr auto;
+    gap: 6px;
+    padding: 0 10px;
+  }
+
+  .notice-date {
+    font-size: 11px;
+  }
+
+  .notice-tag {
+    min-height: 22px;
+    font-size: 10px;
+    border-radius: 5px;
+  }
+
+  .notice-text {
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .notice-arrow {
+    font-size: 18px;
+  }
+
+  /* 外部リンクも詰める */
+  .external-link-grid {
+    gap: 8px;
+  }
+
+  .external-link-button {
+    min-height: 64px;
+    padding: 10px 12px;
+    border-radius: 10px;
+  }
+
+  .external-link-button span {
+    font-size: 12px;
+  }
+
+  .external-link-button small {
+    font-size: 9px;
+  }
+
+  /* フッターもスマホでは少し小さく */
+  .site-footer {
+    margin: 34px -12px -36px;
+    padding: 26px 16px 18px;
+  }
+
+  .footer-logo-mark {
+    width: 34px;
+    height: 34px;
+    font-size: 19px;
+  }
+
+  .footer-logo strong {
+    font-size: 17px;
+  }
+
+  .footer-logo small {
+    font-size: 10px;
+  }
+
+  .footer-description {
+    margin-top: 12px;
+    font-size: 11px;
+    line-height: 1.7;
+  }
+
+  .footer-links {
+    gap: 16px;
+  }
+
+  .footer-links h3 {
+    font-size: 13px;
+  }
+
+  .footer-links button {
+    font-size: 11px;
+  }
+
+  .footer-bottom {
+    margin-top: 22px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* 小さめスマホではさらに少しだけ圧縮 */
+  .home-hero {
+    min-height: 195px;
+  }
+
+  .home-hero-copy {
+    min-height: 195px;
+    padding: 22px 16px;
+  }
+
+  .home-hero-copy h1 {
+    font-size: 22px;
+  }
+
+  .home-hero-copy p {
+    font-size: 11px;
+  }
+
+  .big-action-button {
+    min-height: 46px;
+    font-size: 13px;
+  }
+
+  .home-tournament-grid {
+    grid-auto-columns: 40%;
+  }
+
+  .home-tournament-card .home-tournament-image {
+    height: 52px;
+  }
+}
+
+/* =========================================================
+   Hero photo focused layout
+   写真を映えさせるため、左側は写真を見せて、
+   コピーは右側に小さく寄せる
+========================================================= */
+
+/* ヒーロー全体：左側は写真をしっかり見せ、右側だけ白くして文字を載せる */
+.home-hero {
+  min-height: 230px;
+  padding-bottom: 62px;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0) 42%,
+      rgba(255, 255, 255, 0.72) 68%,
+      rgba(255, 255, 255, 0.94) 100%
+    ),
+    url("/images/karuta-hero.jpg");
+
+  background-size: cover;
+  background-position: center left;
+  background-repeat: no-repeat;
+}
+
+/* 全体にかけていた白い膜を弱め、写真の色を残す */
+.home-hero::after {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.02) 0%,
+      rgba(255, 255, 255, 0.08) 100%
+    );
+}
+
+/* コピーを右側に寄せる */
+.home-hero-copy {
+  width: min(390px, 42%);
+  min-height: 230px;
+  margin-left: auto;
+  padding: 30px 48px 30px 20px;
+
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* 「かるたでつながる、熱い瞬間を。」を小さくする */
+.home-hero-copy h1 {
+  margin: 0 0 10px;
+  font-size: 26px;
+  line-height: 1.35;
+  letter-spacing: 0.04em;
+  color: #111111;
+  text-shadow: none;
+}
+
+/* 説明文も小さくして、写真の邪魔をしない */
+.home-hero-copy p {
+  font-size: 12px;
+  line-height: 1.7;
+  color: #333333;
+  text-shadow: none;
+}
+
+/* 写真に重ねているボタンは下部に維持 */
+.hero-action-row {
+  left: 40px;
+  right: 40px;
+  bottom: 14px;
+}
+
+/* 写真映えのため、ボタンを少しだけ半透明・軽めにする */
+.hero-action-row .big-action-button {
+  min-height: 54px;
+  box-shadow: 0 8px 22px rgba(120, 20, 28, 0.16);
+}
+
+.hero-action-row .big-action-button.primary {
+  background: rgba(200, 30, 47, 0.94);
+  border-color: rgba(200, 30, 47, 0.94);
+}
+
+.hero-action-row .big-action-button.secondary {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* =========================================================
+   Mobile
+   スマホでは右寄せにしすぎると狭いため、
+   右寄せ感は残しつつ読みやすくする
+========================================================= */
+
+@media (max-width: 768px) {
+  .home-hero {
+    min-height: 210px;
+    padding-bottom: 58px;
+
+    background:
+      linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.08) 28%,
+        rgba(255, 255, 255, 0.72) 72%,
+        rgba(255, 255, 255, 0.94) 100%
+      ),
+      url("/images/karuta-hero.jpg");
+
+    background-size: cover;
+    background-position: center left;
+  }
+
+  .home-hero-copy {
+    width: 48%;
+    min-height: 210px;
+    margin-left: auto;
+    padding: 22px 14px 22px 8px;
+  }
+
+  .home-hero-copy h1 {
+    font-size: 18px;
+    line-height: 1.35;
+    margin-bottom: 6px;
+  }
+
+  .home-hero-copy p {
+    font-size: 9px;
+    line-height: 1.55;
+  }
+
+  .hero-action-row {
+    left: 10px;
+    right: 10px;
+    bottom: 8px;
+  }
+
+  .hero-action-row .big-action-button {
+    min-height: 44px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-hero {
+    min-height: 195px;
+    padding-bottom: 54px;
+
+    background:
+      linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.12) 24%,
+        rgba(255, 255, 255, 0.76) 68%,
+        rgba(255, 255, 255, 0.96) 100%
+      ),
+      url("/images/karuta-hero.jpg");
+
+    background-size: cover;
+    background-position: center left;
+  }
+
+  .home-hero-copy {
+    width: 52%;
+    min-height: 195px;
+    padding: 20px 12px 20px 6px;
+  }
+
+  .home-hero-copy h1 {
+    font-size: 16px;
+  }
+
+  .home-hero-copy p {
+    font-size: 8.5px;
+  }
+
+  .hero-action-row .big-action-button {
+    min-height: 42px;
+    font-size: 11px;
+  }
+}
+
+/* =========================================================
+   Hero reverse layout
+   左にコピー、右に写真を見せる。
+   写真はトリミングしてよい前提で、高さをさらに低くする。
+========================================================= */
+
+/* ヒーロー全体を低めにする */
+.home-hero {
+  min-height: 175px;
+  padding-bottom: 52px;
+
+  /* 左側は白くして文字を読みやすく、右側は写真をしっかり見せる */
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.96) 0%,
+      rgba(255, 255, 255, 0.84) 32%,
+      rgba(255, 255, 255, 0.22) 58%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    url("/images/karuta-hero.jpg");
+
+  background-size: cover;
+  background-position: center right;
+  background-repeat: no-repeat;
+}
+
+/* 写真の上にかかる膜はかなり弱める */
+.home-hero::after {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.02) 0%,
+      rgba(255, 255, 255, 0.06) 100%
+    );
+}
+
+/* コピーを左側に戻す */
+.home-hero-copy {
+  width: min(360px, 46%);
+  min-height: 123px;
+  margin-left: 0;
+  margin-right: auto;
+  padding: 22px 20px 18px 42px;
+
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* 「かるたでつながる、熱い瞬間を。」を小さめに維持 */
+.home-hero-copy h1 {
+  margin: 0 0 6px;
+  font-size: 22px;
+  line-height: 1.32;
+  letter-spacing: 0.04em;
+  color: #111111;
+  text-shadow: none;
+}
+
+/* 説明文も小さめ */
+.home-hero-copy p {
+  font-size: 10px;
+  line-height: 1.55;
+  color: #333333;
+  text-shadow: none;
+}
+
+/* 下部に重ねるボタン位置を低めヒーロー用に調整 */
+.hero-action-row {
+  left: 40px;
+  right: 40px;
+  bottom: 10px;
+}
+
+/* ボタンも少し低めにする */
+.hero-action-row .big-action-button {
+  min-height: 42px;
+  font-size: 15px;
+  border-radius: 12px;
+}
+
+.hero-action-row .big-action-arrow {
+  font-size: 20px;
+}
+
+/* =========================================================
+   Mobile
+   スマホでも左文字・右写真を維持しつつ、さらに低くする
+========================================================= */
+
+@media (max-width: 768px) {
+  .home-hero {
+    min-height: 160px;
+    padding-bottom: 48px;
+
+    background:
+      linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.96) 0%,
+        rgba(255, 255, 255, 0.84) 36%,
+        rgba(255, 255, 255, 0.24) 64%,
+        rgba(255, 255, 255, 0) 100%
+      ),
+      url("/images/karuta-hero.jpg");
+
+    background-size: cover;
+    background-position: center right;
+    background-repeat: no-repeat;
+  }
+
+  .home-hero-copy {
+    width: 48%;
+    min-height: 112px;
+    margin-left: 0;
+    margin-right: auto;
+    padding: 18px 8px 14px 16px;
+  }
+
+  .home-hero-copy h1 {
+    font-size: 16px;
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+
+  .home-hero-copy p {
+    font-size: 8.5px;
+    line-height: 1.45;
+  }
+
+  .hero-action-row {
+    left: 10px;
+    right: 10px;
+    bottom: 8px;
+  }
+
+  .hero-action-row .big-action-button {
+    min-height: 40px;
+    font-size: 11px;
+  }
+
+  .hero-action-row .big-action-arrow {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-hero {
+    min-height: 148px;
+    padding-bottom: 44px;
+  }
+
+  .home-hero-copy {
+    width: 50%;
+    min-height: 104px;
+    padding: 16px 6px 12px 14px;
+  }
+
+  .home-hero-copy h1 {
+    font-size: 14px;
+  }
+
+  .home-hero-copy p {
+    font-size: 8px;
+  }
+
+  .hero-action-row .big-action-button {
+    min-height: 38px;
+    font-size: 10.5px;
+  }
+}
+
+/* =========================================================
+   Hero photo zoom and position
+   写真を少し拡大し、写真の左側が映るようにする
+========================================================= */
+
+/* PC表示：写真を拡大しつつ、左側を見せる */
+.home-hero {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.96) 0%,
+      rgba(255, 255, 255, 0.84) 32%,
+      rgba(255, 255, 255, 0.24) 56%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    url("/images/karuta-hero.jpg");
+
+  background-size: 118% auto;
+  background-position: left center;
+  background-repeat: no-repeat;
+}
+
+/* スマホ表示：拡大しすぎると見切れすぎるため少し抑える */
+@media (max-width: 768px) {
+  .home-hero {
+    background:
+      linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.96) 0%,
+        rgba(255, 255, 255, 0.84) 36%,
+        rgba(255, 255, 255, 0.24) 64%,
+        rgba(255, 255, 255, 0) 100%
+      ),
+      url("/images/karuta-hero.jpg");
+
+    background-size: 130% auto;
+    background-position: left center;
+    background-repeat: no-repeat;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-hero {
+    background-size: 145% auto;
+    background-position: left center;
+  }
+}
+
+/* =========================================================
+   Hero photo clarity and tournament card text tuning
+   右側の写真をはっきり見せ、大会カードの文字を少し小さくする
+========================================================= */
+
+/* 右側の白いグラデーションを弱めて、写真をはっきり見せる */
+.home-hero {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.96) 0%,
+      rgba(255, 255, 255, 0.82) 28%,
+      rgba(255, 255, 255, 0.16) 50%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    url("/images/karuta-hero.jpg");
+
+  background-size: 118% auto;
+  background-position: left center;
+  background-repeat: no-repeat;
+}
+
+/* 写真の上にかかる白い膜をさらに弱める */
+.home-hero::after {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.03) 100%
+    );
+}
+
+/* 大会カードの大会名を少し小さくする */
+.home-tournament-card .home-tournament-body h3 {
+  font-size: 18px;
+  line-height: 1.32;
+}
+
+/* 開催日・会場の文字を少し小さくする */
+.home-tournament-card .home-tournament-body p {
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+/* 詳細を見るボタンも少し小さくする */
+.home-tournament-card .outline-detail-button {
+  min-height: 38px;
+  font-size: 13px;
+}
+
+/* 受付中ラベルも少し小さくする */
+.home-tournament-card .tournament-status-label {
+  font-size: 12px;
+  padding: 5px 9px;
+}
+
+/* スマホでも右側写真をはっきり見せる */
+@media (max-width: 768px) {
+  .home-hero {
+    background:
+      linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.96) 0%,
+        rgba(255, 255, 255, 0.82) 34%,
+        rgba(255, 255, 255, 0.16) 62%,
+        rgba(255, 255, 255, 0) 100%
+      ),
+      url("/images/karuta-hero.jpg");
+
+    background-size: 130% auto;
+    background-position: left center;
+    background-repeat: no-repeat;
+  }
+
+  .home-tournament-card .home-tournament-body h3 {
+    font-size: 12px;
+  }
+
+  .home-tournament-card .home-tournament-body p {
+    font-size: 9px;
+  }
+
+  .home-tournament-card .outline-detail-button {
+    min-height: 26px;
+    font-size: 10px;
+  }
+
+  .home-tournament-card .tournament-status-label {
+    font-size: 9px;
+    padding: 3px 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-hero {
+    background-size: 145% auto;
+    background-position: left center;
+  }
+}
