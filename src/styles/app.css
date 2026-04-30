@@ -17,8 +17,21 @@
   --radius: 18px;
 }
 
+* {
+  box-sizing: border-box;
+}
+
+html {
+  width: 100%;
+  min-height: 100%;
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
   background: var(--bg);
   color: var(--text);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Hiragino Sans",
@@ -32,6 +45,15 @@ textarea {
   font-family: inherit;
 }
 
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
 /* =========================
    Header
 ========================= */
@@ -39,15 +61,19 @@ textarea {
 .site-header {
   position: sticky;
   top: 0;
-  z-index: 50;
-  height: 96px;
+  left: 0;
+  right: 0;
+  z-index: 80;
+  width: 100%;
+  height: 82px;
   background: rgba(255, 255, 255, 0.96);
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 48px;
+  padding: 0 40px;
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .site-logo {
@@ -55,50 +81,54 @@ textarea {
   background: transparent;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   cursor: pointer;
   color: var(--text);
+  min-width: 0;
 }
 
 .logo-flower {
-  width: 56px;
-  height: 56px;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
   border-radius: 50%;
   background: var(--red);
   color: #fff;
   display: grid;
   place-items: center;
-  font-size: 34px;
+  font-size: 28px;
   line-height: 1;
 }
 
 .site-logo strong {
   display: block;
-  font-size: 30px;
+  font-size: 26px;
   line-height: 1.1;
   font-weight: 900;
+  white-space: nowrap;
 }
 
 .site-logo small {
   display: block;
   margin-top: 4px;
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .pc-nav {
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 26px;
 }
 
 .pc-nav button {
   border: none;
   background: transparent;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 800;
   color: var(--text);
-  padding: 34px 0 26px;
+  padding: 29px 0 23px;
   border-bottom: 3px solid transparent;
   cursor: pointer;
 }
@@ -111,14 +141,14 @@ textarea {
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 22px;
+  gap: 18px;
 }
 
 .header-login-button {
   border: none;
   background: transparent;
   color: var(--text);
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 800;
   cursor: pointer;
 }
@@ -150,7 +180,7 @@ textarea {
 .menu-overlay {
   position: fixed;
   inset: 0;
-  z-index: 100;
+  z-index: 120;
   background: rgba(0, 0, 0, 0.35);
   display: flex;
   justify-content: flex-end;
@@ -227,7 +257,7 @@ textarea {
 }
 
 .home-hero-copy {
-  padding: 64px 0 64px 120px;
+  padding: 58px 0 58px 120px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -235,7 +265,7 @@ textarea {
 
 .home-hero-copy h1 {
   margin: 0 0 22px;
-  font-size: 54px;
+  font-size: 52px;
   line-height: 1.24;
   font-weight: 900;
   letter-spacing: 0.02em;
@@ -243,7 +273,7 @@ textarea {
 
 .home-hero-copy p {
   margin: 0;
-  font-size: 22px;
+  font-size: 21px;
   line-height: 1.8;
   font-weight: 700;
   color: #222;
@@ -251,28 +281,32 @@ textarea {
 
 .hero-cta {
   margin-top: 34px;
-  width: 280px;
-  height: 64px;
+  width: 260px;
+  height: 58px;
   border: none;
   border-radius: 8px;
   background: var(--red);
   color: #fff;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 900;
   cursor: pointer;
 }
 
 .hero-cta span {
-  margin-left: 28px;
-  font-size: 30px;
+  margin-left: 24px;
+  font-size: 26px;
 }
 
 .hero-image {
-  background:
-    linear-gradient(90deg, rgba(255,255,255,0.75), rgba(255,255,255,0.08)),
-    radial-gradient(circle at 75% 20%, rgba(217,31,47,0.16), transparent 28%),
-    linear-gradient(135deg, #f6e7db, #fff7f2);
   position: relative;
+  min-height: 360px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.05)),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.18)),
+    url("/images/karuta-hero.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .hero-image::after {
@@ -280,7 +314,13 @@ textarea {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.25) 45%, transparent 100%);
+    linear-gradient(
+      135deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.18) 45%,
+      transparent 100%
+    );
+  pointer-events: none;
 }
 
 /* main buttons */
@@ -288,19 +328,20 @@ textarea {
 .home-action-row {
   display: none;
   grid-template-columns: 1fr 1fr;
-  gap: 18px;
-  margin-top: 28px;
+  gap: 14px;
+  margin-top: 24px;
 }
 
 .big-action-button {
-  min-height: 104px;
-  border-radius: 18px;
+  min-height: 68px;
+  border-radius: 14px;
   display: grid;
-  grid-template-columns: 64px 1fr auto;
+  grid-template-columns: 1fr auto;
   align-items: center;
-  gap: 16px;
-  padding: 0 22px;
-  font-size: 26px;
+  gap: 10px;
+  padding: 0 16px;
+  font-size: 18px;
+  line-height: 1.25;
   font-weight: 900;
   cursor: pointer;
 }
@@ -318,39 +359,33 @@ textarea {
 }
 
 .big-action-icon {
-  width: 58px;
-  height: 58px;
-  border-radius: 50%;
-  background: #fff;
-  color: #071b4d;
-  display: grid;
-  place-items: center;
-  font-size: 34px;
+  display: none;
 }
 
 .big-action-arrow {
-  font-size: 36px;
+  font-size: 24px;
+  line-height: 1;
 }
 
 /* sections */
 
 .content-section {
-  margin-top: 44px;
+  margin-top: 38px;
 }
 
 .section-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 22px;
+  margin-bottom: 18px;
 }
 
 .section-heading h2 {
   margin: 0;
-  font-size: 34px;
+  font-size: 30px;
   font-weight: 900;
   display: flex;
-  gap: 12px;
+  gap: 10px;
   align-items: center;
 }
 
@@ -358,14 +393,14 @@ textarea {
   border: none;
   background: transparent;
   color: var(--text);
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 800;
   cursor: pointer;
 }
 
 .section-heading button span {
-  font-size: 28px;
-  margin-left: 10px;
+  font-size: 24px;
+  margin-left: 8px;
 }
 
 /* tournament cards */
@@ -373,24 +408,24 @@ textarea {
 .home-tournament-grid,
 .tournament-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 26px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
 }
 
 .home-tournament-card,
 .list-tournament-card {
   background: var(--surface);
-  border-radius: var(--radius);
+  border-radius: 14px;
   border: 1px solid var(--border);
-  box-shadow: var(--shadow);
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.06);
   overflow: hidden;
 }
 
 .home-tournament-image,
 .list-tournament-image {
-  height: 180px;
+  height: 90px;
   background:
-    linear-gradient(135deg, rgba(220,38,38,0.08), rgba(37,99,235,0.12)),
+    linear-gradient(135deg, rgba(220, 38, 38, 0.08), rgba(37, 99, 235, 0.12)),
     linear-gradient(135deg, #dbeafe, #fde68a);
   position: relative;
 }
@@ -398,47 +433,48 @@ textarea {
 .tournament-status-label,
 .list-tournament-image span {
   position: absolute;
-  left: 16px;
-  top: 16px;
+  left: 10px;
+  top: 10px;
   background: var(--green);
   color: #fff;
-  border-radius: 8px;
-  padding: 10px 16px;
-  font-size: 18px;
+  border-radius: 6px;
+  padding: 5px 9px;
+  font-size: 12px;
   font-weight: 900;
 }
 
 .home-tournament-body,
 .list-tournament-body {
-  padding: 22px;
+  padding: 12px;
 }
 
 .home-tournament-body h3,
 .list-tournament-body h2 {
-  margin: 0 0 16px;
-  font-size: 24px;
-  line-height: 1.45;
+  margin: 0 0 8px;
+  font-size: 15px;
+  line-height: 1.42;
   font-weight: 900;
 }
 
 .home-tournament-body p,
 .list-tournament-body p {
-  margin: 9px 0;
+  margin: 5px 0;
   color: var(--text);
-  font-size: 17px;
+  font-size: 12px;
+  line-height: 1.45;
   font-weight: 700;
 }
 
 .outline-detail-button,
 .list-tournament-body button {
   width: 100%;
-  min-height: 56px;
-  margin-top: 18px;
+  min-height: 36px;
+  margin-top: 10px;
   border: 2px solid var(--red);
   border-radius: 8px;
   background: #fff;
   color: var(--red);
-  font-size: 20px;
+  font-size: 13px;
   font-weight: 900;
   cursor: pointer;
 }
@@ -455,15 +491,15 @@ textarea {
 
 .notice-item {
   width: 100%;
-  min-height: 82px;
+  min-height: 76px;
   border: none;
   border-bottom: 1px solid var(--border);
   background: #fff;
   display: grid;
-  grid-template-columns: 150px 110px 1fr auto;
-  gap: 20px;
+  grid-template-columns: 140px 100px 1fr auto;
+  gap: 18px;
   align-items: center;
-  padding: 0 28px;
+  padding: 0 24px;
   text-align: left;
 }
 
@@ -472,18 +508,18 @@ textarea {
 }
 
 .notice-date {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 800;
 }
 
 .notice-tag {
-  min-height: 36px;
+  min-height: 32px;
   border-radius: 6px;
   background: var(--blue);
   color: #fff;
   display: grid;
   place-items: center;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 900;
 }
 
@@ -492,12 +528,12 @@ textarea {
 }
 
 .notice-text {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 800;
 }
 
 .notice-arrow {
-  font-size: 32px;
+  font-size: 28px;
 }
 
 /* =========================
@@ -772,196 +808,8 @@ textarea {
 }
 
 /* =========================
-   Mobile
+   Common Cards
 ========================= */
-
-@media (max-width: 768px) {
-  .site-header {
-    height: 86px;
-    padding: 0 20px;
-  }
-
-  .site-logo strong {
-    font-size: 24px;
-  }
-
-  .site-logo small {
-    font-size: 13px;
-  }
-
-  .logo-flower {
-    width: 46px;
-    height: 46px;
-    font-size: 28px;
-  }
-
-  .pc-nav {
-    display: none;
-  }
-
-  .header-login-button {
-    display: none;
-  }
-
-  .home-page {
-    padding: 0 16px 44px;
-  }
-
-  .home-hero {
-    margin: 0 -16px;
-    grid-template-columns: 1fr;
-    min-height: auto;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .home-hero-copy {
-    padding: 38px 24px 20px;
-  }
-
-  .home-hero-copy h1 {
-    font-size: 36px;
-    line-height: 1.35;
-  }
-
-  .home-hero-copy p {
-    font-size: 18px;
-    line-height: 1.75;
-  }
-
-  .hero-image {
-    min-height: 220px;
-  }
-
-  .pc-only {
-    display: none;
-  }
-
-  .home-action-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    margin-top: 22px;
-  }
-
-  .big-action-button {
-    min-height: 88px;
-    grid-template-columns: 48px 1fr auto;
-    gap: 10px;
-    padding: 0 14px;
-    font-size: 18px;
-    border-radius: 16px;
-  }
-
-  .big-action-icon {
-    width: 44px;
-    height: 44px;
-    font-size: 24px;
-  }
-
-  .big-action-arrow {
-    font-size: 30px;
-  }
-
-  .content-section {
-    margin-top: 34px;
-  }
-
-  .section-heading h2 {
-    font-size: 25px;
-  }
-
-  .section-heading button {
-    font-size: 15px;
-  }
-
-  .home-tournament-grid,
-  .tournament-grid {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: 82%;
-    grid-template-columns: none;
-    overflow-x: auto;
-    gap: 14px;
-    padding-bottom: 6px;
-  }
-
-  .home-tournament-image,
-  .list-tournament-image {
-    height: 140px;
-  }
-
-  .home-tournament-body h3,
-  .list-tournament-body h2 {
-    font-size: 19px;
-  }
-
-  .home-tournament-body p,
-  .list-tournament-body p {
-    font-size: 15px;
-  }
-
-  .outline-detail-button,
-  .list-tournament-body button {
-    min-height: 50px;
-    font-size: 17px;
-  }
-
-  .notice-item {
-    grid-template-columns: 88px 74px 1fr auto;
-    gap: 8px;
-    padding: 0 14px;
-    min-height: 74px;
-  }
-
-  .notice-date {
-    font-size: 14px;
-  }
-
-  .notice-tag {
-    font-size: 12px;
-    min-height: 28px;
-  }
-
-  .notice-text {
-    font-size: 15px;
-  }
-
-  .page-shell {
-    padding: 28px 16px 48px;
-  }
-
-  .page-title-block h1 {
-    font-size: 34px;
-  }
-
-  .search-panel {
-    grid-template-columns: 1fr;
-    padding: 18px;
-  }
-
-  .detail-layout,
-  .form-layout,
-  .profile-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .detail-main-card h1 {
-    font-size: 30px;
-  }
-
-  .detail-meta-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .button-row {
-    grid-template-columns: 1fr;
-  }
-
-  .application-card {
-    flex-direction: column;
-    align-items: stretch;
-  }
-}
 
 .card,
 .form-card,
@@ -989,18 +837,6 @@ textarea {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 14px;
-}
-
-@media (max-width: 768px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
-
-  .card,
-  .form-card,
-  .mini-card {
-    padding: 18px;
-  }
 }
 
 /* =========================
@@ -1160,10 +996,261 @@ textarea {
   border-color: #d91f2f;
 }
 
+/* =========================
+   Responsive
+========================= */
+
+@media (max-width: 1180px) {
+  .home-tournament-grid,
+  .tournament-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .home-hero-copy {
+    padding-left: 70px;
+  }
+}
+
+@media (max-width: 920px) {
+  .site-header {
+    padding: 0 24px;
+  }
+
+  .pc-nav {
+    gap: 18px;
+  }
+
+  .pc-nav button {
+    font-size: 14px;
+  }
+
+  .home-tournament-grid,
+  .tournament-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 768px) {
+  .site-header {
+    height: 72px;
+    padding: 0 18px;
+  }
+
+  .site-logo strong {
+    font-size: 22px;
+  }
+
+  .site-logo small {
+    font-size: 12px;
+  }
+
+  .logo-flower {
+    width: 42px;
+    height: 42px;
+    font-size: 24px;
+  }
+
+  .pc-nav {
+    display: none;
+  }
+
+  .header-login-button {
+    display: none;
+  }
+
+  .home-page {
+    padding: 0 16px 44px;
+  }
+
+  .home-hero {
+    margin: 0 -16px;
+    grid-template-columns: 1fr;
+    min-height: auto;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .home-hero-copy {
+    padding: 34px 24px 18px;
+  }
+
+  .home-hero-copy h1 {
+    font-size: 34px;
+    line-height: 1.35;
+  }
+
+  .home-hero-copy p {
+    font-size: 17px;
+    line-height: 1.75;
+  }
+
+  .hero-image {
+    min-height: 220px;
+  }
+
+  .pc-only {
+    display: none;
+  }
+
+  .home-action-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .big-action-button {
+    min-height: 58px;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    padding: 0 12px;
+    font-size: 14px;
+    border-radius: 12px;
+  }
+
+  .big-action-icon {
+    display: none;
+  }
+
+  .big-action-arrow {
+    font-size: 20px;
+  }
+
+  .content-section {
+    margin-top: 30px;
+  }
+
+  .section-heading {
+    margin-bottom: 14px;
+  }
+
+  .section-heading h2 {
+    font-size: 23px;
+  }
+
+  .section-heading button {
+    font-size: 14px;
+  }
+
+  .home-tournament-grid,
+  .tournament-grid {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 46%;
+    grid-template-columns: none;
+    overflow-x: auto;
+    gap: 10px;
+    padding-bottom: 6px;
+    scroll-snap-type: x mandatory;
+  }
+
+  .home-tournament-card,
+  .list-tournament-card {
+    scroll-snap-align: start;
+  }
+
+  .home-tournament-image,
+  .list-tournament-image {
+    height: 76px;
+  }
+
+  .tournament-status-label,
+  .list-tournament-image span {
+    left: 8px;
+    top: 8px;
+    padding: 4px 7px;
+    font-size: 10px;
+  }
+
+  .home-tournament-body,
+  .list-tournament-body {
+    padding: 10px;
+  }
+
+  .home-tournament-body h3,
+  .list-tournament-body h2 {
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+
+  .home-tournament-body p,
+  .list-tournament-body p {
+    font-size: 11px;
+    margin: 4px 0;
+  }
+
+  .outline-detail-button,
+  .list-tournament-body button {
+    min-height: 32px;
+    margin-top: 8px;
+    font-size: 12px;
+  }
+
+  .notice-item {
+    grid-template-columns: 88px 74px 1fr auto;
+    gap: 8px;
+    padding: 0 14px;
+    min-height: 74px;
+  }
+
+  .notice-date {
+    font-size: 14px;
+  }
+
+  .notice-tag {
+    font-size: 12px;
+    min-height: 28px;
+  }
+
+  .notice-text {
+    font-size: 15px;
+  }
+
+  .page-shell {
+    padding: 28px 16px 48px;
+  }
+
+  .page-title-block h1 {
+    font-size: 34px;
+  }
+
+  .search-panel {
+    grid-template-columns: 1fr;
+    padding: 18px;
+  }
+
+  .detail-layout,
+  .form-layout,
+  .profile-layout,
   .mypage-layout {
     grid-template-columns: 1fr;
     gap: 18px;
+  }
+
+  .detail-main-card h1 {
+    font-size: 30px;
+  }
+
+  .detail-meta-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .button-row {
+    grid-template-columns: 1fr;
+  }
+
+  .application-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card,
+  .form-card,
+  .mini-card {
+    padding: 18px;
   }
 
   .mypage-card {
@@ -1181,5 +1268,91 @@ textarea {
 
   .admin-menu-grid button {
     min-height: 96px;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-header {
+    height: 68px;
+    padding: 0 14px;
+  }
+
+  .site-logo {
+    gap: 9px;
+  }
+
+  .logo-flower {
+    width: 38px;
+    height: 38px;
+    font-size: 22px;
+  }
+
+  .site-logo strong {
+    font-size: 19px;
+  }
+
+  .site-logo small {
+    font-size: 11px;
+  }
+
+  .hamburger-button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .hamburger-button span {
+    width: 28px;
+  }
+
+  .home-hero-copy h1 {
+    font-size: 31px;
+  }
+
+  .home-hero-copy p {
+    font-size: 16px;
+  }
+
+  .hero-cta {
+    width: 220px;
+    height: 52px;
+    font-size: 18px;
+  }
+
+  .hero-image {
+    min-height: 200px;
+  }
+
+  .home-action-row {
+    gap: 8px;
+  }
+
+  .big-action-button {
+    min-height: 54px;
+    padding: 0 10px;
+    font-size: 13px;
+  }
+
+  .big-action-arrow {
+    font-size: 18px;
+  }
+
+  .home-tournament-grid,
+  .tournament-grid {
+    grid-auto-columns: 47%;
+  }
+
+  .home-tournament-image,
+  .list-tournament-image {
+    height: 68px;
+  }
+
+  .home-tournament-body h3,
+  .list-tournament-body h2 {
+    font-size: 12px;
+  }
+
+  .home-tournament-body p,
+  .list-tournament-body p {
+    font-size: 10px;
   }
 }
