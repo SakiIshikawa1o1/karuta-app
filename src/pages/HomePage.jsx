@@ -27,12 +27,15 @@ export default function HomePage() {
   const fetchTournaments = async () => {
     setLoadingTournaments(true);
 
+    const today = new Date().toISOString().slice(0, 10);
+
     const { data, error } = await supabase
       .from("tournaments")
       .select("*")
       .eq("status", "published")
+      .gte("event_date", today)
       .order("event_date", { ascending: true })
-      .limit(3);
+      .limit(5);
 
     setLoadingTournaments(false);
 
@@ -131,7 +134,7 @@ export default function HomePage() {
           onClick={() => navigate("/applications/status")}
         >
           <span className="big-action-icon">▤</span>
-          <span>申込状況を見る</span>
+          <span>申込状況を確認する</span>
           <span className="big-action-arrow">›</span>
         </button>
       </section>
@@ -151,7 +154,7 @@ export default function HomePage() {
         {loadingTournaments ? (
           <div className="empty-card">大会を読み込み中です...</div>
         ) : tournaments.length === 0 ? (
-          <div className="empty-card">現在、公開中の大会はありません。</div>
+          <div className="empty-card">現在、開催予定の大会はありません。</div>
         ) : (
           <div className="home-tournament-grid">
             {tournaments.map((tournament) => (
@@ -194,7 +197,7 @@ export default function HomePage() {
             <span>📣</span>
             お知らせ
           </h2>
-          <button type="button">
+          <button type="button" onClick={() => navigate("/notices")}>
             お知らせ一覧
             <span>›</span>
           </button>
@@ -207,11 +210,17 @@ export default function HomePage() {
         ) : (
           <div className="notice-panel">
             {notices.map((notice, index) => (
-              <button className="notice-item" key={notice.id}>
+              <button
+                className="notice-item"
+                key={notice.id}
+                onClick={() => navigate("/notices")}
+              >
                 <span className="notice-date">
                   {formatNoticeDate(notice.published_at)}
                 </span>
-                <span className={index === 0 ? "notice-tag important" : "notice-tag"}>
+                <span
+                  className={index === 0 ? "notice-tag important" : "notice-tag"}
+                >
                   {index === 0 ? "重要" : "お知らせ"}
                 </span>
                 <span className="notice-text">{notice.title}</span>
@@ -221,6 +230,119 @@ export default function HomePage() {
           </div>
         )}
       </section>
+
+      <section className="content-section">
+        <div className="section-heading">
+          <h2>
+            <span>🔗</span>
+            外部リンク集
+          </h2>
+        </div>
+
+        <div className="external-link-grid">
+          <a
+            href="https://www.karuta.or.jp/"
+            target="_blank"
+            rel="noreferrer"
+            className="external-link-button"
+          >
+            <span>全日本かるた協会</span>
+            <small>公式情報を確認する</small>
+          </a>
+
+          <a
+            href="https://www.karuta.or.jp/"
+            target="_blank"
+            rel="noreferrer"
+            className="external-link-button"
+          >
+            <span>大会情報</span>
+            <small>競技会の情報を見る</small>
+          </a>
+
+          <a
+            href="https://www.karuta.or.jp/"
+            target="_blank"
+            rel="noreferrer"
+            className="external-link-button"
+          >
+            <span>競技規程</span>
+            <small>ルールを確認する</small>
+          </a>
+
+          <a
+            href="https://www.karuta.or.jp/"
+            target="_blank"
+            rel="noreferrer"
+            className="external-link-button"
+          >
+            <span>競技かるたを知る</span>
+            <small>はじめての方向け</small>
+          </a>
+        </div>
+      </section>
+
+      <footer className="site-footer">
+        <div className="footer-main">
+          <div>
+            <div className="footer-logo">
+              <span className="footer-logo-mark">あ</span>
+              <div>
+                <strong>あけなほ</strong>
+                <small>Karuta Tournament System</small>
+              </div>
+            </div>
+
+            <p className="footer-description">
+              競技かるたの大会情報確認から申込状況の管理までを、
+              もっとわかりやすく、もっとスムーズに。
+            </p>
+          </div>
+
+          <div className="footer-links">
+            <div>
+              <h3>サイト</h3>
+              <button type="button" onClick={() => navigate("/")}>
+                ホーム
+              </button>
+              <button type="button" onClick={() => navigate("/tournaments")}>
+                大会一覧
+              </button>
+              <button type="button" onClick={() => navigate("/notices")}>
+                お知らせ
+              </button>
+            </div>
+
+            <div>
+              <h3>会員メニュー</h3>
+              <button
+                type="button"
+                onClick={() => navigate("/applications/status")}
+              >
+                申込状況確認
+              </button>
+              <button type="button" onClick={() => navigate("/mypage")}>
+                マイページ
+              </button>
+              <button type="button" onClick={() => navigate("/login")}>
+                ログイン
+              </button>
+            </div>
+
+            <div>
+              <h3>その他</h3>
+              <button type="button">利用規約</button>
+              <button type="button">プライバシーポリシー</button>
+              <button type="button">お問い合わせ</button>
+            </div>
+          </div>
+        </div>
+
+        <div className="footer-bottom">
+          <span>© 2026 あけなほ</span>
+          <span>競技かるた大会申込システム</span>
+        </div>
+      </footer>
     </div>
   );
 }

@@ -19,6 +19,7 @@ import TournamentAdminPage from "./pages/TournamentAdminPage";
 import TournamentCreatePage from "./pages/TournamentCreatePage";
 import TournamentEditPage from "./pages/TournamentEditPage";
 import ApplicationAdminPage from "./pages/ApplicationAdminPage";
+import NoticesPage from "./pages/NoticesPage";
 
 import { ROLE } from "./utils/roles";
 
@@ -29,11 +30,14 @@ export default function App() {
 
       <main className="page">
         <Routes>
+          {/* ログイン前でも閲覧できるページ */}
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/tournaments" element={<TournamentListPage />} />
+          <Route path="/notices" element={<NoticesPage />} />
 
+          {/* ログイン必須ページ */}
           <Route
             path="/tournaments/:id"
             element={
@@ -79,6 +83,7 @@ export default function App() {
             }
           />
 
+          {/* システム管理者 */}
           <Route
             path="/admin/system"
             element={
@@ -88,6 +93,7 @@ export default function App() {
             }
           />
 
+          {/* 大会管理者 */}
           <Route
             path="/admin/tournament"
             element={
@@ -115,6 +121,7 @@ export default function App() {
             }
           />
 
+          {/* 申込管理者 */}
           <Route
             path="/admin/application"
             element={
