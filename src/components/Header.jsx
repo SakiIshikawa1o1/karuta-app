@@ -36,7 +36,7 @@ export default function Header() {
         <button className="site-logo" onClick={() => navigate("/")}>
           <span className="logo-flower">✿</span>
           <span>
-            <strong>かるた会</strong>
+            <strong>まにまに</strong>
             <small>大会申込システム</small>
           </span>
         </button>

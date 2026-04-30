@@ -2012,3 +2012,362 @@ img {
     font-size: 24px;
   }
 }
+
+/* =========================================================
+   Red theme and hero visual adjustment
+   全体を赤基調に寄せ、上部写真を低く・白グラデ・黒文字にする
+========================================================= */
+
+/* サイト全体の赤基調を少し和風寄りに調整 */
+:root {
+  --red: #c81e2f;
+  --red-dark: #8f1421;
+  --red-soft: #fff0f1;
+  --red-border: #f4c7cd;
+}
+
+/* ページ背景もほんのり赤みのある白にする */
+body {
+  background:
+    linear-gradient(180deg, #fff7f7 0%, #f8f2f2 100%);
+}
+
+/* ヘッダーを赤基調に寄せる */
+.site-header {
+  background: rgba(255, 248, 248, 0.96);
+  border-bottom: 1px solid var(--red-border);
+}
+
+/* ヘッダーロゴの丸マーク */
+.logo-flower {
+  background: var(--red);
+  color: #fff;
+}
+
+/* PCナビのホバー・アクティブを赤に統一 */
+.pc-nav button:hover,
+.pc-nav button.active {
+  color: var(--red);
+  border-bottom-color: var(--red);
+}
+
+/* ログインボタンも赤系に寄せる */
+.header-login-button {
+  color: var(--red-dark);
+}
+
+/* =========================================================
+   Hero
+   写真の高さを約3割削り、白っぽいグラデーションに変更
+========================================================= */
+
+/* 上部写真エリア：430px → 約300pxに圧縮 */
+.home-hero {
+  min-height: 300px;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.92) 0%,
+      rgba(255, 255, 255, 0.76) 42%,
+      rgba(255, 255, 255, 0.28) 100%
+    ),
+    url("/images/karuta-hero.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* 黒い膜はやめて、白くやわらかい膜にする */
+.home-hero::after {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.12) 0%,
+      rgba(255, 255, 255, 0.36) 100%
+    );
+}
+
+/* 写真の高さに合わせてコピーエリアも低くする */
+.home-hero-copy {
+  min-height: 300px;
+  padding: 42px 0 42px 96px;
+}
+
+/* メインコピーを黒文字にする */
+.home-hero-copy h1 {
+  color: var(--text);
+  text-shadow: none;
+}
+
+/* 説明文も黒系にする */
+.home-hero-copy p {
+  color: #2f2f2f;
+  text-shadow: none;
+}
+
+/* ヒーロー内のCTAを赤基調にする */
+.hero-cta {
+  background: var(--red);
+  color: #fff;
+}
+
+.hero-cta:hover {
+  background: var(--red-dark);
+}
+
+/* =========================================================
+   Home action buttons
+   「大会を探す」「申込状況を確認する」を赤基調に変更
+========================================================= */
+
+/* 左ボタン：濃紺ではなく赤 */
+.big-action-button.primary {
+  background: var(--red);
+  color: #fff;
+  border: 2px solid var(--red);
+}
+
+/* 右ボタン：赤枠 */
+.big-action-button.secondary {
+  background: #fff;
+  color: var(--red-dark);
+  border: 2px solid var(--red);
+}
+
+/* ホバー時 */
+.big-action-button.primary:hover {
+  background: var(--red-dark);
+  border-color: var(--red-dark);
+}
+
+.big-action-button.secondary:hover {
+  background: var(--red-soft);
+}
+
+/* =========================================================
+   Tournament cards
+   大会カードも赤基調に寄せる
+========================================================= */
+
+/* 大会カードの枠線を少し赤みのある色にする */
+.home-tournament-card,
+.list-tournament-card {
+  border-color: var(--red-border);
+}
+
+/* 大会カード上部を赤系グラデーションにする */
+.home-tournament-image,
+.list-tournament-image {
+  background:
+    linear-gradient(135deg, rgba(200, 30, 47, 0.16), rgba(255, 240, 241, 0.85)),
+    linear-gradient(135deg, #fff5f5, #ffe4e8);
+}
+
+/* ステータスラベルを赤系にする */
+.tournament-status-label,
+.list-tournament-image span {
+  background: var(--red);
+}
+
+/* 詳細ボタンを赤に統一 */
+.outline-detail-button,
+.list-tournament-body button {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.outline-detail-button:hover,
+.list-tournament-body button:hover {
+  background: var(--red-soft);
+}
+
+/* =========================================================
+   Notices / External links
+   お知らせ・外部リンクも赤基調に統一
+========================================================= */
+
+.notice-panel {
+  border-color: var(--red-border);
+}
+
+.notice-tag {
+  background: var(--red-dark);
+}
+
+.notice-tag.important {
+  background: var(--red);
+}
+
+.external-link-button {
+  border-color: var(--red-border);
+  background:
+    linear-gradient(135deg, rgba(200, 30, 47, 0.08), rgba(255, 255, 255, 1));
+}
+
+.external-link-button:hover {
+  border-color: var(--red);
+}
+
+/* =========================================================
+   Footer
+   フッターも赤基調にして、ヘッダーのロゴと雰囲気を合わせる
+========================================================= */
+
+.site-footer {
+  background:
+    linear-gradient(135deg, #8f1421 0%, #5f0d16 100%);
+  color: #fff;
+}
+
+/* フッターのロゴをヘッダーと同じ丸ロゴに寄せる */
+.footer-logo-mark {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--red);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  line-height: 1;
+  font-weight: 900;
+}
+
+/* フッターのサイト名もヘッダーと近い見た目にする */
+.footer-logo strong {
+  font-size: 26px;
+  line-height: 1.1;
+  font-weight: 900;
+}
+
+.footer-logo small {
+  color: #ffe4e8;
+}
+
+/* フッター説明文 */
+.footer-description {
+  color: #ffe4e8;
+}
+
+/* フッターリンク */
+.footer-links button {
+  color: #ffe4e8;
+}
+
+.footer-links button:hover {
+  color: #fff;
+}
+
+/* フッター下部 */
+.footer-bottom {
+  border-top-color: rgba(255, 255, 255, 0.22);
+  color: #ffd6dc;
+}
+
+/* =========================================================
+   Responsive
+   スマホ時もヒーロー高さを低めに維持
+========================================================= */
+
+@media (max-width: 768px) {
+  .home-hero {
+    min-height: 280px;
+  }
+
+  .home-hero-copy {
+    min-height: 280px;
+    padding: 36px 24px;
+  }
+
+  .home-hero-copy h1 {
+    font-size: 32px;
+  }
+
+  .home-hero-copy p {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-hero {
+    min-height: 260px;
+  }
+
+  .home-hero-copy {
+    min-height: 260px;
+    padding: 32px 20px;
+  }
+
+  .home-hero-copy h1 {
+    font-size: 28px;
+  }
+
+  .home-hero-copy p {
+    font-size: 14px;
+  }
+}
+
+/* =========================================================
+   Fine tuning
+   CTA改行・大会カード文字サイズ・ヒーロー白グラデーション調整
+========================================================= */
+
+/* 申込状況ボタンの文字が自然に2行で見えるようにする */
+.big-action-button {
+  white-space: normal;
+}
+
+/* ボタン内の文言を中央寄せで改行しやすくする */
+.big-action-button span:not(.big-action-arrow):not(.big-action-icon) {
+  display: block;
+  line-height: 1.25;
+}
+
+/* 大会カードの文字を少し小さくする */
+.home-tournament-card .home-tournament-body h3 {
+  font-size: 22px;
+  line-height: 1.35;
+}
+
+.home-tournament-card .home-tournament-body p {
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.home-tournament-card .outline-detail-button {
+  min-height: 44px;
+  font-size: 16px;
+}
+
+.home-tournament-card .tournament-status-label {
+  font-size: 14px;
+  padding: 6px 10px;
+}
+
+/* 
+   上部写真の白グラデーションを調整。
+   左側は文字を読ませるため白め、右側は写真が見えるように透明寄りにする。
+*/
+.home-hero {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.92) 0%,
+      rgba(255, 255, 255, 0.68) 38%,
+      rgba(255, 255, 255, 0.08) 100%
+    ),
+    url("/images/karuta-hero.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* 追加の白い膜も右側にかかりすぎないように弱める */
+.home-hero::after {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.18) 100%
+    );
+}

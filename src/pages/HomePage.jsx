@@ -134,7 +134,7 @@ export default function HomePage() {
           onClick={() => navigate("/applications/status")}
         >
           <span className="big-action-icon">▤</span>
-          <span>申込状況を確認する</span>
+          <span>申込状況を<br />確認する</span>
           <span className="big-action-arrow">›</span>
         </button>
       </section>
@@ -288,7 +288,7 @@ export default function HomePage() {
             <div className="footer-logo">
               <span className="footer-logo-mark">あ</span>
               <div>
-                <strong>あけなほ</strong>
+                <strong>まにまに</strong>
                 <small>Karuta Tournament System</small>
               </div>
             </div>
@@ -339,7 +339,7 @@ export default function HomePage() {
         </div>
 
         <div className="footer-bottom">
-          <span>© 2026 あけなほ</span>
+          <span>© 2026 まにまに</span>
           <span>競技かるた大会申込システム</span>
         </div>
       </footer>
