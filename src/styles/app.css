@@ -1,10 +1,10 @@
 /* =========================================================
-   Design tokens
-   サイト全体で使う色・影・角丸などの共通設定
+   00. Design tokens / Base
+   サイト全体で使う色・サイズ・余白などの共通設定
 ========================================================= */
 
 :root {
-  /* 背景色 */
+  /* サイト全体の背景色 */
   --bg: #f7f7f7;
 
   /* カードやパネルの背景色 */
@@ -16,16 +16,22 @@
   /* 補足テキスト色 */
   --muted: #4b5563;
 
-  /* 境界線の色 */
+  /* 通常の境界線 */
   --border: #e5e7eb;
 
   /* メインカラー：赤 */
-  --red: #d91f2f;
+  --red: #c81e2f;
 
-  /* メインカラーの濃い赤 */
-  --red-dark: #b91524;
+  /* 濃い赤：ホバーや強調に使用 */
+  --red-dark: #8f1421;
 
-  /* お知らせタグなどに使う青 */
+  /* 薄い赤：背景やホバーに使用 */
+  --red-soft: #ffffff;
+
+  /* 赤みのある境界線 */
+  --red-border: #f4c7cd;
+
+  /* お知らせなどに使う青 */
   --blue: #1f5fbf;
 
   /* 受付中ラベルなどに使う緑 */
@@ -39,9 +45,15 @@
 
   /* カード共通の角丸 */
   --radius: 18px;
+
+  /* ヒーロー画像のパス */
+  --hero-image: url("/images/karuta-hero.jpg");
+
+  /* ホームの大会カード1枚あたりの幅 */
+  --home-tournament-card-width: 40%;
 }
 
-/* すべての要素で、paddingやborderを幅計算に含める */
+/* padding / border を幅計算に含める */
 * {
   box-sizing: border-box;
 }
@@ -53,19 +65,21 @@ html {
   scroll-behavior: smooth;
 }
 
-/* body全体の余白・背景・フォント設定 */
+/* body全体の背景・文字・フォント設定 */
 body {
   margin: 0;
   width: 100%;
   min-height: 100%;
   overflow-x: hidden;
-  background: var(--bg);
+  background:
+    radial-gradient(circle at 92% 2%, rgba(220, 80, 40, 0.1), transparent 22%),
+    linear-gradient(180deg, #fffdf9 0%, #fff8f3 100%);
   color: var(--text);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Hiragino Sans",
     "Yu Gothic", "Yu Gothic UI", sans-serif;
 }
 
-/* フォーム系にもbodyと同じフォントを適用 */
+/* フォーム要素にも同じフォントを適用 */
 button,
 input,
 select,
@@ -86,11 +100,11 @@ img {
 
 
 /* =========================================================
-   Header
-   画面上部に固定表示される共通ヘッダー
+   01. Header
+   画面上部の共通ヘッダー
 ========================================================= */
 
-/* ヘッダー全体。stickyでスクロール時も上部に残る */
+/* ヘッダー全体。stickyでスクロール時も上部に残す */
 .site-header {
   position: sticky;
   top: 0;
@@ -99,17 +113,18 @@ img {
   z-index: 80;
   width: 100%;
   height: 82px;
-  background: rgba(255, 255, 255, 0.96);
-  border-bottom: 1px solid var(--border);
+  padding: 0 40px;
+  background:
+    linear-gradient(180deg, rgba(255, 253, 248, 0.98), rgba(255, 250, 246, 0.96));
+  border-bottom: 1px solid rgba(190, 40, 34, 0.12);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 40px;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
 
-/* ロゴ部分。ボタン要素だが見た目はロゴリンクにする */
+/* ロゴ全体。buttonだが見た目はロゴリンク */
 .site-logo {
   border: none;
   background: transparent;
@@ -121,21 +136,23 @@ img {
   min-width: 0;
 }
 
-/* ロゴ左側の丸い「あ」マーク */
+/* ロゴ左側の丸アイコン */
 .logo-flower {
   width: 48px;
   height: 48px;
   flex: 0 0 auto;
   border-radius: 50%;
-  background: var(--red);
+  background:
+    radial-gradient(circle at 35% 30%, #ff5a28 0%, #d51c12 58%, #b5120c 100%);
   color: #fff;
   display: grid;
   place-items: center;
   font-size: 28px;
   line-height: 1;
+  box-shadow: 0 5px 14px rgba(190, 35, 22, 0.2);
 }
 
-/* サイト名「あけなほ」の文字 */
+/* サイト名 */
 .site-logo strong {
   display: block;
   font-size: 26px;
@@ -144,7 +161,7 @@ img {
   white-space: nowrap;
 }
 
-/* ロゴ下の英字サブタイトル */
+/* サイト名下のサブタイトル */
 .site-logo small {
   display: block;
   margin-top: 4px;
@@ -172,33 +189,34 @@ img {
   cursor: pointer;
 }
 
-/* 現在表示中のページを赤文字＋下線で表示 */
+/* 現在表示中・ホバー時のナビ */
+.pc-nav button:hover,
 .pc-nav button.active {
   color: var(--red);
   border-bottom-color: var(--red);
 }
 
-/* ログインボタンとハンバーガーメニューを横並びにする */
+/* ヘッダー右側のログイン・メニュー領域 */
 .header-actions {
   display: flex;
   align-items: center;
   gap: 18px;
 }
 
-/* ヘッダー右側のログイン・ログアウトボタン */
+/* ログイン・ログアウトボタン */
 .header-login-button {
   border: none;
   background: transparent;
-  color: var(--text);
+  color: var(--red-dark);
   font-size: 15px;
   font-weight: 800;
   cursor: pointer;
 }
 
-/* ハンバーガーメニューボタン */
+/* ハンバーガーボタン */
 .hamburger-button {
-  width: 44px;
-  height: 44px;
+  width: 30px;
+  height: 30px;
   border: none;
   background: transparent;
   display: flex;
@@ -211,7 +229,7 @@ img {
 /* ハンバーガーの3本線 */
 .hamburger-button span {
   display: block;
-  width: 32px;
+  width: 20px;
   height: 3px;
   border-radius: 999px;
   background: var(--text);
@@ -219,11 +237,11 @@ img {
 
 
 /* =========================================================
-   Menu
-   ハンバーガーメニューを押したときに出る右側メニュー
+   02. Menu
+   ハンバーガーメニューを押したときの右側メニュー
 ========================================================= */
 
-/* 画面全体を覆う半透明の背景 */
+/* 画面全体を覆う半透明背景 */
 .menu-overlay {
   position: fixed;
   inset: 0;
@@ -233,7 +251,7 @@ img {
   justify-content: flex-end;
 }
 
-/* 右側から表示されるメニューパネル */
+/* 右側から出るメニューパネル */
 .menu-panel {
   width: min(420px, 86vw);
   background: #fff;
@@ -255,7 +273,7 @@ img {
   font-size: 28px;
 }
 
-/* メニューを閉じる丸ボタン */
+/* 閉じるボタン */
 .menu-panel-header button {
   border: none;
   background: #f3f4f6;
@@ -287,7 +305,7 @@ img {
   cursor: pointer;
 }
 
-/* ログアウトなど危険操作の赤文字 */
+/* ログアウトなど危険操作 */
 .menu-list .danger-text {
   color: var(--red);
   border-color: #fecaca;
@@ -295,8 +313,8 @@ img {
 
 
 /* =========================================================
-   Home
-   トップページ全体
+   03. Home Layout
+   ホームページ全体のレイアウト
 ========================================================= */
 
 /* ホームページ全体の横幅と余白 */
@@ -306,111 +324,175 @@ img {
   padding: 0 40px 64px;
 }
 
-/* 
-   ホーム上部のメインビジュアル。
-   背景写真の上に「かるたでつながる、熱い瞬間を。」を重ねる。
+
+/* =========================================================
+   04. Hero
+   ホーム上部の写真・コピーエリア
+========================================================= */
+
+/*
+  ヒーロー全体。
+  左側に白いグラデーション、右側に写真を表示。
+  最終的に効いているグラデーション指定だけを残している。
 */
 .home-hero {
   position: relative;
   margin: 0 -40px;
-  min-height: 430px;
+  min-height: 175px;
+  padding-bottom: 52px;
   display: block;
   overflow: hidden;
+
   background:
     linear-gradient(
       90deg,
-      rgba(0, 0, 0, 0.62) 0%,
-      rgba(0, 0, 0, 0.36) 42%,
-      rgba(0, 0, 0, 0.08) 100%
+      rgba(255, 255, 255, 0.96) 0%,
+      rgba(255, 255, 255, 0.92) 42%,
+      rgba(255, 255, 255, 0.78) 56%,
+      rgba(255, 255, 255, 0.30) 68%,
+      rgba(255, 255, 255, 0) 78%
     ),
-    url("/images/karuta-hero.jpg");
-  background-size: cover;
-  background-position: center;
+    var(--hero-image);
+
+  background-size: 118% auto;
+  background-position: left center;
   background-repeat: no-repeat;
 }
 
-/* 写真の上に薄い暗めの膜を追加して、白文字を読みやすくする */
+/* 追加の膜は不要なので無効化 */
 .home-hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0.04) 0%,
-      rgba(0, 0, 0, 0.26) 100%
-    );
-  pointer-events: none;
+  background: none;
 }
 
-/* メインコピーの配置 */
+/* 旧構成の画像専用divは使用しない */
+.hero-image {
+  display: none;
+}
+
+/* ヒーロー内のコピー配置 */
 .home-hero-copy {
   position: relative;
-  z-index: 1;
-  width: min(620px, calc(100% - 48px));
-  min-height: 430px;
-  padding: 64px 0 64px 96px;
+  z-index: 2;
+  width: min(360px, 46%);
+  min-height: 123px;
+  margin-left: 0;
+  margin-right: auto;
+  padding: 22px 20px 18px 42px;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   justify-content: center;
 }
 
-/* メインコピーの大見出し */
+/* ヒーロー見出し */
 .home-hero-copy h1 {
-  margin: 0 0 22px;
-  color: #fff;
-  font-size: 52px;
-  line-height: 1.24;
+  margin: 0 0 6px;
+  color: #111111;
+  font-size: 22px;
+  line-height: 1.32;
+  letter-spacing: 0.04em;
   font-weight: 900;
-  letter-spacing: 0.02em;
-  text-shadow: 0 3px 18px rgba(0, 0, 0, 0.42);
+  text-shadow: none;
 }
 
-/* メインコピーの説明文 */
+/* 見出し内の強調文字。HomePage.jsx側でspanを付けた場合に効く */
+.home-hero-copy h1 span {
+  color: var(--red);
+}
+
+/* ヒーロー説明文 */
 .home-hero-copy p {
   margin: 0;
-  color: rgba(255, 255, 255, 0.94);
-  font-size: 21px;
-  line-height: 1.8;
+  color: #333333;
+  font-size: 10px;
+  line-height: 1.55;
   font-weight: 700;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.38);
+  text-shadow: none;
 }
 
-/* PCで表示する「大会を探す」ボタン */
+/* 以前のPC用CTAは、現在は2ボタンを重ねるため非表示 */
 .hero-cta {
-  margin-top: 34px;
-  width: 260px;
-  height: 58px;
-  border: none;
-  border-radius: 8px;
-  background: var(--red);
-  color: #fff;
-  font-size: 20px;
-  font-weight: 900;
-  cursor: pointer;
-}
-
-/* 「大会を探す」ボタン内の矢印 */
-.hero-cta span {
-  margin-left: 24px;
-  font-size: 26px;
-}
-
-/* 
-   以前は右側写真用の要素だったが、
-   今は.home-heroの背景写真に統合したため非表示にする。
-*/
-.hero-image {
   display: none;
 }
 
 
 /* =========================================================
-   Home action buttons
-   「大会を探す」「申込状況を確認する」の2つの大きなボタン
+   05. Hero Action Buttons
+   ヒーロー画像の下部に重ねる2つのボタン
 ========================================================= */
 
-/* 2つのアクションボタンを横並びにする */
+/* ボタンをヒーロー下部に重ねる */
+.hero-action-row {
+  position: absolute;
+  left: 40px;
+  right: 40px;
+  bottom: 10px;
+  z-index: 4;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 0;
+}
+
+/* ヒーロー上ボタン共通 */
+.hero-action-row .big-action-button {
+  min-height: 42px;
+  padding: 0 16px;
+  border-radius: 12px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+
+  font-size: 15px;
+  line-height: 1.2;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+
+  box-shadow: 0 8px 22px rgba(120, 20, 28, 0.16);
+  cursor: pointer;
+  white-space: normal;
+}
+
+/* ボタン内の文字。改行を自然に表示する */
+.hero-action-row .big-action-button span:not(.big-action-arrow):not(.big-action-icon) {
+  display: block;
+  line-height: 1.2;
+}
+
+/* 左ボタン：赤塗り */
+.hero-action-row .big-action-button.primary {
+  background: linear-gradient(135deg, #e42114, #c9150f);
+  color: #fff;
+  border: 2px solid var(--red);
+}
+
+/* 右ボタン：白背景＋赤枠 */
+.hero-action-row .big-action-button.secondary {
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--red-dark);
+  border: 2px solid var(--red);
+}
+
+/* ボタン内アイコンは使用しない */
+.hero-action-row .big-action-icon {
+  display: none !important;
+}
+
+/* ボタン右端の矢印 */
+.hero-action-row .big-action-arrow {
+  font-size: 20px;
+  font-weight: 900;
+}
+
+
+/* =========================================================
+   06. Home Action Buttons fallback
+   ヒーロー外にボタンが残っている場合の基本指定
+   ※基本は .hero-action-row を使用
+========================================================= */
+
+/* 2ボタンの基本レイアウト */
 .home-action-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -418,99 +500,238 @@ img {
   margin-top: 26px;
 }
 
-/* アクションボタン共通の見た目 */
+/* 通常の大きめボタン */
 .big-action-button {
-  min-height: 74px;
+  min-height: 92px;
+  padding: 0 22px;
   border-radius: 14px;
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
   gap: 10px;
-  padding: 0 18px;
-  font-size: 26px;
-  line-height: 1.28;
+  font-size: 28px;
+  line-height: 1.25;
   font-weight: 900;
   cursor: pointer;
+  white-space: normal;
 }
 
-/* 左側の濃紺ボタン */
+/* 通常ボタン内の文字 */
+.big-action-button span:not(.big-action-arrow):not(.big-action-icon) {
+  display: block;
+  line-height: 1.25;
+}
+
+/* 通常の左ボタン */
 .big-action-button.primary {
-  background: #071b4d;
+  background: var(--red);
   color: #fff;
-  border: none;
+  border: 2px solid var(--red);
 }
 
-/* 右側の白背景ボタン */
+/* 通常の右ボタン */
 .big-action-button.secondary {
   background: #fff;
-  color: #071b4d;
-  border: 2px solid #071b4d;
+  color: var(--red-dark);
+  border: 2px solid var(--red);
 }
 
-/* アイコンは不要なため非表示 */
+/* アイコンは非表示 */
 .big-action-icon {
   display: none !important;
 }
 
-/* ボタン右側の矢印 */
+/* 通常ボタンの矢印 */
 .big-action-arrow {
-  font-size: 36px;
+  font-size: 32px;
   line-height: 1;
+}
+
+/* ホバー時 */
+.big-action-button.primary:hover {
+  background: var(--red-dark);
+  border-color: var(--red-dark);
+}
+
+.big-action-button.secondary:hover {
+  background: var(--red-soft);
 }
 
 
 /* =========================================================
-   Sections
-   ホーム内の各セクション共通設定
+   07. Section Heading
+   「開催予定の大会」「お知らせ」などの見出し
 ========================================================= */
 
 /* セクション同士の縦余白 */
 .content-section {
-  margin-top: 38px;
+  margin-top: 28px;
 }
 
-/* セクション見出し行。左にタイトル、右にリンクボタン */
+/* セクション見出し行 */
 .section-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 18px;
+  margin-bottom: 12px;
 }
 
 /* セクションタイトル */
 .section-heading h2 {
   margin: 0;
-  font-size: 30px;
+  font-size: 24px;
+  line-height: 1.2;
   font-weight: 900;
   display: flex;
-  gap: 10px;
+  gap: 8px;
   align-items: center;
+  letter-spacing: 0.03em;
 }
 
-/* セクション右側の「すべて見る」などのボタン */
+/* セクション見出しのアイコン */
+.section-heading h2 > span {
+  font-size: 24px;
+}
+
+/* 右側の「すべて見る」ボタン */
 .section-heading button {
   border: none;
   background: transparent;
-  color: var(--text);
-  font-size: 16px;
-  font-weight: 800;
+  color: #111;
+  font-size: 13px;
+  font-weight: 700;
   cursor: pointer;
 }
 
-/* セクション右側ボタンの矢印 */
+/* 「すべて見る」右側の丸矢印 */
 .section-heading button span {
-  font-size: 24px;
-  margin-left: 8px;
+  width: 28px;
+  height: 28px;
+  margin-left: 6px;
+  border-radius: 50%;
+  background: #fff4f1;
+  color: #c9150f;
+  display: inline-grid;
+  place-items: center;
+  font-size: 20px;
 }
 
 
 /* =========================================================
-   Tournament cards
-   大会カード一覧。ホームでは5件表示、一覧ページでも利用
+   08. Home Tournament Cards
+   ホームの大会カードを横スクロール表示にする
 ========================================================= */
 
-/* 大会カードを横に5枚並べる */
-.home-tournament-grid,
+/* ホーム大会カード一覧 */
+.home-tournament-grid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: var(--home-tournament-card-width);
+  grid-template-columns: none;
+  gap: 14px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0 0 10px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ホーム大会カード本体 */
+.home-tournament-card {
+  width: 100%;
+  max-width: none;
+  min-height: 164px;
+  border-radius: 14px;
+  border: 1px solid rgba(190, 40, 34, 0.12);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 8px 18px rgba(80, 20, 10, 0.08);
+  overflow: hidden;
+  scroll-snap-align: start;
+}
+
+/* カード上部。画像ではなくラベル置き場として使用 */
+.home-tournament-image {
+  height: 90px;
+  background:
+    linear-gradient(135deg, rgba(200, 30, 47, 0.16), rgba(255, 240, 241, 0.85)),
+    linear-gradient(135deg, #fff5f5, #ffe4e8);
+  position: relative;
+}
+
+/* 受付中ラベル */
+.home-tournament-card .tournament-status-label {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  padding: 5px 9px;
+  border-radius: 6px;
+  background: var(--red);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+/* カード本文 */
+.home-tournament-body {
+  padding: 16px;
+}
+
+/* 大会名 */
+.home-tournament-card .home-tournament-body h3 {
+  margin: 0 0 7px;
+  color: #111;
+  font-size: 18px;
+  line-height: 1.32;
+  font-weight: 900;
+}
+
+/* 開催日・会場など */
+.home-tournament-card .home-tournament-body p {
+  margin: 4px 0;
+  color: #222;
+  font-size: 13px;
+  line-height: 1.4;
+  font-weight: 700;
+}
+
+/* 開催日・会場のアイコン */
+.home-tournament-body p span {
+  margin-right: 7px;
+}
+
+/* 詳細を見るボタン */
+.home-tournament-card .outline-detail-button {
+  width: 100%;
+  min-height: 38px;
+  margin-top: 10px;
+  padding: 0 10px;
+  border: 2px solid var(--red);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--red);
+  font-size: 13px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+/* 詳細ボタンのホバー */
+.home-tournament-card .outline-detail-button:hover {
+  background: var(--red-soft);
+}
+
+/* 詳細ボタン内の矢印 */
+.home-tournament-card .outline-detail-button span {
+  margin-left: 14px;
+  font-size: 18px;
+}
+
+
+/* =========================================================
+   09. Tournament List Cards
+   大会一覧ページ側のカード設定
+========================================================= */
+
+/* 大会一覧ページのグリッド */
 .tournament-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 0.7fr));
@@ -518,34 +739,31 @@ img {
   justify-content: start;
 }
 
-/* 大会カード共通の見た目 */
-.home-tournament-card,
+/* 大会一覧ページのカード */
 .list-tournament-card {
   max-width: 110px;
   background: var(--surface);
   border-radius: 14px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--red-border);
   box-shadow: 0 5px 14px rgba(0, 0, 0, 0.06);
   overflow: hidden;
 }
 
-/* 大会カード上部の画像風エリア */
-.home-tournament-image,
+/* 大会一覧カード上部 */
 .list-tournament-image {
   height: 84px;
   background:
-    linear-gradient(135deg, rgba(220, 38, 38, 0.08), rgba(37, 99, 235, 0.12)),
-    linear-gradient(135deg, #dbeafe, #fde68a);
+    linear-gradient(135deg, rgba(200, 30, 47, 0.16), rgba(255, 240, 241, 0.85)),
+    linear-gradient(135deg, #fff5f5, #ffe4e8);
   position: relative;
 }
 
-/* 「受付中」などのステータスラベル */
-.tournament-status-label,
+/* 大会一覧カードのラベル */
 .list-tournament-image span {
   position: absolute;
   left: 10px;
   top: 10px;
-  background: var(--green);
+  background: var(--red);
   color: #fff;
   border-radius: 6px;
   padding: 5px 9px;
@@ -553,14 +771,12 @@ img {
   font-weight: 900;
 }
 
-/* 大会カード本文エリア */
-.home-tournament-body,
+/* 大会一覧カード本文 */
 .list-tournament-body {
   padding: 11px;
 }
 
-/* 大会名 */
-.home-tournament-body h3,
+/* 大会一覧カードタイトル */
 .list-tournament-body h2 {
   margin: 0 0 7px;
   font-size: 14px;
@@ -568,8 +784,7 @@ img {
   font-weight: 900;
 }
 
-/* 開催日・会場などの情報 */
-.home-tournament-body p,
+/* 大会一覧カード本文 */
 .list-tournament-body p {
   margin: 4px 0;
   color: var(--text);
@@ -578,8 +793,7 @@ img {
   font-weight: 700;
 }
 
-/* 詳細を見るボタン */
-.outline-detail-button,
+/* 大会一覧カードのボタン */
 .list-tournament-body button {
   width: 100%;
   min-height: 32px;
@@ -593,83 +807,90 @@ img {
   cursor: pointer;
 }
 
+/* 大会一覧カードボタンのホバー */
+.list-tournament-body button:hover {
+  background: var(--red-soft);
+}
+
 
 /* =========================================================
-   Notices
-   ホームのお知らせ一覧
+   10. Notices
+   ホームのお知らせエリア
 ========================================================= */
 
-/* お知らせリスト全体の白いパネル */
+/* お知らせパネル全体 */
 .notice-panel {
   background: var(--surface);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
+  border-radius: 12px;
+  border: 1px solid rgba(190, 40, 34, 0.1);
+  box-shadow: 0 7px 16px rgba(80, 20, 10, 0.06);
   overflow: hidden;
 }
 
-/* お知らせ1行分 */
+/* お知らせ1行 */
 .notice-item {
   width: 100%;
-  min-height: 76px;
+  min-height: 56px;
   border: none;
   border-bottom: 1px solid var(--border);
   background: #fff;
   display: grid;
-  grid-template-columns: 140px 100px 1fr auto;
-  gap: 18px;
+  grid-template-columns: 92px 74px 1fr auto;
+  gap: 8px;
   align-items: center;
-  padding: 0 24px;
+  padding: 0 12px;
   text-align: left;
   cursor: pointer;
 }
 
-/* 最後のお知らせだけ下線を消す */
+/* 最後の行だけ下線を消す */
 .notice-item:last-child {
   border-bottom: none;
 }
 
-/* お知らせの日付 */
+/* お知らせ日付 */
 .notice-date {
-  font-size: 16px;
-  font-weight: 800;
+  font-size: 13px;
+  font-weight: 500;
 }
 
-/* お知らせ種別タグ */
+/* お知らせタグ */
 .notice-tag {
-  min-height: 32px;
-  border-radius: 6px;
-  background: var(--blue);
+  min-height: 30px;
+  border-radius: 7px;
+  background: var(--red-dark);
   color: #fff;
   display: grid;
   place-items: center;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 900;
 }
 
-/* 重要なお知らせタグ */
+/* 重要タグ */
 .notice-tag.important {
   background: var(--red);
 }
 
 /* お知らせタイトル */
 .notice-text {
-  font-size: 18px;
-  font-weight: 800;
+  font-size: 14px;
+  font-weight: 700;
 }
 
 /* お知らせ右端の矢印 */
 .notice-arrow {
+  color: #c9150f;
   font-size: 28px;
+  font-weight: 900;
 }
 
 
 /* =========================================================
-   Notice list page
+   11. Notice List Page
    お知らせ一覧ページ
 ========================================================= */
 
-/* お知らせ一覧ページのカード間隔 */
+/* お知らせ一覧カードの並び */
 .notice-list-page {
   display: grid;
   gap: 16px;
@@ -688,14 +909,14 @@ img {
   padding: 24px;
 }
 
-/* 日付とタグを縦並びにする */
+/* お知らせ詳細のメタ情報 */
 .notice-detail-meta {
   display: grid;
   gap: 10px;
   align-content: start;
 }
 
-/* お知らせ一覧ページのタイトル */
+/* お知らせ詳細タイトル */
 .notice-detail-card h2 {
   margin: 0 0 10px;
   font-size: 22px;
@@ -703,7 +924,7 @@ img {
   font-weight: 900;
 }
 
-/* お知らせ一覧ページの本文 */
+/* お知らせ詳細本文 */
 .notice-detail-card p {
   margin: 0;
   color: var(--muted);
@@ -714,134 +935,161 @@ img {
 
 
 /* =========================================================
-   External links
+   12. External Links
    ホーム下部の外部リンク集
 ========================================================= */
+
+/* 外部リンクセクション */
+.external-section {
+  margin-top: 26px;
+}
 
 /* 外部リンクを2×2で並べる */
 .external-link-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 
 /* 外部リンクボタン */
 .external-link-button {
-  min-height: 92px;
-  padding: 20px 22px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 6px;
-  border-radius: 16px;
-  border: 1px solid var(--border);
-  background:
-    linear-gradient(135deg, rgba(217, 31, 47, 0.06), rgba(255, 255, 255, 1));
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
-  color: var(--text);
+  min-height: 66px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(190, 40, 34, 0.12);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 6px 15px rgba(80, 20, 10, 0.06);
+  color: #111;
   text-decoration: none;
+
+  display: grid;
+  grid-template-columns: 34px 1fr 18px;
+  align-items: center;
+  gap: 8px;
+
   transition:
     transform 0.16s ease,
     box-shadow 0.16s ease,
     border-color 0.16s ease;
 }
 
-/* 外部リンクにマウスを乗せたときの動き */
+/* 外部リンクにマウスを乗せたとき */
 .external-link-button:hover {
   transform: translateY(-2px);
-  border-color: rgba(217, 31, 47, 0.32);
+  border-color: var(--red);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.09);
 }
 
-/* 外部リンクのメインテキスト */
-.external-link-button span {
-  font-size: 19px;
-  font-weight: 900;
+/* 外部リンク左アイコン */
+.external-link-icon {
+  display: grid;
+  place-items: center;
+  font-size: 25px;
 }
 
-/* 外部リンクの補足テキスト */
-.external-link-button small {
-  color: var(--muted);
+/* 外部リンクのメイン文言 */
+.external-link-main {
+  display: block;
   font-size: 13px;
-  font-weight: 700;
+  line-height: 1.3;
+  font-weight: 900;
+  color: #111;
+}
+
+/* 外部リンクの補足文言 */
+.external-link-main small {
+  display: block;
+  margin-top: 3px;
+  color: #333;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* 外部リンク右上アイコン */
+.external-link-arrow {
+  color: #c9150f;
+  font-size: 18px;
+  font-weight: 900;
 }
 
 
 /* =========================================================
-   Footer
+   13. Footer
    ホーム最下部のフッター
 ========================================================= */
 
 /* フッター全体 */
 .site-footer {
-  margin: 56px -40px -64px;
-  padding: 42px 40px 24px;
-  background: #111827;
+  margin: 34px -40px -64px;
+  padding: 34px 40px 24px;
+  background: linear-gradient(135deg, #9d151c, #6f0d13);
   color: #fff;
 }
 
-/* フッター上部。左に説明、右にリンク群 */
+/* フッター内の大枠 */
 .footer-main {
   max-width: 1180px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1.1fr 1.4fr;
-  gap: 48px;
+  grid-template-columns: 1fr;
+  gap: 24px;
 }
 
 /* フッターロゴ */
 .footer-logo {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 
-/* フッターの丸い「あ」マーク */
+/* フッターの丸ロゴ */
 .footer-logo-mark {
-  width: 48px;
-  height: 48px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  background: var(--red);
+  background: linear-gradient(135deg, #e42114, #c9150f);
+  color: #fff;
   display: grid;
   place-items: center;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 900;
 }
 
-/* フッターのサイト名 */
+/* フッターサイト名 */
 .footer-logo strong {
   display: block;
   font-size: 24px;
+  letter-spacing: 0.08em;
   font-weight: 900;
 }
 
-/* フッターの英字サブタイトル */
+/* フッターサブタイトル */
 .footer-logo small {
   display: block;
   margin-top: 3px;
-  color: #d1d5db;
-  font-size: 12px;
+  color: #ffe4e8;
+  font-size: 11px;
   font-weight: 700;
 }
 
 /* フッター説明文 */
 .footer-description {
   max-width: 420px;
-  margin: 18px 0 0;
-  color: #d1d5db;
-  font-size: 14px;
-  line-height: 1.9;
+  margin: 12px 0 0;
+  color: #ffe4e8;
+  font-size: 12px;
+  line-height: 1.8;
   font-weight: 600;
 }
 
-/* フッター右側のリンク列 */
+/* フッターリンク群 */
 .footer-links {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 26px;
+  grid-template-columns: 1fr;
+  gap: 18px;
 }
 
-/* フッターリンクの見出し */
+/* フッターリンク見出し */
 .footer-links h3 {
   margin: 0 0 12px;
   color: #fff;
@@ -849,7 +1097,7 @@ img {
   font-weight: 900;
 }
 
-/* フッター内リンクボタン */
+/* フッターリンクボタン */
 .footer-links button {
   display: block;
   width: 100%;
@@ -857,36 +1105,36 @@ img {
   padding: 0;
   border: none;
   background: transparent;
-  color: #d1d5db;
+  color: #ffe4e8;
   text-align: left;
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
 }
 
-/* フッター内リンクのホバー */
+/* フッターリンクホバー */
 .footer-links button:hover {
   color: #fff;
 }
 
-/* フッター最下部のコピーライト行 */
+/* フッター最下部 */
 .footer-bottom {
   max-width: 1180px;
-  margin: 34px auto 0;
+  margin: 24px auto 0;
   padding-top: 18px;
-  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   gap: 16px;
-  color: #9ca3af;
-  font-size: 12px;
+  color: #ffd6dc;
+  font-size: 10px;
   font-weight: 700;
 }
 
 
 /* =========================================================
-   Common pages
-   大会詳細・申込・マイページなど共通ページのレイアウト
+   14. Common Pages
+   大会詳細・申込・マイページなど共通ページ
 ========================================================= */
 
 /* 通常ページの中央寄せレイアウト */
@@ -910,7 +1158,7 @@ img {
   letter-spacing: 0.12em;
 }
 
-/* ページの大見出し */
+/* ページ大見出し */
 .page-title-block h1 {
   margin: 0;
   font-size: 44px;
@@ -926,7 +1174,7 @@ img {
   font-weight: 600;
 }
 
-/* コンパクト表示時のページタイトル */
+/* コンパクトタイトル */
 .page-title-block.compact h1 {
   font-size: 34px;
 }
@@ -961,7 +1209,7 @@ img {
   box-sizing: border-box;
 }
 
-/* 検索ボタン・主ボタン */
+/* 主ボタン */
 .search-panel button,
 .primary-button {
   min-height: 54px;
@@ -986,7 +1234,7 @@ img {
   cursor: pointer;
 }
 
-/* 削除など危険操作用の枠線ボタン */
+/* 危険操作ボタン */
 .danger-outline-button {
   min-height: 52px;
   border-radius: 10px;
@@ -998,7 +1246,7 @@ img {
   cursor: pointer;
 }
 
-/* 白いカード系UIの共通設定 */
+/* 白いカード系UI共通 */
 .empty-card,
 .detail-main-card,
 .detail-side-card,
@@ -1028,7 +1276,7 @@ img {
   cursor: pointer;
 }
 
-/* ステータスやロール表示用のバッジ */
+/* ステータス・ロールバッジ */
 .status-pill,
 .role-badge {
   display: inline-flex;
@@ -1042,7 +1290,7 @@ img {
   font-weight: 900;
 }
 
-/* 詳細ページ・フォームページの2カラムレイアウト */
+/* 詳細ページ・フォームページの2カラム */
 .detail-layout,
 .form-layout {
   display: grid;
@@ -1050,13 +1298,13 @@ img {
   gap: 28px;
 }
 
-/* 詳細ページのタイトル */
+/* 詳細ページタイトル */
 .detail-main-card h1 {
   font-size: 42px;
   margin: 18px 0 24px;
 }
 
-/* 詳細情報を2列で並べる */
+/* 詳細情報グリッド */
 .detail-meta-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -1072,7 +1320,7 @@ img {
   font-size: 17px;
 }
 
-/* 詳細情報のラベル */
+/* 詳細情報ラベル */
 .detail-meta-grid strong {
   display: block;
   margin-bottom: 6px;
@@ -1085,7 +1333,7 @@ img {
   margin-top: 28px;
 }
 
-/* フォームのラベル */
+/* フォームラベル */
 .form-main-card label {
   display: block;
   margin-bottom: 18px;
@@ -1093,23 +1341,23 @@ img {
   font-weight: 900;
 }
 
-/* テキストエリアの高さ */
+/* テキストエリア */
 .form-main-card textarea {
   padding-top: 12px;
   min-height: 120px;
 }
 
-/* フォーム横の補足カード */
+/* フォーム横カード */
 .form-side-card {
   height: fit-content;
 }
 
-/* フォーム横カードの見出し */
+/* フォーム横カード見出し */
 .form-side-card h2 {
   margin-top: 0;
 }
 
-/* フォーム横カードの補足テキスト */
+/* フォーム横カード補足 */
 .form-side-card span {
   display: block;
   margin-top: 10px;
@@ -1117,13 +1365,13 @@ img {
   font-weight: 700;
 }
 
-/* 申込確認ページの横幅 */
+/* 申込確認ページの幅 */
 .confirm-layout {
   max-width: 860px;
   margin: 0 auto;
 }
 
-/* 申込確認ページ内のセクション */
+/* 申込確認ページ内セクション */
 .confirm-section {
   margin-top: 24px;
   padding: 20px;
@@ -1131,12 +1379,12 @@ img {
   background: #f9fafb;
 }
 
-/* 申込確認セクションの見出し */
+/* 申込確認セクション見出し */
 .confirm-section h2 {
   margin-top: 0;
 }
 
-/* ボタンを2つ横並びにする */
+/* ボタン2列 */
 .button-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1150,7 +1398,7 @@ img {
   gap: 18px;
 }
 
-/* 申込カードの中身を左右に配置 */
+/* 申込カード */
 .application-card {
   display: flex;
   align-items: center;
@@ -1158,19 +1406,19 @@ img {
   gap: 24px;
 }
 
-/* 申込カードのタイトル */
+/* 申込カードタイトル */
 .application-card h2 {
   margin: 12px 0;
 }
 
-/* 申込カードの補足情報 */
+/* 申込カード本文 */
 .application-card p {
   margin: 6px 0;
   color: var(--muted);
   font-weight: 700;
 }
 
-/* プロフィールページの2カラム */
+/* プロフィール2カラム */
 .profile-layout {
   display: grid;
   grid-template-columns: 340px 1fr;
@@ -1197,7 +1445,7 @@ img {
   font-weight: 800;
 }
 
-/* 汎用カード内の見出し */
+/* 汎用カード見出し */
 .card h2,
 .form-card h2 {
   margin-top: 0;
@@ -1205,13 +1453,13 @@ img {
   font-weight: 900;
 }
 
-/* 縦に間隔を空けて並べる汎用レイアウト */
+/* 縦並び汎用 */
 .stack {
   display: grid;
   gap: 16px;
 }
 
-/* 2カラムの汎用グリッド */
+/* 2カラム汎用 */
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -1220,11 +1468,11 @@ img {
 
 
 /* =========================================================
-   My Page
+   15. My Page / Admin Menu
    マイページ・管理メニュー
 ========================================================= */
 
-/* マイページ全体を左プロフィール・右詳細で2カラム表示 */
+/* マイページ2カラム */
 .mypage-layout {
   display: grid;
   grid-template-columns: 340px 1fr;
@@ -1232,7 +1480,7 @@ img {
   margin-bottom: 24px;
 }
 
-/* マイページ内カード */
+/* マイページカード */
 .mypage-card {
   background: #ffffff;
   border: 1px solid var(--border);
@@ -1248,12 +1496,12 @@ img {
   font-weight: 900;
 }
 
-/* プロフィール概要カードの高さを中身に合わせる */
+/* プロフィール概要カード */
 .profile-summary-card {
   height: fit-content;
 }
 
-/* ロールバッジの横並び */
+/* ロールバッジ一覧 */
 .role-list {
   display: flex;
   flex-wrap: wrap;
@@ -1261,13 +1509,13 @@ img {
   margin: 14px 0 22px;
 }
 
-/* マイページのショートカットボタン一覧 */
+/* マイページショートカット */
 .mypage-shortcuts {
   display: grid;
   gap: 12px;
 }
 
-/* マイページのショートカットボタン */
+/* マイページショートカットボタン */
 .mypage-shortcuts button {
   min-height: 52px;
   border-radius: 12px;
@@ -1279,7 +1527,7 @@ img {
   cursor: pointer;
 }
 
-/* プロフィール情報の一覧 */
+/* プロフィール情報一覧 */
 .profile-info-list {
   display: grid;
   gap: 12px;
@@ -1304,13 +1552,13 @@ img {
   font-size: 14px;
 }
 
-/* プロフィール項目値 */
+/* プロフィール値 */
 .profile-info-list span {
   font-size: 16px;
   font-weight: 700;
 }
 
-/* マイページ内フォームラベル */
+/* マイページフォームラベル */
 .mypage-card label {
   display: block;
   margin-bottom: 18px;
@@ -1318,7 +1566,7 @@ img {
   font-weight: 900;
 }
 
-/* マイページ内フォーム入力 */
+/* マイページフォーム入力 */
 .mypage-card input,
 .mypage-card select {
   width: 100%;
@@ -1331,22 +1579,22 @@ img {
   box-sizing: border-box;
 }
 
-/* 管理メニューカードの上余白 */
+/* 管理メニューカード */
 .admin-menu-card {
   margin-top: 24px;
 }
 
-/* シンプル見出し用 */
+/* シンプル見出し */
 .section-heading.simple {
   margin-bottom: 18px;
 }
 
-/* シンプル見出しの余白調整 */
+/* シンプル見出しのh2 */
 .section-heading.simple h2 {
   margin: 0;
 }
 
-/* 管理メニューを3列で表示 */
+/* 管理メニューグリッド */
 .admin-menu-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1365,7 +1613,7 @@ img {
   cursor: pointer;
 }
 
-/* 管理メニューの主文 */
+/* 管理メニュー主文 */
 .admin-menu-grid button span {
   display: block;
   color: var(--text);
@@ -1374,33 +1622,27 @@ img {
   margin-bottom: 8px;
 }
 
-/* 管理メニューの補足文 */
+/* 管理メニュー補足 */
 .admin-menu-grid button small {
   color: var(--muted);
   font-size: 14px;
   font-weight: 700;
 }
 
-/* 管理メニューにマウスを乗せたとき */
+/* 管理メニューhover */
 .admin-menu-grid button:hover {
   border-color: var(--red);
 }
 
 
 /* =========================================================
-   Responsive
-   画面幅に応じたレイアウト調整
+   16. Responsive
+   画面幅に応じた調整
 ========================================================= */
 
 /* 少し狭いPC・タブレット横向き */
 @media (max-width: 1180px) {
-  /* ヒーローコピーを少し左に詰める */
-  .home-hero-copy {
-    padding-left: 70px;
-  }
-
-  /* 大会カードは4列にする */
-  .home-tournament-grid,
+  /* 大会一覧ページは4列にする */
   .tournament-grid {
     grid-template-columns: repeat(4, minmax(0, 210px));
   }
@@ -1413,91 +1655,141 @@ img {
     padding: 0 24px;
   }
 
-  /* PCナビの間隔を狭める */
+  /* PCナビ間隔を狭める */
   .pc-nav {
     gap: 18px;
   }
 
-  /* PCナビの文字を少し小さくする */
+  /* PCナビ文字を小さくする */
   .pc-nav button {
     font-size: 14px;
   }
 
-  /* ヒーローコピーをさらに詰める */
-  .home-hero-copy {
-    padding-left: 48px;
-  }
-
-  /* 大会カードを3列にする */
-  .home-tournament-grid,
+  /* 大会一覧ページは3列にする */
   .tournament-grid {
     grid-template-columns: repeat(3, minmax(0, 210px));
   }
 }
 
-/* スマホ・タブレット縦幅 */
+/* スマホ */
 @media (max-width: 768px) {
-  /* ヘッダーを低くしてスマホ向けにする */
+  /* ヘッダーを参考画像に近いサイズにする */
   .site-header {
-    height: 72px;
-    padding: 0 18px;
+    height: 58px;
+    padding: 0 14px;
   }
 
-  /* ロゴ文字を小さくする */
-  .site-logo strong {
-    font-size: 22px;
+  /* ロゴ間隔 */
+  .site-logo {
+    gap: 12px;
   }
 
-  /* ロゴの英字サブタイトルを小さくする */
-  .site-logo small {
-    font-size: 12px;
-  }
-
-  /* 丸ロゴを小さくする */
+  /* 丸ロゴ */
   .logo-flower {
-    width: 42px;
-    height: 42px;
-    font-size: 24px;
+    width: 34px;
+    height: 34px;
+    font-size: 19px;
   }
 
-  /* PCナビは非表示にする */
-  .pc-nav {
-    display: none;
+  /* サイト名 */
+  .site-logo strong {
+    font-size: 17px;
+    line-height: 1.05;
+    letter-spacing: 0.08em;
   }
 
-  /* ログインボタンもスマホではメニューに寄せる */
+  /* サブタイトル */
+  .site-logo small {
+    margin-top: 5px;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: #111;
+  }
+
+  /* PCナビ・ログインを非表示 */
+  .pc-nav,
   .header-login-button {
     display: none;
   }
 
-  /* ホームページ左右余白をスマホ向けに狭める */
+  /* ハンバーガー */
+  .hamburger-button {
+    width: 36px;
+    height: 36px;
+    gap: 5px;
+    position: relative;
+  }
+
+  /* ハンバーガー線 */
+  .hamburger-button span {
+    width: 25px;
+    height: 2px;
+    background: #111;
+  }
+
+  /* 「メニュー」文字 */
+  .hamburger-button::after {
+    content: "メニュー";
+    position: absolute;
+    left: 50%;
+    bottom: -14px;
+    transform: translateX(-50%);
+    font-size: 11px;
+    font-weight: 700;
+    color: #111;
+    white-space: nowrap;
+  }
+
+  /* ホーム全体の余白 */
   .home-page {
-    padding: 0 16px 44px;
+    padding: 0 12px 40px;
+    background:
+      radial-gradient(circle at 0% 34%, rgba(220, 80, 40, 0.08), transparent 12%),
+      radial-gradient(circle at 100% 72%, rgba(220, 80, 40, 0.08), transparent 14%);
   }
 
-  /* ヒーロー画像を画面幅いっぱいにする */
+  /* スマホのヒーロー */
   .home-hero {
-    margin: 0 -16px;
-    min-height: 390px;
+    margin: 0 -12px;
+    min-height: 160px;
+    padding-bottom: 48px;
+
+    background:
+      linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.96) 0%,
+        rgba(255, 255, 255, 0.92) 46%,
+        rgba(255, 255, 255, 0.78) 60%,
+        rgba(255, 255, 255, 0.30) 72%,
+        rgba(255, 255, 255, 0) 82%
+      ),
+      var(--hero-image);
+
+    background-size: 130% auto;
+    background-position: left center;
+    background-repeat: no-repeat;
   }
 
-  /* ヒーローコピーをスマホ向けに調整 */
+  /* スマホのヒーローコピー */
   .home-hero-copy {
-    width: calc(100% - 32px);
-    min-height: 390px;
-    padding: 48px 24px;
+    width: 48%;
+    min-height: 112px;
+    margin-left: 0;
+    margin-right: auto;
+    padding: 18px 8px 14px 16px;
   }
 
-  /* ヒーロー見出しを小さくする */
+  /* スマホの見出し */
   .home-hero-copy h1 {
-    font-size: 34px;
-    line-height: 1.35;
+    margin: 0 0 4px;
+    font-size: 16px;
+    line-height: 1.3;
   }
 
-  /* ヒーロー説明文を小さくする */
+  /* スマホの説明文 */
   .home-hero-copy p {
-    font-size: 17px;
-    line-height: 1.75;
+    font-size: 8.5px;
+    line-height: 1.45;
   }
 
   /* PC専用要素を非表示 */
@@ -1505,150 +1797,175 @@ img {
     display: none;
   }
 
-  /* アクションボタンをスマホでも2列表示 */
-  .home-action-row {
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 20px;
+  /* ヒーロー上ボタン */
+  .hero-action-row {
+    left: 10px;
+    right: 10px;
+    bottom: 8px;
+    gap: 8px;
   }
 
-  /* アクションボタンをスマホ向けに小さくする */
-  .big-action-button {
-    min-height: 64px;
-    padding: 0 12px;
-    font-size: 15px;
-    border-radius: 12px;
+  /* スマホのヒーローボタン */
+  .hero-action-row .big-action-button {
+    min-height: 40px;
+    padding: 0 10px;
+    font-size: 10px;
+    border-radius: 10px;
   }
 
-  /* ボタン矢印を小さくする */
-  .big-action-arrow {
-    font-size: 20px;
+  /* スマホのヒーローボタン矢印 */
+  .hero-action-row .big-action-arrow {
+    font-size: 16px;
   }
 
-  /* セクション間隔を少し狭くする */
+  /* セクション余白 */
   .content-section {
-    margin-top: 30px;
+    margin-top: 22px;
   }
 
-  /* セクション見出しの余白調整 */
+  /* セクション見出し余白 */
   .section-heading {
-    margin-bottom: 14px;
+    margin-bottom: 10px;
   }
 
-  /* セクション見出しを小さくする */
+  /* セクション見出し文字 */
   .section-heading h2 {
-    font-size: 23px;
+    font-size: 18px;
+    gap: 6px;
   }
 
-  /* セクション右側ボタンを小さくする */
+  /* セクション右ボタン */
   .section-heading button {
-    font-size: 14px;
+    font-size: 12px;
   }
 
-  /* 大会カードは横スクロール表示にする */
-  .home-tournament-grid,
+  /* セクション右ボタン矢印 */
+  .section-heading button span {
+    font-size: 18px;
+    margin-left: 4px;
+  }
+
+  /* ホーム大会カード幅 */
+  .home-tournament-grid {
+    grid-auto-columns: 40%;
+    gap: 8px;
+    padding-bottom: 6px;
+  }
+
+  /* ホーム大会カード */
+  .home-tournament-card {
+    max-width: none;
+    border-radius: 10px;
+  }
+
+  /* ホーム大会カード上部 */
+  .home-tournament-card .home-tournament-image {
+    height: 56px;
+  }
+
+  /* ホーム大会カードラベル */
+  .home-tournament-card .tournament-status-label {
+    left: 6px;
+    top: 6px;
+    padding: 3px 6px;
+    font-size: 9px;
+    border-radius: 5px;
+  }
+
+  /* ホーム大会カード本文 */
+  .home-tournament-card .home-tournament-body {
+    padding: 8px;
+  }
+
+  /* ホーム大会カード大会名 */
+  .home-tournament-card .home-tournament-body h3 {
+    margin-bottom: 4px;
+    font-size: 12px;
+    line-height: 1.3;
+  }
+
+  /* ホーム大会カード詳細 */
+  .home-tournament-card .home-tournament-body p {
+    margin: 2px 0;
+    font-size: 9px;
+    line-height: 1.35;
+  }
+
+  /* ホーム大会カード詳細ボタン */
+  .home-tournament-card .outline-detail-button {
+    min-height: 26px;
+    margin-top: 6px;
+    font-size: 10px;
+    border-radius: 6px;
+    padding: 0 6px;
+  }
+
+  /* 大会一覧ページも横スクロールにする */
   .tournament-grid {
     display: grid;
     grid-auto-flow: column;
-    grid-auto-columns: 58%;
+    grid-auto-columns: 40%;
     grid-template-columns: none;
     overflow-x: auto;
-    gap: 10px;
-    padding-bottom: 8px;
+    gap: 8px;
+    padding-bottom: 6px;
     scroll-snap-type: x mandatory;
   }
 
-  /* 大会カードを横スクロール時に気持ちよく止める */
-  .home-tournament-card,
+  /* 大会一覧カード */
   .list-tournament-card {
     max-width: none;
     scroll-snap-align: start;
   }
 
-  /* 大会カード画像を小さくする */
-  .home-tournament-image,
-  .list-tournament-image {
-    height: 76px;
-  }
-
-  /* ステータスラベルを小さくする */
-  .tournament-status-label,
-  .list-tournament-image span {
-    left: 8px;
-    top: 8px;
-    padding: 4px 7px;
-    font-size: 10px;
-  }
-
-  /* 大会カード本文の余白調整 */
-  .home-tournament-body,
-  .list-tournament-body {
-    padding: 10px;
-  }
-
-  /* 大会名を小さくする */
-  .home-tournament-body h3,
-  .list-tournament-body h2 {
-    font-size: 13px;
-    margin-bottom: 6px;
-  }
-
-  /* 大会情報テキストを小さくする */
-  .home-tournament-body p,
-  .list-tournament-body p {
-    font-size: 11px;
-    margin: 4px 0;
-  }
-
-  /* 詳細ボタンを小さくする */
-  .outline-detail-button,
-  .list-tournament-body button {
-    min-height: 32px;
-    margin-top: 8px;
-    font-size: 12px;
-  }
-
-  /* お知らせ1行のカラムをスマホ向けに狭める */
+  /* お知らせ1行 */
   .notice-item {
-    grid-template-columns: 88px 74px 1fr auto;
-    gap: 8px;
-    padding: 0 14px;
-    min-height: 74px;
+    min-height: 56px;
+    grid-template-columns: 72px 58px 1fr auto;
+    gap: 6px;
+    padding: 0 10px;
   }
 
-  /* お知らせ日付を小さくする */
+  /* お知らせ日付 */
   .notice-date {
-    font-size: 14px;
+    font-size: 11px;
   }
 
-  /* お知らせタグを小さくする */
+  /* お知らせタグ */
   .notice-tag {
-    font-size: 12px;
-    min-height: 28px;
+    min-height: 22px;
+    font-size: 10px;
+    border-radius: 5px;
   }
 
-  /* お知らせタイトルを小さくする */
+  /* お知らせタイトル */
   .notice-text {
-    font-size: 15px;
+    font-size: 12px;
+    line-height: 1.35;
   }
 
-  /* 通常ページの余白をスマホ向けにする */
+  /* お知らせ矢印 */
+  .notice-arrow {
+    font-size: 18px;
+  }
+
+  /* 通常ページ余白 */
   .page-shell {
     padding: 28px 16px 48px;
   }
 
-  /* ページタイトルを小さくする */
+  /* ページタイトル */
   .page-title-block h1 {
     font-size: 34px;
   }
 
-  /* 検索パネルを1列にする */
+  /* 検索パネル */
   .search-panel {
     grid-template-columns: 1fr;
     padding: 18px;
   }
 
-  /* 2カラムレイアウトを1カラムにする */
+  /* 2カラムを1カラムにする */
   .detail-layout,
   .form-layout,
   .profile-layout,
@@ -1657,33 +1974,33 @@ img {
     gap: 18px;
   }
 
-  /* 詳細ページタイトルを小さくする */
+  /* 詳細ページタイトル */
   .detail-main-card h1 {
     font-size: 30px;
   }
 
-  /* 詳細情報を1列にする */
+  /* 詳細情報1列 */
   .detail-meta-grid {
     grid-template-columns: 1fr;
   }
 
-  /* ボタン行を1列にする */
+  /* ボタン1列 */
   .button-row {
     grid-template-columns: 1fr;
   }
 
-  /* 申込カードを縦並びにする */
+  /* 申込カード縦並び */
   .application-card {
     flex-direction: column;
     align-items: stretch;
   }
 
-  /* 汎用グリッドを1列にする */
+  /* 汎用グリッド1列 */
   .grid {
     grid-template-columns: 1fr;
   }
 
-  /* カード余白を小さくする */
+  /* カード余白 */
   .empty-card,
   .detail-main-card,
   .detail-side-card,
@@ -1699,1565 +2016,112 @@ img {
     padding: 20px;
   }
 
-  /* プロフィール情報を縦並びにする */
+  /* プロフィール情報縦並び */
   .profile-info-list p {
     grid-template-columns: 1fr;
     gap: 4px;
   }
 
-  /* 管理メニューを1列にする */
+  /* 管理メニュー1列 */
   .admin-menu-grid {
     grid-template-columns: 1fr;
   }
 
-  /* 管理メニューボタンを低くする */
+  /* 管理メニューボタン */
   .admin-menu-grid button {
     min-height: 96px;
   }
 
-  /* お知らせ詳細カードを1列にする */
+  /* お知らせ一覧カード1列 */
   .notice-detail-card {
     grid-template-columns: 1fr;
     gap: 14px;
     padding: 20px;
   }
 
-  /* 外部リンクはスマホでも2列を維持 */
-  .external-link-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-
-  /* 外部リンクボタンを小さくする */
-  .external-link-button {
-    min-height: 84px;
-    padding: 16px;
-  }
-
-  /* 外部リンクのメイン文字を小さくする */
-  .external-link-button span {
-    font-size: 15px;
-  }
-
-  /* 外部リンクの補足文字を小さくする */
-  .external-link-button small {
-    font-size: 11px;
-  }
-
-  /* フッターをスマホ幅いっぱいにする */
-  .site-footer {
-    margin: 44px -16px -44px;
-    padding: 34px 20px 22px;
-  }
-
-  /* フッターを1カラムにする */
-  .footer-main {
-    grid-template-columns: 1fr;
-    gap: 30px;
-  }
-
-  /* フッターリンクを縦並びにする */
-  .footer-links {
-    grid-template-columns: 1fr;
-    gap: 22px;
-  }
-
-  /* フッター最下部を縦並びにする */
-  .footer-bottom {
-    flex-direction: column;
-  }
-}
-
-/* 小さめスマホ向け */
-@media (max-width: 480px) {
-  /* ヘッダーをさらに低くする */
-  .site-header {
-    height: 68px;
-    padding: 0 14px;
-  }
-
-  /* ロゴの間隔を狭める */
-  .site-logo {
-    gap: 9px;
-  }
-
-  /* 丸ロゴをさらに小さくする */
-  .logo-flower {
-    width: 38px;
-    height: 38px;
-    font-size: 22px;
-  }
-
-  /* サイト名をさらに小さくする */
-  .site-logo strong {
-    font-size: 19px;
-  }
-
-  /* 英字サブタイトルをさらに小さくする */
-  .site-logo small {
-    font-size: 11px;
-  }
-
-  /* ハンバーガーボタンを少し小さくする */
-  .hamburger-button {
-    width: 40px;
-    height: 40px;
-  }
-
-  /* ハンバーガーの線を短くする */
-  .hamburger-button span {
-    width: 28px;
-  }
-
-  /* ヒーローエリアを少し低くする */
-  .home-hero {
-    min-height: 360px;
-  }
-
-  /* ヒーローコピー余白を小さくする */
-  .home-hero-copy {
-    min-height: 360px;
-    padding: 42px 20px;
-  }
-
-  /* ヒーロー見出しを小さくする */
-  .home-hero-copy h1 {
-    font-size: 30px;
-  }
-
-  /* ヒーロー説明文を小さくする */
-  .home-hero-copy p {
-    font-size: 15px;
-  }
-
-  /* アクションボタン間隔を狭める */
-  .home-action-row {
-    gap: 8px;
-  }
-
-  /* アクションボタンをさらに小さくする */
-  .big-action-button {
-    min-height: 60px;
-    padding: 0 10px;
-    font-size: 14px;
-  }
-
-  /* 矢印を小さくする */
-  .big-action-arrow {
-    font-size: 18px;
-  }
-
-  /* 横スクロールの大会カード幅を調整 */
-  .home-tournament-grid,
-  .tournament-grid {
-    grid-auto-columns: 64%;
-  }
-}
-
-/* =========================================================
-   Home tournament cards horizontal scroll
-   ホームページの大会カードを1枚あたり表示幅の40%にし、
-   5件を横一列に並べて、見切れた分は横スクロールできるようにする
-========================================================= */
-
-/* ホームページの大会カード一覧だけを横スクロール形式にする */
-.home-tournament-grid {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 40%;
-  grid-template-columns: none;
-  gap: 14px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding-bottom: 10px;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-}
-
-/* 各大会カードを40%幅の枠いっぱいに表示する */
-.home-tournament-card {
-  width: 100%;
-  max-width: none;
-  scroll-snap-align: start;
-}
-
-/* 高さは元の見やすいサイズに戻す */
-.home-tournament-card .home-tournament-image {
-  height: 90px;
-}
-
-/* 本文エリアも元の高さ感に戻す */
-.home-tournament-card .home-tournament-body {
-  padding: 12px;
-}
-
-/* 大会名の文字サイズを元に戻す */
-.home-tournament-card .home-tournament-body h3 {
-  font-size: 15px;
-  line-height: 1.42;
-}
-
-/* 開催日・会場の文字サイズを元に戻す */
-.home-tournament-card .home-tournament-body p {
-  font-size: 12px;
-  line-height: 1.45;
-}
-
-/* 詳細ボタンも元の高さに戻す */
-.home-tournament-card .outline-detail-button {
-  min-height: 36px;
-  margin-top: 10px;
-  font-size: 13px;
-  padding: 0 10px;
-}
-
-/* ステータスラベルも元のサイズに戻す */
-.home-tournament-card .tournament-status-label {
-  left: 10px;
-  top: 10px;
-  padding: 5px 9px;
-  font-size: 12px;
-}
-
-/* スマホでも同じく1枚40%で横スクロールにする */
-@media (max-width: 768px) {
-  .home-tournament-grid {
-    grid-auto-flow: column;
-    grid-auto-columns: 40%;
-    grid-template-columns: none;
-    overflow-x: auto;
-  }
-
-  .home-tournament-card {
-    max-width: none;
-  }
-
-  .home-tournament-card .home-tournament-image {
-    height: 90px;
-  }
-}
-
-/* 小さいスマホでも40%を維持する */
-@media (max-width: 480px) {
-  .home-tournament-grid {
-    grid-auto-columns: 40%;
-  }
-
-  .home-tournament-card .home-tournament-image {
-    height: 90px;
-  }
-}
-
-.home-tournament-card .home-tournament-body h3 {
-  font-size: 24px;
-  line-height: 1.35;
-}
-
-.home-tournament-card .home-tournament-body p {
-  font-size: 18px;
-  line-height: 1.45;
-}
-
-.home-tournament-card .outline-detail-button {
-  min-height: 48px;
-  font-size: 18px;
-}
-
-.home-tournament-card .tournament-status-label {
-  font-size: 16px;
-  padding: 7px 12px;
-}
-
-.home-tournament-card .home-tournament-body {
-  padding: 16px;
-}
-
-/* =========================================================
-   Home action buttons text size
-   「大会を探す」「申込状況を確認する」の文字を大きくする
-========================================================= */
-
-.big-action-button {
-  min-height: 92px;
-  padding: 0 22px;
-  font-size: 28px;
-  line-height: 1.25;
-}
-
-.big-action-arrow {
-  font-size: 32px;
-}
-
-/* スマホでは少しだけ抑える */
-@media (max-width: 768px) {
-  .big-action-button {
-    min-height: 82px;
-    padding: 0 16px;
-    font-size: 22px;
-  }
-
-  .big-action-arrow {
-    font-size: 28px;
-  }
-}
-
-@media (max-width: 480px) {
-  .big-action-button {
-    min-height: 76px;
-    padding: 0 14px;
-    font-size: 19px;
-  }
-
-  .big-action-arrow {
-    font-size: 24px;
-  }
-}
-
-/* =========================================================
-   Red theme and hero visual adjustment
-   全体を赤基調に寄せ、上部写真を低く・白グラデ・黒文字にする
-========================================================= */
-
-/* サイト全体の赤基調を少し和風寄りに調整 */
-:root {
-  --red: #c81e2f;
-  --red-dark: #8f1421;
-  --red-soft: #fff0f1;
-  --red-border: #f4c7cd;
-}
-
-/* ページ背景もほんのり赤みのある白にする */
-body {
-  background:
-    linear-gradient(180deg, #fff7f7 0%, #f8f2f2 100%);
-}
-
-/* ヘッダーを赤基調に寄せる */
-.site-header {
-  background: rgba(255, 248, 248, 0.96);
-  border-bottom: 1px solid var(--red-border);
-}
-
-/* ヘッダーロゴの丸マーク */
-.logo-flower {
-  background: var(--red);
-  color: #fff;
-}
-
-/* PCナビのホバー・アクティブを赤に統一 */
-.pc-nav button:hover,
-.pc-nav button.active {
-  color: var(--red);
-  border-bottom-color: var(--red);
-}
-
-/* ログインボタンも赤系に寄せる */
-.header-login-button {
-  color: var(--red-dark);
-}
-
-/* =========================================================
-   Hero
-   写真の高さを約3割削り、白っぽいグラデーションに変更
-========================================================= */
-
-/* 上部写真エリア：430px → 約300pxに圧縮 */
-.home-hero {
-  min-height: 300px;
-  background:
-    linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.92) 0%,
-      rgba(255, 255, 255, 0.76) 42%,
-      rgba(255, 255, 255, 0.28) 100%
-    ),
-    url("/images/karuta-hero.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-/* 黒い膜はやめて、白くやわらかい膜にする */
-.home-hero::after {
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.12) 0%,
-      rgba(255, 255, 255, 0.36) 100%
-    );
-}
-
-/* 写真の高さに合わせてコピーエリアも低くする */
-.home-hero-copy {
-  min-height: 300px;
-  padding: 42px 0 42px 96px;
-}
-
-/* メインコピーを黒文字にする */
-.home-hero-copy h1 {
-  color: var(--text);
-  text-shadow: none;
-}
-
-/* 説明文も黒系にする */
-.home-hero-copy p {
-  color: #2f2f2f;
-  text-shadow: none;
-}
-
-/* ヒーロー内のCTAを赤基調にする */
-.hero-cta {
-  background: var(--red);
-  color: #fff;
-}
-
-.hero-cta:hover {
-  background: var(--red-dark);
-}
-
-/* =========================================================
-   Home action buttons
-   「大会を探す」「申込状況を確認する」を赤基調に変更
-========================================================= */
-
-/* 左ボタン：濃紺ではなく赤 */
-.big-action-button.primary {
-  background: var(--red);
-  color: #fff;
-  border: 2px solid var(--red);
-}
-
-/* 右ボタン：赤枠 */
-.big-action-button.secondary {
-  background: #fff;
-  color: var(--red-dark);
-  border: 2px solid var(--red);
-}
-
-/* ホバー時 */
-.big-action-button.primary:hover {
-  background: var(--red-dark);
-  border-color: var(--red-dark);
-}
-
-.big-action-button.secondary:hover {
-  background: var(--red-soft);
-}
-
-/* =========================================================
-   Tournament cards
-   大会カードも赤基調に寄せる
-========================================================= */
-
-/* 大会カードの枠線を少し赤みのある色にする */
-.home-tournament-card,
-.list-tournament-card {
-  border-color: var(--red-border);
-}
-
-/* 大会カード上部を赤系グラデーションにする */
-.home-tournament-image,
-.list-tournament-image {
-  background:
-    linear-gradient(135deg, rgba(200, 30, 47, 0.16), rgba(255, 240, 241, 0.85)),
-    linear-gradient(135deg, #fff5f5, #ffe4e8);
-}
-
-/* ステータスラベルを赤系にする */
-.tournament-status-label,
-.list-tournament-image span {
-  background: var(--red);
-}
-
-/* 詳細ボタンを赤に統一 */
-.outline-detail-button,
-.list-tournament-body button {
-  border-color: var(--red);
-  color: var(--red);
-}
-
-.outline-detail-button:hover,
-.list-tournament-body button:hover {
-  background: var(--red-soft);
-}
-
-/* =========================================================
-   Notices / External links
-   お知らせ・外部リンクも赤基調に統一
-========================================================= */
-
-.notice-panel {
-  border-color: var(--red-border);
-}
-
-.notice-tag {
-  background: var(--red-dark);
-}
-
-.notice-tag.important {
-  background: var(--red);
-}
-
-.external-link-button {
-  border-color: var(--red-border);
-  background:
-    linear-gradient(135deg, rgba(200, 30, 47, 0.08), rgba(255, 255, 255, 1));
-}
-
-.external-link-button:hover {
-  border-color: var(--red);
-}
-
-/* =========================================================
-   Footer
-   フッターも赤基調にして、ヘッダーのロゴと雰囲気を合わせる
-========================================================= */
-
-.site-footer {
-  background:
-    linear-gradient(135deg, #8f1421 0%, #5f0d16 100%);
-  color: #fff;
-}
-
-/* フッターのロゴをヘッダーと同じ丸ロゴに寄せる */
-.footer-logo-mark {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: var(--red);
-  color: #fff;
-  display: grid;
-  place-items: center;
-  font-size: 28px;
-  line-height: 1;
-  font-weight: 900;
-}
-
-/* フッターのサイト名もヘッダーと近い見た目にする */
-.footer-logo strong {
-  font-size: 26px;
-  line-height: 1.1;
-  font-weight: 900;
-}
-
-.footer-logo small {
-  color: #ffe4e8;
-}
-
-/* フッター説明文 */
-.footer-description {
-  color: #ffe4e8;
-}
-
-/* フッターリンク */
-.footer-links button {
-  color: #ffe4e8;
-}
-
-.footer-links button:hover {
-  color: #fff;
-}
-
-/* フッター下部 */
-.footer-bottom {
-  border-top-color: rgba(255, 255, 255, 0.22);
-  color: #ffd6dc;
-}
-
-/* =========================================================
-   Responsive
-   スマホ時もヒーロー高さを低めに維持
-========================================================= */
-
-@media (max-width: 768px) {
-  .home-hero {
-    min-height: 280px;
-  }
-
-  .home-hero-copy {
-    min-height: 280px;
-    padding: 36px 24px;
-  }
-
-  .home-hero-copy h1 {
-    font-size: 32px;
-  }
-
-  .home-hero-copy p {
-    font-size: 16px;
-  }
-}
-
-@media (max-width: 480px) {
-  .home-hero {
-    min-height: 260px;
-  }
-
-  .home-hero-copy {
-    min-height: 260px;
-    padding: 32px 20px;
-  }
-
-  .home-hero-copy h1 {
-    font-size: 28px;
-  }
-
-  .home-hero-copy p {
-    font-size: 14px;
-  }
-}
-
-/* =========================================================
-   Fine tuning
-   CTA改行・大会カード文字サイズ・ヒーロー白グラデーション調整
-========================================================= */
-
-/* 申込状況ボタンの文字が自然に2行で見えるようにする */
-.big-action-button {
-  white-space: normal;
-}
-
-/* ボタン内の文言を中央寄せで改行しやすくする */
-.big-action-button span:not(.big-action-arrow):not(.big-action-icon) {
-  display: block;
-  line-height: 1.25;
-}
-
-/* 大会カードの文字を少し小さくする */
-.home-tournament-card .home-tournament-body h3 {
-  font-size: 22px;
-  line-height: 1.35;
-}
-
-.home-tournament-card .home-tournament-body p {
-  font-size: 16px;
-  line-height: 1.45;
-}
-
-.home-tournament-card .outline-detail-button {
-  min-height: 44px;
-  font-size: 16px;
-}
-
-.home-tournament-card .tournament-status-label {
-  font-size: 14px;
-  padding: 6px 10px;
-}
-
-/* 
-   上部写真の白グラデーションを調整。
-   左側は文字を読ませるため白め、右側は写真が見えるように透明寄りにする。
-*/
-.home-hero {
-  background:
-    linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.92) 0%,
-      rgba(255, 255, 255, 0.68) 38%,
-      rgba(255, 255, 255, 0.08) 100%
-    ),
-    url("/images/karuta-hero.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-/* 追加の白い膜も右側にかかりすぎないように弱める */
-.home-hero::after {
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.08) 0%,
-      rgba(255, 255, 255, 0.18) 100%
-    );
-}
-
-/* =========================================================
-   Mobile compact layout
-   スマホ表示時に全体を少し小さくし、お知らせまで見えやすくする
-========================================================= */
-
-@media (max-width: 768px) {
-  /* ヘッダーを低くする */
-  .site-header {
-    height: 58px;
-    padding: 0 14px;
-  }
-
-  .logo-flower {
-    width: 34px;
-    height: 34px;
-    font-size: 19px;
-  }
-
-  .site-logo strong {
-    font-size: 17px;
-  }
-
-  .site-logo small {
-    font-size: 10px;
-  }
-
-  .hamburger-button {
-    width: 36px;
-    height: 36px;
-    gap: 5px;
-  }
-
-  .hamburger-button span {
-    width: 25px;
-    height: 2px;
-  }
-
-  /* ホーム全体の余白を詰める */
-  .home-page {
-    padding: 0 12px 36px;
-  }
-
-  /* 上部写真エリアを低くする */
-  .home-hero {
-    margin: 0 -12px;
-    min-height: 210px;
-  }
-
-  .home-hero-copy {
-    min-height: 210px;
-    padding: 24px 18px;
-    width: calc(100% - 24px);
-  }
-
-  /* メインコピーを小さくする */
-  .home-hero-copy h1 {
-    margin-bottom: 10px;
-    font-size: 24px;
-    line-height: 1.28;
-  }
-
-  .home-hero-copy p {
-    font-size: 12px;
-    line-height: 1.6;
-  }
-
-  /* PC用CTAはスマホでは非表示のまま */
-  .pc-only {
-    display: none;
-  }
-
-  /* 「大会を探す」「申込状況を確認する」を低くする */
-  .home-action-row {
-    gap: 8px;
-    margin-top: 12px;
-  }
-
-  .big-action-button {
-    min-height: 50px;
-    padding: 0 10px;
-    border-radius: 10px;
-    font-size: 14px;
-    line-height: 1.18;
-  }
-
-  .big-action-arrow {
-    font-size: 18px;
-  }
-
-  /* セクション間の余白を詰める */
-  .content-section {
-    margin-top: 22px;
-  }
-
-  .section-heading {
-    margin-bottom: 10px;
-  }
-
-  .section-heading h2 {
-    font-size: 18px;
-    gap: 6px;
-  }
-
-  .section-heading button {
-    font-size: 12px;
-  }
-
-  .section-heading button span {
-    font-size: 18px;
-    margin-left: 4px;
-  }
-
-  /* 大会カードは横スクロールのまま、少しだけコンパクトにする */
-  .home-tournament-grid {
-    grid-auto-flow: column;
-    grid-auto-columns: 40%;
-    grid-template-columns: none;
-    gap: 8px;
-    overflow-x: auto;
-    padding-bottom: 6px;
-  }
-
-  .home-tournament-card {
-    max-width: none;
-    border-radius: 10px;
-  }
-
-  .home-tournament-card .home-tournament-image {
-    height: 56px;
-  }
-
-  .home-tournament-card .tournament-status-label {
-    left: 6px;
-    top: 6px;
-    padding: 3px 6px;
-    font-size: 9px;
-    border-radius: 5px;
-  }
-
-  .home-tournament-card .home-tournament-body {
-    padding: 8px;
-  }
-
-  .home-tournament-card .home-tournament-body h3 {
-    margin-bottom: 4px;
-    font-size: 12px;
-    line-height: 1.3;
-  }
-
-  .home-tournament-card .home-tournament-body p {
-    margin: 2px 0;
-    font-size: 9px;
-    line-height: 1.35;
-  }
-
-  .home-tournament-card .outline-detail-button {
-    min-height: 26px;
-    margin-top: 6px;
-    font-size: 10px;
-    border-radius: 6px;
-    padding: 0 6px;
-  }
-
-  /* お知らせ部分も少しコンパクトにする */
-  .notice-item {
-    min-height: 56px;
-    grid-template-columns: 72px 58px 1fr auto;
-    gap: 6px;
-    padding: 0 10px;
-  }
-
-  .notice-date {
-    font-size: 11px;
-  }
-
-  .notice-tag {
-    min-height: 22px;
-    font-size: 10px;
-    border-radius: 5px;
-  }
-
-  .notice-text {
-    font-size: 12px;
-    line-height: 1.35;
-  }
-
-  .notice-arrow {
-    font-size: 18px;
-  }
-
-  /* 外部リンクも詰める */
+  /* 外部リンク */
   .external-link-grid {
     gap: 8px;
   }
 
+  /* 外部リンクボタン */
   .external-link-button {
     min-height: 64px;
     padding: 10px 12px;
     border-radius: 10px;
   }
 
-  .external-link-button span {
+  /* 外部リンクメイン */
+  .external-link-button span,
+  .external-link-main {
     font-size: 12px;
   }
 
-  .external-link-button small {
+  /* 外部リンク補足 */
+  .external-link-button small,
+  .external-link-main small {
     font-size: 9px;
   }
 
-  /* フッターもスマホでは少し小さく */
+  /* フッター */
   .site-footer {
-    margin: 34px -12px -36px;
+    margin: 34px -12px -40px;
     padding: 26px 16px 18px;
   }
 
+  /* フッターロゴ */
   .footer-logo-mark {
     width: 34px;
     height: 34px;
     font-size: 19px;
   }
 
+  /* フッターサイト名 */
   .footer-logo strong {
     font-size: 17px;
   }
 
+  /* フッターサブタイトル */
   .footer-logo small {
     font-size: 10px;
   }
 
+  /* フッター説明 */
   .footer-description {
     margin-top: 12px;
     font-size: 11px;
     line-height: 1.7;
   }
 
+  /* フッターリンク */
   .footer-links {
     gap: 16px;
   }
 
+  /* フッターリンク見出し */
   .footer-links h3 {
     font-size: 13px;
   }
 
+  /* フッターリンク */
   .footer-links button {
     font-size: 11px;
   }
 
+  /* フッター下部 */
   .footer-bottom {
     margin-top: 22px;
     font-size: 10px;
   }
 }
 
+/* 小さめスマホ */
 @media (max-width: 480px) {
-  /* 小さめスマホではさらに少しだけ圧縮 */
-  .home-hero {
-    min-height: 195px;
-  }
-
-  .home-hero-copy {
-    min-height: 195px;
-    padding: 22px 16px;
-  }
-
-  .home-hero-copy h1 {
-    font-size: 22px;
-  }
-
-  .home-hero-copy p {
-    font-size: 11px;
-  }
-
-  .big-action-button {
-    min-height: 46px;
-    font-size: 13px;
-  }
-
-  .home-tournament-grid {
-    grid-auto-columns: 40%;
-  }
-
-  .home-tournament-card .home-tournament-image {
-    height: 52px;
-  }
-}
-
-/* =========================================================
-   Hero photo focused layout
-   写真を映えさせるため、左側は写真を見せて、
-   コピーは右側に小さく寄せる
-========================================================= */
-
-/* ヒーロー全体：左側は写真をしっかり見せ、右側だけ白くして文字を載せる */
-.home-hero {
-  min-height: 230px;
-  padding-bottom: 62px;
-
-  background:
-    linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 0) 42%,
-      rgba(255, 255, 255, 0.72) 68%,
-      rgba(255, 255, 255, 0.94) 100%
-    ),
-    url("/images/karuta-hero.jpg");
-
-  background-size: cover;
-  background-position: center left;
-  background-repeat: no-repeat;
-}
-
-/* 全体にかけていた白い膜を弱め、写真の色を残す */
-.home-hero::after {
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.02) 0%,
-      rgba(255, 255, 255, 0.08) 100%
-    );
-}
-
-/* コピーを右側に寄せる */
-.home-hero-copy {
-  width: min(390px, 42%);
-  min-height: 230px;
-  margin-left: auto;
-  padding: 30px 48px 30px 20px;
-
-  align-items: flex-start;
-  justify-content: center;
-}
-
-/* 「かるたでつながる、熱い瞬間を。」を小さくする */
-.home-hero-copy h1 {
-  margin: 0 0 10px;
-  font-size: 26px;
-  line-height: 1.35;
-  letter-spacing: 0.04em;
-  color: #111111;
-  text-shadow: none;
-}
-
-/* 説明文も小さくして、写真の邪魔をしない */
-.home-hero-copy p {
-  font-size: 12px;
-  line-height: 1.7;
-  color: #333333;
-  text-shadow: none;
-}
-
-/* 写真に重ねているボタンは下部に維持 */
-.hero-action-row {
-  left: 40px;
-  right: 40px;
-  bottom: 14px;
-}
-
-/* 写真映えのため、ボタンを少しだけ半透明・軽めにする */
-.hero-action-row .big-action-button {
-  min-height: 54px;
-  box-shadow: 0 8px 22px rgba(120, 20, 28, 0.16);
-}
-
-.hero-action-row .big-action-button.primary {
-  background: rgba(200, 30, 47, 0.94);
-  border-color: rgba(200, 30, 47, 0.94);
-}
-
-.hero-action-row .big-action-button.secondary {
-  background: rgba(255, 255, 255, 0.9);
-}
-
-/* =========================================================
-   Mobile
-   スマホでは右寄せにしすぎると狭いため、
-   右寄せ感は残しつつ読みやすくする
-========================================================= */
-
-@media (max-width: 768px) {
-  .home-hero {
-    min-height: 210px;
-    padding-bottom: 58px;
-
-    background:
-      linear-gradient(
-        90deg,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.08) 28%,
-        rgba(255, 255, 255, 0.72) 72%,
-        rgba(255, 255, 255, 0.94) 100%
-      ),
-      url("/images/karuta-hero.jpg");
-
-    background-size: cover;
-    background-position: center left;
-  }
-
-  .home-hero-copy {
-    width: 48%;
-    min-height: 210px;
-    margin-left: auto;
-    padding: 22px 14px 22px 8px;
-  }
-
-  .home-hero-copy h1 {
-    font-size: 18px;
-    line-height: 1.35;
-    margin-bottom: 6px;
-  }
-
-  .home-hero-copy p {
-    font-size: 9px;
-    line-height: 1.55;
-  }
-
-  .hero-action-row {
-    left: 10px;
-    right: 10px;
-    bottom: 8px;
-  }
-
-  .hero-action-row .big-action-button {
-    min-height: 44px;
-    font-size: 12px;
-  }
-}
-
-@media (max-width: 480px) {
-  .home-hero {
-    min-height: 195px;
-    padding-bottom: 54px;
-
-    background:
-      linear-gradient(
-        90deg,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.12) 24%,
-        rgba(255, 255, 255, 0.76) 68%,
-        rgba(255, 255, 255, 0.96) 100%
-      ),
-      url("/images/karuta-hero.jpg");
-
-    background-size: cover;
-    background-position: center left;
-  }
-
-  .home-hero-copy {
-    width: 52%;
-    min-height: 195px;
-    padding: 20px 12px 20px 6px;
-  }
-
-  .home-hero-copy h1 {
-    font-size: 16px;
-  }
-
-  .home-hero-copy p {
-    font-size: 8.5px;
-  }
-
-  .hero-action-row .big-action-button {
-    min-height: 42px;
-    font-size: 11px;
-  }
-}
-
-/* =========================================================
-   Hero reverse layout
-   左にコピー、右に写真を見せる。
-   写真はトリミングしてよい前提で、高さをさらに低くする。
-========================================================= */
-
-/* ヒーロー全体を低めにする */
-.home-hero {
-  min-height: 175px;
-  padding-bottom: 52px;
-
-  /* 左側は白くして文字を読みやすく、右側は写真をしっかり見せる */
-  background:
-    linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.96) 0%,
-      rgba(255, 255, 255, 0.84) 32%,
-      rgba(255, 255, 255, 0.22) 58%,
-      rgba(255, 255, 255, 0) 100%
-    ),
-    url("/images/karuta-hero.jpg");
-
-  background-size: cover;
-  background-position: center right;
-  background-repeat: no-repeat;
-}
-
-/* 写真の上にかかる膜はかなり弱める */
-.home-hero::after {
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.02) 0%,
-      rgba(255, 255, 255, 0.06) 100%
-    );
-}
-
-/* コピーを左側に戻す */
-.home-hero-copy {
-  width: min(360px, 46%);
-  min-height: 123px;
-  margin-left: 0;
-  margin-right: auto;
-  padding: 22px 20px 18px 42px;
-
-  align-items: flex-start;
-  justify-content: center;
-}
-
-/* 「かるたでつながる、熱い瞬間を。」を小さめに維持 */
-.home-hero-copy h1 {
-  margin: 0 0 6px;
-  font-size: 22px;
-  line-height: 1.32;
-  letter-spacing: 0.04em;
-  color: #111111;
-  text-shadow: none;
-}
-
-/* 説明文も小さめ */
-.home-hero-copy p {
-  font-size: 10px;
-  line-height: 1.55;
-  color: #333333;
-  text-shadow: none;
-}
-
-/* 下部に重ねるボタン位置を低めヒーロー用に調整 */
-.hero-action-row {
-  left: 40px;
-  right: 40px;
-  bottom: 10px;
-}
-
-/* ボタンも少し低めにする */
-.hero-action-row .big-action-button {
-  min-height: 42px;
-  font-size: 15px;
-  border-radius: 12px;
-}
-
-.hero-action-row .big-action-arrow {
-  font-size: 20px;
-}
-
-/* =========================================================
-   Mobile
-   スマホでも左文字・右写真を維持しつつ、さらに低くする
-========================================================= */
-
-@media (max-width: 768px) {
-  .home-hero {
-    min-height: 160px;
-    padding-bottom: 48px;
-
-    background:
-      linear-gradient(
-        90deg,
-        rgba(255, 255, 255, 0.96) 0%,
-        rgba(255, 255, 255, 0.84) 36%,
-        rgba(255, 255, 255, 0.24) 64%,
-        rgba(255, 255, 255, 0) 100%
-      ),
-      url("/images/karuta-hero.jpg");
-
-    background-size: cover;
-    background-position: center right;
-    background-repeat: no-repeat;
-  }
-
-  .home-hero-copy {
-    width: 48%;
-    min-height: 112px;
-    margin-left: 0;
-    margin-right: auto;
-    padding: 18px 8px 14px 16px;
-  }
-
-  .home-hero-copy h1 {
-    font-size: 16px;
-    line-height: 1.3;
-    margin-bottom: 4px;
-  }
-
-  .home-hero-copy p {
-    font-size: 8.5px;
-    line-height: 1.45;
-  }
-
-  .hero-action-row {
-    left: 10px;
-    right: 10px;
-    bottom: 8px;
-  }
-
-  .hero-action-row .big-action-button {
-    min-height: 40px;
-    font-size: 11px;
-  }
-
-  .hero-action-row .big-action-arrow {
-    font-size: 16px;
-  }
-}
-
-@media (max-width: 480px) {
+  /* ヒーロー */
   .home-hero {
     min-height: 148px;
     padding-bottom: 44px;
-  }
 
-  .home-hero-copy {
-    width: 50%;
-    min-height: 104px;
-    padding: 16px 6px 12px 14px;
-  }
-
-  .home-hero-copy h1 {
-    font-size: 14px;
-  }
-
-  .home-hero-copy p {
-    font-size: 8px;
-  }
-
-  .hero-action-row .big-action-button {
-    min-height: 38px;
-    font-size: 10.5px;
-  }
-}
-
-/* =========================================================
-   Hero photo zoom and position
-   写真を少し拡大し、写真の左側が映るようにする
-========================================================= */
-
-/* PC表示：写真を拡大しつつ、左側を見せる */
-.home-hero {
-  background:
-    linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.96) 0%,
-      rgba(255, 255, 255, 0.84) 32%,
-      rgba(255, 255, 255, 0.24) 56%,
-      rgba(255, 255, 255, 0) 100%
-    ),
-    url("/images/karuta-hero.jpg");
-
-  background-size: 118% auto;
-  background-position: left center;
-  background-repeat: no-repeat;
-}
-
-/* スマホ表示：拡大しすぎると見切れすぎるため少し抑える */
-@media (max-width: 768px) {
-  .home-hero {
-    background:
-      linear-gradient(
-        90deg,
-        rgba(255, 255, 255, 0.96) 0%,
-        rgba(255, 255, 255, 0.84) 36%,
-        rgba(255, 255, 255, 0.24) 64%,
-        rgba(255, 255, 255, 0) 100%
-      ),
-      url("/images/karuta-hero.jpg");
-
-    background-size: 130% auto;
-    background-position: left center;
-    background-repeat: no-repeat;
-  }
-}
-
-@media (max-width: 480px) {
-  .home-hero {
-    background-size: 145% auto;
-    background-position: left center;
-  }
-}
-
-/* =========================================================
-   Hero photo clarity and tournament card text tuning
-   右側の写真をはっきり見せ、大会カードの文字を少し小さくする
-========================================================= */
-
-/* 右側の白いグラデーションを弱めて、写真をはっきり見せる */
-.home-hero {
-  background:
-    linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.96) 0%,
-      rgba(255, 255, 255, 0.82) 28%,
-      rgba(255, 255, 255, 0.16) 50%,
-      rgba(255, 255, 255, 0) 100%
-    ),
-    url("/images/karuta-hero.jpg");
-
-  background-size: 118% auto;
-  background-position: left center;
-  background-repeat: no-repeat;
-}
-
-/* 写真の上にかかる白い膜をさらに弱める */
-.home-hero::after {
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 0.03) 100%
-    );
-}
-
-/* 大会カードの大会名を少し小さくする */
-.home-tournament-card .home-tournament-body h3 {
-  font-size: 18px;
-  line-height: 1.32;
-}
-
-/* 開催日・会場の文字を少し小さくする */
-.home-tournament-card .home-tournament-body p {
-  font-size: 13px;
-  line-height: 1.4;
-}
-
-/* 詳細を見るボタンも少し小さくする */
-.home-tournament-card .outline-detail-button {
-  min-height: 38px;
-  font-size: 13px;
-}
-
-/* 受付中ラベルも少し小さくする */
-.home-tournament-card .tournament-status-label {
-  font-size: 12px;
-  padding: 5px 9px;
-}
-
-/* スマホでも右側写真をはっきり見せる */
-@media (max-width: 768px) {
-  .home-hero {
-    background:
-      linear-gradient(
-        90deg,
-        rgba(255, 255, 255, 0.96) 0%,
-        rgba(255, 255, 255, 0.82) 34%,
-        rgba(255, 255, 255, 0.16) 62%,
-        rgba(255, 255, 255, 0) 100%
-      ),
-      url("/images/karuta-hero.jpg");
-
-    background-size: 130% auto;
-    background-position: left center;
-    background-repeat: no-repeat;
-  }
-
-  .home-tournament-card .home-tournament-body h3 {
-    font-size: 12px;
-  }
-
-  .home-tournament-card .home-tournament-body p {
-    font-size: 9px;
-  }
-
-  .home-tournament-card .outline-detail-button {
-    min-height: 26px;
-    font-size: 10px;
-  }
-
-  .home-tournament-card .tournament-status-label {
-    font-size: 9px;
-    padding: 3px 6px;
-  }
-}
-
-@media (max-width: 480px) {
-  .home-hero {
-    background-size: 145% auto;
-    background-position: left center;
-  }
-}
-
-/* =========================================================
-   Hero white gradient left half only
-   白っぽいグラデーションを左側半分だけにする
-========================================================= */
-
-.home-hero {
-  background:
-    linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.96) 0%,
-      rgba(255, 255, 255, 0.86) 30%,
-      rgba(255, 255, 255, 0.18) 50%,
-      rgba(255, 255, 255, 0) 51%,
-      rgba(255, 255, 255, 0) 100%
-    ),
-    url("/images/karuta-hero.jpg");
-
-  background-size: 118% auto;
-  background-position: left center;
-  background-repeat: no-repeat;
-}
-
-.home-hero::after {
-  background: none;
-}
-
-@media (max-width: 768px) {
-  .home-hero {
-    background:
-      linear-gradient(
-        90deg,
-        rgba(255, 255, 255, 0.96) 0%,
-        rgba(255, 255, 255, 0.86) 34%,
-        rgba(255, 255, 255, 0.18) 52%,
-        rgba(255, 255, 255, 0) 53%,
-        rgba(255, 255, 255, 0) 100%
-      ),
-      url("/images/karuta-hero.jpg");
-
-    background-size: 130% auto;
-    background-position: left center;
-    background-repeat: no-repeat;
-  }
-}
-
-@media (max-width: 480px) {
-  .home-hero {
-    background-size: 145% auto;
-    background-position: left center;
-  }
-}
-
-/* =========================================================
-   Hero white gradient adjustment
-   白っぽい部分をもう少し右まで残し、
-   右側に近づいてから薄くなるようにする
-========================================================= */
-
-.home-hero {
-  background:
-    linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.96) 0%,
-      rgba(255, 255, 255, 0.92) 42%,
-      rgba(255, 255, 255, 0.78) 56%,
-      rgba(255, 255, 255, 0.30) 68%,
-      rgba(255, 255, 255, 0) 78%
-    ),
-    url("/images/karuta-hero.jpg");
-
-  background-size: 118% auto;
-  background-position: left center;
-  background-repeat: no-repeat;
-}
-
-.home-hero::after {
-  background: none;
-}
-
-@media (max-width: 768px) {
-  .home-hero {
-    background:
-      linear-gradient(
-        90deg,
-        rgba(255, 255, 255, 0.96) 0%,
-        rgba(255, 255, 255, 0.92) 46%,
-        rgba(255, 255, 255, 0.78) 60%,
-        rgba(255, 255, 255, 0.30) 72%,
-        rgba(255, 255, 255, 0) 82%
-      ),
-      url("/images/karuta-hero.jpg");
-
-    background-size: 130% auto;
-    background-position: left center;
-    background-repeat: no-repeat;
-  }
-}
-
-@media (max-width: 480px) {
-  .home-hero {
     background:
       linear-gradient(
         120deg,
@@ -3267,10 +2131,44 @@ body {
         rgba(255, 255, 255, 0) 74%,
         rgba(255, 255, 255, 0) 84%
       ),
-      url("/images/karuta-hero.jpg");
+      var(--hero-image);
 
     background-size: 145% auto;
     background-position: left center;
     background-repeat: no-repeat;
+  }
+
+  /* ヒーローコピー */
+  .home-hero-copy {
+    width: 50%;
+    min-height: 104px;
+    padding: 16px 6px 12px 14px;
+  }
+
+  /* ヒーロー見出し */
+  .home-hero-copy h1 {
+    font-size: 14px;
+  }
+
+  /* ヒーロー説明 */
+  .home-hero-copy p {
+    font-size: 8px;
+  }
+
+  /* ヒーロー上ボタン */
+  .hero-action-row .big-action-button {
+    min-height: 38px;
+    font-size: 10.5px;
+  }
+
+  /* ホーム大会カード幅 */
+  .home-tournament-grid,
+  .tournament-grid {
+    grid-auto-columns: 40%;
+  }
+
+  /* ホーム大会カード画像エリア */
+  .home-tournament-card .home-tournament-image {
+    height: 52px;
   }
 }

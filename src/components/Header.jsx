@@ -34,11 +34,11 @@ export default function Header() {
     <>
       <header className="site-header">
         <button className="site-logo" onClick={() => navigate("/")}>
-          <span className="logo-flower">✿</span>
-          <span>
+        <span className="logo-flower">🍁</span>
+        <span>
             <strong>まにまに</strong>
             <small>大会申込システム</small>
-          </span>
+        </span>
         </button>
 
         <nav className="pc-nav">
