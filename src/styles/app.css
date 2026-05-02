@@ -1793,11 +1793,11 @@ img {
 
     background:
       linear-gradient(
-        90deg,
+        180deg,
         rgba(255, 255, 255, 0.96) 0%,
         rgba(255, 255, 255, 0.92) 46%,
-        rgba(255, 255, 255, 0.78) 60%,
-        rgba(255, 255, 255, 0.30) 72%,
+        rgba(255, 255, 255, 0.18) 60%,
+        rgba(255, 255, 255, 0.0) 72%,
         rgba(255, 255, 255, 0) 82%
       ),
       var(--hero-image);
@@ -2228,10 +2228,10 @@ img {
 
     background:
       linear-gradient(
-        120deg,
-        rgba(255, 255, 255, 0.96) 0%,
-        rgba(255, 255, 255, 0.50) 48%,
-        rgba(255, 255, 255, 0.05) 62%,
+        90deg,
+        rgba(255, 255, 255, 1) 0%,
+        rgba(255, 255, 255, 0.94) 20%,
+        rgba(255, 255, 255, 0.10) 62%,
         rgba(255, 255, 255, 0) 74%,
         rgba(255, 255, 255, 0) 84%
       ),
@@ -2319,5 +2319,472 @@ img {
   .home-tournament-card .outline-detail-button {
     min-height: 30px;
     font-size: 10px;
+  }
+}
+
+/* =========================================================
+   Home UI update
+   - 大会カードを参考画像に近い見た目へ変更
+   - ヒーロー文字を少し大きく、行間を広げる
+   - CTAボタンの文字を少し小さく・太字を弱める
+   - CTAボタンにアイコンを追加
+========================================================= */
+
+
+/* =========================================================
+   01. Hero text
+   「かるたでつながる〜」の文字サイズ・行間・和風フォント調整
+========================================================= */
+
+/* ヒーロー見出し全体 */
+.home-hero-copy h1 {
+  font-size: 30px;
+  line-height: 1.65;
+  letter-spacing: 0.08em;
+  font-weight: 800;
+  font-family:
+    "Yu Mincho",
+    "YuMincho",
+    "Hiragino Mincho ProN",
+    "Hiragino Mincho Pro",
+    "MS Mincho",
+    serif;
+}
+
+/* 「熱い瞬間」だけ赤文字 */
+.home-hero-copy h1 span {
+  color: var(--red);
+}
+
+/* ヒーロー説明文 */
+.home-hero-copy p {
+  font-size: 12px;
+  line-height: 2;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   02. Hero action buttons
+   「大会を探す」「申込状況を確認する」のボタン調整
+   - 文字を2pt程度小さく
+   - 太字を弱める
+   - アイコンを追加
+========================================================= */
+
+/* ヒーロー上の2ボタン共通 */
+.hero-action-row .big-action-button {
+  min-height: 58px;
+  padding: 0 18px;
+  border-radius: 16px;
+  font-size: 13px;
+  line-height: 1.25;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 10px;
+  align-items: center;
+}
+
+/* ボタン内テキスト */
+.hero-action-row .big-action-button span:not(.big-action-arrow):not(.big-action-icon) {
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* 左ボタン：大会を探す */
+.hero-action-row .big-action-button.primary {
+  background: linear-gradient(135deg, #e21b12, #c9160f);
+  color: #fff;
+  border: none;
+  box-shadow: 0 10px 22px rgba(200, 30, 20, 0.24);
+}
+
+/* 右ボタン：申込状況を確認する */
+.hero-action-row .big-action-button.secondary {
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--red-dark);
+  border: 2px solid var(--red);
+  box-shadow: 0 8px 18px rgba(120, 20, 28, 0.1);
+}
+
+/* 既存のアイコンspanは非表示 */
+.hero-action-row .big-action-icon {
+  display: none !important;
+}
+
+/* 「大会を探す」ボタンの虫眼鏡アイコン */
+.hero-action-row .big-action-button.primary::before {
+  content: "⌕";
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  font-size: 30px;
+  font-weight: 300;
+  line-height: 1;
+}
+
+/* 「申込状況を確認する」ボタンのクリップボード風アイコン */
+.hero-action-row .big-action-button.secondary::before {
+  content: "▤";
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--red);
+}
+
+/* 矢印 */
+.hero-action-row .big-action-arrow {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   03. Tournament section title
+   「すべての大会を見る」を少しだけ大きく
+========================================================= */
+
+.section-heading button {
+  font-size: 14px;
+  font-weight: 800;
+}
+
+
+/* =========================================================
+   04. Home tournament cards
+   参考画像の大会カードに近づける
+   - 白いカード
+   - 左上に受付中ラベル
+   - 右上に紅葉の飾り
+   - 大会名、開催日、場所
+   - 下部に丸みのある詳細ボタン
+========================================================= */
+
+/* 横スクロールカード幅：40% → 45% */
+:root {
+  --home-tournament-card-width: 45%;
+}
+
+/* ホーム大会カード一覧 */
+.home-tournament-grid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: var(--home-tournament-card-width);
+  grid-template-columns: none;
+  gap: 14px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0 0 10px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 大会カード本体 */
+.home-tournament-card {
+  position: relative;
+  width: 100%;
+  max-width: none;
+  min-height: 220px;
+  border-radius: 16px;
+  border: 1px solid rgba(190, 40, 34, 0.12);
+  background:
+    radial-gradient(circle at 92% 18%, rgba(220, 80, 40, 0.09), transparent 18%),
+    rgba(255, 255, 255, 0.98);
+  box-shadow: 0 8px 20px rgba(80, 20, 10, 0.08);
+  overflow: hidden;
+  scroll-snap-align: start;
+}
+
+/* 右上の紅葉飾り */
+.home-tournament-card::after {
+  content: "🍁";
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  color: rgba(210, 60, 35, 0.45);
+  font-size: 22px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* 画像エリアは使わない */
+.home-tournament-image {
+  display: none;
+}
+
+/* カード本文 */
+.home-tournament-body {
+  height: 100%;
+  padding: 18px 18px 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ラベル行 */
+.tournament-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 18px;
+}
+
+/* 左上の受付中ラベル */
+.home-tournament-card .tournament-status-label {
+  position: static;
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  min-height: 30px;
+  padding: 5px 12px;
+  border-radius: 7px;
+  background: linear-gradient(135deg, #e42114, #c9150f);
+  color: #fff;
+  font-size: 13px;
+  line-height: 1;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+/* 大会名 */
+.home-tournament-card .home-tournament-body h3 {
+  margin: 0 0 18px;
+  padding-right: 26px;
+  color: #111;
+  font-size: 22px;
+  line-height: 1.35;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+/* 開催日・場所 */
+.home-tournament-card .home-tournament-body p {
+  margin: 7px 0;
+  color: #222;
+  font-size: 15px;
+  line-height: 1.45;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+
+/* 「開催日」「場所」のラベル */
+.home-tournament-card .home-tournament-body p span {
+  min-width: 46px;
+  margin-right: 8px;
+  color: #111;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+/* 詳細を見るボタン */
+.home-tournament-card .outline-detail-button {
+  width: 100%;
+  min-height: 44px;
+  margin-top: auto;
+  padding: 0 16px;
+  border: 2px solid var(--red);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--red);
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+/* 詳細を見るボタン hover */
+.home-tournament-card .outline-detail-button:hover {
+  background: var(--red-soft);
+}
+
+/* 詳細ボタン矢印 */
+.home-tournament-card .outline-detail-button span {
+  margin-left: 10px;
+  color: var(--red);
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+
+/* =========================================================
+   05. Smartphone adjustment
+   スマホ表示時のサイズ調整
+========================================================= */
+
+@media (max-width: 768px) {
+  /* ヒーロー見出し */
+  .home-hero-copy h1 {
+    font-size: 20px;
+    line-height: 1.65;
+  }
+
+  /* ヒーロー説明文 */
+  .home-hero-copy p {
+    font-size: 10px;
+    line-height: 1.9;
+  }
+
+  /* ヒーロー上ボタン */
+  .hero-action-row .big-action-button {
+    min-height: 56px;
+    padding: 0 12px;
+    font-size: 10px;
+    font-weight: 600;
+    border-radius: 13px;
+    gap: 7px;
+  }
+
+  /* 大会を探すアイコン */
+  .hero-action-row .big-action-button.primary::before {
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
+  }
+
+  /* 申込状況アイコン */
+  .hero-action-row .big-action-button.secondary::before {
+    width: 22px;
+    height: 22px;
+    font-size: 19px;
+  }
+
+  /* CTA矢印 */
+  .hero-action-row .big-action-arrow {
+    font-size: 20px;
+  }
+
+  /* セクション右ボタン */
+  .section-heading button {
+    font-size: 13px;
+  }
+
+  /* 大会カード幅 */
+  .home-tournament-grid {
+    grid-auto-columns: 45%;
+    gap: 10px;
+    padding-bottom: 6px;
+  }
+
+  /* 大会カード */
+  .home-tournament-card {
+    min-height: 172px;
+    border-radius: 14px;
+  }
+
+  /* 紅葉飾り */
+  .home-tournament-card::after {
+    top: 14px;
+    right: 14px;
+    font-size: 18px;
+  }
+
+  /* カード本文 */
+  .home-tournament-body {
+    padding: 12px 12px 12px;
+  }
+
+  /* ラベル行 */
+  .tournament-card-top {
+    margin-bottom: 12px;
+  }
+
+  /* 受付中ラベル */
+  .home-tournament-card .tournament-status-label {
+    min-height: 24px;
+    padding: 4px 9px;
+    font-size: 10px;
+  }
+
+  /* 大会名 */
+  .home-tournament-card .home-tournament-body h3 {
+    margin-bottom: 10px;
+    padding-right: 20px;
+    font-size: 15px;
+    line-height: 1.3;
+  }
+
+  /* 開催日・場所 */
+  .home-tournament-card .home-tournament-body p {
+    margin: 4px 0;
+    font-size: 11px;
+    line-height: 1.35;
+  }
+
+  /* 開催日・場所ラベル */
+  .home-tournament-card .home-tournament-body p span {
+    min-width: 38px;
+    margin-right: 5px;
+    font-size: 10px;
+  }
+
+  /* 詳細を見る */
+  .home-tournament-card .outline-detail-button {
+    min-height: 34px;
+    padding: 0 10px;
+    font-size: 12px;
+    gap: 8px;
+  }
+
+  .home-tournament-card .outline-detail-button span {
+    font-size: 16px;
+  }
+}
+
+
+@media (max-width: 480px) {
+  /* ヒーロー見出し */
+  .home-hero-copy h1 {
+    font-size: 18px;
+  }
+
+  /* ヒーロー説明文 */
+  .home-hero-copy p {
+    font-size: 9px;
+  }
+
+  /* ヒーロー上ボタン */
+  .hero-action-row .big-action-button {
+    min-height: 52px;
+    font-size: 9.5px;
+  }
+
+  /* 大会カード幅 */
+  .home-tournament-grid {
+    grid-auto-columns: 45%;
+  }
+
+  /* 大会カード */
+  .home-tournament-card {
+    min-height: 166px;
+  }
+
+  /* 大会名 */
+  .home-tournament-card .home-tournament-body h3 {
+    font-size: 14px;
+  }
+
+  /* 開催日・場所 */
+  .home-tournament-card .home-tournament-body p {
+    font-size: 10px;
+  }
+
+  /* 詳細を見る */
+  .home-tournament-card .outline-detail-button {
+    min-height: 32px;
+    font-size: 11px;
   }
 }
