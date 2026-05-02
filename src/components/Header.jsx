@@ -33,8 +33,10 @@ export default function Header() {
   return (
     <>
       <header className="site-header">
+
+        
         <button className="site-logo" onClick={() => navigate("/")}>
-        <span className="logo-flower">🍁</span>
+        <span className="logo-image" aria-hidden="true" />
         <span>
             <strong>まにまに</strong>
             <small>大会申込システム</small>

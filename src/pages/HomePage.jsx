@@ -154,7 +154,7 @@ export default function HomePage() {
         <div className="section-heading">
           <h2>
             <span>🏆</span>
-            開催予定の大会
+            受付中の大会
           </h2>
           <button onClick={() => navigate("/tournaments")}>
             すべての大会を見る
@@ -169,34 +169,37 @@ export default function HomePage() {
         ) : (
           <div className="home-tournament-grid">
             {tournaments.map((tournament) => (
-              <article className="home-tournament-card" key={tournament.id}>
-                <div className="home-tournament-image">
-                  <span className="tournament-status-label">
-                    {STATUS_LABEL[tournament.status] || tournament.status}
-                  </span>
-                </div>
 
+
+              <article className="home-tournament-card" key={tournament.id}>
                 <div className="home-tournament-body">
+                  <div className="tournament-card-top">
+                    <span className="tournament-status-label">
+                      受付中
+                    </span>
+                  </div>
+
                   <h3>{tournament.title}</h3>
 
                   <p>
-                    <span>▣</span>
+                    <span>開催日</span>
                     {formatDate(tournament.event_date)}
                   </p>
+
                   <p>
-                    <span>●</span>
+                    <span>場所</span>
                     {tournament.venue || "会場未設定"}
                   </p>
 
-                  <button
-                    className="outline-detail-button"
-                    onClick={() => navigate(`/tournaments/${tournament.id}`)}
-                  >
+                  <button className="outline-detail-button">
                     詳細を見る
                     <span>›</span>
                   </button>
                 </div>
               </article>
+
+
+
             ))}
           </div>
         )}
@@ -297,7 +300,7 @@ export default function HomePage() {
         <div className="footer-main">
           <div>
             <div className="footer-logo">
-              <span className="footer-logo-mark">あ</span>
+              <span className="footer-logo-image" aria-hidden="true" />
               <div>
                 <strong>まにまに</strong>
                 <small>Karuta Tournament System</small>

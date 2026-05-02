@@ -2224,16 +2224,16 @@ img {
   /* ヒーロー */
   .home-hero {
     min-height: 178px;
-    padding-bottom: 52px;
+    padding-bottom: 42px;
 
     background:
       linear-gradient(
         90deg,
         rgba(255, 255, 255, 1) 0%,
-        rgba(255, 255, 255, 0.94) 20%,
-        rgba(255, 255, 255, 0.10) 62%,
-        rgba(255, 255, 255, 0) 74%,
-        rgba(255, 255, 255, 0) 84%
+        rgba(255, 255, 255, 1) 20%,
+        rgba(255, 255, 255, 0.95) 25%,
+        rgba(255, 255, 255, 0.5) 38%,
+        rgba(255, 255, 255, 0.1) 50%
       ),
       var(--hero-image);
 
@@ -2338,7 +2338,7 @@ img {
 
 /* ヒーロー見出し全体 */
 .home-hero-copy h1 {
-  font-size: 30px;
+  font-size: 36px;
   line-height: 1.65;
   letter-spacing: 0.08em;
   font-weight: 800;
@@ -2748,7 +2748,7 @@ img {
 @media (max-width: 480px) {
   /* ヒーロー見出し */
   .home-hero-copy h1 {
-    font-size: 18px;
+    font-size: 20px;
   }
 
   /* ヒーロー説明文 */
@@ -2786,5 +2786,1034 @@ img {
   .home-tournament-card .outline-detail-button {
     min-height: 32px;
     font-size: 11px;
+  }
+}
+
+/* =========================================================
+   Home Tournament Card readability update
+   大会カード内の情報を見やすく整理する
+   - 受付中ラベルを小さめに整理
+   - 大会名を読みやすく
+   - 開催日・場所を2段の情報ブロック化
+   - 詳細を見るボタンを目立つUIに変更
+========================================================= */
+
+/* 大会カード本体 */
+.home-tournament-card {
+  min-height: 178px;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1px solid rgba(200, 30, 47, 0.14);
+  box-shadow: 0 8px 18px rgba(80, 20, 10, 0.08);
+}
+
+/* カード内の余白と縦並び */
+.home-tournament-body {
+  height: 100%;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 受付中ラベルの行 */
+.tournament-card-top {
+  margin-bottom: 8px;
+}
+
+/* 受付中（〇/〇まで） */
+.home-tournament-card .tournament-status-label {
+  position: static;
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 22px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #d91f2f;
+  color: #fff;
+  font-size: 10px;
+  line-height: 1;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* 大会名 */
+.home-tournament-card .home-tournament-body h3 {
+  margin: 0 0 10px;
+  color: #111;
+  font-size: 15px;
+  line-height: 1.35;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+/* 開催日・場所の情報行 */
+.home-tournament-card .home-tournament-body p {
+  margin: 0 0 6px;
+  padding: 7px 8px;
+  border-radius: 10px;
+  background: #fff7f7;
+  color: #222;
+  font-size: 11px;
+  line-height: 1.35;
+  font-weight: 600;
+
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  align-items: center;
+  column-gap: 6px;
+}
+
+/* 「開催日」「場所」のラベル */
+.home-tournament-card .home-tournament-body p span {
+  min-width: auto;
+  margin-right: 0;
+  color: #9d151c;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+/* 詳細を見るボタン */
+.home-tournament-card .outline-detail-button {
+  width: 100%;
+  min-height: 34px;
+  margin-top: auto;
+  padding: 0 12px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #d91f2f, #b91524);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  box-shadow: 0 5px 12px rgba(200, 30, 47, 0.22);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* ボタンhover */
+.home-tournament-card .outline-detail-button:hover {
+  background: linear-gradient(135deg, #b91524, #8f1421);
+}
+
+/* 詳細を見るの矢印 */
+.home-tournament-card .outline-detail-button span {
+  margin-left: 4px;
+  color: #fff;
+  font-size: 16px;
+  line-height: 1;
+  font-weight: 800;
+}
+
+/* スマホ表示時の微調整 */
+@media (max-width: 768px) {
+  .home-tournament-card {
+    min-height: 160px;
+  }
+
+  .home-tournament-body {
+    padding: 10px;
+  }
+
+  .tournament-card-top {
+    margin-bottom: 7px;
+  }
+
+  .home-tournament-card .tournament-status-label {
+    min-height: 20px;
+    padding: 3px 7px;
+    font-size: 9px;
+  }
+
+  .home-tournament-card .home-tournament-body h3 {
+    margin-bottom: 8px;
+    font-size: 13px;
+    line-height: 1.32;
+  }
+
+  .home-tournament-card .home-tournament-body p {
+    margin-bottom: 5px;
+    padding: 6px 7px;
+    grid-template-columns: 36px 1fr;
+    column-gap: 5px;
+    font-size: 10px;
+  }
+
+  .home-tournament-card .home-tournament-body p span {
+    font-size: 9px;
+  }
+
+  .home-tournament-card .outline-detail-button {
+    min-height: 30px;
+    font-size: 10.5px;
+  }
+
+  .home-tournament-card .outline-detail-button span {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-tournament-card {
+    min-height: 156px;
+  }
+
+  .home-tournament-card .home-tournament-body h3 {
+    font-size: 12px;
+  }
+
+  .home-tournament-card .home-tournament-body p {
+    font-size: 9.5px;
+  }
+
+  .home-tournament-card .outline-detail-button {
+    min-height: 29px;
+    font-size: 10px;
+  }
+}
+
+/* =========================================================
+   Home Tournament Card final adjustment
+   大会カード内のUIを見やすく調整する
+   - 文字をそこそこ大きくする
+   - 大会名の上にステータス「受付中」を表示する
+   - 「詳細を見る」は白背景＋赤文字にする
+   - 開催日・場所は左寄せにする
+========================================================= */
+
+/* 大会カード本体 */
+.home-tournament-card {
+  min-height: 178px;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1px solid rgba(200, 30, 47, 0.16);
+  box-shadow: 0 8px 18px rgba(80, 20, 10, 0.08);
+}
+
+/* カード内を縦並びにする */
+.home-tournament-body {
+  height: 100%;
+  padding: 13px 13px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* 大会名の上に表示するステータス行 */
+.tournament-card-top {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+/* 受付中ラベル */
+.home-tournament-card .tournament-status-label {
+  position: static;
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  min-height: 24px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: #d91f2f;
+  color: #fff;
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+/* 大会名 */
+.home-tournament-card .home-tournament-body h3 {
+  margin: 0 0 10px;
+  color: #111;
+  font-size: 16px;
+  line-height: 1.35;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  text-align: left;
+}
+
+/* 開催日・場所の行 */
+.home-tournament-card .home-tournament-body p {
+  margin: 0 0 6px;
+  padding: 0;
+  background: transparent;
+  color: #222;
+  font-size: 12px;
+  line-height: 1.45;
+  font-weight: 700;
+  text-align: left;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+/* 「開催日」「場所」ラベル */
+.home-tournament-card .home-tournament-body p span {
+  display: inline-block;
+  min-width: 44px;
+  margin-right: 8px;
+  color: var(--red-dark);
+  font-size: 11px;
+  font-weight: 900;
+  text-align: left;
+  flex-shrink: 0;
+}
+
+/* 詳細を見るボタン：白背景＋赤字 */
+.home-tournament-card .outline-detail-button {
+  width: 100%;
+  min-height: 36px;
+  margin-top: auto;
+  padding: 0 12px;
+  border: 1px solid var(--red);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--red);
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  box-shadow: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* 詳細を見るボタン hover */
+.home-tournament-card .outline-detail-button:hover {
+  background: var(--red-soft);
+}
+
+/* 詳細を見るの矢印 */
+.home-tournament-card .outline-detail-button span {
+  margin-left: 4px;
+  color: var(--red);
+  font-size: 18px;
+  line-height: 1;
+  font-weight: 900;
+}
+
+/* スマホ表示時 */
+@media (max-width: 768px) {
+  .home-tournament-card {
+    min-height: 162px;
+  }
+
+  .home-tournament-body {
+    padding: 11px 11px 12px;
+  }
+
+  .tournament-card-top {
+    margin-bottom: 12px;
+  }
+
+  .home-tournament-card .tournament-status-label {
+    min-height: 22px;
+    padding: 4px 8px;
+    font-size: 10px;
+  }
+
+  .home-tournament-card .home-tournament-body h3 {
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 1.32;
+  }
+
+  .home-tournament-card .home-tournament-body p {
+    margin-bottom: 5px;
+    font-size: 11px;
+    line-height: 1.35;
+  }
+
+  .home-tournament-card .home-tournament-body p span {
+    min-width: 38px;
+    margin-right: 6px;
+    font-size: 10px;
+  }
+
+  .home-tournament-card .outline-detail-button {
+    min-height: 32px;
+    font-size: 11px;
+  }
+
+  .home-tournament-card .outline-detail-button span {
+    font-size: 16px;
+  }
+}
+
+/* 小さいスマホ表示時 */
+@media (max-width: 480px) {
+  .home-tournament-card {
+    min-height: 156px;
+  }
+
+  .home-tournament-card .home-tournament-body h3 {
+    font-size: 18px;
+  }
+
+  .home-tournament-card .home-tournament-body p {
+    font-size: 11px;
+  }
+
+  .home-tournament-card .outline-detail-button {
+    min-height: 30px;
+    font-size: 10.5px;
+  }
+}
+
+/* =========================================================
+   Hero bottom fade
+   ヒーロー写真の下側を背景になじませるグラデーション
+========================================================= */
+
+/* ヒーロー全体を基準にして、下側のグラデーションを重ねる */
+.home-hero {
+  position: relative;
+  overflow: hidden;
+}
+
+/* 
+   ヒーロー写真の下側だけに白〜薄赤のグラデーションを重ねる。
+   これにより、写真エリアとページ背景の境目が自然になる。
+*/
+.home-hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  /* グラデーションをかける高さ */
+  height: 72px;
+
+  /* 上は透明、下に行くほどページ背景色に近づける */
+  background: linear-gradient(
+    180deg,
+    rgba(255, 248, 245, 0) 0%,
+    rgba(255, 248, 245, 0.55) 55%,
+    rgba(255, 248, 245, 1) 100%
+  );
+
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ヒーロー内の文字とボタンはグラデーションより前面に出す */
+.home-hero-copy,
+.hero-action-row {
+  position: relative;
+  z-index: 2;
+}
+
+/* ヒーロー下部に重なっているボタンは、さらに前面にする */
+.hero-action-row {
+  z-index: 4;
+}
+
+/* スマホでは少し低めのグラデーションにする */
+@media (max-width: 768px) {
+  .home-hero::after {
+    height: 56px;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 248, 245, 0) 0%,
+      rgba(255, 248, 245, 0.9) 93%,
+      rgba(255, 248, 243, 1) 100%
+    );
+  }
+}
+
+@media (max-width: 480px) {
+  .home-hero::after {
+    height: 48px;
+  }
+}
+
+/* =========================================================
+   Hero copy position only
+   写真はそのまま、ヒーロー内の文字だけを少し下に動かす
+========================================================= */
+
+/* PC・共通：文字だけ下へ移動 */
+.home-hero-copy {
+  transform: translateY(12px);
+}
+
+/* スマホ：少し控えめに下げる */
+@media (max-width: 768px) {
+  .home-hero-copy {
+    transform: translateY(10px);
+  }
+}
+
+/* 小さいスマホ：さらに控えめ */
+@media (max-width: 480px) {
+  .home-hero-copy {
+    transform: translateY(16px);
+  }
+}
+
+
+
+/* =========================================================
+   02. Hamburger menu
+   ハンバーガーメニューをやや小さくする
+========================================================= */
+
+/* ハンバーガーボタン全体を少し小さくする */
+.hamburger-button {
+  width: 32px;
+  height: 32px;
+  gap: 5px;
+}
+
+/* ハンバーガーの線を短く・細くする */
+.hamburger-button span {
+  width: 22px;
+  height: 2px;
+}
+
+/* スマホ表示時はさらに少しだけ小さく */
+@media (max-width: 768px) {
+  .hamburger-button {
+    width: 30px;
+    height: 30px;
+    gap: 5px;
+  }
+
+  .hamburger-button span {
+    width: 21px;
+    height: 2px;
+  }
+
+  .hamburger-button::after {
+    font-size: 10px;
+    bottom: -13px;
+  }
+}
+
+
+/* =========================================================
+   03. Hero action button icons
+   「大会を探す」「申込状況を確認する」にアイコンを付ける
+========================================================= */
+
+/* ヒーロー上のボタンを、アイコン・文字・矢印の3列にする */
+.hero-action-row .big-action-button {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 既存の big-action-icon は使わず、CSS側でアイコンを出す */
+.hero-action-row .big-action-icon {
+  display: none !important;
+}
+
+/* 「大会を探す」のアイコン */
+.hero-action-row .big-action-button.primary::before {
+  content: "⌕";
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  font-size: 24px;
+  line-height: 1;
+  font-weight: 400;
+  color: #fff;
+}
+
+/* 「申込状況を確認する」のアイコン */
+.hero-action-row .big-action-button.secondary::before {
+  content: "▤";
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 400;
+  color: var(--red);
+}
+
+/* ボタン文字をアイコン付きでも自然に見せる */
+.hero-action-row .big-action-button span:not(.big-action-arrow):not(.big-action-icon) {
+  text-align: left;
+}
+
+/* スマホ時のアイコンサイズ */
+@media (max-width: 768px) {
+  .hero-action-row .big-action-button {
+    gap: 6px;
+  }
+
+  .hero-action-row .big-action-button.primary::before {
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+  }
+
+  .hero-action-row .big-action-button.secondary::before {
+    width: 19px;
+    height: 19px;
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-action-row .big-action-button.primary::before {
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+  }
+
+  .hero-action-row .big-action-button.secondary::before {
+    width: 18px;
+    height: 18px;
+    font-size: 16px;
+  }
+}
+
+/* =========================================================
+   Logo image and mobile footer update
+   ヘッダー・フッターのロゴを public/images/logo.jpg に変更し、
+   スマホ版フッターを見やすく整える
+========================================================= */
+
+
+/* =========================================================
+   01. Header logo image
+   ヘッダーの「まにまに」アイコンを画像にする
+========================================================= */
+
+/* 既存の丸い文字ロゴは非表示 */
+.logo-flower {
+  display: none;
+}
+
+/* ヘッダー用画像ロゴ */
+.logo-image {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background-image: url("images/logo.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0 5px 14px rgba(190, 35, 22, 0.18);
+}
+
+/* ヘッダーのロゴ全体 */
+.site-logo {
+  gap: 10px;
+}
+
+
+
+/* ヘッダーの「まにまに」文字 */
+.site-logo strong {
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: 0.08em;
+}
+
+
+/* =========================================================
+   02. Footer logo image
+   フッターのロゴもヘッダーと同じ画像にする
+========================================================= */
+
+/* 既存の文字ロゴが残っている場合は非表示 */
+.footer-logo-mark {
+  display: none;
+}
+
+/* フッター用画像ロゴ */
+.footer-logo-image {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background-image: url("/images/logo.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0 5px 14px rgba(60, 0, 0, 0.22);
+}
+
+/* フッターロゴの横並び */
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+
+/* =========================================================
+   03. Hamburger menu size
+   ハンバーガーメニューをやや小さくする
+========================================================= */
+
+.hamburger-button {
+  width: 32px;
+  height: 32px;
+  gap: 5px;
+}
+
+.hamburger-button span {
+  width: 22px;
+  height: 2px;
+}
+
+
+/* =========================================================
+   04. Hero action icons
+   「大会を探す」「申込状況を確認する」にアイコンを付ける
+========================================================= */
+
+/* ボタンをアイコン・文字・矢印の3列にする */
+.hero-action-row .big-action-button {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 既存のアイコンspanは使わない */
+.hero-action-row .big-action-icon {
+  display: none !important;
+}
+
+/* 「大会を探す」の検索アイコン */
+.hero-action-row .big-action-button.primary::before {
+  content: "⌕";
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  font-size: 22px;
+  line-height: 1;
+  font-weight: 400;
+  color: #fff;
+}
+
+/* 「申込状況を確認する」の一覧アイコン */
+.hero-action-row .big-action-button.secondary::before {
+  content: "▤";
+  display: inline-grid;
+  place-items: center;
+  width: 21px;
+  height: 21px;
+  font-size: 18px;
+  line-height: 1;
+  font-weight: 400;
+  color: var(--red);
+}
+
+/* アイコンが入っても文字が詰まらないようにする */
+.hero-action-row .big-action-button span:not(.big-action-arrow):not(.big-action-icon) {
+  text-align: left;
+}
+
+
+/* =========================================================
+   05. Mobile footer
+   スマホで見やすいフッターにする
+========================================================= */
+
+@media (max-width: 768px) {
+  /* ヘッダー画像ロゴ */
+  .logo-image {
+    width: 34px;
+    height: 34px;
+  }
+
+  /* ヘッダーの「まにまに」文字 */
+  .site-logo strong {
+    font-size: 18px;
+    letter-spacing: 0.08em;
+  }
+
+  /* ハンバーガーをスマホでさらに少し小さく */
+  .hamburger-button {
+    width: 30px;
+    height: 30px;
+    gap: 5px;
+  }
+
+  .hamburger-button span {
+    width: 21px;
+    height: 2px;
+  }
+
+  .hamburger-button::after {
+    font-size: 10px;
+    bottom: -13px;
+  }
+
+  /* フッター全体 */
+  .site-footer {
+    margin: 36px -12px -40px;
+    padding: 28px 18px 22px;
+    background:
+      linear-gradient(135deg, #9d151c 0%, #6f0d13 100%);
+    color: #fff;
+  }
+
+  /* フッターを縦並びにする */
+  .footer-main {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  /* フッターのロゴエリア */
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* フッター画像ロゴ */
+  .footer-logo-image {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* フッターの「まにまに」 */
+  .footer-logo strong {
+    font-size: 22px;
+    line-height: 1.1;
+    letter-spacing: 0.08em;
+  }
+
+  /* フッターのサブタイトル */
+  .footer-logo small {
+    display: block;
+    margin-top: 3px;
+    color: #ffe4e8;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  /* フッター説明文 */
+  .footer-description {
+    margin: 12px 0 0;
+    color: #ffe4e8;
+    font-size: 12px;
+    line-height: 1.8;
+  }
+
+  /* フッターリンク群をカード風にする */
+  .footer-links {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  /* 各リンクグループ */
+  .footer-links > div {
+    padding: 14px 14px 12px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  /* リンクグループ見出し */
+  .footer-links h3 {
+    margin: 0 0 10px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+  }
+
+  /* リンクボタン */
+  .footer-links button {
+    display: block;
+    width: 100%;
+    margin-top: 8px;
+    padding: 8px 0;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    background: transparent;
+    color: #ffe4e8;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .footer-links button:last-child {
+    border-bottom: none;
+  }
+
+  .footer-links button:hover {
+    color: #fff;
+  }
+
+  /* コピーライト */
+  .footer-bottom {
+    margin-top: 22px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.22);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: #ffd6dc;
+    font-size: 10px;
+    line-height: 1.6;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-image {
+    width: 32px;
+    height: 32px;
+  }
+
+  .site-logo strong {
+    font-size: 17px;
+  }
+
+  .footer-logo-image {
+    width: 38px;
+    height: 38px;
+  }
+
+  .footer-logo strong {
+    font-size: 21px;
+  }
+
+  .footer-description {
+    font-size: 11px;
+  }
+
+  .footer-links h3 {
+    font-size: 12px;
+  }
+
+  .footer-links button {
+    font-size: 11px;
+  }
+}
+
+.logo-image {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background-image: url("/images/logo.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0 5px 14px rgba(190, 35, 22, 0.18);
+}
+
+.footer-logo-image {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background-image: url("/images/logo.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0 5px 14px rgba(60, 0, 0, 0.22);
+}
+
+/* =========================================================
+   Header logo text spacing
+   「まにまに」と「大会申込システム」の間を詰める
+========================================================= */
+
+/* 「まにまに」を少し下げる */
+.site-logo strong {
+  transform: translateY(1px);
+}
+
+/* 「大会申込システム」を上に近づける */
+.site-logo small {
+  margin-top: 0;
+  line-height: 1;
+}
+
+/* スマホでは少しだけ控えめに下げる */
+@media (max-width: 768px) {
+  .site-logo strong {
+    transform: translateY(0px);
+  }
+
+  .site-logo small {
+    margin-top: 0;
+    line-height: 1;
+  }
+}
+/* =========================================================
+   Header subtitle position
+   「大会申込システム」を少し下に配置する
+========================================================= */
+
+/* ヘッダーの「大会申込システム」だけ少し下げる */
+.site-logo small {
+  display: block;
+  transform: translateY(5px);
+  margin-top: 0;
+  line-height: 1;
+}
+
+/* スマホでは少し控えめに下げる */
+@media (max-width: 768px) {
+  .site-logo small {
+    transform: translateY(5px);
+  }
+}
+
+/* =========================================================
+   Hamburger position adjustment
+   ハンバーガーメニューと「メニュー」文字を少し上に上げる
+========================================================= */
+
+/* ハンバーガーボタン全体を少し上に移動 */
+.hamburger-button {
+  transform: translateY(-3px);
+}
+
+/* 「メニュー」文字の位置も少し上に調整 */
+.hamburger-button::after {
+  bottom: -10px;
+}
+
+/* スマホではさらに自然に見えるよう微調整 */
+@media (max-width: 768px) {
+  .hamburger-button {
+    transform: translateY(-5px);
+  }
+
+  .hamburger-button::after {
+    bottom: -10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hamburger-button {
+    transform: translateY(-4px);
+  }
+
+  .hamburger-button::after {
+    bottom: -9px;
   }
 }
