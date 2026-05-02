@@ -80,6 +80,17 @@ export default function HomePage() {
     });
   };
 
+  const formatShortDate = (value) => {
+    if (!value) return "-";
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return value;
+
+    return date.toLocaleDateString("ja-JP", {
+      month: "numeric",
+      day: "numeric",
+    });
+  };
+
   const formatNoticeDate = (value) => {
     if (!value) return "-";
     const date = new Date(value);
@@ -99,7 +110,7 @@ export default function HomePage() {
           <h1>
             かるたでつながる、
             <br />
-            熱い瞬間を。
+            <span>熱い瞬間</span>を。
           </h1>
           <p>
             大会情報の確認から申し込みまで、
