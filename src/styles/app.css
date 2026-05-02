@@ -2172,3 +2172,15 @@ img {
     height: 52px;
   }
 }
+
+@media (max-width: 480px) {
+  .big-action-button {
+    min-height: 54px;
+    padding: 0 10px;
+    font-size: 13px;
+  }
+
+  .big-action-arrow {
+    font-size: 18px;
+  }
+}
