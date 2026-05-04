@@ -262,7 +262,10 @@ export default function HomePage() {
         )}
       </section>
 
-      <section className="content-section">
+
+
+
+      <section className="content-section external-section">
         <div className="section-heading">
           <h2>
             <span>🔗</span>
@@ -277,8 +280,28 @@ export default function HomePage() {
             rel="noreferrer"
             className="external-link-button"
           >
-            <span>全日本かるた協会</span>
-            <small>公式情報を確認する</small>
+            <span className="external-link-icon-wrap">
+              <img
+                src="/images/outlink_01.png"
+                alt="全日本かるた協会"
+                className="external-link-icon-image"
+              />
+            </span>
+
+            <span className="external-link-main">
+              <span className="external-link-title">全日本かるた協会</span>
+              <small className="external-link-sub">
+                公式情報を確認する
+              </small>
+            </span>
+
+            <span className="external-link-arrow" aria-hidden="true">
+              <img
+                src="/images/outlink_ex.png"
+                alt=""
+                className="external-link-arrow-image"
+              />
+            </span>
           </a>
 
           <a
@@ -287,8 +310,28 @@ export default function HomePage() {
             rel="noreferrer"
             className="external-link-button"
           >
-            <span>大会情報</span>
-            <small>競技会の情報を見る</small>
+            <span className="external-link-icon-wrap">
+              <img
+                src="/images/outlink_02.png"
+                alt="大会情報"
+                className="external-link-icon-image"
+              />
+            </span>
+
+            <span className="external-link-main">
+              <span className="external-link-title">大会情報</span>
+              <small className="external-link-sub">
+                競技会の情報を見る
+              </small>
+            </span>
+
+            <span className="external-link-arrow" aria-hidden="true">
+              <img
+                src="/images/outlink_ex.png"
+                alt=""
+                className="external-link-arrow-image"
+              />
+            </span>
           </a>
 
           <a
@@ -297,8 +340,28 @@ export default function HomePage() {
             rel="noreferrer"
             className="external-link-button"
           >
-            <span>競技規程</span>
-            <small>ルールを確認する</small>
+            <span className="external-link-icon-wrap">
+              <img
+                src="/images/outlink_03.png"
+                alt="競技かるたについて"
+                className="external-link-icon-image"
+              />
+            </span>
+
+            <span className="external-link-main">
+              <span className="external-link-title">競技かるたについて</span>
+              <small className="external-link-sub">
+                ルールや魅力を知る
+              </small>
+            </span>
+
+            <span className="external-link-arrow" aria-hidden="true">
+              <img
+                src="/images/outlink_ex.png"
+                alt=""
+                className="external-link-arrow-image"
+              />
+            </span>
           </a>
 
           <a
@@ -307,11 +370,34 @@ export default function HomePage() {
             rel="noreferrer"
             className="external-link-button"
           >
-            <span>競技かるたを知る</span>
-            <small>はじめての方向け</small>
+            <span className="external-link-icon-wrap">
+              <img
+                src="/images/outlink_04.png"
+                alt="かるたをはじめるには"
+                className="external-link-icon-image"
+              />
+            </span>
+
+            <span className="external-link-main">
+              <span className="external-link-title">かるたをはじめる</span>
+              <small className="external-link-sub">
+                初心者向けガイドを見る
+              </small>
+            </span>
+
+            <span className="external-link-arrow" aria-hidden="true">
+              <img
+                src="/images/outlink_ex.png"
+                alt=""
+                className="external-link-arrow-image"
+              />
+            </span>
           </a>
         </div>
       </section>
+
+
+
 
       <footer className="site-footer">
         <div className="footer-main">
