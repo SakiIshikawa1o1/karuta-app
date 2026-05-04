@@ -349,7 +349,7 @@ export default function HomePage() {
             </span>
 
             <span className="external-link-main">
-              <span className="external-link-title">競技かるたについて</span>
+              <span className="external-link-title">競技かるたとは</span>
               <small className="external-link-sub">
                 ルールや魅力を知る
               </small>

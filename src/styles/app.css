@@ -809,6 +809,7 @@ img {
   font-size: 16px;
   line-height: 1;
   font-weight: 700;
+  transform: translateY(-2px);
 }
 
 
@@ -1945,6 +1946,7 @@ img {
 
   .home-tournament-card .outline-detail-button span {
     font-size: 14px;
+    transform: translateY(-2px);
   }
 
   .tournament-grid {
@@ -5950,7 +5952,7 @@ img {
   }
 
   .tournament-list-actions button span {
-    font-size: 13px;
+    font-size: 15px;
   }
 
   .tournament-search-page .site-footer {
@@ -6008,7 +6010,7 @@ img {
     width: 54px;
     min-width: 54px;
     min-height: 36px;
-    font-size: 10px;
+    font-size: 13px;
   }
 }
 
@@ -6245,5 +6247,1405 @@ img {
 
   .month-tab span {
     font-size: 10px;
+  }
+}
+
+/* =========================================================
+   Tournament detail button text size
+   詳細ボタンの文字を大きくする
+========================================================= */
+
+.tournament-list-actions button {
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.tournament-list-actions button span {
+  font-size: 16px;
+}
+
+/* スマホ */
+@media (max-width: 768px) {
+  .tournament-list-actions button {
+    font-size: 12.5px;
+  }
+
+  .tournament-list-actions button span {
+    font-size: 15px;
+  }
+}
+
+/* 小さいスマホ */
+@media (max-width: 480px) {
+  .tournament-list-actions button {
+    font-size: 12px;
+  }
+
+  .tournament-list-actions button span {
+    font-size: 14px;
+  }
+}
+
+/* 詳細ボタンの「＞」を大きくする */
+.tournament-list-actions button span {
+  margin-left: 5px;
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 900;
+}
+
+/* スマホ */
+@media (max-width: 768px) {
+  .tournament-list-actions button span {
+    font-size: 19px;
+  }
+}
+
+/* 小さいスマホ */
+@media (max-width: 480px) {
+  .tournament-list-actions button span {
+    font-size: 18px;
+  }
+}
+
+/* =========================================================
+   Detail button horizontal layout
+   「詳細」と「＞」を横並びにする
+========================================================= */
+
+.tournament-list-actions button {
+  width: 66px;
+  min-width: 66px;
+
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  justify-content: center;
+
+  gap: 4px;
+  white-space: nowrap;
+
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.tournament-list-actions button span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-left: 0;
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 900;
+}
+
+/* スマホ */
+@media (max-width: 768px) {
+  .tournament-list-actions button {
+    width: 64px;
+    min-width: 64px;
+    font-size: 12.5px;
+  }
+
+  .tournament-list-actions button span {
+    font-size: 19px;
+  }
+}
+
+/* 小さいスマホ */
+@media (max-width: 480px) {
+  .tournament-list-actions button {
+    width: 62px;
+    min-width: 62px;
+    font-size: 12px;
+  }
+
+  .tournament-list-actions button span {
+    font-size: 18px;
+  }
+}
+
+.tournament-list-actions button {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.tournament-list-actions button span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0;
+  line-height: 1;
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+   Tournament Detail Page
+   添付UI風：画像ヒーロー + 白カード + タブ + 下部固定CTA
+========================================================= */
+
+.tournament-detail-page {
+  position: relative;
+  max-width: 520px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 0 16px;
+  background:
+    radial-gradient(circle at 0% 32%, rgba(220, 80, 40, 0.08), transparent 18%),
+    linear-gradient(180deg, #fffdf9 0%, #fff8f3 100%);
+  color: #111;
+}
+
+.tournament-detail-loading {
+  margin-top: 24px;
+  padding: 20px;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(80, 20, 10, 0.08);
+  font-weight: 800;
+}
+
+.tournament-detail-back {
+  position: fixed;
+  left: max(16px, calc((100vw - 520px) / 2 + 16px));
+  top: 78px;
+  z-index: 90;
+
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  color: #111;
+
+  font-size: 42px;
+  line-height: 1;
+  font-weight: 300;
+  cursor: pointer;
+}
+
+.tournament-detail-hero {
+  height: 118px;
+  margin: 0 -16px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 253, 249, 0) 0%,
+      rgba(255, 253, 249, 0.04) 60%,
+      rgba(255, 248, 243, 0.95) 100%
+    ),
+    var(--hero-image);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.tournament-detail-summary-card {
+  position: relative;
+  z-index: 2;
+  margin: -34px 0 24px;
+  padding: 26px 26px 24px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid rgba(200, 30, 47, 0.12);
+  box-shadow: 0 12px 28px rgba(80, 20, 10, 0.08);
+}
+
+.tournament-detail-summary-card h1 {
+  margin: 0 0 18px;
+  color: #111;
+  font-size: 26px;
+  line-height: 1.35;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.tournament-detail-summary-date-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.tournament-detail-summary-date-row strong {
+  color: #111;
+  font-size: 18px;
+  line-height: 1.2;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.detail-status-pill {
+  min-width: 78px;
+  min-height: 30px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: #df102b;
+  color: #fff;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 14px;
+  line-height: 1;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.detail-status-pill.is-closed {
+  background: #f59e0b;
+}
+
+.detail-status-pill.is-cancelled {
+  background: #6b7280;
+}
+
+.detail-status-pill.is-draft {
+  background: #1f5fbf;
+}
+
+.tournament-detail-summary-meta {
+  display: grid;
+  gap: 16px;
+}
+
+.detail-summary-meta-row {
+  display: grid;
+  grid-template-columns: 34px 72px 1fr;
+  align-items: center;
+  gap: 8px;
+}
+
+.detail-summary-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: #d82035;
+  color: #d82035;
+  display: grid;
+  place-items: center;
+  font-size: 0;
+  position: relative;
+}
+
+.detail-summary-icon::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: #fff;
+  position: absolute;
+  top: 7px;
+}
+
+.detail-summary-icon::after {
+  content: "";
+  width: 13px;
+  height: 8px;
+  border-radius: 999px 999px 4px 4px;
+  background: #fff;
+  position: absolute;
+  bottom: 6px;
+}
+
+.detail-summary-meta-row span {
+  color: #111;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.detail-summary-meta-row strong {
+  color: #111;
+  font-size: 15px;
+  line-height: 1.45;
+  font-weight: 800;
+}
+
+.tournament-detail-tabs {
+  position: sticky;
+  top: 58px;
+  z-index: 30;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 0 0 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  background: rgba(255, 248, 243, 0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.tournament-detail-tabs button {
+  position: relative;
+  min-height: 46px;
+  border: none;
+  background: transparent;
+  color: #111;
+
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
+.tournament-detail-tabs button.active {
+  color: #d82035;
+}
+
+.tournament-detail-tabs button.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 4px;
+  border-radius: 999px 999px 0 0;
+  background: #d82035;
+}
+
+.tournament-detail-content {
+  display: grid;
+  gap: 14px;
+}
+
+.detail-info-card {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 8px;
+  align-items: center;
+
+  min-height: 116px;
+  padding: 22px 20px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid rgba(200, 30, 47, 0.1);
+  box-shadow: 0 8px 20px rgba(80, 20, 10, 0.06);
+}
+
+.detail-info-icon {
+  width: 62px;
+  height: 62px;
+  border-radius: 999px;
+  background: #fff1f1;
+  color: #d82035;
+
+  display: grid;
+  place-items: center;
+
+  font-size: 28px;
+  font-weight: 900;
+}
+
+.detail-info-icon.people,
+.detail-info-icon.calendar,
+.detail-info-icon.yen,
+.detail-info-icon.document,
+.detail-info-icon.pin,
+.detail-info-icon.map {
+  color: #d82035;
+}
+
+.detail-info-card h2 {
+  margin: 0 0 8px;
+  color: #111;
+  font-size: 18px;
+  line-height: 1.3;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.detail-info-card p {
+  margin: 0;
+  color: #222;
+  font-size: 14px;
+  line-height: 1.85;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+}
+
+.detail-info-card p + p {
+  margin-top: 4px;
+}
+
+.detail-large-text {
+  color: #111 !important;
+  font-size: 23px !important;
+  line-height: 1.35 !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.08em !important;
+}
+
+.detail-note {
+  margin-top: 8px !important;
+  color: #444 !important;
+  font-size: 13px !important;
+  line-height: 1.6 !important;
+  font-weight: 600 !important;
+}
+
+.detail-fee-note {
+  margin-left: 8px;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.tournament-detail-bottom-space {
+  height: 92px;
+}
+
+.tournament-detail-bottom-cta {
+  position: fixed;
+  left: max(16px, calc((100vw - 520px) / 2 + 16px));
+  right: max(16px, calc((100vw - 520px) / 2 + 16px));
+  bottom: 18px;
+  z-index: 80;
+}
+
+.tournament-detail-bottom-cta button {
+  width: 100%;
+  min-height: 64px;
+  padding: 0 24px;
+  border: none;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #e10f2d, #c80024);
+  color: #fff;
+  box-shadow: 0 14px 28px rgba(200, 0, 36, 0.24);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 56px;
+
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
+.tournament-detail-bottom-cta button span {
+  font-size: 34px;
+  line-height: 1;
+  font-weight: 700;
+  transform: translateY(-1px);
+}
+
+.tournament-detail-bottom-cta button:disabled {
+  background: #9ca3af;
+  box-shadow: none;
+  cursor: default;
+}
+
+/* PCでも中央スマホ幅で見せる */
+@media (min-width: 769px) {
+  .tournament-detail-page {
+    border-left: 1px solid rgba(200, 30, 47, 0.08);
+    border-right: 1px solid rgba(200, 30, 47, 0.08);
+  }
+}
+
+/* スマホ調整 */
+@media (max-width: 480px) {
+  .tournament-detail-page {
+    max-width: none;
+    padding: 0 14px;
+  }
+
+  .tournament-detail-back {
+    top: 70px;
+    left: 12px;
+  }
+
+  .tournament-detail-hero {
+    height: 112px;
+    margin: 0 -14px;
+  }
+
+  .tournament-detail-summary-card {
+    margin-top: -30px;
+    padding: 24px 22px 22px;
+    border-radius: 20px;
+  }
+
+  .tournament-detail-summary-card h1 {
+    font-size: 24px;
+  }
+
+  .tournament-detail-summary-date-row {
+    gap: 14px;
+  }
+
+  .tournament-detail-summary-date-row strong {
+    font-size: 17px;
+  }
+
+  .detail-status-pill {
+    min-width: 72px;
+    min-height: 29px;
+    font-size: 13px;
+  }
+
+  .detail-summary-meta-row {
+    grid-template-columns: 34px 64px 1fr;
+  }
+
+  .tournament-detail-tabs button {
+    min-height: 44px;
+    font-size: 15px;
+  }
+
+  .detail-info-card {
+    grid-template-columns: 70px 1fr;
+    min-height: 108px;
+    padding: 20px 18px;
+  }
+
+  .detail-info-icon {
+    width: 58px;
+    height: 58px;
+    font-size: 26px;
+  }
+
+  .detail-info-card h2 {
+    font-size: 17px;
+  }
+
+  .detail-info-card p {
+    font-size: 13.5px;
+  }
+
+  .detail-large-text {
+    font-size: 22px !important;
+  }
+
+  .tournament-detail-bottom-cta {
+    left: 14px;
+    right: 14px;
+    bottom: 14px;
+  }
+
+  .tournament-detail-bottom-cta button {
+    min-height: 62px;
+    font-size: 18px;
+    gap: 48px;
+  }
+}
+
+/* =========================================================
+   Tournament Detail Page Compact Override
+   大会詳細ページ：文字・余白を全体的に小さくして情報量を増やす
+========================================================= */
+
+/* ページ全体 */
+.tournament-detail-page {
+  max-width: 520px;
+  padding: 0 12px;
+}
+
+/* 戻るボタン */
+.tournament-detail-back {
+  top: 66px;
+  left: max(10px, calc((100vw - 520px) / 2 + 10px));
+  width: 30px;
+  height: 30px;
+  font-size: 34px;
+}
+
+/* 上部画像エリアを低くする */
+.tournament-detail-hero {
+  height: 82px;
+  margin: 0 -12px;
+  background-size: cover;
+  background-position: center;
+}
+
+/* 上部の白い大会概要カード */
+.tournament-detail-summary-card {
+  margin: -24px 0 14px;
+  padding: 18px 18px 16px;
+  border-radius: 18px;
+}
+
+/* 大会名 */
+.tournament-detail-summary-card h1 {
+  margin: 0 0 12px;
+  font-size: 20px;
+  line-height: 1.32;
+  letter-spacing: 0.03em;
+}
+
+/* 受付中＋開催日 */
+.tournament-detail-summary-date-row {
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.tournament-detail-summary-date-row strong {
+  font-size: 15px;
+  line-height: 1.2;
+}
+
+/* 受付中ラベル */
+.detail-status-pill {
+  min-width: 62px;
+  min-height: 24px;
+  padding: 0 10px;
+  font-size: 11px;
+}
+
+/* 会場などのメタ情報 */
+.tournament-detail-summary-meta {
+  gap: 10px;
+}
+
+.detail-summary-meta-row {
+  grid-template-columns: 26px 48px 1fr;
+  gap: 7px;
+}
+
+.detail-summary-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.detail-summary-icon::before {
+  width: 7px;
+  height: 7px;
+  top: 5px;
+}
+
+.detail-summary-icon::after {
+  width: 10px;
+  height: 6px;
+  bottom: 5px;
+}
+
+.detail-summary-meta-row span {
+  font-size: 12px;
+}
+
+.detail-summary-meta-row strong {
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+/* タブ */
+.tournament-detail-tabs {
+  top: 58px;
+  margin-bottom: 12px;
+}
+
+.tournament-detail-tabs button {
+  min-height: 38px;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+}
+
+.tournament-detail-tabs button.active::after {
+  height: 3px;
+}
+
+/* カード間の余白 */
+.tournament-detail-content {
+  gap: 9px;
+}
+
+/* 各情報カード */
+.detail-info-card {
+  grid-template-columns: 54px 1fr;
+  gap: 8px;
+  min-height: 84px;
+  padding: 14px 14px;
+  border-radius: 15px;
+}
+
+/* アイコン */
+.detail-info-icon {
+  width: 44px;
+  height: 44px;
+  font-size: 20px;
+}
+
+/* カード見出し */
+.detail-info-card h2 {
+  margin: 0 0 4px;
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+/* 通常テキスト */
+.detail-info-card p {
+  font-size: 12px;
+  line-height: 1.55;
+  letter-spacing: 0.03em;
+}
+
+/* 大きめ表示していた日付・金額など */
+.detail-large-text {
+  font-size: 18px !important;
+  line-height: 1.25 !important;
+  letter-spacing: 0.05em !important;
+}
+
+/* 補足文 */
+.detail-note {
+  margin-top: 4px !important;
+  font-size: 11px !important;
+  line-height: 1.45 !important;
+}
+
+/* 参加費の補足 */
+.detail-fee-note {
+  margin-left: 5px;
+  font-size: 11px;
+}
+
+/* 下部固定ボタン分の余白 */
+.tournament-detail-bottom-space {
+  height: 72px;
+}
+
+/* 下部固定CTA */
+.tournament-detail-bottom-cta {
+  left: max(12px, calc((100vw - 520px) / 2 + 12px));
+  right: max(12px, calc((100vw - 520px) / 2 + 12px));
+  bottom: 10px;
+}
+
+.tournament-detail-bottom-cta button {
+  min-height: 52px;
+  border-radius: 13px;
+  gap: 34px;
+  font-size: 16px;
+  letter-spacing: 0.06em;
+}
+
+.tournament-detail-bottom-cta button span {
+  font-size: 28px;
+}
+
+/* エラーメッセージ */
+.tournament-detail-page .error-text {
+  margin: 10px 0;
+  padding: 10px 12px;
+  font-size: 12px;
+  border-radius: 10px;
+}
+
+/* =========================================================
+   Small Smartphone
+========================================================= */
+
+@media (max-width: 480px) {
+  .tournament-detail-page {
+    padding: 0 10px;
+  }
+
+  .tournament-detail-back {
+    top: 64px;
+    left: 8px;
+    font-size: 32px;
+  }
+
+  .tournament-detail-hero {
+    height: 76px;
+    margin: 0 -10px;
+  }
+
+  .tournament-detail-summary-card {
+    margin-top: -22px;
+    margin-bottom: 12px;
+    padding: 16px 16px 14px;
+    border-radius: 17px;
+  }
+
+  .tournament-detail-summary-card h1 {
+    margin-bottom: 10px;
+    font-size: 16px;
+    line-height: 1.3;
+  }
+
+  .tournament-detail-summary-date-row {
+    margin-bottom: 12px;
+  }
+
+  .tournament-detail-summary-date-row strong {
+    font-size: 14px;
+  }
+
+  .detail-status-pill {
+    min-width: 58px;
+    min-height: 23px;
+    font-size: 10.5px;
+  }
+
+  .detail-summary-meta-row {
+    grid-template-columns: 24px 44px 1fr;
+    gap: 6px;
+  }
+
+  .detail-summary-icon {
+    width: 21px;
+    height: 21px;
+  }
+
+  .detail-summary-meta-row span {
+    font-size: 11px;
+  }
+
+  .detail-summary-meta-row strong {
+    font-size: 12px;
+  }
+
+  .tournament-detail-tabs button {
+    min-height: 36px;
+    font-size: 12.5px;
+  }
+
+  .tournament-detail-content {
+    gap: 8px;
+  }
+
+  .detail-info-card {
+    grid-template-columns: 48px 1fr;
+    min-height: 78px;
+    padding: 12px 12px;
+    border-radius: 14px;
+  }
+
+  .detail-info-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+
+  .detail-info-card h2 {
+    font-size: 14px;
+  }
+
+  .detail-info-card p {
+    font-size: 11.5px;
+    line-height: 1.5;
+  }
+
+  .detail-large-text {
+    font-size: 17px !important;
+  }
+
+  .detail-note {
+    font-size: 10.5px !important;
+  }
+
+  .tournament-detail-bottom-space {
+    height: 66px;
+  }
+
+  .tournament-detail-bottom-cta {
+    left: 10px;
+    right: 10px;
+    bottom: 8px;
+  }
+
+  .tournament-detail-bottom-cta button {
+    min-height: 50px;
+    border-radius: 12px;
+    gap: 30px;
+    font-size: 15px;
+  }
+
+  .tournament-detail-bottom-cta button span {
+    font-size: 26px;
+  }
+}
+
+/* =========================================================
+   Tournament Detail Page Super Compact Override
+   情報量を減らして、高さをかなり小さくする
+========================================================= */
+
+/* ページ全体の余白をさらに小さく */
+.tournament-detail-page {
+  padding: 0 10px;
+}
+
+/* 戻るボタン */
+.tournament-detail-back {
+  top: 62px;
+  left: max(8px, calc((100vw - 520px) / 2 + 8px));
+  width: 28px;
+  height: 28px;
+  font-size: 30px;
+}
+
+/* 上の画像エリアをかなり低くする */
+.tournament-detail-hero {
+  height: 58px;
+  margin: 0 -10px;
+  background-size: cover;
+  background-position: center;
+}
+
+/* 上部の大会概要カード */
+.tournament-detail-summary-card {
+  margin: -18px 0 10px;
+  padding: 13px 14px 12px;
+  border-radius: 15px;
+}
+
+/* 大会名 */
+.tournament-detail-summary-card h1 {
+  margin: 0 0 8px;
+  font-size: 17px;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+}
+
+/* 受付中＋開催日 */
+.tournament-detail-summary-date-row {
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.tournament-detail-summary-date-row strong {
+  font-size: 13px;
+  line-height: 1.1;
+}
+
+/* 受付中ラベル */
+.detail-status-pill {
+  min-width: 52px;
+  min-height: 20px;
+  padding: 0 8px;
+  font-size: 10px;
+}
+
+/* 上部カードの会場行 */
+.tournament-detail-summary-meta {
+  gap: 6px;
+}
+
+.detail-summary-meta-row {
+  grid-template-columns: 18px 36px 1fr;
+  gap: 5px;
+}
+
+/* 上部カードの丸アイコンを小さく */
+.detail-summary-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.detail-summary-icon::before {
+  width: 5px;
+  height: 5px;
+  top: 4px;
+}
+
+.detail-summary-icon::after {
+  width: 8px;
+  height: 5px;
+  bottom: 3px;
+}
+
+.detail-summary-meta-row span {
+  font-size: 10px;
+}
+
+.detail-summary-meta-row strong {
+  font-size: 11px;
+  line-height: 1.25;
+}
+
+/* タブを低くする */
+.tournament-detail-tabs {
+  top: 58px;
+  margin-bottom: 8px;
+}
+
+.tournament-detail-tabs button {
+  min-height: 31px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
+.tournament-detail-tabs button.active::after {
+  height: 2px;
+}
+
+/* カード間余白 */
+.tournament-detail-content {
+  gap: 6px;
+}
+
+/* 情報カードをかなり低くする */
+.detail-info-card {
+  grid-template-columns: 34px 1fr;
+  gap: 8px;
+  min-height: 54px;
+  padding: 9px 10px;
+  border-radius: 12px;
+}
+
+/* 左アイコンを小さく */
+.detail-info-icon {
+  width: 30px;
+  height: 30px;
+  font-size: 14px;
+}
+
+/* 見出し */
+.detail-info-card h2 {
+  margin: 0 0 2px;
+  font-size: 12.5px;
+  line-height: 1.2;
+}
+
+/* 通常文章 */
+.detail-info-card p {
+  font-size: 10.5px;
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+}
+
+/* 2行目以降の説明は非表示にして高さを削る */
+.detail-info-card p + p {
+  display: none;
+}
+
+/* 注意書きも非表示にする */
+.detail-note {
+  display: none !important;
+}
+
+/* 大きめ表示の日付・金額も小さく */
+.detail-large-text {
+  font-size: 15px !important;
+  line-height: 1.15 !important;
+  letter-spacing: 0.04em !important;
+}
+
+/* 参加費の補足 */
+.detail-fee-note {
+  margin-left: 4px;
+  font-size: 10px;
+}
+
+/* 下部ボタン用の余白 */
+.tournament-detail-bottom-space {
+  height: 56px;
+}
+
+/* 下部固定ボタン */
+.tournament-detail-bottom-cta {
+  left: max(10px, calc((100vw - 520px) / 2 + 10px));
+  right: max(10px, calc((100vw - 520px) / 2 + 10px));
+  bottom: 8px;
+}
+
+.tournament-detail-bottom-cta button {
+  min-height: 44px;
+  border-radius: 11px;
+  gap: 24px;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+}
+
+.tournament-detail-bottom-cta button span {
+  font-size: 22px;
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   Small Smartphone
+========================================================= */
+
+@media (max-width: 480px) {
+  .tournament-detail-page {
+    padding: 0 8px;
+  }
+
+  .tournament-detail-hero {
+    height: 52px;
+    margin: 0 -8px;
+  }
+
+  .tournament-detail-summary-card {
+    margin-top: -16px;
+    margin-bottom: 8px;
+    padding: 12px 12px 10px;
+    border-radius: 14px;
+  }
+
+  .tournament-detail-summary-card h1 {
+    margin-bottom: 7px;
+    font-size: 16px;
+    line-height: 1.25;
+  }
+
+  .tournament-detail-summary-date-row {
+    margin-bottom: 7px;
+  }
+
+  .tournament-detail-summary-date-row strong {
+    font-size: 12.5px;
+  }
+
+  .detail-status-pill {
+    min-width: 50px;
+    min-height: 19px;
+    font-size: 9.5px;
+  }
+
+  .detail-summary-meta-row {
+    grid-template-columns: 17px 34px 1fr;
+  }
+
+  .detail-summary-meta-row span {
+    font-size: 9.5px;
+  }
+
+  .detail-summary-meta-row strong {
+    font-size: 10.5px;
+  }
+
+  .tournament-detail-tabs button {
+    min-height: 30px;
+    font-size: 10.5px;
+  }
+
+  .detail-info-card {
+    grid-template-columns: 32px 1fr;
+    min-height: 50px;
+    padding: 8px 9px;
+    border-radius: 11px;
+  }
+
+  .detail-info-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 13px;
+  }
+
+  .detail-info-card h2 {
+    font-size: 12px;
+  }
+
+  .detail-info-card p {
+    font-size: 10px;
+    line-height: 1.3;
+  }
+
+  .detail-large-text {
+    font-size: 14px !important;
+  }
+
+  .tournament-detail-bottom-space {
+    height: 52px;
+  }
+
+  .tournament-detail-bottom-cta {
+    left: 8px;
+    right: 8px;
+    bottom: 7px;
+  }
+
+  .tournament-detail-bottom-cta button {
+    min-height: 42px;
+    border-radius: 10px;
+    font-size: 13.5px;
+  }
+}
+
+/* =========================================================
+   Tournament Detail Summary Layout Fix
+   - 上のボックスを少し下げる
+   - 受付中をボックス内の一番上に配置
+   - 開催日 → 会場の順番で表示
+========================================================= */
+
+/* 上部の白いボックスを少し下へ */
+.tournament-detail-summary-card {
+  margin-top: -4px !important;
+}
+
+/* 受付中ラベルを一番上に置く */
+.tournament-detail-status-top {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 7px;
+}
+
+/* 受付中ラベルを少しだけ小さめに */
+.tournament-detail-status-top .detail-status-pill {
+  min-width: 50px;
+  min-height: 19px;
+  padding: 0 8px;
+  font-size: 9.5px;
+}
+
+/* 大会名との余白調整 */
+.tournament-detail-summary-card h1 {
+  margin: 0 0 9px !important;
+}
+
+/* 開催日 → 会場を縦に並べる */
+.tournament-detail-summary-meta {
+  display: grid;
+  gap: 6px;
+}
+
+/* 開催日・会場の1行 */
+.detail-summary-meta-row {
+  display: grid;
+  grid-template-columns: 18px 42px 1fr;
+  align-items: center;
+  gap: 5px;
+}
+
+/* アイコンを小さく */
+.detail-summary-icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* 既存の人物アイコン風の疑似要素を消す */
+.detail-summary-icon::before,
+.detail-summary-icon::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* 開催日アイコン */
+.detail-summary-icon-date {
+  background: #fff1f1;
+  color: #d82035;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+/* 会場アイコン */
+.detail-summary-icon-venue {
+  background: #d82035;
+  color: #d82035;
+  font-size: 0;
+  position: relative;
+}
+
+.detail-summary-icon-venue::before {
+  content: "";
+  display: block !important;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #fff;
+  position: absolute;
+  top: 4px;
+  left: 5px;
+}
+
+.detail-summary-icon-venue::after {
+  content: "";
+  display: block !important;
+  width: 8px;
+  height: 5px;
+  border-radius: 999px 999px 4px 4px;
+  background: #fff;
+  position: absolute;
+  bottom: 3px;
+  left: 4px;
+}
+
+/* ラベル */
+.detail-summary-meta-row span {
+  font-size: 10px;
+  font-weight: 900;
+}
+
+/* 値 */
+.detail-summary-meta-row strong {
+  font-size: 11px;
+  line-height: 1.25;
+  font-weight: 800;
+}
+
+/* スマホ微調整 */
+@media (max-width: 480px) {
+  .tournament-detail-summary-card {
+    margin-top: -2px !important;
+  }
+
+  .tournament-detail-status-top {
+    margin-bottom: 6px;
+  }
+
+  .tournament-detail-summary-card h1 {
+    margin-bottom: 8px !important;
+  }
+
+  .tournament-detail-summary-meta {
+    gap: 5px;
+  }
+
+  .detail-summary-meta-row {
+    grid-template-columns: 17px 38px 1fr;
+    gap: 5px;
+  }
+
+  .detail-summary-meta-row span {
+    font-size: 11px;
+  }
+
+  .detail-summary-meta-row strong {
+    font-size: 12px;
+  }
+}
+
+/* =========================================================
+   Tournament Detail Hero Height Adjust
+   ヒーロー写真の高さを少し高くする
+========================================================= */
+
+/* PC・共通 */
+.tournament-detail-hero {
+  height: 76px !important;
+}
+
+/* 上の白いボックスは少し写真に重ねる */
+.tournament-detail-summary-card {
+  margin-top: -10px !important;
+}
+
+/* スマホ */
+@media (max-width: 480px) {
+  .tournament-detail-hero {
+    height: 68px !important;
+  }
+
+  .tournament-detail-summary-card {
+    margin-top: -8px !important;
+  }
+}
+
+/* =========================================================
+   Tournament Detail Summary Position Adjust
+   上部の白いボックスをちょっと上に配置
+========================================================= */
+
+.tournament-detail-summary-card {
+  margin-top: -16px !important;
+}
+
+/* スマホでは少しだけ控えめに上げる */
+@media (max-width: 480px) {
+  .tournament-detail-summary-card {
+    margin-top: -14px !important;
   }
 }
