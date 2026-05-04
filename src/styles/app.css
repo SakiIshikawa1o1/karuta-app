@@ -9245,18 +9245,110 @@ img {
 ========================================================= */
 
 .tournament-list-main h3 {
-  font-weight: 500;
+  font-weight: 550;
 }
 
 /* スマホでも同じ太さにする */
 @media (max-width: 768px) {
   .tournament-list-main h3 {
-    font-weight: 500;
+    font-weight: 550;
   }
 }
 
 @media (max-width: 480px) {
   .tournament-list-main h3 {
-    font-weight: 500;
+    font-weight: 550;
+  }
+}
+
+/* =========================================================
+   Month tab text size
+   〇月タブの「〇月」と「〇件」を大きくする
+========================================================= */
+
+/* 〇月の文字 */
+.month-tab strong {
+  font-size: 17px;
+  line-height: 1.1;
+  font-weight: 800;
+}
+
+/* 〇件の文字 */
+.month-tab span {
+  font-size: 12.5px;
+  line-height: 1.1;
+  font-weight: 700;
+}
+
+/* タブの高さも文字に合わせて少しだけ確保 */
+.month-tab {
+  min-height: 38px;
+}
+
+/* スマホ表示 */
+@media (max-width: 768px) {
+  .month-tab strong {
+    font-size: 16px;
+  }
+
+  .month-tab span {
+    font-size: 11.5px;
+  }
+
+  .month-tab {
+    min-height: 36px;
+  }
+}
+
+/* 小さいスマホ表示 */
+@media (max-width: 480px) {
+  .month-tab strong {
+    font-size: 15.5px;
+  }
+
+  .month-tab span {
+    font-size: 11px;
+  }
+}
+
+/* =========================================================
+   Home hero copy width adjustment
+   「かるたでつながる〜」の文字ブロックを右側まで広げる
+========================================================= */
+
+/* PC・共通：コピー領域を広げる */
+.home-hero-copy {
+  width: min(620px, 64%);
+}
+
+/* 見出しが窮屈に折り返されないようにする */
+.home-hero-copy h1 {
+  max-width: 620px;
+}
+
+/* 説明文も少し右まで使えるようにする */
+.home-hero-copy p {
+  max-width: 560px;
+}
+
+/* スマホ：広げすぎると写真を隠すため、少しだけ拡張 */
+@media (max-width: 768px) {
+  .home-hero-copy {
+    width: 62%;
+  }
+
+  .home-hero-copy h1 {
+    max-width: 100%;
+  }
+
+  .home-hero-copy p {
+    max-width: 100%;
+  }
+}
+
+/* 小さいスマホ：文字が詰まる場合に備えて少し広げる */
+@media (max-width: 480px) {
+  .home-hero-copy {
+    width: 64%;
   }
 }
