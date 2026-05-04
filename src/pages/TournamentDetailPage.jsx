@@ -12,20 +12,6 @@ const STATUS_LABEL = {
   cancelled: "中止",
 };
 
-const APPLICATION_STATUS_LABEL = {
-  applied: "申込済み",
-  lottery_wait: "抽選待ち",
-  selected: "当選",
-  not_selected: "落選",
-  confirmed: "参加確定",
-};
-
-const TAB_LABELS = {
-  overview: "概要",
-  guideline: "要項",
-  access: "アクセス",
-};
-
 function formatDate(value) {
   if (!value) return "未設定";
 
@@ -58,6 +44,18 @@ function formatDeadline(value) {
   return `${yyyy}/${mm}/${dd} (${day}) ${hh}:${min}まで`;
 }
 
+function formatDeadlineShort(value) {
+  if (!value) return "";
+
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+
+  return `${month}月${day}日`;
+}
+
 function formatYen(value) {
   if (value === null || value === undefined || value === "") return "未設定";
   return `${Number(value).toLocaleString()}円`;
@@ -70,10 +68,8 @@ export default function TournamentDetailPage() {
 
   const [tournament, setTournament] = useState(null);
   const [alreadyApplied, setAlreadyApplied] = useState(false);
-  const [applicationStatus, setApplicationStatus] = useState("");
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
-  const [activeTab, setActiveTab] = useState("overview");
 
   const fetchTournament = async () => {
     if (authLoading) return;
@@ -110,13 +106,9 @@ export default function TournamentDetailPage() {
         .neq("status", "cancelled")
         .maybeSingle();
 
-      if (appData) {
-        setAlreadyApplied(true);
-        setApplicationStatus(appData.status);
-      } else {
-        setAlreadyApplied(false);
-        setApplicationStatus("");
-      }
+      setAlreadyApplied(!!appData);
+    } else {
+      setAlreadyApplied(false);
     }
 
     setLoading(false);
@@ -132,6 +124,19 @@ export default function TournamentDetailPage() {
     if (!tournament) return "";
     return STATUS_LABEL[tournament.status] || tournament.status;
   }, [tournament]);
+
+  const displayStatusLabel = useMemo(() => {
+    if (!tournament) return "";
+
+    if (tournament.status === "published" && tournament.application_deadline) {
+      const shortDeadline = formatDeadlineShort(tournament.application_deadline);
+      return shortDeadline
+        ? `${statusLabel}（${shortDeadline}まで）`
+        : statusLabel;
+    }
+
+    return statusLabel;
+  }, [tournament, statusLabel]);
 
   const statusClass = useMemo(() => {
     if (!tournament) return "";
@@ -185,7 +190,7 @@ export default function TournamentDetailPage() {
           <section className="tournament-detail-summary-card">
             <div className="tournament-detail-status-top">
               <span className={`detail-status-pill ${statusClass}`}>
-                {statusLabel}
+                {displayStatusLabel}
               </span>
             </div>
 
@@ -193,13 +198,17 @@ export default function TournamentDetailPage() {
 
             <div className="tournament-detail-summary-meta">
               <div className="detail-summary-meta-row">
-                <div className="detail-summary-icon detail-summary-icon-date">▦</div>
+                <div className="detail-summary-icon detail-summary-icon-date">
+                  ▦
+                </div>
                 <span>開催日</span>
                 <strong>{formatDate(tournament.event_date)}</strong>
               </div>
 
               <div className="detail-summary-meta-row">
-                <div className="detail-summary-icon detail-summary-icon-venue">●</div>
+                <div className="detail-summary-icon detail-summary-icon-venue">
+                  ●
+                </div>
                 <span>会場</span>
                 <strong>{tournament.venue || "未設定"}</strong>
               </div>
@@ -207,117 +216,82 @@ export default function TournamentDetailPage() {
           </section>
 
           <nav className="tournament-detail-tabs" aria-label="大会詳細タブ">
-            {Object.entries(TAB_LABELS).map(([key, label]) => (
-              <button
-                key={key}
-                type="button"
-                className={activeTab === key ? "active" : ""}
-                onClick={() => setActiveTab(key)}
-              >
-                {label}
-              </button>
-            ))}
+            <button type="button" className="active">
+              要項
+            </button>
           </nav>
 
           <main className="tournament-detail-content">
-            {activeTab === "overview" && (
-              <>
-                <section className="detail-info-card">
-                  <div className="detail-info-icon people">👥</div>
-                  <div>
-                    <h2>参加資格</h2>
-                    <p>
-                      {tournament.eligibility ||
-                        "日本国内の大学に所属する学生で構成されたチーム。"}
-                    </p>
-                    <p>
-                      {tournament.team_rule ||
-                        "1大学あたり複数チームの参加が可能です。"}
-                    </p>
-                  </div>
-                </section>
+            <section className="detail-info-card">
+              <div className="detail-info-icon calendar">▦</div>
+              <div>
+                <h2>開催日時</h2>
+                <p className="detail-large-text">
+                  {formatDate(tournament.event_date)}
+                </p>
+              </div>
+            </section>
 
-                <section className="detail-info-card">
-                  <div className="detail-info-icon calendar">▦</div>
-                  <div>
-                    <h2>申込締切</h2>
-                    <p className="detail-large-text">
-                      {formatDeadline(tournament.application_deadline)}
-                    </p>
-                    <p className="detail-note">
-                      ※ 締切後の申込は受け付けません。
-                    </p>
-                  </div>
-                </section>
+            <section className="detail-info-card">
+              <div className="detail-info-icon map">⌖</div>
+              <div>
+                <h2>住所</h2>
+                <p>{tournament.address || "住所未設定"}</p>
+              </div>
+            </section>
 
-                <section className="detail-info-card">
-                  <div className="detail-info-icon yen">￥</div>
-                  <div>
-                    <h2>参加費</h2>
-                    <p className="detail-large-text">
-                      {formatYen(tournament.entry_fee)}
-                      {tournament.fee_note ? (
-                        <span className="detail-fee-note">
-                          {tournament.fee_note}
-                        </span>
-                      ) : (
-                        <span className="detail-fee-note">（1チーム）</span>
-                      )}
-                    </p>
-                    <p className="detail-note">
-                      ※ 大会当日に現地でお支払いください。
-                    </p>
-                  </div>
-                </section>
-              </>
-            )}
+            <section className="detail-info-card">
+              <div className="detail-info-icon people">👥</div>
+              <div>
+                <h2>参加資格・定員</h2>
+                <p>
+                  {tournament.eligibility ||
+                    "参加資格は大会要項をご確認ください。"}
+                </p>
+                <p>
+                  定員：
+                  {tournament.capacity
+                    ? `${tournament.capacity}名`
+                    : "未設定"}
+                </p>
+              </div>
+            </section>
 
-            {activeTab === "guideline" && (
-              <>
-                <section className="detail-info-card">
-                  <div className="detail-info-icon document">📄</div>
-                  <div>
-                    <h2>大会要項</h2>
-                    <p>
-                      {tournament.description ||
-                        "大会要項は現在準備中です。詳細が決まり次第、こちらに掲載します。"}
-                    </p>
-                  </div>
-                </section>
+            <section className="detail-info-card">
+              <div className="detail-info-icon deadline">〆</div>
+              <div>
+                <h2>申込締切</h2>
+                <p className="detail-large-text">
+                  {formatDeadline(tournament.application_deadline)}
+                </p>
+              </div>
+            </section>
 
-                <section className="detail-info-card">
-                  <div className="detail-info-icon people">👥</div>
-                  <div>
-                    <h2>定員</h2>
-                    <p className="detail-large-text">
-                      {tournament.capacity ? `${tournament.capacity}名` : "未設定"}
-                    </p>
-                  </div>
-                </section>
-              </>
-            )}
+            <section className="detail-info-card">
+              <div className="detail-info-icon yen">￥</div>
+              <div>
+                <h2>参加費</h2>
+                <p className="detail-large-text">
+                  {formatYen(tournament.entry_fee)}
+                  {tournament.fee_note && (
+                    <span className="detail-fee-note">
+                      {tournament.fee_note}
+                    </span>
+                  )}
+                </p>
+              </div>
+            </section>
 
-            {activeTab === "access" && (
-              <>
-                <section className="detail-info-card">
-                  <div className="detail-info-icon pin">●</div>
-                  <div>
-                    <h2>会場</h2>
-                    <p className="detail-large-text">
-                      {tournament.venue || "未設定"}
-                    </p>
-                  </div>
-                </section>
-
-                <section className="detail-info-card">
-                  <div className="detail-info-icon map">⌖</div>
-                  <div>
-                    <h2>住所</h2>
-                    <p>{tournament.address || "未設定"}</p>
-                  </div>
-                </section>
-              </>
-            )}
+            <section className="detail-info-card detail-info-card-text">
+              <div className="detail-info-icon document">📄</div>
+              <div>
+                <h2>大会説明</h2>
+                <p>
+                  {tournament.description ||
+                    "大会説明は現在準備中です。詳細が決まり次第、こちらに掲載します。"}
+                </p>
+              </div>
+            </section>
           </main>
 
           <div className="tournament-detail-bottom-space" />

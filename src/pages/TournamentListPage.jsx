@@ -461,20 +461,24 @@ export default function TournamentListPage() {
                         <h3>{tournament.title}</h3>
 
                         <div className="tournament-list-meta">
-                          <span className={`tournament-inline-status status-${tournament.status}`}>
-                            {STATUS_LABEL[tournament.status] || tournament.status}
-                            {deadline && tournament.status === "published" && (
-                              <>（{formatShortDate(deadline)}まで）</>
-                            )}
-                          </span>
+                          <div className="tournament-status-row">
+                            <span className={`tournament-inline-status status-${tournament.status}`}>
+                              {STATUS_LABEL[tournament.status] || tournament.status}
+                              {deadline && tournament.status === "published" && (
+                                <>（{formatShortDate(deadline)}まで）</>
+                              )}
+                            </span>
+                          </div>
 
-                          <span className="tournament-grade">
-                            級：{grade || "未設定"}
-                          </span>
+                          <div className="tournament-place-grade-row">
+                            <span className="tournament-grade">
+                              級：{grade || "未設定"}
+                            </span>
 
-                          <span className="tournament-venue">
-                            ● {tournament.venue || "会場未設定"}
-                          </span>
+                            <span className="tournament-venue">
+                              ● {tournament.venue || "会場未設定"}
+                            </span>
+                          </div>
                         </div>
                       </div>
 
