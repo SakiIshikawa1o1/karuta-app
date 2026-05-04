@@ -9251,12 +9251,12 @@ img {
 /* スマホでも同じ太さにする */
 @media (max-width: 768px) {
   .tournament-list-main h3 {
-    font-weight: 400;
+    font-weight: 500;
   }
 }
 
 @media (max-width: 480px) {
   .tournament-list-main h3 {
-    font-weight: 400;
+    font-weight: 500;
   }
 }
