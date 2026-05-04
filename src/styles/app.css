@@ -9239,3 +9239,24 @@ img {
   }
 }
 
+/* =========================================================
+   Tournament list title weight
+   大会カードの大会名を太字から通常寄りにする
+========================================================= */
+
+.tournament-list-main h3 {
+  font-weight: 500;
+}
+
+/* スマホでも同じ太さにする */
+@media (max-width: 768px) {
+  .tournament-list-main h3 {
+    font-weight: 400;
+  }
+}
+
+@media (max-width: 480px) {
+  .tournament-list-main h3 {
+    font-weight: 400;
+  }
+}
