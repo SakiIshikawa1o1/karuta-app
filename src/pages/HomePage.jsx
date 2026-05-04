@@ -80,6 +80,17 @@ export default function HomePage() {
     });
   };
 
+
+  const getApplicationDeadline = (tournament) => {
+    return (
+      tournament.application_deadline ||
+      tournament.deadline ||
+      tournament.entry_deadline ||
+      tournament.apply_deadline ||
+      null
+    );
+  };
+
   const formatShortDate = (value) => {
     if (!value) return "-";
     const date = new Date(value);
@@ -168,39 +179,45 @@ export default function HomePage() {
           <div className="empty-card">現在、開催予定の大会はありません。</div>
         ) : (
           <div className="home-tournament-grid">
-            {tournaments.map((tournament) => (
+            {tournaments.map((tournament) => {
+              const applicationDeadline = getApplicationDeadline(tournament);
 
+              return (
+                <article className="home-tournament-card" key={tournament.id}>
+                  <div className="home-tournament-body">
+                    <div className="tournament-card-top">
+                      <span className="tournament-status-label">
+                        受付中
+                        {applicationDeadline && (
+                          <>（{formatShortDate(applicationDeadline)}まで）</>
+                        )}
+                      </span>
+                    </div>
 
-              <article className="home-tournament-card" key={tournament.id}>
-                <div className="home-tournament-body">
-                  <div className="tournament-card-top">
-                    <span className="tournament-status-label">
-                      受付中
-                    </span>
+                    <h3>{tournament.title}</h3>
+
+                    <p>
+                      <span>開催日</span>
+                      {formatDate(tournament.event_date)}
+                    </p>
+
+                    <p>
+                      <span>場所</span>
+                      {tournament.venue || "会場未設定"}
+                    </p>
+
+                    <button
+                      type="button"
+                      className="outline-detail-button"
+                      onClick={() => navigate(`/tournaments/${tournament.id}`)}
+                    >
+                      詳細を見る
+                      <span>›</span>
+                    </button>
                   </div>
-
-                  <h3>{tournament.title}</h3>
-
-                  <p>
-                    <span>開催日</span>
-                    {formatDate(tournament.event_date)}
-                  </p>
-
-                  <p>
-                    <span>場所</span>
-                    {tournament.venue || "会場未設定"}
-                  </p>
-
-                  <button className="outline-detail-button">
-                    詳細を見る
-                    <span>›</span>
-                  </button>
-                </div>
-              </article>
-
-
-
-            ))}
+                </article>
+              );
+            })}
           </div>
         )}
       </section>
