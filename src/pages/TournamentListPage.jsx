@@ -453,9 +453,19 @@ export default function TournamentListPage() {
                   const deadline = getTournamentDeadline(tournament);
 
                   return (
+
                     <article
-                      className="tournament-list-item"
+                      className="tournament-list-item tournament-list-clickable"
                       key={tournament.id}
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => navigate(`/tournaments/${tournament.id}`)}
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                          event.preventDefault();
+                          navigate(`/tournaments/${tournament.id}`);
+                        }
+                      }}
                     >
                       <div className="tournament-list-main">
                         <h3>{tournament.title}</h3>
@@ -482,18 +492,10 @@ export default function TournamentListPage() {
                         </div>
                       </div>
 
-                      <div className="tournament-list-actions">
-                        <button
-                          type="button"
-                          onClick={() =>
-                            navigate(`/tournaments/${tournament.id}`)
-                          }
-                        >
-                          詳細
-                          <span>›</span>
-                        </button>
-                      </div>
+                      <span className="tournament-card-arrow">›</span>
                     </article>
+
+
                   );
                 })}
               </div>
