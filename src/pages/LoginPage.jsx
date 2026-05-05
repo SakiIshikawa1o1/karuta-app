@@ -1,8 +1,39 @@
-// src/pages/LoginPage.jsx
-
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
+
+function UserIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M12 12c2.76 0 5-2.24 5-5S14.76 2 12 2 7 4.24 7 7s2.24 5 5 5Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+function LockIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M17 9h-1V7a4 4 0 1 0-8 0v2H7a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2Zm-7-2a2 2 0 1 1 4 0v2h-4V7Zm2 10a2 2 0 0 1-1-3.73V12h2v1.27A2 2 0 0 1 12 17Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+function EyeIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M12 5C6 5 2.06 10.02 1 12c1.06 1.98 5 7 11 7s9.94-5.02 11-7c-1.06-1.98-5-7-11-7Zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -14,8 +45,11 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [saving, setSaving] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
     setErrorMessage("");
     setSaving(true);
 
@@ -35,39 +69,108 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="screen">
-      <h1>ログイン</h1>
+    <div className="login-page">
+      <div className="login-page-shell">
+        <div className="login-page-inner">
+          <header className="login-brand">
+            <div className="login-brand-logo">
+              <img src="/images/logo.png" alt="まにまに" />
+            </div>
 
-      <div className="form-card">
-        {errorMessage && <p className="error-text">{errorMessage}</p>}
+            <h1>まにまに</h1>
+            <p>大会申込システム</p>
+          </header>
 
-        <label>
-          メールアドレス
-          <input
-            type="email"
-            placeholder="karuta@example.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </label>
+          <form className="login-form" onSubmit={handleLogin}>
+            {errorMessage && <p className="login-error-text">{errorMessage}</p>}
 
-        <label>
-          パスワード
-          <input
-            type="password"
-            placeholder="パスワード"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </label>
+            <div className="login-field">
+              <label className="login-label" htmlFor="email">
+                <span className="login-label-icon">
+                  <UserIcon />
+                </span>
+                <span>メールアドレス</span>
+              </label>
 
-        <button className="primary" onClick={handleLogin} disabled={saving}>
-          {saving ? "ログイン中..." : "ログイン"}
-        </button>
+              <div className="login-input-wrap">
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="example@mail.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  autoComplete="email"
+                />
+              </div>
+            </div>
 
-        <button className="link-button" onClick={() => navigate("/signup")}>
-          新規登録はこちら
-        </button>
+            <div className="login-field">
+              <label className="login-label" htmlFor="password">
+                <span className="login-label-icon">
+                  <LockIcon />
+                </span>
+                <span>パスワード</span>
+              </label>
+
+              <div className="login-input-wrap has-action">
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="パスワードを入力"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  autoComplete="current-password"
+                />
+
+                <button
+                  type="button"
+                  className="password-toggle-button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  aria-label="パスワードを表示"
+                >
+                  <EyeIcon />
+                </button>
+              </div>
+            </div>
+
+            <div className="login-forgot-wrap">
+              <button
+                type="button"
+                className="login-text-link"
+                onClick={() => navigate("/forgot-password")}
+              >
+                パスワードをお忘れの方はこちら
+                <span>›</span>
+              </button>
+            </div>
+
+            <button className="login-primary-button" type="submit" disabled={saving}>
+              {saving ? "ログイン中..." : "ログイン"}
+            </button>
+
+            <div className="login-divider">
+              <span />
+              <p>または</p>
+              <span />
+            </div>
+
+            <button
+              type="button"
+              className="login-outline-button"
+              onClick={() => navigate("/signup")}
+            >
+              新規登録はこちら
+            </button>
+
+            <div className="login-signup-guide">
+              <p>すでにアカウントをお持ちでない方</p>
+              <button type="button" onClick={() => navigate("/signup")}>
+                はじめての方は新規登録へ
+                <span>›</span>
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
