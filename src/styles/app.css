@@ -14255,3 +14255,2708 @@ img {
     margin-bottom: 10pt !important;
   }
 }
+
+/* =========================================================
+   Signup Page
+   新規登録画面
+   - logo.png 使用
+   - 背景モミジなし
+   - 赤い外枠なし
+========================================================= */
+
+.signup-page {
+  min-height: 100dvh;
+  background: linear-gradient(180deg, #fffdfc 0%, #fff8f5 100%);
+  padding: 0;
+}
+
+.signup-shell {
+  position: relative;
+  width: 100%;
+  max-width: 430px;
+  min-height: 100dvh;
+  margin: 0 auto;
+  overflow: hidden;
+  border: none;
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.signup-inner {
+  position: relative;
+  z-index: 2;
+  padding: 28px 28px 34px;
+}
+
+.signup-back-button {
+  position: absolute;
+  top: 20px;
+  left: 22px;
+  z-index: 5;
+  width: 34px;
+  height: 34px;
+  border: none;
+  background: transparent;
+  color: #111;
+  font-size: 42px;
+  line-height: 1;
+  font-weight: 300;
+  cursor: pointer;
+}
+
+/* 上部 */
+.signup-brand {
+  text-align: center;
+  padding-top: 18px;
+  margin-bottom: 22px;
+}
+
+.signup-brand-logo {
+  width: 86px;
+  height: 86px;
+  margin: 0 auto 10px;
+  display: grid;
+  place-items: center;
+}
+
+.signup-brand-logo img {
+  width: 86px;
+  height: 86px;
+  object-fit: contain;
+  display: block;
+}
+
+.signup-brand h1 {
+  margin: 0;
+  color: #1f1f1f;
+  font-size: 30px;
+  line-height: 1.2;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.signup-brand p {
+  margin: 8px 0 0;
+  color: #333;
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+/* フォーム */
+.signup-form {
+  position: relative;
+}
+
+.signup-error-text {
+  margin: 0 0 14px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #fff1f1;
+  border: 1px solid #ffc9c9;
+  color: #cc0012;
+  font-size: 12px;
+  line-height: 1.5;
+  font-weight: 700;
+}
+
+.signup-field {
+  margin-bottom: 17px;
+}
+
+.signup-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  color: #111;
+  font-size: 16px;
+  line-height: 1.3;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.signup-label-icon {
+  width: 25px;
+  height: 25px;
+  color: #111;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.signup-label-icon svg {
+  width: 25px;
+  height: 25px;
+}
+
+.signup-field input,
+.signup-field select,
+.signup-password-wrap {
+  width: 100%;
+  height: 54px;
+  border: 1.5px solid #d6d6d6;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.94);
+  color: #222;
+  font-size: 14px;
+  line-height: 1.2;
+  font-weight: 500;
+}
+
+.signup-field input,
+.signup-field select {
+  padding: 0 16px;
+}
+
+.signup-field input::placeholder {
+  color: #a0a0a0;
+}
+
+.signup-select-wrap {
+  position: relative;
+}
+
+.signup-select-wrap select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 44px;
+  color: #222;
+}
+
+.signup-select-wrap::after {
+  content: "⌄";
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  transform: translateY(-58%);
+  color: #111;
+  font-size: 24px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.signup-password-wrap {
+  display: flex;
+  align-items: center;
+  padding: 0 8px 0 16px;
+}
+
+.signup-password-wrap input {
+  height: 100%;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  flex: 1;
+}
+
+.signup-password-wrap button {
+  width: 38px;
+  height: 38px;
+  border: none;
+  background: transparent;
+  color: #111;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+.signup-password-wrap button svg {
+  width: 25px;
+  height: 25px;
+}
+
+/* 同意チェック */
+.signup-agree {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 4px 0 18px;
+  color: #222;
+  font-size: 13px;
+  line-height: 1.7;
+  font-weight: 700;
+}
+
+.signup-agree input {
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  accent-color: #d60012;
+  flex: 0 0 auto;
+}
+
+.signup-agree span {
+  display: inline;
+}
+
+.signup-agree button {
+  border: none;
+  background: transparent;
+  color: #d60012;
+  padding: 0 3px;
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+/* ボタン */
+.signup-primary-button {
+  width: 100%;
+  min-height: 56px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #e60012 0%, #c90012 100%);
+  color: #fff;
+  box-shadow: 0 10px 20px rgba(218, 0, 18, 0.16);
+  font-size: 17px;
+  line-height: 1.2;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}
+
+.signup-primary-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* ログイン誘導 */
+.signup-login-guide {
+  text-align: center;
+  margin-top: 22px;
+  padding-bottom: 42px;
+}
+
+.signup-login-guide p {
+  margin: 0 0 9px;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.5;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.signup-login-guide button {
+  border: none;
+  background: transparent;
+  color: #d60012;
+  padding: 0;
+  font-size: 16px;
+  line-height: 1.4;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+
+/* 下の青海波風背景 */
+.signup-wave-bg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 180px;
+  opacity: 0.2;
+  background:
+    radial-gradient(circle at 24px 24px, transparent 22px, rgba(220, 50, 50, 0.14) 22px, rgba(220, 50, 50, 0.14) 24px, transparent 24px) 0 0 / 48px 24px repeat,
+    radial-gradient(circle at 24px 24px, transparent 22px, rgba(220, 50, 50, 0.14) 22px, rgba(220, 50, 50, 0.14) 24px, transparent 24px) 24px 12px / 48px 24px repeat;
+  pointer-events: none;
+}
+
+/* スマホ */
+@media (max-width: 480px) {
+  .signup-inner {
+    padding: 24px 22px 30px;
+  }
+
+  .signup-back-button {
+    top: 16px;
+    left: 16px;
+    font-size: 38px;
+  }
+
+  .signup-brand {
+    padding-top: 16px;
+    margin-bottom: 20px;
+  }
+
+  .signup-brand-logo {
+    width: 76px;
+    height: 76px;
+    margin-bottom: 8px;
+  }
+
+  .signup-brand-logo img {
+    width: 76px;
+    height: 76px;
+  }
+
+  .signup-brand h1 {
+    font-size: 27px;
+  }
+
+  .signup-brand p {
+    font-size: 13px;
+  }
+
+  .signup-field {
+    margin-bottom: 15px;
+  }
+
+  .signup-label {
+    font-size: 15px;
+  }
+
+  .signup-label-icon,
+  .signup-label-icon svg {
+    width: 23px;
+    height: 23px;
+  }
+
+  .signup-field input,
+  .signup-field select,
+  .signup-password-wrap {
+    height: 50px;
+    border-radius: 13px;
+    font-size: 13px;
+  }
+
+  .signup-primary-button {
+    min-height: 52px;
+    font-size: 16px;
+  }
+}
+
+.header-login-button {
+  border: none;
+  background: transparent;
+  color: var(--red-dark);
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.header-login-button {
+  min-height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(200, 30, 47, 0.24);
+  background: #fff;
+  color: var(--red-dark);
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.header-login-button:hover {
+  background: #fff1ed;
+}
+
+/* =========================================================
+   Header Login / Logout Button
+   ログイン・ログアウトボタンをハンバーガー横に表示
+========================================================= */
+
+.header-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+.header-login-button {
+  min-height: 34px !important;
+  padding: 0 13px !important;
+  border-radius: 999px !important;
+  border: 1px solid rgba(200, 30, 47, 0.24) !important;
+  background: #ffffff !important;
+  color: var(--red-dark) !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  font-size: 13px !important;
+  line-height: 1 !important;
+  font-weight: 900 !important;
+  white-space: nowrap !important;
+  cursor: pointer !important;
+}
+
+.header-login-button:hover {
+  background: #fff1ed !important;
+}
+
+.header-login-button:disabled {
+  opacity: 0.65 !important;
+  cursor: not-allowed !important;
+}
+
+/* スマホでもログイン・ログアウトボタンは非表示にしない */
+@media (max-width: 768px) {
+  .pc-nav {
+    display: none !important;
+  }
+
+  .header-actions {
+    gap: 8px !important;
+  }
+
+  .header-login-button {
+    display: inline-flex !important;
+    min-height: 30px !important;
+    padding: 0 10px !important;
+    font-size: 11px !important;
+  }
+
+  .hamburger-button {
+    flex: 0 0 auto !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-actions {
+    gap: 6px !important;
+  }
+
+  .header-login-button {
+    min-height: 28px !important;
+    padding: 0 8px !important;
+    font-size: 10.5px !important;
+  }
+}
+
+/* =========================================================
+   Signup select arrow position
+   新規登録ページ：所属会・段位の下矢印を少し上にする
+========================================================= */
+
+.signup-select-wrap::after {
+  top: 34% !important;
+  transform: translateY(-58%) !important;
+}
+
+/* =========================================================
+   My Page Modern
+   添付画像風マイページ
+========================================================= */
+
+.mypage-modern {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 42px 72px;
+  min-height: 100dvh;
+  background:
+    radial-gradient(circle at 0% 18%, rgba(220, 80, 40, 0.08), transparent 16%),
+    radial-gradient(circle at 100% 88%, rgba(220, 80, 40, 0.08), transparent 18%);
+  color: #2a1510;
+}
+
+.mypage-modern-hero {
+  margin: 0 0 22px;
+}
+
+.mypage-modern-hero p {
+  margin: 0 0 8px;
+  color: var(--red);
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+}
+
+.mypage-modern-hero h1 {
+  margin: 0;
+  font-family:
+    "Yu Mincho",
+    "YuMincho",
+    "Hiragino Mincho ProN",
+    serif;
+  font-size: 52px;
+  line-height: 1.2;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+/* プロフィールカード */
+.mypage-modern-profile-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 30px;
+  align-items: center;
+
+  padding: 34px 38px;
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(200, 30, 47, 0.12);
+  box-shadow: 0 16px 34px rgba(80, 20, 10, 0.08);
+  overflow: hidden;
+}
+
+.mypage-modern-profile-card::after {
+  content: "🍁";
+  position: absolute;
+  right: 26px;
+  bottom: 18px;
+  font-size: 54px;
+  opacity: 0.6;
+  transform: rotate(18deg);
+}
+
+.mypage-modern-avatar {
+  position: relative;
+  z-index: 1;
+  width: 230px;
+  height: 230px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #fff3d8, #ffe4bd);
+  display: grid;
+  place-items: center;
+}
+
+.mypage-modern-avatar-face {
+  width: 156px;
+  height: 156px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #4a261a 0%, #2b160f 100%);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 64px;
+  font-weight: 900;
+  box-shadow: inset 0 -22px 0 rgba(255, 255, 255, 0.08);
+}
+
+.mypage-modern-profile-main {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+.mypage-modern-name-block {
+  padding-bottom: 22px;
+  border-bottom: 1px dashed rgba(200, 30, 47, 0.24);
+}
+
+.mypage-modern-name-block span {
+  color: var(--red);
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.mypage-modern-name-block h2 {
+  margin: 12px 0 0;
+  color: #35160f;
+  font-family:
+    "Yu Mincho",
+    "YuMincho",
+    "Hiragino Mincho ProN",
+    serif;
+  font-size: 48px;
+  line-height: 1.25;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.mypage-modern-name-block h2 small {
+  margin-left: 14px;
+  font-size: 24px;
+  letter-spacing: 0.04em;
+}
+
+.mypage-modern-info-list {
+  display: grid;
+  gap: 18px;
+  margin-top: 22px;
+}
+
+.mypage-modern-info-list div {
+  display: grid;
+  grid-template-columns: 34px 78px 1fr;
+  align-items: center;
+  gap: 12px;
+}
+
+.mypage-modern-info-list svg {
+  width: 30px;
+  height: 30px;
+  color: #d8321f;
+}
+
+.mypage-modern-info-list span {
+  color: #35160f;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.mypage-modern-info-list strong {
+  color: #35160f;
+  font-size: 21px;
+  font-weight: 800;
+}
+
+.mypage-modern-info-list div:first-child strong {
+  width: fit-content;
+  min-width: 104px;
+  min-height: 38px;
+  padding: 0 22px;
+  border-radius: 999px;
+  background: #ffe4c9;
+  color: #c92216;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* サマリーカード */
+.mypage-modern-summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px;
+  margin-top: 32px;
+}
+
+.mypage-modern-summary-card {
+  min-height: 210px;
+  padding: 28px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 10px 24px rgba(80, 20, 10, 0.06);
+  text-align: left;
+  cursor: pointer;
+}
+
+.mypage-modern-summary-card.next {
+  border: 2px solid #f0a33a;
+}
+
+.mypage-modern-summary-card.unpaid {
+  border: 2px solid #ef6b6b;
+}
+
+.mypage-modern-summary-icon {
+  width: 66px;
+  height: 66px;
+  margin-bottom: 16px;
+  border-radius: 999px;
+  background: #fff2d7;
+  color: #d8321f;
+  display: grid;
+  place-items: center;
+}
+
+.mypage-modern-summary-icon svg {
+  width: 38px;
+  height: 38px;
+}
+
+.mypage-modern-summary-card.unpaid .mypage-modern-summary-icon {
+  background: linear-gradient(135deg, #e60012, #c90012);
+  color: #fff;
+}
+
+.mypage-modern-summary-card p {
+  margin: 0 0 12px;
+  color: #35160f;
+  font-size: 25px;
+  line-height: 1.3;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+}
+
+.mypage-modern-summary-card strong {
+  display: block;
+  margin-bottom: 12px;
+  color: #d8321f;
+  font-family:
+    "Yu Mincho",
+    "YuMincho",
+    serif;
+  font-size: 82px;
+  line-height: 0.95;
+  font-weight: 900;
+}
+
+.mypage-modern-summary-card strong span {
+  margin-left: 8px;
+  color: #35160f;
+  font-size: 26px;
+}
+
+.mypage-modern-summary-card small {
+  display: block;
+  color: #35160f;
+  font-size: 18px;
+  line-height: 1.55;
+  font-weight: 700;
+}
+
+/* メニュー */
+.mypage-modern-menu-card {
+  margin-top: 32px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(200, 30, 47, 0.12);
+  box-shadow: 0 12px 28px rgba(80, 20, 10, 0.08);
+  overflow: hidden;
+}
+
+.mypage-modern-menu-card button {
+  width: 100%;
+  min-height: 92px;
+  padding: 0 30px;
+  border: none;
+  border-bottom: 1px dashed rgba(200, 30, 47, 0.18);
+  background: transparent;
+  color: #35160f;
+  display: grid;
+  grid-template-columns: 42px 1fr 32px;
+  align-items: center;
+  gap: 22px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.mypage-modern-menu-card button:last-child {
+  border-bottom: none;
+}
+
+.mypage-modern-menu-card svg {
+  width: 34px;
+  height: 34px;
+  color: #d8321f;
+}
+
+.mypage-modern-menu-card span {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.mypage-modern-chevron {
+  color: #d8321f;
+  font-size: 44px;
+  line-height: 1;
+  font-weight: 400;
+}
+
+/* 編集カード */
+.mypage-modern-edit-card,
+.mypage-modern-admin-card {
+  margin-top: 28px;
+  padding: 26px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(200, 30, 47, 0.12);
+  box-shadow: 0 12px 28px rgba(80, 20, 10, 0.08);
+}
+
+.mypage-modern-edit-card h2,
+.mypage-modern-admin-card h2 {
+  margin: 0 0 18px;
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.mypage-modern-edit-card label {
+  display: block;
+  margin-bottom: 16px;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.mypage-modern-edit-card input,
+.mypage-modern-edit-card select {
+  width: 100%;
+  height: 50px;
+  margin-top: 8px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid #d6d6d6;
+  background: #fff;
+  font-size: 15px;
+}
+
+.mypage-modern-edit-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.mypage-modern-edit-buttons button {
+  min-height: 48px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.mypage-modern-edit-buttons button:first-child {
+  border: none;
+  background: var(--red);
+  color: #fff;
+}
+
+.mypage-modern-edit-buttons button:last-child {
+  border: 1px solid var(--red);
+  background: #fff;
+  color: var(--red);
+}
+
+/* 管理者メニュー */
+.mypage-modern-admin-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.mypage-modern-admin-grid button {
+  min-height: 96px;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(200, 30, 47, 0.14);
+  background: #fff;
+  text-align: left;
+  cursor: pointer;
+}
+
+.mypage-modern-admin-grid span {
+  display: block;
+  margin-bottom: 8px;
+  color: #35160f;
+  font-size: 17px;
+  font-weight: 900;
+}
+
+.mypage-modern-admin-grid small {
+  color: #555;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* スマホ調整 */
+@media (max-width: 768px) {
+  .mypage-modern {
+    padding: 18px 16px 48px;
+  }
+
+  .mypage-modern-hero h1 {
+    font-size: 38px;
+  }
+
+  .mypage-modern-profile-card {
+    grid-template-columns: 130px 1fr;
+    gap: 18px;
+    padding: 22px 20px;
+    border-radius: 20px;
+  }
+
+  .mypage-modern-avatar {
+    width: 116px;
+    height: 116px;
+  }
+
+  .mypage-modern-avatar-face {
+    width: 86px;
+    height: 86px;
+    font-size: 36px;
+  }
+
+  .mypage-modern-name-block {
+    padding-bottom: 12px;
+  }
+
+  .mypage-modern-name-block span {
+    font-size: 12px;
+  }
+
+  .mypage-modern-name-block h2 {
+    margin-top: 6px;
+    font-size: 26px;
+  }
+
+  .mypage-modern-name-block h2 small {
+    margin-left: 6px;
+    font-size: 14px;
+  }
+
+  .mypage-modern-info-list {
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .mypage-modern-info-list div {
+    grid-template-columns: 22px 46px 1fr;
+    gap: 7px;
+  }
+
+  .mypage-modern-info-list svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .mypage-modern-info-list span {
+    font-size: 12px;
+  }
+
+  .mypage-modern-info-list strong {
+    font-size: 13px;
+  }
+
+  .mypage-modern-info-list div:first-child strong {
+    min-width: 68px;
+    min-height: 26px;
+    padding: 0 12px;
+  }
+
+  .mypage-modern-summary-grid {
+    gap: 12px;
+    margin-top: 18px;
+  }
+
+  .mypage-modern-summary-card {
+    min-height: 150px;
+    padding: 18px;
+    border-radius: 16px;
+  }
+
+  .mypage-modern-summary-icon {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 10px;
+  }
+
+  .mypage-modern-summary-icon svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .mypage-modern-summary-card p {
+    font-size: 16px;
+  }
+
+  .mypage-modern-summary-card strong {
+    font-size: 48px;
+  }
+
+  .mypage-modern-summary-card strong span {
+    font-size: 17px;
+  }
+
+  .mypage-modern-summary-card small {
+    font-size: 12px;
+  }
+
+  .mypage-modern-menu-card {
+    margin-top: 18px;
+    border-radius: 18px;
+  }
+
+  .mypage-modern-menu-card button {
+    min-height: 66px;
+    padding: 0 18px;
+    grid-template-columns: 28px 1fr 24px;
+    gap: 14px;
+  }
+
+  .mypage-modern-menu-card svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .mypage-modern-menu-card span {
+    font-size: 18px;
+  }
+
+  .mypage-modern-chevron {
+    font-size: 30px;
+  }
+
+  .mypage-modern-admin-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================
+   My Page Adjust
+   - 上部タイトル削除
+   - 人アイコン削除
+   - プロフィール情報を幅いっぱいに
+   - メニュータブを小さく
+========================================================= */
+
+/* 上部のMY PAGE / マイページを非表示 */
+.mypage-modern-hero {
+  display: none !important;
+}
+
+/* ページ上の余白を詰める */
+.mypage-modern {
+  padding-top: 18px !important;
+}
+
+/* プロフィールカードを1カラムにして幅いっぱい使う */
+.mypage-modern-profile-card {
+  display: block !important;
+  grid-template-columns: none !important;
+  padding: 22px 24px !important;
+  border-radius: 20px !important;
+}
+
+/* 人の丸アイコンを非表示 */
+.mypage-modern-avatar {
+  display: none !important;
+}
+
+/* 右側だった情報エリアを幅いっぱいに */
+.mypage-modern-profile-main {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+/* 氏名エリア */
+.mypage-modern-name-block {
+  padding-bottom: 14px !important;
+}
+
+.mypage-modern-name-block span {
+  font-size: 13px !important;
+}
+
+.mypage-modern-name-block h2 {
+  margin-top: 6px !important;
+  font-size: 30px !important;
+  line-height: 1.25 !important;
+  letter-spacing: 0.08em !important;
+}
+
+.mypage-modern-name-block h2 small {
+  margin-left: 8px !important;
+  font-size: 16px !important;
+}
+
+/* ロール・所属・段位 */
+.mypage-modern-info-list {
+  gap: 10px !important;
+  margin-top: 14px !important;
+}
+
+.mypage-modern-info-list div {
+  grid-template-columns: 26px 58px 1fr !important;
+  gap: 9px !important;
+  min-height: 34px !important;
+}
+
+.mypage-modern-info-list svg {
+  width: 22px !important;
+  height: 22px !important;
+}
+
+.mypage-modern-info-list span {
+  font-size: 14px !important;
+}
+
+.mypage-modern-info-list strong {
+  font-size: 15px !important;
+}
+
+/* ロールの丸ラベルも少し小さく */
+.mypage-modern-info-list div:first-child strong {
+  min-width: auto !important;
+  min-height: 26px !important;
+  padding: 0 12px !important;
+  font-size: 13px !important;
+}
+
+/* サマリーカードとの間隔を詰める */
+.mypage-modern-summary-grid {
+  margin-top: 18px !important;
+}
+
+/* メニューカード全体 */
+.mypage-modern-menu-card {
+  margin-top: 18px !important;
+  border-radius: 16px !important;
+}
+
+/* メニュータブの高さを小さく */
+.mypage-modern-menu-card button {
+  min-height: 52px !important;
+  padding: 0 18px !important;
+  grid-template-columns: 26px 1fr 22px !important;
+  gap: 12px !important;
+}
+
+/* メニューアイコン */
+.mypage-modern-menu-card svg {
+  width: 22px !important;
+  height: 22px !important;
+}
+
+/* メニュー文字 */
+.mypage-modern-menu-card span {
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em !important;
+}
+
+/* 右矢印 */
+.mypage-modern-chevron {
+  font-size: 28px !important;
+}
+
+/* 編集カードとの間隔 */
+.mypage-modern-edit-card {
+  margin-top: 18px !important;
+}
+
+/* スマホ */
+@media (max-width: 768px) {
+  .mypage-modern {
+    padding-top: 14px !important;
+  }
+
+  .mypage-modern-profile-card {
+    padding: 18px 18px !important;
+    border-radius: 18px !important;
+  }
+
+  .mypage-modern-name-block h2 {
+    font-size: 24px !important;
+  }
+
+  .mypage-modern-name-block h2 small {
+    font-size: 13px !important;
+  }
+
+  .mypage-modern-info-list div {
+    grid-template-columns: 22px 48px 1fr !important;
+    gap: 7px !important;
+  }
+
+  .mypage-modern-info-list span {
+    font-size: 12px !important;
+  }
+
+  .mypage-modern-info-list strong {
+    font-size: 13px !important;
+  }
+
+  .mypage-modern-menu-card button {
+    min-height: 48px !important;
+    padding: 0 15px !important;
+    grid-template-columns: 24px 1fr 20px !important;
+    gap: 10px !important;
+  }
+
+  .mypage-modern-menu-card svg {
+    width: 21px !important;
+    height: 21px !important;
+  }
+
+  .mypage-modern-menu-card span {
+    font-size: 15px !important;
+  }
+
+  .mypage-modern-chevron {
+    font-size: 26px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .mypage-modern-profile-card {
+    padding: 16px !important;
+  }
+
+  .mypage-modern-name-block h2 {
+    font-size: 22px !important;
+  }
+
+  .mypage-modern-menu-card button {
+    min-height: 46px !important;
+  }
+
+  .mypage-modern-menu-card span {
+    font-size: 14px !important;
+  }
+}
+
+/* =========================================================
+   My Page Compact Adjust
+   - 全体の高さを詰める
+   - 管理者メニューをロールごとに複数表示
+   - サマリーアイコンを中央配置
+========================================================= */
+
+.mypage-modern {
+  padding-top: 12px !important;
+  padding-bottom: 42px !important;
+}
+
+.mypage-modern-profile-card {
+  padding: 16px 18px !important;
+  border-radius: 18px !important;
+}
+
+.mypage-modern-name-block {
+  padding-bottom: 10px !important;
+}
+
+.mypage-modern-name-block span {
+  font-size: 12px !important;
+}
+
+.mypage-modern-name-block h2 {
+  margin-top: 4px !important;
+  font-size: 24px !important;
+  line-height: 1.22 !important;
+}
+
+.mypage-modern-name-block h2 small {
+  margin-left: 6px !important;
+  font-size: 13px !important;
+}
+
+.mypage-modern-info-list {
+  gap: 6px !important;
+  margin-top: 10px !important;
+}
+
+.mypage-modern-info-list div {
+  grid-template-columns: 22px 48px 1fr !important;
+  gap: 7px !important;
+  min-height: 28px !important;
+}
+
+.mypage-modern-info-list svg {
+  width: 19px !important;
+  height: 19px !important;
+}
+
+.mypage-modern-info-list span {
+  font-size: 12px !important;
+}
+
+.mypage-modern-info-list strong {
+  font-size: 13px !important;
+}
+
+.mypage-modern-info-list div:first-child strong {
+  min-height: 24px !important;
+  padding: 0 10px !important;
+  font-size: 12px !important;
+}
+
+/* サマリーカード全体を低く */
+.mypage-modern-summary-grid {
+  gap: 10px !important;
+  margin-top: 12px !important;
+}
+
+.mypage-modern-summary-card {
+  min-height: 118px !important;
+  padding: 14px 12px !important;
+  border-radius: 15px !important;
+  text-align: center !important;
+}
+
+/* 次の大会まで・未振り込みの大会のアイコンを真ん中へ */
+.mypage-modern-summary-icon {
+  width: 38px !important;
+  height: 38px !important;
+  margin: 0 auto 8px !important;
+}
+
+.mypage-modern-summary-icon svg {
+  width: 23px !important;
+  height: 23px !important;
+}
+
+.mypage-modern-summary-card p {
+  margin-bottom: 6px !important;
+  font-size: 13px !important;
+  line-height: 1.25 !important;
+  text-align: center !important;
+}
+
+.mypage-modern-summary-card strong {
+  margin-bottom: 5px !important;
+  font-size: 38px !important;
+  line-height: 0.95 !important;
+  text-align: center !important;
+}
+
+.mypage-modern-summary-card strong span {
+  margin-left: 4px !important;
+  font-size: 14px !important;
+}
+
+.mypage-modern-summary-card small {
+  font-size: 10.5px !important;
+  line-height: 1.35 !important;
+  text-align: center !important;
+}
+
+/* メニュータブをさらに低く */
+.mypage-modern-menu-card {
+  margin-top: 12px !important;
+  border-radius: 15px !important;
+}
+
+.mypage-modern-menu-card button {
+  min-height: 42px !important;
+  padding: 0 14px !important;
+  grid-template-columns: 22px 1fr 18px !important;
+  gap: 9px !important;
+}
+
+.mypage-modern-menu-card svg {
+  width: 19px !important;
+  height: 19px !important;
+}
+
+.mypage-modern-menu-card span {
+  font-size: 13px !important;
+  font-weight: 800 !important;
+}
+
+.mypage-modern-chevron {
+  font-size: 22px !important;
+}
+
+.mypage-modern-edit-card {
+  margin-top: 14px !important;
+  padding: 18px !important;
+  border-radius: 16px !important;
+}
+
+.mypage-modern-edit-card h2 {
+  margin-bottom: 12px !important;
+  font-size: 18px !important;
+}
+
+.mypage-modern-edit-card label {
+  margin-bottom: 12px !important;
+  font-size: 12px !important;
+}
+
+.mypage-modern-edit-card input,
+.mypage-modern-edit-card select {
+  height: 42px !important;
+  margin-top: 6px !important;
+  font-size: 13px !important;
+  border-radius: 10px !important;
+}
+
+.mypage-modern-edit-buttons {
+  gap: 8px !important;
+  margin-top: 12px !important;
+}
+
+.mypage-modern-edit-buttons button {
+  min-height: 42px !important;
+  font-size: 13px !important;
+}
+
+/* スマホ */
+@media (max-width: 768px) {
+  .mypage-modern {
+    padding: 10px 12px 36px !important;
+  }
+
+  .mypage-modern-profile-card {
+    padding: 14px 14px !important;
+  }
+
+  .mypage-modern-name-block h2 {
+    font-size: 21px !important;
+  }
+
+  .mypage-modern-summary-grid {
+    gap: 8px !important;
+  }
+
+  .mypage-modern-summary-card {
+    min-height: 112px !important;
+    padding: 12px 10px !important;
+  }
+
+  .mypage-modern-summary-card strong {
+    font-size: 34px !important;
+  }
+
+  .mypage-modern-menu-card button {
+    min-height: 40px !important;
+  }
+}
+
+/* ホームページ：お知らせの日付を少し小さく */
+.notice-date {
+  font-size: 14px !important;
+}
+
+/* スマホではさらに少しだけ小さく */
+@media (max-width: 768px) {
+  .notice-date {
+    font-size: 13px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .notice-date {
+    font-size: 12px !important;
+  }
+}
+
+/* =========================================================
+   Application Admin Page
+   申し込み管理ページ
+========================================================= */
+
+.application-admin-page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 32px 88px;
+  min-height: 100dvh;
+  color: #26140f;
+}
+
+/* ヒーロー */
+.application-admin-hero {
+  position: relative;
+  margin: 0 -32px 18px;
+  min-height: 210px;
+  padding: 52px 56px 34px;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  overflow: hidden;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 253, 249, 0.96) 0%,
+      rgba(255, 250, 244, 0.92) 48%,
+      rgba(255, 247, 236, 0.65) 72%,
+      rgba(255, 247, 236, 0.32) 100%
+    ),
+    radial-gradient(circle at 90% 20%, rgba(230, 100, 20, 0.18), transparent 24%),
+    linear-gradient(135deg, #fffdf9 0%, #fff2df 100%);
+  border-bottom: 1px solid rgba(190, 40, 34, 0.1);
+}
+
+.application-admin-hero::after {
+  content: "🍁";
+  position: absolute;
+  right: 56px;
+  top: 26px;
+  font-size: 98px;
+  opacity: 0.42;
+  transform: rotate(12deg);
+}
+
+.application-admin-hero-icon {
+  position: relative;
+  z-index: 1;
+  width: 88px;
+  height: 88px;
+  border-radius: 999px;
+  background: #fff7ee;
+  border: 1px solid rgba(200, 30, 47, 0.12);
+  color: #d8321f;
+  display: grid;
+  place-items: center;
+}
+
+.application-admin-hero-icon svg {
+  width: 46px;
+  height: 46px;
+}
+
+.application-admin-hero h1 {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: #2b150e;
+  font-family:
+    "Yu Mincho",
+    "YuMincho",
+    "Hiragino Mincho ProN",
+    serif;
+  font-size: 50px;
+  line-height: 1.25;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.application-admin-hero p {
+  position: relative;
+  z-index: 1;
+  margin: 24px 0 0;
+  color: #2b150e;
+  font-size: 20px;
+  line-height: 1.7;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+/* 共通パネル */
+.application-admin-panel {
+  margin-top: 18px;
+  padding: 28px 30px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(120, 40, 30, 0.1);
+  box-shadow: 0 10px 24px rgba(80, 20, 10, 0.065);
+}
+
+.application-admin-panel h2 {
+  margin: 0 0 18px;
+  color: #2b150e;
+  font-size: 24px;
+  line-height: 1.3;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+/* メッセージ */
+.application-admin-message {
+  margin: 14px 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  color: #9a3412;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+/* 大会選択 */
+.application-admin-tournament-select {
+  position: relative;
+  min-height: 76px;
+  border: 1.5px solid rgba(120, 40, 30, 0.2);
+  border-radius: 10px;
+  background: #fff;
+  display: grid;
+  grid-template-columns: 54px 1fr;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.application-admin-select-icon {
+  color: #d8321f;
+  display: grid;
+  place-items: center;
+}
+
+.application-admin-select-icon svg {
+  width: 34px;
+  height: 34px;
+}
+
+.application-admin-tournament-select select {
+  width: 100%;
+  height: 72px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #2b150e;
+  font-size: 21px;
+  line-height: 1.3;
+  font-weight: 900;
+  appearance: auto;
+}
+
+.application-admin-selected-meta {
+  margin: 8px 0 0 70px;
+  color: #3b241c;
+  font-size: 17px;
+  line-height: 1.5;
+  font-weight: 700;
+}
+
+.application-admin-export-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 22px;
+}
+
+.application-admin-export-row button {
+  min-width: 260px;
+  min-height: 52px;
+  border-radius: 8px;
+  border: 1.5px solid #e0311b;
+  background: #fff;
+  color: #2b150e;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.application-admin-export-row button span {
+  color: #e0311b;
+  font-size: 26px;
+}
+
+/* 検索 */
+.search-panel-modern {
+  padding-top: 26px;
+}
+
+.application-admin-section-title {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 22px;
+  color: #d8321f;
+}
+
+.application-admin-section-title svg {
+  width: 42px;
+  height: 42px;
+}
+
+.application-admin-section-title h2 {
+  margin: 0;
+  color: #2b150e;
+  font-size: 28px;
+}
+
+.application-admin-search-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+.application-admin-search-grid label {
+  color: #2b150e;
+  font-size: 15px;
+  line-height: 1.4;
+  font-weight: 800;
+}
+
+.application-admin-input-with-icon {
+  height: 54px;
+  margin-top: 10px;
+  border: 1.5px solid rgba(120, 40, 30, 0.2);
+  border-radius: 8px;
+  background: #fff;
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.application-admin-input-with-icon svg {
+  width: 26px;
+  height: 26px;
+  color: #2b150e;
+}
+
+.application-admin-kana-icon {
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  color: #2b150e;
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.application-admin-input-with-icon input {
+  width: 100%;
+  height: 50px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #2b150e;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.application-admin-input-with-icon input::placeholder {
+  color: #9ca3af;
+}
+
+.application-admin-search-button {
+  width: 100%;
+  min-height: 64px;
+  margin-top: 24px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #e62b12, #cf170b);
+  color: #fff;
+  box-shadow: 0 10px 22px rgba(200, 30, 20, 0.18);
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.application-admin-search-button svg {
+  width: 34px;
+  height: 34px;
+}
+
+.application-admin-clear-row {
+  display: flex;
+  justify-content: flex-end;
+  margin: 18px 0 20px;
+}
+
+.application-admin-clear-row button {
+  min-width: 210px;
+  min-height: 42px;
+  border-radius: 8px;
+  border: 1px solid rgba(120, 40, 30, 0.2);
+  background: #fff;
+  color: #4b3a34;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* テーブル */
+.application-admin-table-card {
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid rgba(120, 40, 30, 0.12);
+  background: #fff;
+}
+
+.application-admin-table-scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.application-admin-table {
+  width: 100%;
+  min-width: 780px;
+  border-collapse: collapse;
+}
+
+.application-admin-table th {
+  height: 56px;
+  background: #fff3e9;
+  border-right: 1px solid rgba(120, 40, 30, 0.12);
+  border-bottom: 1px solid rgba(120, 40, 30, 0.12);
+  color: #2b150e;
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.application-admin-table th:last-child {
+  border-right: none;
+}
+
+.application-admin-table td {
+  height: 64px;
+  padding: 0 16px;
+  border-right: 1px solid rgba(120, 40, 30, 0.08);
+  border-bottom: 1px solid rgba(120, 40, 30, 0.08);
+  color: #2b150e;
+  font-size: 17px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.application-admin-table td:last-child {
+  border-right: none;
+}
+
+.application-admin-table tr:last-child td {
+  border-bottom: none;
+}
+
+.application-admin-table tr.is-changed td {
+  background: #fffdf2;
+}
+
+/* ステータスセレクト */
+.application-admin-status-select {
+  width: 150px;
+  height: 42px;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 15px;
+  font-weight: 900;
+  text-align: center;
+  cursor: pointer;
+}
+
+.application-admin-status-select.status-applied {
+  border: 1.5px solid #86efac;
+  color: #15803d;
+  background: #f0fdf4;
+}
+
+.application-admin-status-select.status-lottery,
+.application-admin-status-select.status-payment-checking {
+  border: 1.5px solid #facc15;
+  color: #b45309;
+  background: #fffbeb;
+}
+
+.application-admin-status-select.status-not-selected,
+.application-admin-status-select.status-cancelled {
+  border: 1.5px solid #d1d5db;
+  color: #4b5563;
+  background: #f9fafb;
+}
+
+.application-admin-status-select.status-selected {
+  border: 1.5px solid #fca5a5;
+  color: #dc2626;
+  background: #fff1f2;
+}
+
+.application-admin-status-select.status-paid,
+.application-admin-status-select.status-payment-confirmed {
+  border: 1.5px solid #93c5fd;
+  color: #1d4ed8;
+  background: #eff6ff;
+}
+
+.application-admin-table-note {
+  min-height: 46px;
+  color: #7a675c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.application-admin-table-note span {
+  font-size: 34px;
+  line-height: 1;
+}
+
+/* 空表示 */
+.application-admin-empty {
+  padding: 24px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid rgba(120, 40, 30, 0.1);
+  color: #4b3a34;
+  font-size: 15px;
+  font-weight: 800;
+  text-align: center;
+}
+
+/* 保存ボタン */
+.application-admin-save-area {
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+  margin: 22px -32px -88px;
+  padding: 16px 32px 20px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 248, 243, 0),
+    rgba(255, 248, 243, 0.96) 35%,
+    rgba(255, 248, 243, 1)
+  );
+}
+
+.application-admin-save-area button {
+  width: 100%;
+  min-height: 58px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #e60012, #c90012);
+  color: #fff;
+  box-shadow: 0 10px 22px rgba(200, 0, 18, 0.2);
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
+.application-admin-save-area button:disabled {
+  background: #d1d5db;
+  color: #6b7280;
+  box-shadow: none;
+  cursor: default;
+}
+
+/* スマホ */
+@media (max-width: 768px) {
+  .application-admin-page {
+    padding: 0 16px 82px;
+  }
+
+  .application-admin-hero {
+    margin: 0 -16px 14px;
+    min-height: 150px;
+    padding: 32px 24px 24px;
+    gap: 16px;
+  }
+
+  .application-admin-hero::after {
+    right: 20px;
+    top: 14px;
+    font-size: 68px;
+  }
+
+  .application-admin-hero-icon {
+    width: 58px;
+    height: 58px;
+  }
+
+  .application-admin-hero-icon svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .application-admin-hero h1 {
+    font-size: 34px;
+  }
+
+  .application-admin-hero p {
+    margin-top: 12px;
+    font-size: 15px;
+  }
+
+  .application-admin-panel {
+    margin-top: 14px;
+    padding: 20px 16px;
+    border-radius: 16px;
+  }
+
+  .application-admin-panel h2 {
+    font-size: 20px;
+  }
+
+  .application-admin-tournament-select {
+    min-height: 64px;
+    grid-template-columns: 42px 1fr;
+    padding: 0 10px;
+  }
+
+  .application-admin-select-icon svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .application-admin-tournament-select select {
+    height: 60px;
+    font-size: 15px;
+  }
+
+  .application-admin-selected-meta {
+    margin-left: 52px;
+    font-size: 13px;
+  }
+
+  .application-admin-export-row button {
+    width: 100%;
+    min-width: 0;
+    min-height: 46px;
+    font-size: 14px;
+  }
+
+  .application-admin-search-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .application-admin-section-title svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .application-admin-section-title h2 {
+    font-size: 22px;
+  }
+
+  .application-admin-search-button {
+    min-height: 54px;
+    font-size: 18px;
+  }
+
+  .application-admin-clear-row button {
+    min-width: 170px;
+    min-height: 38px;
+    font-size: 13px;
+  }
+
+  .application-admin-table {
+    min-width: 680px;
+  }
+
+  .application-admin-table th {
+    height: 48px;
+    font-size: 14px;
+  }
+
+  .application-admin-table td {
+    height: 56px;
+    font-size: 14px;
+  }
+
+  .application-admin-status-select {
+    width: 132px;
+    height: 38px;
+    font-size: 13px;
+  }
+
+  .application-admin-save-area {
+    margin: 18px -16px -82px;
+    padding: 14px 16px 18px;
+  }
+
+  .application-admin-save-area button {
+    min-height: 52px;
+    font-size: 15px;
+  }
+}
+
+/* =========================================================
+   Application Admin Compact Override
+   申し込み管理ページ：全体を低く・他ページ風ヒーローに調整
+========================================================= */
+
+/* ページ全体 */
+.application-admin-page {
+  padding: 0 28px 72px !important;
+}
+
+/* ヒーローを他ページと同じ低めの画像ヒーローに寄せる */
+.application-admin-hero {
+  margin: 0 -28px 16px !important;
+  min-height: 115px !important;
+  padding: 22px 34px !important;
+  gap: 16px !important;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 253, 249, 0.98) 0%,
+      rgba(255, 253, 249, 0.92) 38%,
+      rgba(255, 253, 249, 0.5) 62%,
+      rgba(255, 253, 249, 0.08) 100%
+    ),
+    var(--hero-image) !important;
+
+  background-size: cover !important;
+  background-position: center right !important;
+  background-repeat: no-repeat !important;
+  border-bottom: 1px solid rgba(190, 40, 34, 0.1) !important;
+}
+
+/* 以前の大きい紅葉装飾は消す */
+.application-admin-hero::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* ヒーロー左アイコンを小さく */
+.application-admin-hero-icon {
+  width: 48px !important;
+  height: 48px !important;
+  flex: 0 0 auto !important;
+}
+
+.application-admin-hero-icon svg {
+  width: 25px !important;
+  height: 25px !important;
+}
+
+/* ヒーロー文字を小さく */
+.application-admin-hero h1 {
+  font-size: 30px !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0.06em !important;
+}
+
+.application-admin-hero p {
+  margin-top: 8px !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+  font-weight: 700 !important;
+}
+
+/* パネル全体を低く */
+.application-admin-panel {
+  margin-top: 12px !important;
+  padding: 16px 18px !important;
+  border-radius: 15px !important;
+}
+
+.application-admin-panel h2 {
+  margin-bottom: 10px !important;
+  font-size: 18px !important;
+}
+
+/* 大会選択の高さを詰める */
+.application-admin-tournament-select {
+  min-height: 48px !important;
+  padding: 0 12px !important;
+  border-radius: 10px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* 大会選択のアイコン領域は使わない */
+.application-admin-select-icon {
+  display: none !important;
+}
+
+.application-admin-tournament-select select {
+  height: 46px !important;
+  font-size: 14px !important;
+  font-weight: 800 !important;
+}
+
+/* 選択中大会の補足 */
+.application-admin-selected-meta {
+  margin: 6px 0 0 !important;
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+}
+
+/* エクスポートを端に小さく配置 */
+.application-admin-export-row {
+  justify-content: flex-end !important;
+  margin-top: 10px !important;
+}
+
+.application-admin-export-row button {
+  min-width: 112px !important;
+  min-height: 34px !important;
+  padding: 0 14px !important;
+  border-radius: 999px !important;
+  font-size: 12px !important;
+  letter-spacing: 0.04em !important;
+  gap: 0 !important;
+}
+
+.application-admin-export-row button span {
+  display: none !important;
+}
+
+/* 検索エリア */
+.search-panel-modern {
+  padding-top: 16px !important;
+}
+
+.application-admin-section-title {
+  margin-bottom: 12px !important;
+  gap: 10px !important;
+}
+
+.application-admin-section-title svg {
+  width: 28px !important;
+  height: 28px !important;
+}
+
+.application-admin-section-title h2 {
+  font-size: 20px !important;
+}
+
+/* 検索入力を低く */
+.application-admin-search-grid {
+  gap: 12px !important;
+}
+
+.application-admin-search-grid label {
+  font-size: 12px !important;
+}
+
+.application-admin-input-with-icon {
+  height: 42px !important;
+  margin-top: 6px !important;
+  grid-template-columns: 32px 1fr !important;
+  padding: 0 8px !important;
+  border-radius: 9px !important;
+}
+
+.application-admin-input-with-icon svg,
+.application-admin-kana-icon {
+  width: 20px !important;
+  height: 20px !important;
+  font-size: 19px !important;
+}
+
+.application-admin-input-with-icon input {
+  height: 40px !important;
+  font-size: 13px !important;
+}
+
+/* 検索ボタン */
+.application-admin-search-button {
+  min-height: 46px !important;
+  margin-top: 14px !important;
+  border-radius: 10px !important;
+  font-size: 16px !important;
+  gap: 10px !important;
+}
+
+.application-admin-search-button svg {
+  width: 24px !important;
+  height: 24px !important;
+}
+
+/* クリアボタン */
+.application-admin-clear-row {
+  margin: 10px 0 12px !important;
+}
+
+.application-admin-clear-row button {
+  min-width: 140px !important;
+  min-height: 32px !important;
+  border-radius: 999px !important;
+  font-size: 11px !important;
+}
+
+/* 表を詰める */
+.application-admin-table {
+  min-width: 580px !important;
+}
+
+.application-admin-table th {
+  height: 40px !important;
+  padding: 0 8px !important;
+  font-size: 13px !important;
+}
+
+.application-admin-table td {
+  height: 46px !important;
+  padding: 0 8px !important;
+  font-size: 13px !important;
+}
+
+/* 申込状況のセレクトを小さく */
+.application-admin-status-select {
+  width: 116px !important;
+  height: 32px !important;
+  border-radius: 8px !important;
+  font-size: 11px !important;
+}
+
+/* 横スワイプ案内も低く */
+.application-admin-table-note {
+  min-height: 34px !important;
+  gap: 16px !important;
+  font-size: 12px !important;
+}
+
+.application-admin-table-note span {
+  font-size: 24px !important;
+}
+
+/* 空表示 */
+.application-admin-empty {
+  padding: 16px !important;
+  font-size: 13px !important;
+}
+
+/* 保存ボタンも少し低く */
+.application-admin-save-area {
+  margin: 16px -28px -72px !important;
+  padding: 12px 28px 16px !important;
+}
+
+.application-admin-save-area button {
+  min-height: 48px !important;
+  border-radius: 11px !important;
+  font-size: 15px !important;
+}
+
+/* スマホ */
+@media (max-width: 768px) {
+  .application-admin-page {
+    padding: 0 12px 72px !important;
+  }
+
+  .application-admin-hero {
+    margin: 0 -12px 12px !important;
+    min-height: 96px !important;
+    padding: 18px 18px !important;
+    gap: 12px !important;
+  }
+
+  .application-admin-hero-icon {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .application-admin-hero-icon svg {
+    width: 22px !important;
+    height: 22px !important;
+  }
+
+  .application-admin-hero h1 {
+    font-size: 24px !important;
+  }
+
+  .application-admin-hero p {
+    margin-top: 6px !important;
+    font-size: 11px !important;
+  }
+
+  .application-admin-panel {
+    margin-top: 10px !important;
+    padding: 14px 12px !important;
+  }
+
+  .application-admin-panel h2 {
+    font-size: 16px !important;
+  }
+
+  .application-admin-tournament-select {
+    min-height: 44px !important;
+  }
+
+  .application-admin-tournament-select select {
+    height: 42px !important;
+    font-size: 12.5px !important;
+  }
+
+  .application-admin-search-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  .application-admin-search-button {
+    min-height: 44px !important;
+    font-size: 15px !important;
+  }
+
+  .application-admin-table {
+    min-width: 520px !important;
+  }
+
+  .application-admin-table th {
+    height: 38px !important;
+    font-size: 12px !important;
+  }
+
+  .application-admin-table td {
+    height: 44px !important;
+    font-size: 12px !important;
+  }
+
+  .application-admin-status-select {
+    width: 104px !important;
+    height: 30px !important;
+    font-size: 10px !important;
+  }
+
+  .application-admin-save-area {
+    margin: 14px -12px -72px !important;
+    padding: 12px 12px 16px !important;
+  }
+
+  .application-admin-save-area button {
+    min-height: 46px !important;
+    font-size: 14px !important;
+  }
+}
+
+/* =========================================================
+   Application Admin Search Accordion
+   人名検索を折りたたみ式にする
+========================================================= */
+
+/* 大会選択下の補足表示を完全に消す */
+.application-admin-selected-meta {
+  display: none !important;
+}
+
+/* 検索パネルの上部トグル */
+.application-admin-search-toggle {
+  width: 100% !important;
+  min-height: 42px !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  color: #2b150e !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+
+  cursor: pointer !important;
+}
+
+/* 人名で検索タイトル */
+.application-admin-search-toggle .application-admin-section-title {
+  margin-bottom: 0 !important;
+}
+
+/* 開く・閉じる */
+.application-admin-search-toggle > span {
+  flex: 0 0 auto !important;
+  min-width: 52px !important;
+  min-height: 28px !important;
+  padding: 0 10px !important;
+  border-radius: 999px !important;
+  border: 1px solid rgba(200, 30, 47, 0.2) !important;
+  background: #fff !important;
+  color: var(--red-dark) !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  font-size: 11px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+}
+
+/* 開いているとき */
+.application-admin-search-toggle.is-open > span {
+  background: #fff1ed !important;
+  border-color: rgba(200, 30, 47, 0.32) !important;
+}
+
+/* 折りたたみ内の検索フォーム */
+.application-admin-search-body {
+  margin-top: 12px !important;
+  padding-top: 12px !important;
+  border-top: 1px dashed rgba(200, 30, 47, 0.16) !important;
+}
+
+/* 検索欄を閉じているとき、表との距離を詰める */
+.search-panel-modern .application-admin-table-card,
+.search-panel-modern .application-admin-empty {
+  margin-top: 12px !important;
+}
+
+/* 検索タイトルをさらにコンパクトに */
+.application-admin-section-title {
+  gap: 8px !important;
+}
+
+.application-admin-section-title svg {
+  width: 24px !important;
+  height: 24px !important;
+}
+
+.application-admin-section-title h2 {
+  font-size: 17px !important;
+  line-height: 1.2 !important;
+}
+
+/* スマホ */
+@media (max-width: 768px) {
+  .application-admin-search-toggle {
+    min-height: 38px !important;
+  }
+
+  .application-admin-search-toggle > span {
+    min-width: 46px !important;
+    min-height: 26px !important;
+    font-size: 10px !important;
+  }
+
+  .application-admin-search-body {
+    margin-top: 10px !important;
+    padding-top: 10px !important;
+  }
+
+  .application-admin-section-title svg {
+    width: 22px !important;
+    height: 22px !important;
+  }
+
+  .application-admin-section-title h2 {
+    font-size: 16px !important;
+  }
+}
+
+/* =========================================================
+   Application Admin Separate Blocks
+   人名検索と申込者一覧テーブルを別ブロック化
+========================================================= */
+
+/* 検索ブロック */
+.search-panel-modern {
+  margin-top: 10px !important;
+  padding: 12px 14px !important;
+}
+
+/* 検索ブロック内の開閉ボタン */
+.application-admin-search-toggle {
+  width: 100% !important;
+  min-height: 38px !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  color: #2b150e !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+
+  cursor: pointer !important;
+}
+
+.application-admin-search-toggle .application-admin-section-title {
+  margin: 0 !important;
+}
+
+.application-admin-search-toggle > span {
+  flex: 0 0 auto !important;
+  min-width: 48px !important;
+  min-height: 26px !important;
+  padding: 0 10px !important;
+  border-radius: 999px !important;
+  border: 1px solid rgba(200, 30, 47, 0.2) !important;
+  background: #fff !important;
+  color: var(--red-dark) !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  font-size: 10.5px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+}
+
+.application-admin-search-toggle.is-open > span {
+  background: #fff1ed !important;
+}
+
+/* 開いた検索フォーム */
+.application-admin-search-body {
+  margin-top: 10px !important;
+  padding-top: 10px !important;
+  border-top: 1px dashed rgba(200, 30, 47, 0.16) !important;
+}
+
+/* 一覧テーブルブロック */
+.application-admin-list-panel {
+  margin-top: 10px !important;
+  padding: 12px 14px 14px !important;
+}
+
+/* 一覧タイトル */
+.application-admin-list-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  margin-bottom: 10px !important;
+}
+
+.application-admin-list-header h2 {
+  margin: 0 !important;
+  color: #2b150e !important;
+  font-size: 17px !important;
+  line-height: 1.2 !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.04em !important;
+}
+
+.application-admin-list-header span {
+  min-height: 24px !important;
+  padding: 0 10px !important;
+  border-radius: 999px !important;
+  background: #fff1ed !important;
+  color: var(--red-dark) !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  font-size: 11px !important;
+  line-height: 1 !important;
+  font-weight: 900 !important;
+  white-space: nowrap !important;
+}
+
+/* テーブルとの距離を調整 */
+.application-admin-list-panel .application-admin-table-card,
+.application-admin-list-panel .application-admin-empty {
+  margin-top: 0 !important;
+}
+
+/* テーブルをさらに詰める */
+.application-admin-list-panel .application-admin-table {
+  min-width: 560px !important;
+}
+
+.application-admin-list-panel .application-admin-table th {
+  height: 38px !important;
+  padding: 0 6px !important;
+  font-size: 12.5px !important;
+}
+
+.application-admin-list-panel .application-admin-table td {
+  height: 42px !important;
+  padding: 0 6px !important;
+  font-size: 12.5px !important;
+}
+
+.application-admin-list-panel .application-admin-status-select {
+  width: 108px !important;
+  height: 30px !important;
+  font-size: 10.5px !important;
+}
+
+/* スマホ */
+@media (max-width: 768px) {
+  .search-panel-modern,
+  .application-admin-list-panel {
+    margin-top: 8px !important;
+    padding: 11px 12px !important;
+  }
+
+  .application-admin-search-toggle {
+    min-height: 36px !important;
+  }
+
+  .application-admin-list-header h2 {
+    font-size: 16px !important;
+  }
+
+  .application-admin-list-header span {
+    min-height: 22px !important;
+    font-size: 10px !important;
+  }
+
+  .application-admin-list-panel .application-admin-table {
+    min-width: 500px !important;
+  }
+
+  .application-admin-list-panel .application-admin-table th {
+    height: 36px !important;
+    font-size: 11.5px !important;
+  }
+
+  .application-admin-list-panel .application-admin-table td {
+    height: 40px !important;
+    font-size: 11.5px !important;
+  }
+
+  .application-admin-list-panel .application-admin-status-select {
+    width: 100px !important;
+    height: 29px !important;
+    font-size: 10px !important;
+  }
+}

@@ -1,92 +1,123 @@
-// src/components/Header.jsx
-
 import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "../contexts/AuthContext";
-import { ROLE } from "../utils/roles";
 
 export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { isLoggedIn, hasRole } = useAuth();
+  const { user, loading } = useAuth();
 
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
 
-  const isSystemAdmin = hasRole(ROLE.SYSTEM_ADMIN);
-  const isTournamentAdmin = isSystemAdmin || hasRole(ROLE.TOURNAMENT_ADMIN);
-  const isApplicationAdmin = isSystemAdmin || hasRole(ROLE.APPLICATION_ADMIN);
-
-  const isActive = (path) => location.pathname === path;
-
-  const moveTo = (path) => {
-    setIsMenuOpen(false);
+  const goTo = (path) => {
+    setMenuOpen(false);
     navigate(path);
   };
 
+  const isActive = (path) => {
+    if (path === "/") return location.pathname === "/";
+    return location.pathname.startsWith(path);
+  };
+
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    setIsMenuOpen(false);
-    navigate("/", { replace: true });
+    setLoggingOut(true);
+
+    const { error } = await supabase.auth.signOut();
+
+    setLoggingOut(false);
+
+    if (error) {
+      alert(`ログアウトに失敗しました：${error.message}`);
+      return;
+    }
+
+    setMenuOpen(false);
+    navigate("/");
   };
 
   return (
     <>
       <header className="site-header">
-
-        
-        <button className="site-logo" onClick={() => navigate("/")}>
-        <span className="logo-image" aria-hidden="true" />
-        <span>
+        <button className="site-logo" type="button" onClick={() => goTo("/")}>
+          <span className="logo-image" />
+          <span>
             <strong>まにまに</strong>
             <small>大会申込システム</small>
-        </span>
+          </span>
         </button>
 
         <nav className="pc-nav">
           <button
+            type="button"
             className={isActive("/") ? "active" : ""}
-            onClick={() => navigate("/")}
+            onClick={() => goTo("/")}
           >
             ホーム
           </button>
+
           <button
+            type="button"
             className={isActive("/tournaments") ? "active" : ""}
-            onClick={() => navigate("/tournaments")}
+            onClick={() => goTo("/tournaments")}
           >
             大会を探す
           </button>
+
           <button
-            className={isActive("/applications/status") ? "active" : ""}
-            onClick={() => navigate("/applications/status")}
+            type="button"
+            className={isActive("/applications") ? "active" : ""}
+            onClick={() => goTo("/applications")}
           >
-            申込履歴
+            申込状況
           </button>
+
           <button
+            type="button"
+            className={isActive("/notices") ? "active" : ""}
+            onClick={() => goTo("/notices")}
+          >
+            お知らせ
+          </button>
+
+          <button
+            type="button"
             className={isActive("/mypage") ? "active" : ""}
-            onClick={() => navigate("/mypage")}
+            onClick={() => goTo("/mypage")}
           >
             マイページ
           </button>
         </nav>
 
         <div className="header-actions">
-          {isLoggedIn ? (
-            <button className="header-login-button" onClick={handleLogout}>
-              ログアウト
-            </button>
-          ) : (
-            <button
-              className="header-login-button"
-              onClick={() => navigate("/login")}
-            >
-              ログイン
-            </button>
+          {!loading && (
+            <>
+              {user ? (
+                <button
+                  type="button"
+                  className="header-login-button"
+                  onClick={handleLogout}
+                  disabled={loggingOut}
+                >
+                  {loggingOut ? "ログアウト中..." : "ログアウト"}
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="header-login-button"
+                  onClick={() => navigate("/login")}
+                >
+                  ログイン
+                </button>
+              )}
+            </>
           )}
 
           <button
+            type="button"
             className="hamburger-button"
-            onClick={() => setIsMenuOpen(true)}
+            onClick={() => setMenuOpen(true)}
             aria-label="メニューを開く"
           >
             <span />
@@ -96,53 +127,36 @@ export default function Header() {
         </div>
       </header>
 
-      {isMenuOpen && (
-        <div className="menu-overlay" onClick={() => setIsMenuOpen(false)}>
+      {menuOpen && (
+        <div className="menu-overlay" onClick={() => setMenuOpen(false)}>
           <div className="menu-panel" onClick={(e) => e.stopPropagation()}>
             <div className="menu-panel-header">
               <h2>メニュー</h2>
-              <button onClick={() => setIsMenuOpen(false)}>×</button>
+              <button type="button" onClick={() => setMenuOpen(false)}>
+                ×
+              </button>
             </div>
 
             <div className="menu-list">
-              <button onClick={() => moveTo("/")}>ホーム</button>
-              <button onClick={() => moveTo("/tournaments")}>大会を探す</button>
+              <button type="button" onClick={() => goTo("/")}>
+                ホーム
+              </button>
 
-              {isLoggedIn ? (
-                <>
-                  <button onClick={() => moveTo("/applications/status")}>
-                    申込履歴
-                  </button>
-                  <button onClick={() => moveTo("/mypage")}>マイページ</button>
+              <button type="button" onClick={() => goTo("/tournaments")}>
+                大会を探す
+              </button>
 
-                  {isSystemAdmin && (
-                    <button onClick={() => moveTo("/admin/system")}>
-                      システム管理者ページ
-                    </button>
-                  )}
+              <button type="button" onClick={() => goTo("/applications")}>
+                申込状況
+              </button>
 
-                  {isTournamentAdmin && (
-                    <button onClick={() => moveTo("/admin/tournament")}>
-                      大会管理者ページ
-                    </button>
-                  )}
+              <button type="button" onClick={() => goTo("/notices")}>
+                お知らせ
+              </button>
 
-                  {isApplicationAdmin && (
-                    <button onClick={() => moveTo("/admin/application")}>
-                      申し込み管理者ページ
-                    </button>
-                  )}
-
-                  <button className="danger-text" onClick={handleLogout}>
-                    ログアウト
-                  </button>
-                </>
-              ) : (
-                <>
-                  <button onClick={() => moveTo("/login")}>ログイン</button>
-                  <button onClick={() => moveTo("/signup")}>新規登録</button>
-                </>
-              )}
+              <button type="button" onClick={() => goTo("/mypage")}>
+                マイページ
+              </button>
             </div>
           </div>
         </div>

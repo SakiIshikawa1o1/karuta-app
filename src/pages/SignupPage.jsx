@@ -1,8 +1,72 @@
-// src/pages/SignupPage.jsx
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
+
+function UserIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M12 12c2.76 0 5-2.24 5-5S14.76 2 12 2 7 4.24 7 7s2.24 5 5 5Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+function BuildingIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M4 21V3h12v18h-3v-4H7v4H4Zm3-12h2V7H7v2Zm0 4h2v-2H7v2Zm4-4h2V7h-2v2Zm0 4h2v-2h-2v2Zm7 8V8h2v13h-2Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+function MedalIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M12 2a5 5 0 0 0-3 9v4.8l3-1.8 3 1.8V11a5 5 0 0 0-3-9Zm0 7.2a2.2 2.2 0 1 1 0-4.4 2.2 2.2 0 0 1 0 4.4ZM7 22l5-3 5 3v-8.2l-5-3-5 3V22Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+function MailIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M3 5h18v14H3V5Zm9 7.2L5.3 7H4.8l7.2 5.6L19.2 7h-.5L12 12.2Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+function LockIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M17 9h-1V7a4 4 0 1 0-8 0v2H7a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2Zm-7-2a2 2 0 1 1 4 0v2h-4V7Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+function EyeIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M12 5C6 5 2.06 10.02 1 12c1.06 1.98 5 7 11 7s9.94-5.02 11-7c-1.06-1.98-5-7-11-7Zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
 
 export default function SignupPage() {
   const navigate = useNavigate();
@@ -11,18 +75,40 @@ export default function SignupPage() {
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
   const [organization, setOrganization] = useState("");
   const [grade, setGrade] = useState("");
   const [phone, setPhone] = useState("");
+  const [agreed, setAgreed] = useState(false);
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
   const [saving, setSaving] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSignup = async () => {
+  const handleSignup = async (e) => {
+    e.preventDefault();
     setErrorMessage("");
 
-    if (!fullName || !email || !password) {
-      setErrorMessage("氏名、メールアドレス、パスワードは必須です。");
+    if (!fullName || !email || !password || !organization || !grade) {
+      setErrorMessage(
+        "名前、メールアドレス、パスワード、所属会、段位は必須です。"
+      );
+      return;
+    }
+
+    if (password.length < 8) {
+      setErrorMessage("パスワードは8文字以上で入力してください。");
+      return;
+    }
+
+    if (password !== passwordConfirm) {
+      setErrorMessage("パスワードが一致していません。");
+      return;
+    }
+
+    if (!agreed) {
+      setErrorMessage("利用規約とプライバシーポリシーへの同意が必要です。");
       return;
     }
 
@@ -82,94 +168,219 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="screen">
-      <h1>新規登録</h1>
-
-      <div className="form-card">
-        {errorMessage && <p className="error-text">{errorMessage}</p>}
-
-        <label>
-          氏名
-          <input
-            type="text"
-            placeholder="山田 太郎"
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-          />
-        </label>
-
-        <label>
-          表示名
-          <input
-            type="text"
-            placeholder="山田 太郎"
-            value={displayName}
-            onChange={(e) => setDisplayName(e.target.value)}
-          />
-        </label>
-
-        <label>
-          メールアドレス
-          <input
-            type="email"
-            placeholder="karuta@example.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </label>
-
-        <label>
-          パスワード
-          <input
-            type="password"
-            placeholder="パスワード"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </label>
-
-        <label>
-          所属会
-          <input
-            type="text"
-            placeholder="東京かるた会"
-            value={organization}
-            onChange={(e) => setOrganization(e.target.value)}
-          />
-        </label>
-
-        <label>
-          段位
-          <select value={grade} onChange={(e) => setGrade(e.target.value)}>
-            <option value="">選択してください</option>
-            <option value="無段">無段</option>
-            <option value="初段">初段</option>
-            <option value="二段">二段</option>
-            <option value="三段">三段</option>
-            <option value="四段">四段</option>
-            <option value="五段">五段</option>
-            <option value="六段">六段</option>
-            <option value="七段">七段</option>
-          </select>
-        </label>
-
-        <label>
-          電話番号
-          <input
-            type="text"
-            placeholder="090-1234-5678"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
-        </label>
-
-        <button className="primary" onClick={handleSignup} disabled={saving}>
-          {saving ? "登録中..." : "登録する"}
+    <div className="signup-page">
+      <div className="signup-shell">
+        <button
+          type="button"
+          className="signup-back-button"
+          onClick={() => navigate("/login")}
+          aria-label="ログイン画面に戻る"
+        >
+          ‹
         </button>
 
-        <button className="link-button" onClick={() => navigate("/login")}>
-          すでにアカウントをお持ちの方はこちら
-        </button>
+        <div className="signup-wave-bg" aria-hidden="true" />
+
+        <div className="signup-inner">
+          <header className="signup-brand">
+            <div className="signup-brand-logo">
+              <img src="/images/logo.png" alt="まにまに" />
+            </div>
+
+            <h1>新規登録</h1>
+            <p>アカウント情報を入力してください</p>
+          </header>
+
+          <form className="signup-form" onSubmit={handleSignup}>
+            {errorMessage && <p className="signup-error-text">{errorMessage}</p>}
+
+            <div className="signup-field">
+              <label className="signup-label" htmlFor="fullName">
+                <span className="signup-label-icon">
+                  <UserIcon />
+                </span>
+                <span>名前</span>
+              </label>
+              <input
+                id="fullName"
+                type="text"
+                placeholder="例）山田 太郎"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                autoComplete="name"
+              />
+            </div>
+
+            <div className="signup-field">
+              <label className="signup-label" htmlFor="displayName">
+                <span className="signup-label-icon">
+                  <UserIcon />
+                </span>
+                <span>名前（ふりがな）</span>
+              </label>
+              <input
+                id="displayName"
+                type="text"
+                placeholder="例）やまだ たろう"
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+              />
+            </div>
+
+            <div className="signup-field">
+              <label className="signup-label" htmlFor="organization">
+                <span className="signup-label-icon">
+                  <BuildingIcon />
+                </span>
+                <span>所属会</span>
+              </label>
+              <div className="signup-select-wrap">
+                <select
+                  id="organization"
+                  value={organization}
+                  onChange={(e) => setOrganization(e.target.value)}
+                  required
+                >
+                  <option value="">選択してください</option>
+                  <option value="東京かるた会">東京かるた会</option>
+                  <option value="神奈川かるた会">神奈川かるた会</option>
+                  <option value="千葉かるた会">千葉かるた会</option>
+                  <option value="埼玉かるた会">埼玉かるた会</option>
+                  <option value="その他">その他</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="signup-field">
+              <label className="signup-label" htmlFor="grade">
+                <span className="signup-label-icon">
+                  <MedalIcon />
+                </span>
+                <span>段位</span>
+              </label>
+              <div className="signup-select-wrap">
+                <select
+                  id="grade"
+                  value={grade}
+                  onChange={(e) => setGrade(e.target.value)}
+                  required
+                >
+                  <option value="">選択してください</option>
+                  <option value="無段">無段</option>
+                  <option value="初段">初段</option>
+                  <option value="二段">二段</option>
+                  <option value="三段">三段</option>
+                  <option value="四段">四段</option>
+                  <option value="五段">五段</option>
+                  <option value="六段">六段</option>
+                  <option value="七段">七段</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="signup-field">
+              <label className="signup-label" htmlFor="email">
+                <span className="signup-label-icon">
+                  <MailIcon />
+                </span>
+                <span>メールアドレス</span>
+              </label>
+              <input
+                id="email"
+                type="email"
+                placeholder="example@mail.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                autoComplete="email"
+              />
+            </div>
+
+            <div className="signup-field">
+              <label className="signup-label" htmlFor="password">
+                <span className="signup-label-icon">
+                  <LockIcon />
+                </span>
+                <span>パスワード</span>
+              </label>
+              <div className="signup-password-wrap">
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="半角英数字8文字以上"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  autoComplete="new-password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  aria-label="パスワードを表示"
+                >
+                  <EyeIcon />
+                </button>
+              </div>
+            </div>
+
+            <div className="signup-field">
+              <label className="signup-label" htmlFor="passwordConfirm">
+                <span className="signup-label-icon">
+                  <LockIcon />
+                </span>
+                <span>パスワード（確認用）</span>
+              </label>
+              <div className="signup-password-wrap">
+                <input
+                  id="passwordConfirm"
+                  type={showPasswordConfirm ? "text" : "password"}
+                  placeholder="もう一度入力してください"
+                  value={passwordConfirm}
+                  onChange={(e) => setPasswordConfirm(e.target.value)}
+                  autoComplete="new-password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPasswordConfirm((prev) => !prev)}
+                  aria-label="確認用パスワードを表示"
+                >
+                  <EyeIcon />
+                </button>
+              </div>
+            </div>
+
+            <label className="signup-agree">
+              <input
+                type="checkbox"
+                checked={agreed}
+                onChange={(e) => setAgreed(e.target.checked)}
+              />
+              <span>
+                <button type="button" onClick={() => navigate("/terms")}>
+                  利用規約
+                </button>
+                と
+                <button type="button" onClick={() => navigate("/privacy")}>
+                  プライバシーポリシー
+                </button>
+                に同意します
+              </span>
+            </label>
+
+            <button
+              className="signup-primary-button"
+              type="submit"
+              disabled={saving}
+            >
+              {saving ? "登録中..." : "登録する"}
+            </button>
+
+            <div className="signup-login-guide">
+              <p>すでにアカウントをお持ちの方はこちら</p>
+              <button type="button" onClick={() => navigate("/login")}>
+                ログイン
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
