@@ -20,6 +20,7 @@ import TournamentCreatePage from "./pages/TournamentCreatePage";
 import TournamentEditPage from "./pages/TournamentEditPage";
 import ApplicationAdminPage from "./pages/ApplicationAdminPage";
 import NoticesPage from "./pages/NoticesPage";
+import { ContactPage, PrivacyPage, TermsPage } from "./pages/SupportPages";
 
 import { ROLE } from "./utils/roles";
 
@@ -36,6 +37,9 @@ export default function App() {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/tournaments" element={<TournamentListPage />} />
           <Route path="/notices" element={<NoticesPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/contact" element={<ContactPage />} />
 
           {/* ログイン必須ページ */}
           <Route

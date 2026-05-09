@@ -12,17 +12,18 @@ const STATUS_LABEL = {
   cancelled: "中止",
 };
 
+const WEEKDAYS = ["日", "月", "火", "水", "木", "金", "土"];
+
 function formatDate(value) {
   if (!value) return "未設定";
 
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return value;
 
-  const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
   const yyyy = date.getFullYear();
   const mm = String(date.getMonth() + 1).padStart(2, "0");
   const dd = String(date.getDate()).padStart(2, "0");
-  const day = weekdays[date.getDay()];
+  const day = WEEKDAYS[date.getDay()];
 
   return `${yyyy}/${mm}/${dd} (${day})`;
 }
@@ -33,11 +34,10 @@ function formatDeadline(value) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return value;
 
-  const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
   const yyyy = date.getFullYear();
   const mm = String(date.getMonth() + 1).padStart(2, "0");
   const dd = String(date.getDate()).padStart(2, "0");
-  const day = weekdays[date.getDay()];
+  const day = WEEKDAYS[date.getDay()];
   const hh = String(date.getHours()).padStart(2, "0");
   const min = String(date.getMinutes()).padStart(2, "0");
 
@@ -50,15 +50,12 @@ function formatDeadlineShort(value) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return "";
 
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-
-  return `${month}月${day}日`;
+  return `${date.getMonth() + 1}月${date.getDate()}日`;
 }
 
 function formatYen(value) {
   if (value === null || value === undefined || value === "") return "未設定";
-  return `${Number(value).toLocaleString()}円`;
+  return `${Number(value).toLocaleString("ja-JP")}円`;
 }
 
 export default function TournamentDetailPage() {
@@ -130,9 +127,7 @@ export default function TournamentDetailPage() {
 
     if (tournament.status === "published" && tournament.application_deadline) {
       const shortDeadline = formatDeadlineShort(tournament.application_deadline);
-      return shortDeadline
-        ? `${statusLabel}（${shortDeadline}まで）`
-        : statusLabel;
+      return shortDeadline ? `${statusLabel}（${shortDeadline}まで）` : statusLabel;
     }
 
     return statusLabel;
@@ -152,11 +147,6 @@ export default function TournamentDetailPage() {
       return;
     }
 
-    if (alreadyApplied) {
-      navigate("/applications/status");
-      return;
-    }
-
     if (canApply) {
       navigate(`/tournaments/${id}/apply`);
     }
@@ -172,15 +162,6 @@ export default function TournamentDetailPage() {
 
   return (
     <div className="tournament-detail-page">
-      <button
-        type="button"
-        className="tournament-detail-back"
-        onClick={() => navigate("/tournaments")}
-        aria-label="大会一覧へ戻る"
-      >
-        ‹
-      </button>
-
       {message && <p className="error-text">{message}</p>}
 
       {tournament && (
@@ -199,7 +180,7 @@ export default function TournamentDetailPage() {
             <div className="tournament-detail-summary-meta">
               <div className="detail-summary-meta-row">
                 <div className="detail-summary-icon detail-summary-icon-date">
-                  ▦
+                  日
                 </div>
                 <span>開催日</span>
                 <strong>{formatDate(tournament.event_date)}</strong>
@@ -207,7 +188,7 @@ export default function TournamentDetailPage() {
 
               <div className="detail-summary-meta-row">
                 <div className="detail-summary-icon detail-summary-icon-venue">
-                  ●
+                  場
                 </div>
                 <span>会場</span>
                 <strong>{tournament.venue || "未設定"}</strong>
@@ -223,7 +204,7 @@ export default function TournamentDetailPage() {
 
           <main className="tournament-detail-content">
             <section className="detail-info-card">
-              <div className="detail-info-icon calendar">▦</div>
+              <div className="detail-info-icon calendar">日</div>
               <div>
                 <h2>開催日時</h2>
                 <p className="detail-large-text">
@@ -233,7 +214,7 @@ export default function TournamentDetailPage() {
             </section>
 
             <section className="detail-info-card">
-              <div className="detail-info-icon map">⌖</div>
+              <div className="detail-info-icon map">場</div>
               <div>
                 <h2>住所</h2>
                 <p>{tournament.address || "住所未設定"}</p>
@@ -241,7 +222,7 @@ export default function TournamentDetailPage() {
             </section>
 
             <section className="detail-info-card">
-              <div className="detail-info-icon people">👥</div>
+              <div className="detail-info-icon people">人</div>
               <div>
                 <h2>参加資格・定員</h2>
                 <p>
@@ -258,7 +239,7 @@ export default function TournamentDetailPage() {
             </section>
 
             <section className="detail-info-card">
-              <div className="detail-info-icon deadline">〆</div>
+              <div className="detail-info-icon deadline">締</div>
               <div>
                 <h2>申込締切</h2>
                 <p className="detail-large-text">
@@ -268,7 +249,7 @@ export default function TournamentDetailPage() {
             </section>
 
             <section className="detail-info-card">
-              <div className="detail-info-icon yen">￥</div>
+              <div className="detail-info-icon yen">円</div>
               <div>
                 <h2>参加費</h2>
                 <p className="detail-large-text">
@@ -283,7 +264,7 @@ export default function TournamentDetailPage() {
             </section>
 
             <section className="detail-info-card detail-info-card-text">
-              <div className="detail-info-icon document">📄</div>
+              <div className="detail-info-icon document">文</div>
               <div>
                 <h2>大会説明</h2>
                 <p>
@@ -298,10 +279,9 @@ export default function TournamentDetailPage() {
 
           <div className="tournament-detail-bottom-cta">
             {alreadyApplied ? (
-              <button type="button" onClick={handleApplyClick}>
-                申込状況を見る
-                <span>›</span>
-              </button>
+              <p className="tournament-detail-applied-message">
+                この大会は申し込み済みです
+              </p>
             ) : canApply ? (
               <button type="button" onClick={handleApplyClick}>
                 大会に申し込む

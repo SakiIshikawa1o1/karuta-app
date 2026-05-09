@@ -68,7 +68,7 @@ export default function Header() {
           <button
             type="button"
             className={isActive("/applications") ? "active" : ""}
-            onClick={() => goTo("/applications")}
+            onClick={() => goTo("/applications/status")}
           >
             申込状況
           </button>
@@ -146,7 +146,7 @@ export default function Header() {
                 大会を探す
               </button>
 
-              <button type="button" onClick={() => goTo("/applications")}>
+              <button type="button" onClick={() => goTo("/applications/status")}>
                 申込状況
               </button>
 

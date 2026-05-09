@@ -1,8 +1,7 @@
-// src/pages/TournamentListPage.jsx
-
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
+import SiteFooter from "../components/SiteFooter";
 
 const STATUS_LABEL = {
   draft: "準備中",
@@ -12,157 +11,76 @@ const STATUS_LABEL = {
 };
 
 const STATUS_OPTIONS = [
-  { value: "", label: "すべての受付状況" },
+  { value: "", label: "すべての受付状態" },
   { value: "published", label: "受付中" },
   { value: "closed", label: "受付終了" },
   { value: "cancelled", label: "中止" },
   { value: "draft", label: "準備中" },
 ];
 
-const REGION_OPTIONS = [
-  { value: "", label: "すべての地域" },
-  { value: "北海道", label: "北海道" },
-  { value: "東北", label: "東北" },
-  { value: "関東", label: "関東" },
-  { value: "中部", label: "中部" },
-  { value: "近畿", label: "近畿" },
-  { value: "中国", label: "中国" },
-  { value: "四国", label: "四国" },
-  { value: "九州", label: "九州" },
-];
-
-const GRADE_OPTIONS = [
-  { value: "", label: "すべての出場級" },
-  { value: "A級", label: "A級" },
-  { value: "B級", label: "B級" },
-  { value: "C級", label: "C級" },
-  { value: "D級", label: "D級" },
-  { value: "E級", label: "E級" },
-  { value: "初心者", label: "初心者" },
-  { value: "小学生", label: "小学生" },
-  { value: "中学生", label: "中学生" },
-  { value: "高校生", label: "高校生" },
-  { value: "大学生", label: "大学生" },
-  { value: "一般", label: "一般" },
-];
-
 function formatDate(value) {
-  if (!value) return "-";
+  if (!value) return "未設定";
 
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return value;
 
-  return date.toLocaleDateString("ja-JP", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    weekday: "short",
-  });
+  return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(
+    2,
+    "0"
+  )}/${String(date.getDate()).padStart(2, "0")}`;
 }
 
 function formatMonthKey(value) {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "";
-
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  return `${year}-${month}`;
-}
-
-function formatMonthLabel(value) {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "-";
-
-  return `${date.getMonth() + 1}月`;
-}
-
-function formatShortDate(value) {
-  if (!value) return "";
+  if (!value) return "未定";
 
   const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return value;
+  if (Number.isNaN(date.getTime())) return "未定";
 
-  return `${date.getMonth() + 1}月${date.getDate()}日`;
-}
-
-function getTournamentRegion(tournament) {
-  return (
-    tournament.region ||
-    tournament.area ||
-    tournament.prefecture ||
-    tournament.address ||
-    tournament.venue ||
-    ""
-  );
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
 }
 
 function getTournamentGrade(tournament) {
   return (
     tournament.grade ||
-    tournament.grades ||
-    tournament.rank ||
-    tournament.class_name ||
-    tournament.division ||
-    tournament.category ||
     tournament.target_grade ||
-    tournament.entry_class ||
+    tournament.eligible_grade ||
+    tournament.eligible_grades ||
+    tournament.class_level ||
     ""
   );
 }
 
-function getTournamentDeadline(tournament) {
-  return (
-    tournament.application_deadline ||
-    tournament.deadline ||
-    tournament.entry_deadline ||
-    tournament.apply_deadline ||
-    tournament.application_end_date ||
-    tournament.entry_end_date ||
-    null
-  );
-}
-
 function buildMonthTabs(tournaments) {
-  const monthMap = new Map();
+  const months = new Map();
 
   tournaments.forEach((tournament) => {
-    if (!tournament.event_date) return;
-
     const key = formatMonthKey(tournament.event_date);
-    if (!key) return;
+    if (key === "未定") return;
 
-    const current = monthMap.get(key) || {
-      key,
-      label: formatMonthLabel(tournament.event_date),
-      count: 0,
-    };
+    if (!months.has(key)) {
+      const date = new Date(`${key}-01T00:00:00`);
+      months.set(key, {
+        key,
+        label: `${date.getMonth() + 1}月`,
+        count: 0,
+      });
+    }
 
-    current.count += 1;
-    monthMap.set(key, current);
+    months.get(key).count += 1;
   });
 
-  return Array.from(monthMap.values()).sort((a, b) =>
-    a.key.localeCompare(b.key)
-  );
+  return Array.from(months.values());
 }
 
 function groupByDate(tournaments) {
-  const map = new Map();
-
-  tournaments.forEach((tournament) => {
-    const key = tournament.event_date || "未定";
-
-    if (!map.has(key)) {
-      map.set(key, []);
+  return tournaments.reduce((groups, tournament) => {
+    const key = formatDate(tournament.event_date);
+    if (!groups.has(key)) {
+      groups.set(key, []);
     }
-
-    map.get(key).push(tournament);
-  });
-
-  return Array.from(map.entries()).map(([date, items]) => ({
-    date,
-    items,
-  }));
+    groups.get(key).push(tournament);
+    return groups;
+  }, new Map());
 }
 
 export default function TournamentListPage() {
@@ -171,128 +89,87 @@ export default function TournamentListPage() {
   const [tournaments, setTournaments] = useState([]);
   const [keyword, setKeyword] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
-  const [selectedRegion, setSelectedRegion] = useState("");
-  const [selectedGrade, setSelectedGrade] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
+  const [selectedGrade, setSelectedGrade] = useState("");
   const [visibleCount, setVisibleCount] = useState(8);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
 
-  const fetchTournaments = async () => {
-    setLoading(true);
-    setMessage("");
-
-    const { data, error } = await supabase
-      .from("tournaments")
-      .select("*")
-      .order("event_date", { ascending: true });
-
-    setLoading(false);
-
-    if (error) {
-      setMessage(`大会一覧の取得に失敗しました：${error.message}`);
-      return;
-    }
-
-    const list = data ?? [];
-    setTournaments(list);
-
-    const tabs = buildMonthTabs(list);
-    if (!selectedMonth && tabs.length > 0) {
-      setSelectedMonth(tabs[0].key);
-    }
-  };
-
   useEffect(() => {
+    const fetchTournaments = async () => {
+      setLoading(true);
+      setMessage("");
+
+      const { data, error } = await supabase
+        .from("tournaments")
+        .select("*")
+        .order("event_date", { ascending: true });
+
+      setLoading(false);
+
+      if (error) {
+        setMessage(`大会一覧の取得に失敗しました: ${error.message}`);
+        return;
+      }
+
+      const list = data ?? [];
+      setTournaments(list);
+
+      const tabs = buildMonthTabs(list);
+      if (tabs.length > 0) {
+        setSelectedMonth(tabs[0].key);
+      }
+    };
+
     fetchTournaments();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const monthTabs = useMemo(() => buildMonthTabs(tournaments), [tournaments]);
 
+  const gradeOptions = useMemo(() => {
+    return Array.from(
+      new Set(tournaments.map(getTournamentGrade).filter(Boolean))
+    ).sort((a, b) => a.localeCompare(b, "ja"));
+  }, [tournaments]);
+
   const filteredTournaments = useMemo(() => {
+    const normalizedKeyword = keyword.trim().toLowerCase();
+
     return tournaments.filter((tournament) => {
       const title = tournament.title || "";
       const venue = tournament.venue || "";
-      const regionText = getTournamentRegion(tournament);
-      const gradeText = getTournamentGrade(tournament);
+      const grade = getTournamentGrade(tournament);
       const monthKey = formatMonthKey(tournament.event_date);
 
       const matchesKeyword =
-        !keyword ||
-        title.includes(keyword) ||
-        venue.includes(keyword) ||
-        regionText.includes(keyword) ||
-        String(gradeText).includes(keyword);
+        !normalizedKeyword ||
+        title.toLowerCase().includes(normalizedKeyword) ||
+        venue.toLowerCase().includes(normalizedKeyword) ||
+        grade.toLowerCase().includes(normalizedKeyword);
 
       const matchesMonth = !selectedMonth || monthKey === selectedMonth;
-
-      const matchesRegion =
-        !selectedRegion || regionText.includes(selectedRegion);
-
-      const matchesGrade =
-        !selectedGrade || String(gradeText).includes(selectedGrade);
-
       const matchesStatus =
         !selectedStatus || tournament.status === selectedStatus;
+      const matchesGrade = !selectedGrade || grade === selectedGrade;
 
-      return (
-        matchesKeyword &&
-        matchesMonth &&
-        matchesRegion &&
-        matchesGrade &&
-        matchesStatus
-      );
+      return matchesKeyword && matchesMonth && matchesStatus && matchesGrade;
     });
-  }, [
-    tournaments,
-    keyword,
-    selectedMonth,
-    selectedRegion,
-    selectedGrade,
-    selectedStatus,
-  ]);
+  }, [tournaments, keyword, selectedMonth, selectedStatus, selectedGrade]);
 
   const visibleTournaments = filteredTournaments.slice(0, visibleCount);
-  const groupedTournaments = groupByDate(visibleTournaments);
-
-  const selectedMonthIndex = monthTabs.findIndex(
-    (month) => month.key === selectedMonth
+  const groupedTournaments = useMemo(
+    () => Array.from(groupByDate(visibleTournaments).entries()),
+    [visibleTournaments]
   );
+  const activeFilterCount = [keyword, selectedStatus, selectedGrade].filter(Boolean).length;
 
-  const moveMonth = (direction) => {
-    if (monthTabs.length === 0) return;
-
-    const currentIndex = selectedMonthIndex === -1 ? 0 : selectedMonthIndex;
-    const nextIndex = currentIndex + direction;
-
-    if (nextIndex < 0 || nextIndex >= monthTabs.length) return;
-
-    setSelectedMonth(monthTabs[nextIndex].key);
-    setVisibleCount(8);
-  };
-
-  const resetFilters = () => {
+  const clearFilters = () => {
     setKeyword("");
-    setSelectedRegion("");
-    setSelectedGrade("");
     setSelectedStatus("");
+    setSelectedGrade("");
     setVisibleCount(8);
-
-    if (monthTabs.length > 0) {
-      setSelectedMonth(monthTabs[0].key);
-    } else {
-      setSelectedMonth("");
-    }
   };
-
-  const activeFilterCount = [
-    keyword,
-    selectedRegion,
-    selectedGrade,
-    selectedStatus,
-  ].filter(Boolean).length;
 
   return (
     <div className="tournament-search-page">
@@ -300,94 +177,70 @@ export default function TournamentListPage() {
         <div className="tournament-search-hero-copy">
           <p>TOURNAMENTS</p>
           <h1>大会を探す</h1>
+          <span>
+            開催予定の大会を検索し、詳細情報や受付状況を確認できます。
+          </span>
         </div>
       </section>
 
-      <section className="tournament-month-tabs">
-        <button
-          type="button"
-          className="month-arrow"
-          onClick={() => moveMonth(-1)}
-          disabled={selectedMonthIndex <= 0}
-        >
-          ‹
-        </button>
-
-        <div className="month-tab-scroll">
-          {monthTabs.map((month) => (
-            <button
-              type="button"
-              key={month.key}
-              className={`month-tab ${
-                selectedMonth === month.key ? "active" : ""
-              }`}
-              onClick={() => {
-                setSelectedMonth(month.key);
-                setVisibleCount(8);
-              }}
-            >
-              <strong>{month.label}</strong>
-              <span>{month.count}件</span>
-            </button>
-          ))}
-        </div>
-
-        <button
-          type="button"
-          className="month-arrow"
-          onClick={() => moveMonth(1)}
-          disabled={
-            selectedMonthIndex === -1 ||
-            selectedMonthIndex >= monthTabs.length - 1
-          }
-        >
-          ›
-        </button>
-      </section>
+      {monthTabs.length > 0 && (
+        <section className="tournament-month-tabs">
+          <button className="month-arrow" type="button" disabled>
+            ‹
+          </button>
+          <div className="month-tab-scroll">
+            {monthTabs.map((month) => (
+              <button
+                type="button"
+                key={month.key}
+                className={selectedMonth === month.key ? "month-tab active" : "month-tab"}
+                onClick={() => {
+                  setSelectedMonth(month.key);
+                  setVisibleCount(8);
+                }}
+              >
+                <strong>{month.label}</strong>
+                <span>{month.count}件</span>
+              </button>
+            ))}
+          </div>
+          <button className="month-arrow" type="button" disabled>
+            ›
+          </button>
+        </section>
+      )}
 
       <section className="filter-accordion">
         <button
           type="button"
           className="filter-accordion-button"
-          onClick={() => setIsFilterOpen((current) => !current)}
+          onClick={() => setIsFilterOpen((prev) => !prev)}
         >
           <span>検索・絞り込み</span>
-
-          {activeFilterCount > 0 && (
-            <strong>{activeFilterCount}件の条件</strong>
-          )}
-
-          <em className="filter-accordion-toggle">
-            <span className="filter-accordion-toggle-text">
-              {isFilterOpen ? "閉じる " : "開く "}
-            </span>
-            <span className="filter-accordion-toggle-icon" aria-hidden="true">
-              ▼
-            </span>
-          </em>
+          <strong>{activeFilterCount}件の条件</strong>
+          <em>{isFilterOpen ? "閉じる" : "開く"}</em>
         </button>
 
         {isFilterOpen && (
           <div className="tournament-filter-panel">
             <input
-              className="tournament-keyword-input"
-              placeholder="大会名・会場・級で検索"
               value={keyword}
               onChange={(event) => {
                 setKeyword(event.target.value);
                 setVisibleCount(8);
               }}
+              placeholder="大会名・会場・級で検索"
             />
 
             <select
-              value={selectedRegion}
+              value={selectedStatus}
               onChange={(event) => {
-                setSelectedRegion(event.target.value);
+                setSelectedStatus(event.target.value);
                 setVisibleCount(8);
               }}
             >
-              {REGION_OPTIONS.map((option) => (
-                <option value={option.value} key={option.value}>
+              {STATUS_OPTIONS.map((option) => (
+                <option key={option.value || "all"} value={option.value}>
                   {option.label}
                 </option>
               ))}
@@ -400,32 +253,15 @@ export default function TournamentListPage() {
                 setVisibleCount(8);
               }}
             >
-              {GRADE_OPTIONS.map((option) => (
-                <option value={option.value} key={option.value}>
-                  {option.label}
+              <option value="">すべての級</option>
+              {gradeOptions.map((grade) => (
+                <option key={grade} value={grade}>
+                  {grade}
                 </option>
               ))}
             </select>
 
-            <select
-              value={selectedStatus}
-              onChange={(event) => {
-                setSelectedStatus(event.target.value);
-                setVisibleCount(8);
-              }}
-            >
-              {STATUS_OPTIONS.map((option) => (
-                <option value={option.value} key={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-
-            <button
-              type="button"
-              className="filter-reset-button"
-              onClick={resetFilters}
-            >
+            <button className="filter-reset-button" type="button" onClick={clearFilters}>
               リセット
             </button>
           </div>
@@ -440,64 +276,44 @@ export default function TournamentListPage() {
         <div className="empty-card">表示できる大会がありません。</div>
       ) : (
         <section className="tournament-date-list">
-          {groupedTournaments.map((group) => (
-            <div className="tournament-date-group" key={group.date}>
+          {groupedTournaments.map(([dateLabel, dateTournaments]) => (
+            <div className="tournament-date-group" key={dateLabel}>
               <h2 className="tournament-date-heading">
-                <span>▣</span>
-                {formatDate(group.date)}
+                <span>●</span>
+                {dateLabel}
               </h2>
 
               <div className="tournament-list-stack">
-                {group.items.map((tournament) => {
-                  const grade = getTournamentGrade(tournament);
-                  const deadline = getTournamentDeadline(tournament);
+                {dateTournaments.map((tournament) => (
+                  <article className="tournament-list-item" key={tournament.id}>
+                    <div className="tournament-list-main">
+                      <h3>{tournament.title}</h3>
 
-                  return (
-
-                    <article
-                      className="tournament-list-item tournament-list-clickable"
-                      key={tournament.id}
-                      role="button"
-                      tabIndex={0}
-                      onClick={() => navigate(`/tournaments/${tournament.id}`)}
-                      onKeyDown={(event) => {
-                        if (event.key === "Enter" || event.key === " ") {
-                          event.preventDefault();
-                          navigate(`/tournaments/${tournament.id}`);
-                        }
-                      }}
-                    >
-                      <div className="tournament-list-main">
-                        <h3>{tournament.title}</h3>
-
-                        <div className="tournament-list-meta">
-                          <div className="tournament-status-row">
-                            <span className={`tournament-inline-status status-${tournament.status}`}>
-                              {STATUS_LABEL[tournament.status] || tournament.status}
-                              {deadline && tournament.status === "published" && (
-                                <>（{formatShortDate(deadline)}まで）</>
-                              )}
-                            </span>
-                          </div>
-
-                          <div className="tournament-place-grade-row">
-                            <span className="tournament-grade">
-                              級：{grade || "未設定"}
-                            </span>
-
-                            <span className="tournament-venue">
-                              ● {tournament.venue || "会場未設定"}
-                            </span>
-                          </div>
-                        </div>
+                      <div className="tournament-list-meta">
+                        <span className={`tournament-inline-status status-${tournament.status}`}>
+                          {STATUS_LABEL[tournament.status] || tournament.status}
+                        </span>
+                        <span className="tournament-venue">
+                          場所：{tournament.venue || "会場未設定"}
+                        </span>
+                        {getTournamentGrade(tournament) && (
+                          <span className="tournament-grade">
+                            級：{getTournamentGrade(tournament)}
+                          </span>
+                        )}
                       </div>
+                    </div>
 
-                      <span className="tournament-card-arrow">›</span>
-                    </article>
-
-
-                  );
-                })}
+                    <div className="tournament-list-actions">
+                      <button
+                        type="button"
+                        onClick={() => navigate(`/tournaments/${tournament.id}`)}
+                      >
+                        詳細
+                      </button>
+                    </div>
+                  </article>
+                ))}
               </div>
             </div>
           ))}
@@ -506,76 +322,16 @@ export default function TournamentListPage() {
             <button
               type="button"
               className="load-more-tournaments"
-              onClick={() => setVisibleCount((current) => current + 8)}
+              onClick={() => setVisibleCount((prev) => prev + 8)}
             >
               さらに先の大会を表示
-              <span>⌄</span>
+              <span>›</span>
             </button>
           )}
         </section>
       )}
 
-      <footer className="site-footer">
-        <div className="footer-main">
-          <div>
-            <div className="footer-logo">
-              <span className="footer-logo-image" aria-hidden="true" />
-              <div>
-                <strong>まにまに</strong>
-                <small>大会申込システム</small>
-              </div>
-            </div>
-
-            <p className="footer-description">
-              競技かるたの大会情報確認から申込状況の管理までを、
-              もっとわかりやすく、もっとスムーズに。
-            </p>
-          </div>
-
-          <div className="footer-links">
-            <div>
-              <h3>サイト</h3>
-              <button type="button" onClick={() => navigate("/")}>
-                ホーム
-              </button>
-              <button type="button" onClick={() => navigate("/tournaments")}>
-                大会一覧
-              </button>
-              <button type="button" onClick={() => navigate("/notices")}>
-                お知らせ
-              </button>
-            </div>
-
-            <div>
-              <h3>会員メニュー</h3>
-              <button
-                type="button"
-                onClick={() => navigate("/applications/status")}
-              >
-                申込状況確認
-              </button>
-              <button type="button" onClick={() => navigate("/mypage")}>
-                マイページ
-              </button>
-              <button type="button" onClick={() => navigate("/login")}>
-                ログイン
-              </button>
-            </div>
-
-            <div>
-              <h3>その他</h3>
-              <button type="button">利用規約</button>
-              <button type="button">プライバシーポリシー</button>
-              <button type="button">お問い合わせ</button>
-            </div>
-          </div>
-        </div>
-
-        <div className="footer-bottom">
-          <span>© 2026 まにまに</span>
-          <span>競技かるた大会申込システム</span>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function SiteFooter() {
   const navigate = useNavigate();
+  const { user, loading } = useAuth();
 
   return (
     <footer className="site-footer">
@@ -16,8 +18,7 @@ export default function SiteFooter() {
           </div>
 
           <p className="footer-description">
-            競技かるたの大会申込を、もっと分かりやすく、もっとスムーズに。
-            大会情報の確認から申込状況の管理までをサポートします。
+            競技かるたの大会情報確認から申込状況の管理までを、わかりやすくスムーズにサポートします。
           </p>
         </div>
 
@@ -30,12 +31,17 @@ export default function SiteFooter() {
             <button type="button" onClick={() => navigate("/tournaments")}>
               大会を探す
             </button>
-            <button type="button" onClick={() => navigate("/applications")}>
+            <button type="button" onClick={() => navigate("/applications/status")}>
               申込状況
             </button>
             <button type="button" onClick={() => navigate("/mypage")}>
               マイページ
             </button>
+            {!loading && !user && (
+              <button type="button" onClick={() => navigate("/login")}>
+                ログイン
+              </button>
+            )}
           </div>
 
           <div>
@@ -44,7 +50,7 @@ export default function SiteFooter() {
               お知らせ
             </button>
             <button type="button" onClick={() => navigate("/contact")}>
-              お問い合わせ
+              問い合わせ
             </button>
             <button type="button" onClick={() => navigate("/privacy")}>
               プライバシーポリシー
