@@ -4,6 +4,118 @@ import { useEffect, useMemo, useState } from "react";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "../contexts/AuthContext";
 
+function UsersIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M16 11a4 4 0 1 0-4-4 4 4 0 0 0 4 4ZM8 11a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-3.3 0-6 1.7-6 3.8V19h9v-2.2c0-1.2.5-2.3 1.4-3.1A10 10 0 0 0 8 13Zm8 0c-3.3 0-6 1.7-6 3.8V19h12v-2.2c0-2.1-2.7-3.8-6-3.8Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+function BuildingIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M4 21V3h12v18h-3v-4H7v4H4Zm3-12h2V7H7v2Zm0 4h2v-2H7v2Zm4-4h2V7h-2v2Zm0 4h2v-2h-2v2Zm7 8V8h2v13h-2Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+function ClipboardIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M9 2h6l1 2h3v18H5V4h3l1-2Zm1.2 3h3.6l-.5-1h-2.6l-.5 1ZM8 9h8v2H8V9Zm0 4h8v2H8v-2Zm0 4h5v2H8v-2Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+function BellIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M12 22a2.8 2.8 0 0 0 2.7-2H9.3A2.8 2.8 0 0 0 12 22Zm8-5-2-2v-5a6 6 0 0 0-4.5-5.8V2h-3v2.2A6 6 0 0 0 6 10v5l-2 2v1h16v-1Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+function MailIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M3 5h18v14H3V5Zm9 7.2L5.3 7H4.8l7.2 5.6L19.2 7h-.5L12 12.2Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+function PlusIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6V5Z" fill="currentColor" />
+    </svg>
+  );
+}
+
+function SendIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M2 21 23 12 2 3v7l15 2-15 2v7Z" fill="currentColor" />
+    </svg>
+  );
+}
+
+function formatDate(dateString) {
+  if (!dateString) return "";
+
+  const date = new Date(dateString);
+
+  if (Number.isNaN(date.getTime())) return "";
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}/${month}/${day}`;
+}
+
+function getDisplayName(targetUser) {
+  return (
+    targetUser?.display_name ||
+    targetUser?.full_name ||
+    targetUser?.email ||
+    "未設定"
+  );
+}
+
+function getInquiryTitle(inquiry) {
+  return inquiry?.subject || inquiry?.title || "問い合わせ";
+}
+
+function getInquiryName(inquiry) {
+  return inquiry?.name || inquiry?.full_name || inquiry?.sender_name || "未設定";
+}
+
+function isInquiryHandled(inquiry) {
+  const status = inquiry?.status || inquiry?.response_status || "";
+  return ["handled", "done", "closed", "対応済み"].includes(status);
+}
+
+function getInquiryStatus(inquiry) {
+  if (isInquiryHandled(inquiry)) return "handled";
+  return inquiry?.status || inquiry?.response_status || "unhandled";
+}
+
 export default function SystemAdminPage() {
   const { user } = useAuth();
 
@@ -11,25 +123,98 @@ export default function SystemAdminPage() {
   const [roles, setRoles] = useState([]);
   const [userRoles, setUserRoles] = useState([]);
   const [notices, setNotices] = useState([]);
+  const [affiliations, setAffiliations] = useState([]);
+  const [inquiries, setInquiries] = useState([]);
 
-  const [selectedUserId, setSelectedUserId] = useState("");
-  const [selectedRoleId, setSelectedRoleId] = useState("");
+  const [pendingRoleByUser, setPendingRoleByUser] = useState({});
+  const [userSearch, setUserSearch] = useState("");
 
+  const [pendingAffiliationById, setPendingAffiliationById] = useState({});
+  const [affiliationName, setAffiliationName] = useState("");
+  const [selectedNoticeId, setSelectedNoticeId] = useState("");
+  const [noticeEditLabel, setNoticeEditLabel] = useState("");
+  const [noticeEditTitle, setNoticeEditTitle] = useState("");
+  const [noticeEditBody, setNoticeEditBody] = useState("");
+
+  const [noticeLabel, setNoticeLabel] = useState("");
   const [noticeTitle, setNoticeTitle] = useState("");
   const [noticeBody, setNoticeBody] = useState("");
+
+  const [pendingInquiryStatusById, setPendingInquiryStatusById] = useState({});
+  const [applicationCount, setApplicationCount] = useState(0);
+  const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
 
-  const userMap = useMemo(() => {
-    return Object.fromEntries(users.map((u) => [u.id, u]));
-  }, [users]);
+  const activeUserRoleMap = useMemo(() => {
+    const map = {};
 
-  const roleMap = useMemo(() => {
-    return Object.fromEntries(roles.map((r) => [r.id, r]));
-  }, [roles]);
+    userRoles.forEach((userRole) => {
+      if (!map[userRole.user_id]) {
+        map[userRole.user_id] = userRole;
+      }
+    });
 
-  const fetchData = async () => {
-    setMessage("");
+    return map;
+  }, [userRoles]);
 
+  const filteredUsers = useMemo(() => {
+    const keyword = userSearch.trim().toLowerCase();
+
+    if (!keyword) return users;
+
+    return users.filter((targetUser) => {
+      const name = getDisplayName(targetUser).toLowerCase();
+      const email = String(targetUser.email || "").toLowerCase();
+      const organization = String(targetUser.organization || "").toLowerCase();
+
+      return (
+        name.includes(keyword) ||
+        email.includes(keyword) ||
+        organization.includes(keyword)
+      );
+    });
+  }, [users, userSearch]);
+
+  const unresolvedInquiryCount = useMemo(() => {
+    return inquiries.filter((item) => !isInquiryHandled(item)).length;
+  }, [inquiries]);
+
+  const stats = [
+    {
+      key: "users",
+      label: "ユーザー数",
+      value: users.length.toLocaleString(),
+      unit: "人",
+      icon: <UsersIcon />,
+      color: "red",
+    },
+    {
+      key: "affiliations",
+      label: "所属会数",
+      value: affiliations.length.toLocaleString(),
+      unit: "件",
+      icon: <BuildingIcon />,
+      color: "blue",
+    },
+    {
+      key: "applications",
+      label: "申込数",
+      value: applicationCount.toLocaleString(),
+      unit: "件",
+      icon: <ClipboardIcon />,
+      color: "orange",
+    },
+    {
+      key: "contacts",
+      label: "問い合わせ数",
+      value: inquiries.length.toLocaleString(),
+      unit: "件",
+      icon: <BellIcon />,
+      color: "red",
+    },
+  ];
+
+  const fetchProfilesAndRoles = async () => {
     const { data: profileData, error: profileError } = await supabase
       .from("profiles")
       .select("id, display_name, full_name, email, organization, grade")
@@ -61,92 +246,241 @@ export default function SystemAdminPage() {
       return;
     }
 
-    const { data: noticeData, error: noticeError } = await supabase
+    setUsers(profileData ?? []);
+    setRoles(roleData ?? []);
+    setUserRoles(userRoleData ?? []);
+
+    const pending = {};
+
+    (profileData ?? []).forEach((targetUser) => {
+      const currentRole = (userRoleData ?? []).find(
+        (role) => role.user_id === targetUser.id
+      );
+
+      pending[targetUser.id] = currentRole?.role_id || "";
+    });
+
+    setPendingRoleByUser(pending);
+  };
+
+  const fetchNotices = async () => {
+    const { data, error } = await supabase
       .from("notices")
       .select("*")
       .order("created_at", { ascending: false });
 
-    if (noticeError) {
-      console.error("お知らせ取得エラー:", noticeError.message);
+    if (error) {
+      console.error("お知らせ取得エラー:", error.message);
+      return;
     }
 
-    setUsers(profileData ?? []);
-    setRoles(roleData ?? []);
-    setUserRoles(userRoleData ?? []);
-    setNotices(noticeData ?? []);
+    setNotices(data ?? []);
+  };
+
+  const fetchAffiliations = async () => {
+    const { data, error } = await supabase
+      .from("affiliations")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error("所属会取得エラー:", error.message);
+      setAffiliations([]);
+      return;
+    }
+
+    const affiliationList = data ?? [];
+    setAffiliations(affiliationList);
+
+    const pending = {};
+
+    affiliationList.forEach((affiliation) => {
+      pending[affiliation.id] = {
+        representative: affiliation.representative || "",
+        member_count:
+          affiliation.member_count === null ||
+          affiliation.member_count === undefined
+            ? ""
+            : String(affiliation.member_count),
+      };
+    });
+
+    setPendingAffiliationById(pending);
+  };
+
+  const fetchInquiries = async () => {
+    const { data, error } = await supabase
+      .from("contacts")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (!error) {
+      setInquiries(data ?? []);
+      return;
+    }
+
+    const { data: inquiryData, error: inquiryError } = await supabase
+      .from("inquiries")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (inquiryError) {
+      console.error("問い合わせ取得エラー:", inquiryError.message);
+      setInquiries([]);
+      return;
+    }
+
+    setInquiries(inquiryData ?? []);
+  };
+
+  const fetchApplicationCount = async () => {
+    const { count, error } = await supabase
+      .from("applications")
+      .select("id", { count: "exact", head: true });
+
+    if (error) {
+      console.error("申込数取得エラー:", error.message);
+      setApplicationCount(0);
+      return;
+    }
+
+    setApplicationCount(count ?? 0);
+  };
+
+  const fetchData = async () => {
+    setLoading(true);
+    setMessage("");
+
+    await Promise.all([
+      fetchProfilesAndRoles(),
+      fetchNotices(),
+      fetchAffiliations(),
+      fetchInquiries(),
+      fetchApplicationCount(),
+    ]);
+
+    setLoading(false);
   };
 
   useEffect(() => {
     fetchData();
   }, []);
 
-  const handleAssignRole = async () => {
-    setMessage("");
+  const handleUpdateUserRole = async (targetUserId) => {
+    const nextRoleId = pendingRoleByUser[targetUserId];
 
-    if (!selectedUserId || !selectedRoleId) {
+    if (!targetUserId || !nextRoleId) {
       setMessage("ユーザーとロールを選択してください。");
       return;
     }
 
-    const { error } = await supabase
-      .from("user_roles")
-      .upsert(
-        {
-          user_id: selectedUserId,
-          role_id: selectedRoleId,
-          is_active: true,
-          updated_by: user?.id,
-          updated_at: new Date().toISOString(),
-        },
-        {
-          onConflict: "user_id,role_id",
-        }
-      );
-
-    if (error) {
-      setMessage(`ロール付与に失敗しました：${error.message}`);
-      return;
-    }
-
-    setSelectedUserId("");
-    setSelectedRoleId("");
-    setMessage("ロールを付与しました。");
-    fetchData();
-  };
-
-  const handleDisableRole = async (userRoleId) => {
-    const ok = window.confirm("このロールを解除しますか？");
+    const ok = window.confirm("このユーザーのロールを更新しますか？");
     if (!ok) return;
 
-    const { error } = await supabase
+    setMessage("");
+
+    const { error: disableError } = await supabase
       .from("user_roles")
       .update({
         is_active: false,
         updated_by: user?.id,
         updated_at: new Date().toISOString(),
       })
-      .eq("id", userRoleId);
+      .eq("user_id", targetUserId)
+      .eq("is_active", true);
 
-    if (error) {
-      setMessage(`ロール解除に失敗しました：${error.message}`);
+    if (disableError) {
+      setMessage(`既存ロールの解除に失敗しました：${disableError.message}`);
       return;
     }
 
-    setMessage("ロールを解除しました。");
-    fetchData();
+    const { error } = await supabase.from("user_roles").upsert(
+      {
+        user_id: targetUserId,
+        role_id: nextRoleId,
+        is_active: true,
+        updated_by: user?.id,
+        updated_at: new Date().toISOString(),
+      },
+      {
+        onConflict: "user_id,role_id",
+      }
+    );
+
+    if (error) {
+      setMessage(`ロール更新に失敗しました：${error.message}`);
+      return;
+    }
+
+    setMessage("ロールを更新しました。");
+    fetchProfilesAndRoles();
+  };
+
+  const handleCreateAffiliation = async () => {
+    setMessage("");
+
+    if (!affiliationName.trim()) {
+      setMessage("所属会名を入力してください。");
+      return;
+    }
+
+    const payload = {
+      name: affiliationName.trim(),
+      created_by: user?.id,
+      updated_by: user?.id,
+    };
+
+    const { error } = await supabase.from("affiliations").insert(payload);
+
+    if (error) {
+      setMessage(`所属会の追加に失敗しました：${error.message}`);
+      return;
+    }
+
+    setAffiliationName("");
+    setMessage("所属会を追加しました。");
+    fetchAffiliations();
+  };
+
+  const handleUpdateAffiliation = async (affiliationId) => {
+    const pending = pendingAffiliationById[affiliationId];
+
+    if (!pending) {
+      setMessage("更新内容が見つかりません。");
+      return;
+    }
+
+    const { error } = await supabase
+      .from("affiliations")
+      .update({
+        representative: pending.representative || null,
+        member_count: pending.member_count ? Number(pending.member_count) : null,
+        updated_by: user?.id,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", affiliationId);
+
+    if (error) {
+      setMessage(`所属会の更新に失敗しました：${error.message}`);
+      return;
+    }
+
+    setMessage("所属会を更新しました。");
+    fetchAffiliations();
   };
 
   const handleCreateNotice = async () => {
     setMessage("");
 
-    if (!noticeTitle || !noticeBody) {
-      setMessage("お知らせのタイトルと本文を入力してください。");
+    if (!noticeLabel.trim() || !noticeTitle.trim() || !noticeBody.trim()) {
+      setMessage("ラベル名、タイトル、内容を入力してください。");
       return;
     }
 
     const { error } = await supabase.from("notices").insert({
-      title: noticeTitle,
-      body: noticeBody,
+      label: noticeLabel.trim(),
+      title: noticeTitle.trim(),
+      body: noticeBody.trim(),
       is_published: true,
       published_at: new Date().toISOString(),
       created_by: user?.id,
@@ -158,10 +492,51 @@ export default function SystemAdminPage() {
       return;
     }
 
+    setNoticeLabel("");
     setNoticeTitle("");
     setNoticeBody("");
     setMessage("お知らせを作成しました。");
-    fetchData();
+    fetchNotices();
+  };
+
+  const handleSelectNotice = (notice) => {
+    setSelectedNoticeId(notice.id);
+    setNoticeEditLabel(notice.label || "");
+    setNoticeEditTitle(notice.title || "");
+    setNoticeEditBody(notice.body || "");
+  };
+
+  const handleUpdateNotice = async () => {
+    setMessage("");
+
+    if (!selectedNoticeId) {
+      setMessage("編集するお知らせを選択してください。");
+      return;
+    }
+
+    if (!noticeEditLabel.trim() || !noticeEditTitle.trim() || !noticeEditBody.trim()) {
+      setMessage("ラベル名、タイトル、内容を入力してください。");
+      return;
+    }
+
+    const { error } = await supabase
+      .from("notices")
+      .update({
+        label: noticeEditLabel.trim(),
+        title: noticeEditTitle.trim(),
+        body: noticeEditBody.trim(),
+        updated_by: user?.id,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", selectedNoticeId);
+
+    if (error) {
+      setMessage(`お知らせ更新に失敗しました：${error.message}`);
+      return;
+    }
+
+    setMessage("お知らせを更新しました。");
+    fetchNotices();
   };
 
   const handleToggleNotice = async (notice) => {
@@ -183,154 +558,470 @@ export default function SystemAdminPage() {
     }
 
     setMessage("お知らせの公開状態を更新しました。");
-    fetchData();
+    fetchNotices();
+  };
+
+  const handleUpdateInquiryStatus = async (inquiry) => {
+    const nextStatus = pendingInquiryStatusById[inquiry.id];
+
+    if (!nextStatus) {
+      setMessage("変更するステータスを選択してください。");
+      return;
+    }
+
+    const { error } = await supabase
+      .from("contacts")
+      .update({
+        status: nextStatus,
+        updated_by: user?.id,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", inquiry.id);
+
+    if (error) {
+      const { error: inquiryError } = await supabase
+        .from("inquiries")
+        .update({
+          status: nextStatus,
+          updated_by: user?.id,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", inquiry.id);
+
+      if (inquiryError) {
+        setMessage(`問い合わせステータス更新に失敗しました：${inquiryError.message}`);
+        return;
+      }
+    }
+
+    setMessage("問い合わせステータスを更新しました。");
+    fetchInquiries();
   };
 
   return (
-    <div className="screen">
-      <h1>システム管理者ページ</h1>
+    <div className="system-admin-page">
+      <section className="system-admin-hero">
+        <div className="system-admin-hero-icon">
+          <UsersIcon />
+        </div>
 
-      {message && <p className="info-text">{message}</p>}
+        <div>
+          <h1>システム管理者</h1>
+          <p>システム全体を管理・運用します。</p>
+        </div>
+      </section>
 
-      <div className="card">
-        <h2>ユーザー一覧</h2>
+      {message && <p className="system-admin-message">{message}</p>}
 
-        {users.length === 0 ? (
-          <p>ユーザーがいません。</p>
-        ) : (
-          <div className="stack">
-            {users.map((u) => (
-              <div key={u.id} className="mini-card">
-                <strong>{u.display_name || u.full_name || u.email}</strong>
-                <p>{u.email}</p>
-                <p>所属：{u.organization || "未設定"}</p>
-                <p>段位：{u.grade || "未設定"}</p>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      <div className="card">
-        <h2>ロールの付与</h2>
-
-        <label>
-          ユーザー
-          <select
-            value={selectedUserId}
-            onChange={(e) => setSelectedUserId(e.target.value)}
-          >
-            <option value="">選択してください</option>
-            {users.map((u) => (
-              <option key={u.id} value={u.id}>
-                {u.display_name || u.full_name || u.email}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label>
-          ロール
-          <select
-            value={selectedRoleId}
-            onChange={(e) => setSelectedRoleId(e.target.value)}
-          >
-            <option value="">選択してください</option>
-            {roles.map((role) => (
-              <option key={role.id} value={role.id}>
-                {role.name}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <button className="primary" onClick={handleAssignRole}>
-          ロールを付与する
-        </button>
-      </div>
-
-      <div className="card">
-        <h2>付与済みロール</h2>
-
-        {userRoles.length === 0 ? (
-          <p>付与済みロールがありません。</p>
-        ) : (
-          <div className="stack">
-            {userRoles.map((ur) => {
-              const targetUser = userMap[ur.user_id];
-              const targetRole = roleMap[ur.role_id];
-
-              return (
-                <div className="mini-card" key={ur.id}>
-                  <strong>
-                    {targetUser?.display_name ||
-                      targetUser?.full_name ||
-                      targetUser?.email ||
-                      "不明なユーザー"}
-                  </strong>
-                  <p>メール：{targetUser?.email || "-"}</p>
-                  <p>ロール：{targetRole?.name || "不明なロール"}</p>
-
-                  <button
-                    className="secondary danger"
-                    onClick={() => handleDisableRole(ur.id)}
-                  >
-                    ロール解除
-                  </button>
+      {loading ? (
+        <div className="system-admin-empty">読み込み中...</div>
+      ) : (
+        <>
+          <section className="system-admin-stats-grid">
+            {stats.map((item) => (
+              <article
+                className={`system-admin-stat-card ${item.color}`}
+                key={item.key}
+              >
+                <div className="system-admin-stat-title">
+                  {item.icon}
+                  <span>{item.label}</span>
                 </div>
-              );
-            })}
-          </div>
-        )}
-      </div>
 
-      <div className="card">
-        <h2>お知らせの作成</h2>
+                <strong>
+                  {item.value}
+                  <small>{item.unit}</small>
+                </strong>
+              </article>
+            ))}
+          </section>
 
-        <label>
-          タイトル
-          <input
-            value={noticeTitle}
-            onChange={(e) => setNoticeTitle(e.target.value)}
-            placeholder="お知らせタイトル"
-          />
-        </label>
+          <section className="system-admin-panel">
+            <div className="system-admin-section-title">
+              <div>
+                <h2>ユーザー権限管理</h2>
+                <p>ユーザーの所属と権限を管理します。</p>
+              </div>
+            </div>
 
-        <label>
-          本文
-          <textarea
-            value={noticeBody}
-            onChange={(e) => setNoticeBody(e.target.value)}
-            placeholder="お知らせ本文"
-          />
-        </label>
+            <div className="system-admin-search-row">
+              <input
+                value={userSearch}
+                onChange={(event) => setUserSearch(event.target.value)}
+                placeholder="ユーザー名・メール・所属会で検索"
+              />
+            </div>
 
-        <button className="primary" onClick={handleCreateNotice}>
-          お知らせを作成する
-        </button>
-      </div>
+            <div className="system-admin-table-wrap">
+              <table className="system-admin-user-table">
+                <thead>
+                  <tr>
+                    <th>ユーザー名</th>
+                    <th>所属先</th>
+                    <th>現在の役割</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
 
-      <div className="card">
-        <h2>お知らせ一覧</h2>
+                <tbody>
+                  {filteredUsers.map((targetUser) => {
+                    const activeRole = activeUserRoleMap[targetUser.id];
+                    const pendingRoleId =
+                      pendingRoleByUser[targetUser.id] ||
+                      activeRole?.role_id ||
+                      "";
 
-        {notices.length === 0 ? (
-          <p>お知らせはありません。</p>
-        ) : (
-          <div className="stack">
-            {notices.map((notice) => (
-              <div className="mini-card" key={notice.id}>
-                <strong>{notice.title}</strong>
-                <p>{notice.body}</p>
-                <p>状態：{notice.is_published ? "公開中" : "非公開"}</p>
+                    return (
+                      <tr key={targetUser.id}>
+                        <td>
+                          <div className="system-admin-user-cell">
+                            <div>
+                              <strong>{getDisplayName(targetUser)}</strong>
+                              <span>{targetUser.email}</span>
+                            </div>
+                          </div>
+                        </td>
 
-                <button onClick={() => handleToggleNotice(notice)}>
-                  {notice.is_published ? "非公開にする" : "公開する"}
+                        <td>{targetUser.organization || "未設定"}</td>
+
+                        <td>
+                          <select
+                            value={pendingRoleId}
+                            onChange={(event) =>
+                              setPendingRoleByUser((prev) => ({
+                                ...prev,
+                                [targetUser.id]: event.target.value,
+                              }))
+                            }
+                          >
+                            <option value="">ロール未設定</option>
+                            {roles.map((role) => (
+                              <option key={role.id} value={role.id}>
+                                {role.name}
+                              </option>
+                            ))}
+                          </select>
+                        </td>
+
+                        <td>
+                          <button
+                            type="button"
+                            className="system-admin-update-button"
+                            onClick={() => handleUpdateUserRole(targetUser.id)}
+                          >
+                            更新
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section className="system-admin-panel">
+            <div className="system-admin-section-title compact">
+              <BuildingIcon />
+              <h2>所属会の追加 / 編集</h2>
+            </div>
+
+            <div className="system-admin-affiliation-table">
+              <div className="system-admin-affiliation-head">
+                <span>所属会名</span>
+                <span>代表者</span>
+                <span>会員数</span>
+                <span>操作</span>
+              </div>
+
+              {affiliations.length === 0 ? (
+                <div className="system-admin-empty-row">
+                  所属会がありません。
+                </div>
+              ) : (
+                affiliations.map((affiliation) => {
+                  const pending = pendingAffiliationById[affiliation.id] || {
+                    representative: affiliation.representative || "",
+                    member_count:
+                      affiliation.member_count === null ||
+                      affiliation.member_count === undefined
+                        ? ""
+                        : String(affiliation.member_count),
+                  };
+
+                  return (
+                    <div
+                      className="system-admin-affiliation-row"
+                      key={affiliation.id}
+                    >
+                      <strong>{affiliation.name}</strong>
+
+                      <select
+                        value={pending.representative}
+                        onChange={(event) =>
+                          setPendingAffiliationById((prev) => ({
+                            ...prev,
+                            [affiliation.id]: {
+                              ...pending,
+                              representative: event.target.value,
+                            },
+                          }))
+                        }
+                      >
+                        <option value="">代表者未設定</option>
+                        {users.map((targetUser) => (
+                          <option
+                            key={targetUser.id}
+                            value={getDisplayName(targetUser)}
+                          >
+                            {getDisplayName(targetUser)}
+                          </option>
+                        ))}
+                      </select>
+
+                      <input
+                        type="number"
+                        value={pending.member_count}
+                        onChange={(event) =>
+                          setPendingAffiliationById((prev) => ({
+                            ...prev,
+                            [affiliation.id]: {
+                              ...pending,
+                              member_count: event.target.value,
+                            },
+                          }))
+                        }
+                      />
+
+                      <button
+                        type="button"
+                        onClick={() => handleUpdateAffiliation(affiliation.id)}
+                      >
+                        更新
+                      </button>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+
+            <div className="system-admin-affiliation-form">
+              <input
+                value={affiliationName}
+                onChange={(event) => setAffiliationName(event.target.value)}
+                placeholder="所属会名"
+              />
+            </div>
+
+            <button
+              type="button"
+              className="system-admin-main-button compact"
+              onClick={handleCreateAffiliation}
+            >
+              <PlusIcon />
+              所属会を追加
+            </button>
+          </section>
+
+          <section className="system-admin-panel">
+            <div className="system-admin-section-title compact">
+              <BellIcon />
+              <h2>お知らせの追加 / 編集</h2>
+            </div>
+
+            <div className="system-admin-notice-list">
+              {notices.length === 0 ? (
+                <div className="system-admin-empty-row">
+                  お知らせはありません。
+                </div>
+              ) : (
+                notices.slice(0, 6).map((notice) => (
+                  <button
+                    type="button"
+                    key={notice.id}
+                    className={`system-admin-notice-item ${
+                      selectedNoticeId === notice.id ? "active" : ""
+                    }`}
+                    onClick={() => handleSelectNotice(notice)}
+                  >
+                    <span>
+                      {notice.label || (notice.is_published ? "公開中" : "非公開")}
+                    </span>
+                    <strong>{notice.title}</strong>
+                    <small>{formatDate(notice.published_at || notice.created_at)}</small>
+                    <em>›</em>
+                  </button>
+                ))
+              )}
+            </div>
+
+            <div className="system-admin-notice-create-block">
+              <h3 className="system-admin-subheading">
+                {selectedNoticeId ? "選択中のお知らせを編集" : "新規お知らせを作成"}
+              </h3>
+
+              <label className="system-admin-input-label">
+                ラベル名
+                <input
+                  value={selectedNoticeId ? noticeEditLabel : noticeLabel}
+                  onChange={(event) =>
+                    selectedNoticeId
+                      ? setNoticeEditLabel(event.target.value)
+                      : setNoticeLabel(event.target.value)
+                  }
+                  placeholder="例）重要 / メンテナンス / お知らせ"
+                  maxLength={30}
+                />
+                <small>
+                  {(selectedNoticeId ? noticeEditLabel : noticeLabel).length} / 30
+                </small>
+              </label>
+
+              <label className="system-admin-input-label">
+                タイトル
+                <input
+                  value={selectedNoticeId ? noticeEditTitle : noticeTitle}
+                  onChange={(event) =>
+                    selectedNoticeId
+                      ? setNoticeEditTitle(event.target.value)
+                      : setNoticeTitle(event.target.value)
+                  }
+                  placeholder="タイトルを入力してください"
+                  maxLength={100}
+                />
+                <small>
+                  {(selectedNoticeId ? noticeEditTitle : noticeTitle).length} / 100
+                </small>
+              </label>
+
+              <label className="system-admin-input-label">
+                内容
+                <textarea
+                  value={selectedNoticeId ? noticeEditBody : noticeBody}
+                  onChange={(event) =>
+                    selectedNoticeId
+                      ? setNoticeEditBody(event.target.value)
+                      : setNoticeBody(event.target.value)
+                  }
+                  placeholder="お知らせ内容を入力してください"
+                  maxLength={2000}
+                />
+                <small>
+                  {(selectedNoticeId ? noticeEditBody : noticeBody).length} / 2000
+                </small>
+              </label>
+
+              <div className="system-admin-notice-button-row">
+                {selectedNoticeId && (
+                  <button
+                    type="button"
+                    className="system-admin-secondary-button"
+                    onClick={() => {
+                      setSelectedNoticeId("");
+                      setNoticeEditLabel("");
+                      setNoticeEditTitle("");
+                      setNoticeEditBody("");
+                    }}
+                  >
+                    新規作成に戻す
+                  </button>
+                )}
+
+                <button
+                  type="button"
+                  className="system-admin-main-button compact"
+                  onClick={selectedNoticeId ? handleUpdateNotice : handleCreateNotice}
+                >
+                  <SendIcon />
+                  {selectedNoticeId ? "更新する" : "公開する"}
                 </button>
               </div>
-            ))}
-          </div>
-        )}
-      </div>
+            </div>
+          </section>
+
+          <section className="system-admin-panel">
+            <div className="system-admin-section-title compact">
+              <MailIcon />
+              <h2>問い合わせ確認 / 対応</h2>
+            </div>
+
+            <div className="system-admin-inquiry-table-wrap">
+              <table className="system-admin-inquiry-table">
+                <thead>
+                  <tr>
+                    <th>状態</th>
+                    <th>氏名</th>
+                    <th>件名</th>
+                    <th>日付</th>
+                    <th>ステータス変更</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {inquiries.length === 0 ? (
+                    <tr>
+                      <td colSpan="6">問い合わせはありません。</td>
+                    </tr>
+                  ) : (
+                    inquiries.map((inquiry) => {
+                      const currentStatus =
+                        pendingInquiryStatusById[inquiry.id] ||
+                        getInquiryStatus(inquiry);
+
+                      return (
+                        <tr key={inquiry.id}>
+                          <td>
+                            <span
+                              className={`system-admin-inquiry-status ${
+                                isInquiryHandled(inquiry)
+                                  ? "handled"
+                                  : "unhandled"
+                              }`}
+                            >
+                              {isInquiryHandled(inquiry) ? "対応済み" : "未対応"}
+                            </span>
+                          </td>
+
+                          <td>{getInquiryName(inquiry)}</td>
+                          <td>{getInquiryTitle(inquiry)}</td>
+                          <td>{formatDate(inquiry.created_at)}</td>
+
+                          <td>
+                            <select
+                              value={currentStatus}
+                              onChange={(event) =>
+                                setPendingInquiryStatusById((prev) => ({
+                                  ...prev,
+                                  [inquiry.id]: event.target.value,
+                                }))
+                              }
+                            >
+                              <option value="unhandled">未対応</option>
+                              <option value="handling">対応中</option>
+                              <option value="handled">対応済み</option>
+                            </select>
+                          </td>
+
+                          <td>
+                            <button
+                              type="button"
+                              className="system-admin-update-button"
+                              onClick={() => handleUpdateInquiryStatus(inquiry)}
+                            >
+                              更新
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </>
+      )}
     </div>
   );
 }
