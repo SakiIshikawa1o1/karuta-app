@@ -1,0 +1,511 @@
+/* =========================================================
+   Tournament Admin Page
+   添付画像風：大会管理ページ
+========================================================= */
+
+.tournament-admin-page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 32px 72px;
+  min-height: 100dvh;
+  color: #24120d;
+}
+
+/* ヒーロー */
+.tournament-admin-hero {
+  position: relative;
+  margin: 0 -32px 0;
+  min-height: 210px;
+  padding: 48px 48px 34px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 253, 249, 0.98) 0%,
+      rgba(255, 250, 244, 0.94) 46%,
+      rgba(255, 247, 236, 0.52) 72%,
+      rgba(255, 247, 236, 0.18) 100%
+    ),
+    var(--hero-image);
+
+  background-size: cover;
+  background-position: center right;
+  background-repeat: no-repeat;
+  border-bottom: 1px solid rgba(190, 40, 34, 0.1);
+}
+
+.tournament-admin-hero-icon {
+  width: 92px;
+  height: 92px;
+  border-radius: 999px;
+  background: #fff7ee;
+  border: 1px solid rgba(200, 30, 47, 0.12);
+  color: #d8321f;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+}
+
+.tournament-admin-hero-icon svg {
+  width: 48px;
+  height: 48px;
+}
+
+.tournament-admin-hero h1 {
+  margin: 0;
+  color: #23120c;
+  font-family:
+    "Yu Mincho",
+    "YuMincho",
+    "Hiragino Mincho ProN",
+    serif;
+  font-size: 58px;
+  line-height: 1.2;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.tournament-admin-hero p {
+  margin: 22px 0 0;
+  color: #23120c;
+  font-size: 21px;
+  line-height: 1.7;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+/* メッセージ */
+.tournament-admin-message {
+  margin: 14px 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  color: #9a3412;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+/* タブ */
+.tournament-admin-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 0 -32px 20px;
+  border-bottom: 3px solid #e83216;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.tournament-admin-tabs button {
+  min-height: 64px;
+  border: none;
+  border-right: 1px solid rgba(120, 40, 30, 0.16);
+  background: rgba(255, 255, 255, 0.82);
+  color: #24120d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  font-size: 24px;
+  line-height: 1;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.tournament-admin-tabs button:last-child {
+  border-right: none;
+}
+
+.tournament-admin-tabs button strong {
+  min-width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  background: #e5e5e5;
+  color: #111;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.tournament-admin-tabs button.active {
+  color: #e42b14;
+  background: #fff;
+}
+
+.tournament-admin-tabs button.active strong {
+  background: #e63216;
+  color: #fff;
+}
+
+/* 追加ボタン */
+.tournament-admin-action-row {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 0 18px;
+}
+
+.tournament-admin-add-button {
+  min-width: 230px;
+  min-height: 54px;
+  padding: 0 24px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #e83216, #cf170b);
+  color: #fff;
+  box-shadow: 0 10px 20px rgba(200, 30, 20, 0.18);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
+.tournament-admin-add-button svg {
+  width: 28px;
+  height: 28px;
+}
+
+/* 空表示 */
+.tournament-admin-empty {
+  padding: 24px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid rgba(120, 40, 30, 0.1);
+  color: #4b3a34;
+  font-size: 15px;
+  font-weight: 800;
+  text-align: center;
+}
+
+/* カード一覧 */
+.tournament-admin-list {
+  display: grid;
+  gap: 16px;
+}
+
+.tournament-admin-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 78px 1fr 170px;
+  gap: 18px;
+  padding: 24px 20px;
+  border-radius: 16px;
+  border: 1px solid rgba(120, 40, 30, 0.12);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 8px 20px rgba(80, 20, 10, 0.065);
+}
+
+.tournament-admin-card-icon {
+  color: #d8321f;
+  display: flex;
+  justify-content: center;
+  padding-top: 6px;
+}
+
+.tournament-admin-card-icon svg {
+  width: 54px;
+  height: 54px;
+}
+
+.tournament-admin-card-main {
+  min-width: 0;
+}
+
+.tournament-admin-card-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.tournament-admin-card h2 {
+  margin: 0;
+  color: #24120d;
+  font-size: 28px;
+  line-height: 1.35;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+}
+
+/* ステータス */
+.tournament-admin-status-pill {
+  min-width: 96px;
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  line-height: 1;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.tournament-admin-status-pill.status-published,
+.tournament-admin-status-pill.status-open {
+  background: #e8f7e3;
+  color: #16803a;
+}
+
+.tournament-admin-status-pill.status-draft {
+  background: #eeeeee;
+  color: #111;
+}
+
+.tournament-admin-status-pill.status-closed {
+  background: #eaf1ff;
+  color: #1d4ed8;
+}
+
+.tournament-admin-status-pill.status-cancelled {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+/* メタ */
+.tournament-admin-card-meta {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.tournament-admin-card-meta p {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #3b241c;
+  font-size: 18px;
+  line-height: 1.5;
+  font-weight: 700;
+}
+
+.tournament-admin-card-meta svg {
+  width: 23px;
+  height: 23px;
+  color: #24120d;
+}
+
+/* ボタン */
+.tournament-admin-card-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.tournament-admin-card-buttons button {
+  min-height: 50px;
+  border-radius: 8px;
+  border: 1.5px solid #e83216;
+  background: #fff;
+  color: #e83216;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
+.tournament-admin-card-buttons svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* 右側 */
+.tournament-admin-card-side {
+  position: relative;
+  display: grid;
+  grid-template-rows: 36px 1fr;
+  align-items: start;
+  justify-items: end;
+}
+
+.tournament-admin-menu-button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  color: #111;
+  font-size: 42px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.tournament-admin-applicant-count {
+  align-self: center;
+  text-align: center;
+}
+
+.tournament-admin-applicant-count p {
+  margin: 0 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: #3b241c;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.tournament-admin-applicant-count p svg {
+  width: 22px;
+  height: 22px;
+}
+
+.tournament-admin-applicant-count strong {
+  color: #111;
+  font-size: 42px;
+  line-height: 1;
+  font-weight: 900;
+}
+
+.tournament-admin-applicant-count strong span {
+  margin-left: 6px;
+  font-size: 18px;
+}
+
+/* スマホ */
+@media (max-width: 768px) {
+  .tournament-admin-page {
+    padding: 0 12px 48px;
+  }
+
+  .tournament-admin-hero {
+    margin: 0 -12px 0;
+    min-height: 150px;
+    padding: 30px 20px 24px;
+    gap: 16px;
+  }
+
+  .tournament-admin-hero-icon {
+    width: 58px;
+    height: 58px;
+  }
+
+  .tournament-admin-hero-icon svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .tournament-admin-hero h1 {
+    font-size: 36px;
+  }
+
+  .tournament-admin-hero p {
+    margin-top: 12px;
+    font-size: 15px;
+  }
+
+  .tournament-admin-tabs {
+    margin: 0 -12px 14px;
+  }
+
+  .tournament-admin-tabs button {
+    min-height: 54px;
+    gap: 8px;
+    font-size: 16px;
+  }
+
+  .tournament-admin-tabs button strong {
+    min-width: 30px;
+    height: 30px;
+    font-size: 14px;
+  }
+
+  .tournament-admin-add-button {
+    min-width: 170px;
+    min-height: 44px;
+    font-size: 15px;
+  }
+
+  .tournament-admin-card {
+    grid-template-columns: 42px 1fr 72px;
+    gap: 10px;
+    padding: 16px 12px;
+    border-radius: 14px;
+  }
+
+  .tournament-admin-card-icon svg {
+    width: 34px;
+    height: 34px;
+  }
+
+  .tournament-admin-card h2 {
+    font-size: 17px;
+    line-height: 1.35;
+  }
+
+  .tournament-admin-status-pill {
+    min-width: 66px;
+    min-height: 30px;
+    padding: 0 10px;
+    border-radius: 8px;
+    font-size: 13px;
+  }
+
+  .tournament-admin-card-meta {
+    gap: 5px;
+    margin-top: 8px;
+  }
+
+  .tournament-admin-card-meta p {
+    gap: 6px;
+    font-size: 12px;
+  }
+
+  .tournament-admin-card-meta svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .tournament-admin-card-buttons {
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .tournament-admin-card-buttons button {
+    min-height: 36px;
+    gap: 6px;
+    font-size: 13px;
+  }
+
+  .tournament-admin-card-buttons svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .tournament-admin-menu-button {
+    width: 26px;
+    height: 26px;
+    font-size: 28px;
+  }
+
+  .tournament-admin-applicant-count p {
+    margin-bottom: 5px;
+    font-size: 11px;
+  }
+
+  .tournament-admin-applicant-count p svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .tournament-admin-applicant-count strong {
+    font-size: 24px;
+  }
+
+  .tournament-admin-applicant-count strong span {
+    font-size: 11px;
+  }
+}

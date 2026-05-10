@@ -1,0 +1,115 @@
+/* =========================================================
+   Notices
+   お知らせ一覧と新規作成を同じブロック内で縦並び
+========================================================= */
+
+.system-admin-two-column {
+  display: block !important;
+}
+
+.system-admin-notice-list {
+  display: grid !important;
+  gap: 8px !important;
+  margin-bottom: 16px !important;
+}
+
+.system-admin-notice-item {
+  min-height: 52px !important;
+  border: 1px solid rgba(120, 40, 30, 0.1) !important;
+  border-radius: 9px !important;
+  background: #ffffff !important;
+  padding: 8px 10px !important;
+  display: grid !important;
+  grid-template-columns: 62px 1fr auto auto !important;
+  gap: 8px !important;
+  align-items: center !important;
+  text-align: left !important;
+  cursor: pointer !important;
+}
+
+.system-admin-notice-item span {
+  min-height: 24px !important;
+  border-radius: 6px !important;
+  background: #fff1f1 !important;
+  color: var(--red) !important;
+  display: grid !important;
+  place-items: center !important;
+  font-size: 10px !important;
+  font-weight: 900 !important;
+}
+
+.system-admin-notice-item strong {
+  color: #251713 !important;
+  font-size: 12px !important;
+  line-height: 1.35 !important;
+  font-weight: 800 !important;
+}
+
+.system-admin-notice-item small {
+  color: #6b5b54 !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  white-space: nowrap !important;
+}
+
+.system-admin-notice-item em {
+  color: var(--red) !important;
+  font-size: 20px !important;
+  font-style: normal !important;
+}
+
+.system-admin-notice-create-block {
+  padding-top: 14px !important;
+  border-top: 1px dashed rgba(120, 40, 30, 0.16) !important;
+}
+
+.system-admin-subheading {
+  margin: 0 0 12px !important;
+  color: var(--red) !important;
+  font-size: 15px !important;
+  font-weight: 900 !important;
+}
+
+.system-admin-input-label {
+  display: block !important;
+  margin-bottom: 12px !important;
+  color: #251713 !important;
+  font-size: 12px !important;
+  font-weight: 900 !important;
+}
+
+.system-admin-input-label input,
+.system-admin-input-label textarea {
+  width: 100% !important;
+  margin-top: 6px !important;
+  border: 1px solid rgba(120, 40, 30, 0.14) !important;
+  border-radius: 8px !important;
+  background: #ffffff !important;
+  padding: 0 10px !important;
+  color: #251713 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+}
+
+.system-admin-input-label input {
+  height: 36px !important;
+}
+
+.system-admin-input-label textarea {
+  min-height: 70px !important;
+  padding-top: 10px !important;
+  resize: vertical !important;
+}
+
+.system-admin-input-label small {
+  display: block !important;
+  margin-top: 4px !important;
+  text-align: right !important;
+  color: #777 !important;
+  font-size: 10px !important;
+}
+
+/* 全体・ユーザー・所属会のラジオを消す */
+.system-admin-radio-row {
+  display: none !important;
+}

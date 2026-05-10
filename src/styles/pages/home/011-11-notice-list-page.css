@@ -1,0 +1,42 @@
+/* =========================================================
+   11. Notice List Page
+   お知らせ一覧ページ
+========================================================= */
+
+.notice-list-page {
+  display: grid;
+  gap: 16px;
+}
+
+.notice-detail-card {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 24px;
+  align-items: start;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 24px;
+}
+
+.notice-detail-meta {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+
+.notice-detail-card h2 {
+  margin: 0 0 10px;
+  font-size: 22px;
+  line-height: 1.45;
+  font-weight: 900;
+}
+
+.notice-detail-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.8;
+  font-weight: 600;
+}

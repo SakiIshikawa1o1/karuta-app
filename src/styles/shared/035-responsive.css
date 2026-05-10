@@ -1,0 +1,186 @@
+/* =========================================================
+   Responsive
+   スマホ調整
+========================================================= */
+
+@media (max-width: 768px) {
+  .tournament-search-page {
+    padding: 0 12px 44px;
+  }
+
+  .tournament-search-hero {
+    margin: 0 -12px 18px;
+    min-height: 200px;
+    padding: 34px 22px;
+    background-position: center right;
+  }
+
+  .tournament-search-hero-copy h1 {
+    font-size: 32px;
+  }
+
+  .tournament-search-hero-copy span {
+    font-size: 12px;
+    line-height: 1.8;
+  }
+
+  .tournament-month-tabs {
+    grid-template-columns: 24px 1fr 24px;
+    gap: 4px;
+    margin: 16px 0 14px;
+  }
+
+  .month-tab-scroll {
+    grid-auto-columns: 64px;
+  }
+
+  .month-arrow {
+    width: 24px;
+    height: 46px;
+    font-size: 24px;
+  }
+
+  .month-tab {
+    min-height: 52px;
+  }
+
+  .month-tab strong {
+    font-size: 16px;
+  }
+
+  .month-tab span {
+    font-size: 11px;
+  }
+
+  .filter-accordion-button {
+    min-height: 44px;
+    border-radius: 13px;
+    font-size: 13px;
+  }
+
+  .tournament-filter-panel {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .tournament-filter-panel input {
+    grid-column: 1 / -1;
+  }
+
+  .filter-reset-button {
+    min-height: 42px;
+    font-size: 13px;
+  }
+
+  .tournament-date-heading {
+    font-size: 16px;
+  }
+
+  .tournament-list-stack {
+    gap: 7px;
+  }
+
+  .tournament-list-item {
+    min-height: 52px;
+    padding: 7px 8px;
+    grid-template-columns: 1fr 56px;
+    gap: 7px;
+  }
+
+  .tournament-list-main h3 {
+    margin-bottom: 4px;
+    font-size: 12.5px;
+    line-height: 1.25;
+  }
+
+  .tournament-list-meta {
+    gap: 4px;
+  }
+
+  .tournament-inline-status {
+    min-height: 16px;
+    padding: 0 5px;
+    font-size: 8px;
+  }
+
+  .tournament-venue {
+    font-size: 9.5px;
+  }
+
+  .tournament-grade {
+    padding: 2px 5px;
+    font-size: 8.5px;
+  }
+
+  .tournament-list-actions button {
+    width: 56px;
+    min-width: 56px;
+    min-height: 38px;
+    height: 100%;
+    font-size: 10.5px;
+    border-radius: 9px;
+  }
+
+  .tournament-list-actions button span {
+    font-size: 13px;
+  }
+
+  .tournament-search-page .site-footer {
+    margin: 38px -12px -44px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tournament-search-hero {
+    min-height: 188px;
+    padding: 30px 18px;
+  }
+
+  .tournament-search-hero-copy h1 {
+    font-size: 29px;
+  }
+
+  .tournament-search-hero-copy span {
+    font-size: 11px;
+  }
+
+  .tournament-filter-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-reset-button {
+    border: 1px solid rgba(200, 30, 47, 0.18);
+    border-radius: 12px;
+    background: #fff;
+  }
+
+  .tournament-list-item {
+    min-height: 50px;
+    padding: 7px 8px;
+    grid-template-columns: 1fr 54px;
+  }
+
+  .tournament-list-main h3 {
+    font-size: 12px;
+  }
+
+  .tournament-venue {
+    font-size: 9px;
+  }
+
+  .tournament-inline-status {
+    font-size: 7.8px;
+  }
+
+  .tournament-grade {
+    font-size: 8px;
+  }
+
+  .tournament-list-actions button {
+    width: 54px;
+    min-width: 54px;
+    min-height: 36px;
+    font-size: 10px;
+  }
+}

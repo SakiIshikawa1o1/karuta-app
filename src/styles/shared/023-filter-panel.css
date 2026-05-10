@@ -1,0 +1,47 @@
+/* =========================================================
+   Filter panel
+   開いたときだけ表示される検索フォーム
+========================================================= */
+
+.tournament-filter-panel {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr 1fr auto;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(190, 40, 34, 0.1);
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 6px 16px rgba(80, 20, 10, 0.05);
+}
+
+.tournament-filter-panel input,
+.tournament-filter-panel select {
+  width: 100%;
+  min-height: 44px;
+  border-radius: 12px;
+  border: 1px solid rgba(120, 40, 30, 0.12);
+  background: #fff;
+  color: #111;
+  padding: 0 13px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.tournament-filter-panel input:focus,
+.tournament-filter-panel select:focus {
+  outline: none;
+  border-color: rgba(200, 30, 47, 0.38);
+  box-shadow: 0 0 0 3px rgba(200, 30, 47, 0.08);
+}
+
+.filter-reset-button {
+  min-height: 44px;
+  padding: 0 16px;
+  border: none;
+  background: transparent;
+  color: var(--red-dark);
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}

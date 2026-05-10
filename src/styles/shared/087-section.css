@@ -1,0 +1,148 @@
+/* =========================================================
+   申込状況ページ：タブを幅広く・タブらしく見せる
+========================================================= */
+
+.application-status-tabs {
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+  width: 100% !important;
+  margin: 0 0 16px !important;
+  padding: 0 !important;
+  transform: none !important;
+}
+
+/* 各タブ */
+.application-status-tabs button {
+  min-height: 58px !important;
+  width: 100% !important;
+  padding: 8px 6px !important;
+  border: 1.5px solid rgba(190, 40, 34, 0.18) !important;
+  border-radius: 14px 14px 10px 10px !important;
+  background: #ffffff !important;
+  color: #222 !important;
+  cursor: pointer !important;
+  box-shadow: 0 6px 14px rgba(80, 20, 10, 0.06) !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 5px !important;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease !important;
+}
+
+/* hover */
+.application-status-tabs button:hover {
+  transform: translateY(-1px) !important;
+  border-color: rgba(190, 40, 34, 0.3) !important;
+  box-shadow: 0 8px 18px rgba(80, 20, 10, 0.1) !important;
+}
+
+/* タブ文字 */
+.application-status-tabs button span {
+  font-size: 15px !important;
+  line-height: 1.1 !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.02em !important;
+  white-space: nowrap !important;
+}
+
+/* 件数バッジ */
+.application-status-tabs button strong {
+  min-width: 24px !important;
+  height: 22px !important;
+  padding: 0 7px !important;
+  border-radius: 999px !important;
+  background: #fff1ed !important;
+  color: var(--red-dark) !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  font-size: 11px !important;
+  line-height: 1 !important;
+  font-weight: 900 !important;
+}
+
+/* 選択中タブ */
+.application-status-tabs button.active {
+  position: relative !important;
+  background: linear-gradient(180deg, #fff5f3 0%, #ffe8e3 100%) !important;
+  border: 2px solid var(--red) !important;
+  color: var(--red-dark) !important;
+  box-shadow: 0 10px 22px rgba(200, 30, 47, 0.14) !important;
+}
+
+/* 選択中であることをさらにわかりやすく */
+.application-status-tabs button.active::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 12% !important;
+  right: 12% !important;
+  bottom: -2px !important;
+  height: 4px !important;
+  border-radius: 999px !important;
+  background: var(--red) !important;
+}
+
+/* 選択中の件数 */
+.application-status-tabs button.active strong {
+  background: var(--red) !important;
+  color: #fff !important;
+}
+
+/* スマホ・タブレットでは横スクロール可にする */
+@media (max-width: 768px) {
+  .application-status-tabs {
+    display: flex !important;
+    gap: 8px !important;
+    overflow-x: auto !important;
+    padding-bottom: 4px !important;
+    scrollbar-width: none;
+  }
+
+  .application-status-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .application-status-tabs button {
+    flex: 0 0 120px !important;
+    min-height: 54px !important;
+    padding: 7px 6px !important;
+    border-radius: 13px 13px 10px 10px !important;
+  }
+
+  .application-status-tabs button span {
+    font-size: 13px !important;
+  }
+
+  .application-status-tabs button strong {
+    min-width: 22px !important;
+    height: 20px !important;
+    font-size: 10px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .application-status-tabs button {
+    flex: 0 0 108px !important;
+    min-height: 50px !important;
+  }
+
+  .application-status-tabs button span {
+    font-size: 12px !important;
+  }
+
+  .application-status-tabs button strong {
+    min-width: 20px !important;
+    height: 18px !important;
+    font-size: 9px !important;
+  }
+}

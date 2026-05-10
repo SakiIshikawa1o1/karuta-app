@@ -1,0 +1,13 @@
+/* =========================================================
+   System Admin Page Adjust
+   システム管理者ページ専用・修正版
+========================================================= */
+
+/* ページ全体 */
+.system-admin-page {
+  max-width: 960px !important;
+  margin: 0 auto !important;
+  padding: 0 28px 44px !important;
+  min-height: 100dvh !important;
+  color: #251713 !important;
+}

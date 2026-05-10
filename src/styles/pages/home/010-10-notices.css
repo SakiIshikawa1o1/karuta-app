@@ -1,0 +1,62 @@
+/* =========================================================
+   10. Notices
+   ホームのお知らせエリア
+========================================================= */
+
+.notice-panel {
+  background: var(--surface);
+  border-radius: 12px;
+  border: 1px solid rgba(190, 40, 34, 0.1);
+  box-shadow: 0 7px 16px rgba(80, 20, 10, 0.06);
+  overflow: hidden;
+}
+
+.notice-item {
+  width: 100%;
+  min-height: 56px;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  background: #fff;
+  display: grid;
+  grid-template-columns: 92px 74px 1fr auto;
+  gap: 8px;
+  align-items: center;
+  padding: 0 12px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.notice-item:last-child {
+  border-bottom: none;
+}
+
+.notice-date {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.notice-tag {
+  min-height: 30px;
+  border-radius: 7px;
+  background: var(--red-dark);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.notice-tag.important {
+  background: var(--red);
+}
+
+.notice-text {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.notice-arrow {
+  color: #c9150f;
+  font-size: 28px;
+  font-weight: 900;
+}

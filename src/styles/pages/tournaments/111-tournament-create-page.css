@@ -1,0 +1,386 @@
+/* =========================================================
+   Tournament Create Page
+   大会新規追加画面
+========================================================= */
+
+.tournament-create-page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 22px 42px;
+  min-height: 100dvh;
+  color: #24140f;
+}
+
+/* ヒーロー */
+.tournament-create-hero {
+  margin: 0 -22px 0;
+  min-height: 210px;
+  padding: 42px 36px;
+  display: flex;
+  align-items: center;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 253, 249, 0.97) 0%,
+      rgba(255, 251, 245, 0.9) 45%,
+      rgba(255, 248, 239, 0.42) 100%
+    ),
+    var(--hero-image);
+  background-size: cover;
+  background-position: center right;
+  border-bottom: 1px solid rgba(190, 40, 34, 0.1);
+}
+
+.tournament-create-hero-copy {
+  max-width: 640px;
+}
+
+.tournament-create-hero h1 {
+  margin: 0;
+  color: var(--red-dark);
+  font-family:
+    "Yu Mincho",
+    "YuMincho",
+    "Hiragino Mincho ProN",
+    serif;
+  font-size: 40px;
+  line-height: 1.3;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.tournament-create-hero p {
+  margin: 18px 0 0;
+  color: #24140f;
+  font-size: 17px;
+  line-height: 1.8;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+/* フォームカード */
+.tournament-create-card {
+  margin-top: -18px;
+  padding: 26px 38px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(120, 40, 30, 0.1);
+  box-shadow: 0 10px 24px rgba(80, 20, 10, 0.08);
+  position: relative;
+  z-index: 2;
+}
+
+.tournament-create-error {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+/* 行 */
+.tournament-create-form {
+  display: grid;
+}
+
+.tournament-create-row {
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  gap: 24px;
+  align-items: start;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(120, 40, 30, 0.12);
+}
+
+.tournament-create-row:last-child {
+  border-bottom: none;
+}
+
+.tournament-create-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+}
+
+.tournament-create-label span {
+  color: #24140f;
+  font-size: 17px;
+  line-height: 1.2;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.tournament-create-label strong,
+.tournament-create-label em {
+  min-height: 20px;
+  padding: 0 8px;
+  border-radius: 999px;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  line-height: 1;
+  font-style: normal;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.tournament-create-label strong {
+  background: var(--red);
+}
+
+.tournament-create-label em {
+  background: #6b7280;
+}
+
+/* 入力 */
+.tournament-create-row input,
+.tournament-create-row select,
+.tournament-create-row textarea {
+  width: 100%;
+  min-height: 44px;
+  border: 1.5px solid rgba(120, 40, 30, 0.18);
+  border-radius: 8px;
+  background: #fff;
+  color: #24140f;
+  padding: 0 16px;
+  font-size: 15px;
+  font-weight: 600;
+  outline: none;
+}
+
+.tournament-create-row input:focus,
+.tournament-create-row select:focus,
+.tournament-create-row textarea:focus {
+  border-color: rgba(200, 30, 47, 0.36);
+  box-shadow: 0 0 0 3px rgba(200, 30, 47, 0.08);
+}
+
+.tournament-create-row textarea {
+  min-height: 86px;
+  padding-top: 12px;
+  resize: vertical;
+}
+
+.tournament-create-row input::placeholder,
+.tournament-create-row textarea::placeholder {
+  color: #9ca3af;
+}
+
+.tournament-create-help {
+  margin: 6px 0 0;
+  color: #777;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.tournament-create-count {
+  margin: 6px 2px 0 0;
+  color: #777;
+  text-align: right;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* 数値＋単位 */
+.tournament-create-inline-input {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 48px;
+  align-items: center;
+  gap: 14px;
+}
+
+.tournament-create-inline-input span {
+  color: #24140f;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+/* アップロード */
+.tournament-create-upload {
+  min-height: 76px;
+  border: 1.5px dashed rgba(120, 40, 30, 0.28);
+  border-radius: 10px;
+  background: #fff;
+  color: #24140f;
+  display: grid;
+  place-items: center;
+  gap: 4px;
+  padding: 12px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.tournament-create-upload input {
+  display: none;
+}
+
+.tournament-create-upload svg {
+  width: 26px;
+  height: 26px;
+  color: var(--red);
+}
+
+.tournament-create-upload span {
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.tournament-create-upload small {
+  color: #777;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ラジオ */
+.tournament-create-radio-list {
+  display: grid;
+  gap: 12px;
+}
+
+.tournament-create-radio-list label {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: #24140f;
+  font-size: 16px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.tournament-create-radio-list input {
+  width: 22px;
+  height: 22px;
+  min-height: 22px;
+  padding: 0;
+  margin: 1px 0 0;
+  accent-color: var(--red);
+  flex: 0 0 auto;
+}
+
+.tournament-create-radio-list small {
+  display: block;
+  margin-top: 5px;
+  color: #777;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ボタン */
+.tournament-create-actions {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 28px;
+  margin-top: 30px;
+}
+
+.tournament-create-actions button {
+  min-height: 62px;
+  border-radius: 10px;
+  font-size: 19px;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+.tournament-create-actions svg {
+  width: 26px;
+  height: 26px;
+}
+
+.tournament-create-draft-button {
+  border: 2px solid var(--red);
+  background: #fff;
+  color: var(--red);
+}
+
+.tournament-create-submit-button {
+  border: none;
+  background: linear-gradient(135deg, #e60012, #c90012);
+  color: #fff;
+  box-shadow: 0 10px 22px rgba(200, 0, 18, 0.18);
+}
+
+.tournament-create-actions button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.tournament-create-note {
+  margin: 18px 0 0;
+  color: #666;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+/* スマホ */
+@media (max-width: 768px) {
+  .tournament-create-page {
+    padding: 0 12px 34px;
+  }
+
+  .tournament-create-hero {
+    margin: 0 -12px;
+    min-height: 145px;
+    padding: 28px 20px;
+  }
+
+  .tournament-create-hero h1 {
+    font-size: 27px;
+  }
+
+  .tournament-create-hero p {
+    margin-top: 10px;
+    font-size: 13px;
+  }
+
+  .tournament-create-card {
+    margin-top: -12px;
+    padding: 18px 16px;
+    border-radius: 14px;
+  }
+
+  .tournament-create-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 13px 0;
+  }
+
+  .tournament-create-label {
+    min-height: auto;
+  }
+
+  .tournament-create-label span {
+    font-size: 15px;
+  }
+
+  .tournament-create-row input,
+  .tournament-create-row select,
+  .tournament-create-row textarea {
+    min-height: 42px;
+    font-size: 14px;
+  }
+
+  .tournament-create-actions {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 18px;
+  }
+
+  .tournament-create-actions button {
+    min-height: 52px;
+    font-size: 16px;
+  }
+}

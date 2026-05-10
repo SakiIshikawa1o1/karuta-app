@@ -1,0 +1,30 @@
+/* Tournament detail back button */
+
+.tournament-detail-page {
+  position: relative;
+}
+
+.tournament-detail-back-button {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 20;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(190, 40, 34, 0.14);
+  background: rgba(255, 255, 255, 0.92);
+  color: #8f1f19;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 6px 16px rgba(80, 20, 10, 0.08);
+  cursor: pointer;
+}
+
+.tournament-detail-back-button:hover {
+  background: #fff7f4;
+}

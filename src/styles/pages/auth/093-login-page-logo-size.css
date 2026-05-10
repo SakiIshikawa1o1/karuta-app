@@ -1,0 +1,39 @@
+/* =========================================================
+   Login Page Logo Size
+   ログイン画面：中央ロゴをさらに大きくする
+========================================================= */
+
+.login-brand-logo {
+  width: 116px !important;
+  height: 116px !important;
+  margin: 0 auto 16px !important;
+}
+
+.login-brand-logo img {
+  width: 116px !important;
+  height: 116px !important;
+  object-fit: contain !important;
+}
+
+/* ロゴを大きくした分、少しだけ全体の余白を詰める */
+.login-brand {
+  margin-bottom: 30px !important;
+}
+
+/* スマホ */
+@media (max-width: 480px) {
+  .login-brand-logo {
+    width: 102px !important;
+    height: 102px !important;
+    margin-bottom: 14px !important;
+  }
+
+  .login-brand-logo img {
+    width: 102px !important;
+    height: 102px !important;
+  }
+
+  .login-brand {
+    margin-bottom: 28px !important;
+  }
+}

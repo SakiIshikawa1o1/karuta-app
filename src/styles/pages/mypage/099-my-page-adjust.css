@@ -1,0 +1,203 @@
+/* =========================================================
+   My Page Adjust
+   - 上部タイトル削除
+   - 人アイコン削除
+   - プロフィール情報を幅いっぱいに
+   - メニュータブを小さく
+========================================================= */
+
+/* 上部のMY PAGE / マイページを非表示 */
+.mypage-modern-hero {
+  display: none !important;
+}
+
+/* ページ上の余白を詰める */
+.mypage-modern {
+  padding-top: 18px !important;
+}
+
+/* プロフィールカードを1カラムにして幅いっぱい使う */
+.mypage-modern-profile-card {
+  display: block !important;
+  grid-template-columns: none !important;
+  padding: 22px 24px !important;
+  border-radius: 20px !important;
+}
+
+/* 人の丸アイコンを非表示 */
+.mypage-modern-avatar {
+  display: none !important;
+}
+
+/* 右側だった情報エリアを幅いっぱいに */
+.mypage-modern-profile-main {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+/* 氏名エリア */
+.mypage-modern-name-block {
+  padding-bottom: 14px !important;
+}
+
+.mypage-modern-name-block span {
+  font-size: 13px !important;
+}
+
+.mypage-modern-name-block h2 {
+  margin-top: 6px !important;
+  font-size: 30px !important;
+  line-height: 1.25 !important;
+  letter-spacing: 0.08em !important;
+}
+
+.mypage-modern-name-block h2 small {
+  margin-left: 8px !important;
+  font-size: 16px !important;
+}
+
+/* ロール・所属・段位 */
+.mypage-modern-info-list {
+  gap: 10px !important;
+  margin-top: 14px !important;
+}
+
+.mypage-modern-info-list div {
+  grid-template-columns: 26px 58px 1fr !important;
+  gap: 9px !important;
+  min-height: 34px !important;
+}
+
+.mypage-modern-info-list svg {
+  width: 22px !important;
+  height: 22px !important;
+}
+
+.mypage-modern-info-list span {
+  font-size: 14px !important;
+}
+
+.mypage-modern-info-list strong {
+  font-size: 15px !important;
+}
+
+/* ロールの丸ラベルも少し小さく */
+.mypage-modern-info-list div:first-child strong {
+  min-width: auto !important;
+  min-height: 26px !important;
+  padding: 0 12px !important;
+  font-size: 13px !important;
+}
+
+/* サマリーカードとの間隔を詰める */
+.mypage-modern-summary-grid {
+  margin-top: 18px !important;
+}
+
+/* メニューカード全体 */
+.mypage-modern-menu-card {
+  margin-top: 18px !important;
+  border-radius: 16px !important;
+}
+
+/* メニュータブの高さを小さく */
+.mypage-modern-menu-card button {
+  min-height: 52px !important;
+  padding: 0 18px !important;
+  grid-template-columns: 26px 1fr 22px !important;
+  gap: 12px !important;
+}
+
+/* メニューアイコン */
+.mypage-modern-menu-card svg {
+  width: 22px !important;
+  height: 22px !important;
+}
+
+/* メニュー文字 */
+.mypage-modern-menu-card span {
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em !important;
+}
+
+/* 右矢印 */
+.mypage-modern-chevron {
+  font-size: 28px !important;
+}
+
+/* 編集カードとの間隔 */
+.mypage-modern-edit-card {
+  margin-top: 18px !important;
+}
+
+/* スマホ */
+@media (max-width: 768px) {
+  .mypage-modern {
+    padding-top: 14px !important;
+  }
+
+  .mypage-modern-profile-card {
+    padding: 18px 18px !important;
+    border-radius: 18px !important;
+  }
+
+  .mypage-modern-name-block h2 {
+    font-size: 24px !important;
+  }
+
+  .mypage-modern-name-block h2 small {
+    font-size: 13px !important;
+  }
+
+  .mypage-modern-info-list div {
+    grid-template-columns: 22px 48px 1fr !important;
+    gap: 7px !important;
+  }
+
+  .mypage-modern-info-list span {
+    font-size: 12px !important;
+  }
+
+  .mypage-modern-info-list strong {
+    font-size: 13px !important;
+  }
+
+  .mypage-modern-menu-card button {
+    min-height: 48px !important;
+    padding: 0 15px !important;
+    grid-template-columns: 24px 1fr 20px !important;
+    gap: 10px !important;
+  }
+
+  .mypage-modern-menu-card svg {
+    width: 21px !important;
+    height: 21px !important;
+  }
+
+  .mypage-modern-menu-card span {
+    font-size: 15px !important;
+  }
+
+  .mypage-modern-chevron {
+    font-size: 26px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .mypage-modern-profile-card {
+    padding: 16px !important;
+  }
+
+  .mypage-modern-name-block h2 {
+    font-size: 22px !important;
+  }
+
+  .mypage-modern-menu-card button {
+    min-height: 46px !important;
+  }
+
+  .mypage-modern-menu-card span {
+    font-size: 14px !important;
+  }
+}

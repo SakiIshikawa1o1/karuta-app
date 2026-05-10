@@ -1,0 +1,49 @@
+/* =========================================================
+   Month tab text size
+   〇月タブの「〇月」と「〇件」を大きくする
+========================================================= */
+
+/* 〇月の文字 */
+.month-tab strong {
+  font-size: 17px;
+  line-height: 1.1;
+  font-weight: 800;
+}
+
+/* 〇件の文字 */
+.month-tab span {
+  font-size: 12.5px;
+  line-height: 1.1;
+  font-weight: 700;
+}
+
+/* タブの高さも文字に合わせて少しだけ確保 */
+.month-tab {
+  min-height: 38px;
+}
+
+/* スマホ表示 */
+@media (max-width: 768px) {
+  .month-tab strong {
+    font-size: 16px;
+  }
+
+  .month-tab span {
+    font-size: 11.5px;
+  }
+
+  .month-tab {
+    min-height: 36px;
+  }
+}
+
+/* 小さいスマホ表示 */
+@media (max-width: 480px) {
+  .month-tab strong {
+    font-size: 15.5px;
+  }
+
+  .month-tab span {
+    font-size: 11px;
+  }
+}

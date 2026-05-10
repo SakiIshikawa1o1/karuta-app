@@ -1,0 +1,143 @@
+/* =========================================================
+   Tournament Detail Fine Tune
+   - 受付中（〇月〇日まで）
+   - 大会名を大きく
+   - 要項タブを背景に同化
+   - 要項内の文字を大きく
+   - 会場重複の見え方を整理
+========================================================= */
+
+/* 受付中ラベル：締切日が入るので少し横長・文字大きめ */
+.tournament-detail-status-top .detail-status-pill,
+.detail-status-pill {
+  min-width: auto !important;
+  min-height: 23px !important;
+  padding: 0 10px !important;
+  font-size: 14px !important;
+  line-height: 1 !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.02em;
+}
+
+/* 大会名をもっと大きく */
+.tournament-detail-summary-card h1 {
+  font-size: 28px !important;
+  line-height: 1.28 !important;
+  font-weight: 900 !important;
+  margin: 0 0 10px !important;
+  letter-spacing: 0.03em !important;
+}
+
+/* 要項タブ：背景色と同化させる */
+.tournament-detail-tabs {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-bottom: 1px solid rgba(200, 30, 47, 0.14) !important;
+  margin-bottom: 9px !important;
+}
+
+/* 要項タブのボタン背景も透明にする */
+.tournament-detail-tabs button {
+  background: transparent !important;
+  min-height: 34px !important;
+  font-size: 15px !important;
+  color: #111 !important;
+}
+
+/* 要項タブの下線を細くする */
+.tournament-detail-tabs button.active::after {
+  height: 1.5px !important;
+  background: #d82035 !important;
+}
+
+/* 要項内カード */
+.detail-info-card {
+  grid-template-columns: 34px 1fr !important;
+  min-height: 58px !important;
+  padding: 10px 11px !important;
+  gap: 8px !important;
+}
+
+/* 要項内の見出しを大きく */
+.detail-info-card h2 {
+  margin: 0 0 3px !important;
+  font-size: 15px !important;
+  line-height: 1.25 !important;
+  font-weight: 900 !important;
+}
+
+/* 要項内の本文をかなり大きく */
+.detail-info-card p {
+  margin: 0 !important;
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em !important;
+}
+
+/* 日付・締切・参加費などの強調文字 */
+.detail-large-text {
+  font-size: 16px !important;
+  line-height: 1.28 !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.04em !important;
+}
+
+/* 参加費補足 */
+.detail-fee-note {
+  margin-left: 5px;
+  font-size: 12px !important;
+  font-weight: 800;
+}
+
+/* 2行目も表示する */
+.detail-info-card p + p {
+  display: block !important;
+  margin-top: 2px !important;
+}
+
+/* アイコンは大きくしすぎず、文字とのバランスを取る */
+.detail-info-icon {
+  width: 30px !important;
+  height: 30px !important;
+  font-size: 14px !important;
+}
+
+/* スマホ調整 */
+@media (max-width: 480px) {
+  .tournament-detail-status-top .detail-status-pill,
+  .detail-status-pill {
+    min-height: 22px !important;
+    padding: 0 9px !important;
+    font-size: 12px !important;
+  }
+
+  .tournament-detail-summary-card h1 {
+    font-size: 20px !important;
+    line-height: 1.28 !important;
+  }
+
+  .tournament-detail-tabs button {
+    min-height: 32px !important;
+    font-size: 14.5px !important;
+  }
+
+  .detail-info-card {
+    min-height: 56px !important;
+    padding: 9px 10px !important;
+  }
+
+  .detail-info-card h2 {
+    font-size: 14.5px !important;
+  }
+
+  .detail-info-card p {
+    font-size: 13.5px !important;
+    line-height: 1.35 !important;
+  }
+
+  .detail-large-text {
+    font-size: 15.5px !important;
+  }
+}

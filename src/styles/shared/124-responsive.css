@@ -1,0 +1,134 @@
+/* =========================================================
+   Responsive
+========================================================= */
+
+@media (max-width: 768px) {
+  .system-admin-page {
+    padding: 0 12px 36px;
+  }
+
+  .system-admin-hero {
+    margin: 0 -12px 16px;
+    min-height: 142px;
+    padding: 24px 18px;
+    gap: 14px;
+  }
+
+  .system-admin-hero-icon {
+    width: 68px;
+    height: 68px;
+    border-radius: 18px;
+  }
+
+  .system-admin-hero-icon svg {
+    width: 42px;
+    height: 42px;
+  }
+
+  .system-admin-hero h1 {
+    font-size: 29px;
+  }
+
+  .system-admin-hero p {
+    margin-top: 9px;
+    font-size: 13px;
+  }
+
+  .system-admin-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .system-admin-stat-card {
+    min-height: 118px;
+    padding: 15px 13px;
+  }
+
+  .system-admin-stat-card strong {
+    margin-top: 16px;
+    font-size: 25px;
+  }
+
+  .system-admin-stat-card p {
+    margin-top: 11px;
+    font-size: 12px;
+  }
+
+  .system-admin-panel {
+    margin-top: 16px;
+    padding: 15px;
+    border-radius: 16px;
+  }
+
+  .system-admin-section-title {
+    gap: 12px;
+  }
+
+  .system-admin-section-title svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .system-admin-section-title h2 {
+    font-size: 21px;
+  }
+
+  .system-admin-section-title.compact h2 {
+    font-size: 19px;
+  }
+
+  .system-admin-main-button {
+    min-height: 50px;
+    font-size: 16px;
+  }
+
+  .system-admin-two-column,
+  .system-admin-inquiry-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .system-admin-affiliation-head,
+  .system-admin-affiliation-row {
+    grid-template-columns: 1.4fr 1fr 0.6fr 84px;
+    font-size: 12px;
+  }
+
+  .system-admin-affiliation-form {
+    grid-template-columns: 1fr;
+  }
+
+  .system-admin-inquiry-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .system-admin-stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .system-admin-stat-card strong {
+    font-size: 23px;
+  }
+
+  .system-admin-user-table {
+    min-width: 720px;
+  }
+
+  .system-admin-affiliation-head,
+  .system-admin-affiliation-row {
+    min-width: 680px;
+  }
+
+  .system-admin-affiliation-table {
+    overflow-x: auto;
+  }
+
+  .system-admin-notice-item {
+    grid-template-columns: 58px 1fr auto;
+  }
+
+  .system-admin-notice-item small {
+    display: none;
+  }
+}

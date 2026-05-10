@@ -1,0 +1,145 @@
+/* =========================================================
+   Tournament card balanced spacing + larger text
+   余白を残しつつ、カード内の文字を大きくする
+========================================================= */
+
+/* カード全体：余白を少し残す */
+.tournament-list-item {
+  min-height: 72px;
+  padding: 10px 11px;
+  grid-template-columns: 1fr 30px;
+  gap: 9px;
+  align-items: center;
+}
+
+/* 左側の情報エリア */
+.tournament-list-main {
+  justify-content: center;
+}
+
+/* 大会名：大きめ */
+.tournament-list-main h3 {
+  margin: 0 0 6px;
+  font-size: 17px;
+  line-height: 1.25;
+  font-weight: 800;
+}
+
+/* メタ情報：受付中と、級＋場所の間に少し余白 */
+.tournament-list-meta {
+  gap: 5px;
+}
+
+/* 受付中の行 */
+.tournament-status-row {
+  line-height: 1.1;
+}
+
+/* 級＋場所の行 */
+.tournament-place-grade-row {
+  gap: 7px;
+  line-height: 1.2;
+}
+
+/* 受付中（〇月〇日まで） */
+.tournament-inline-status {
+  min-height: 22px;
+  padding: 0 8px;
+  font-size: 11.5px;
+  line-height: 1;
+  font-weight: 800;
+}
+
+/* 級 */
+.tournament-grade {
+  padding: 3px 10px;
+  font-size: 12.5px;
+  line-height: 1.2;
+  font-weight: 800;
+}
+
+/* 開催場所 */
+.tournament-venue {
+  font-size: 12.5px;
+  line-height: 1.35;
+  font-weight: 700;
+}
+
+/* 右端の ＞ */
+.tournament-card-arrow {
+  width: 28px;
+  height: 28px;
+  font-size: 24px;
+}
+
+/* 丸背景だけ少し下げる */
+.tournament-card-arrow::before {
+  transform: translateY(2px);
+}
+
+/* スマホ */
+@media (max-width: 768px) {
+  .tournament-list-item {
+    min-height: 68px;
+    padding: 9px 10px;
+    grid-template-columns: 1fr 28px;
+    gap: 8px;
+  }
+
+  .tournament-list-main h3 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+
+  .tournament-inline-status {
+    min-height: 21px;
+    padding: 0 7px;
+    font-size: 11px;
+  }
+
+  .tournament-grade {
+    padding: 3px 9px;
+    font-size: 12px;
+  }
+
+  .tournament-venue {
+    font-size: 12px;
+  }
+
+  .tournament-card-arrow {
+    width: 26px;
+    height: 26px;
+    font-size: 22px;
+  }
+}
+
+/* 小さいスマホ */
+@media (max-width: 480px) {
+  .tournament-list-item {
+    min-height: 66px;
+    padding: 9px 9px;
+    grid-template-columns: 1fr 26px;
+  }
+
+  .tournament-list-main h3 {
+    font-size: 15.5px;
+  }
+
+  .tournament-inline-status {
+    font-size: 10.5px;
+  }
+
+  .tournament-grade {
+    font-size: 11.5px;
+  }
+
+  .tournament-venue {
+    font-size: 11.5px;
+  }
+
+  .tournament-card-arrow {
+    width: 24px;
+    height: 24px;
+    font-size: 21px;
+  }
+}

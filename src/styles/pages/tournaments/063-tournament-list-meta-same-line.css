@@ -1,0 +1,52 @@
+/* =========================================================
+   Tournament list meta same line
+   級と開催場所を同じ行に表示する
+========================================================= */
+
+/* メタ情報を横並びに戻す */
+.tournament-list-meta {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+/* もし前回追加した行分け用divが残っていても横並びにする */
+.tournament-meta-row,
+.tournament-venue-row {
+  display: contents;
+}
+
+/* 受付中ラベル */
+.tournament-inline-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+/* 級 */
+.tournament-grade {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+/* 開催場所 */
+.tournament-venue {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+/* スマホで横幅が足りない場合だけ自然に折り返す */
+@media (max-width: 480px) {
+  .tournament-list-meta {
+    gap: 3px;
+  }
+
+  .tournament-venue {
+    white-space: normal;
+  }
+}

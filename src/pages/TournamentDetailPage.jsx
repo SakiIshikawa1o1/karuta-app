@@ -1,4 +1,4 @@
-// src/pages/TournamentDetailPage.jsx
+﻿// src/pages/TournamentDetailPage.jsx
 
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -6,10 +6,10 @@ import { supabase } from "../lib/supabase";
 import { useAuth } from "../contexts/AuthContext";
 
 const STATUS_LABEL = {
-  draft: "準備中",
+  draft: "下書き",
+  preparing: "準備中",
   published: "受付中",
   closed: "受付終了",
-  cancelled: "中止",
 };
 
 const WEEKDAYS = ["日", "月", "火", "水", "木", "金", "土"];
@@ -58,12 +58,122 @@ function formatYen(value) {
   return `${Number(value).toLocaleString("ja-JP")}円`;
 }
 
+function normalizeClassCode(code) {
+  if (!code) return "";
+
+  return String(code)
+    .trim()
+    .replace("級", "")
+    .toLowerCase();
+}
+
+function getAllowedClassColumn(classCode) {
+  const normalizedCode = normalizeClassCode(classCode);
+
+  if (!normalizedCode) return "";
+
+  return `allow_class_${normalizedCode}`;
+}
+
+function isTournamentAllowedForClass(tournament, classCode) {
+  const columnName = getAllowedClassColumn(classCode);
+
+  if (!columnName) return false;
+
+  return tournament[columnName] === true;
+}
+
+function getAllowedClassLabels(tournament, classLevels) {
+  return classLevels
+    .filter((classLevel) =>
+      isTournamentAllowedForClass(tournament, classLevel.code)
+    )
+    .map((classLevel) => classLevel.name || `${classLevel.code}級`)
+    .join("・");
+}
+
+/**
+ * DB上の status ではなく、画面上で扱う実質ステータスを返す
+ *
+ * draft      → 下書き
+ * preparing  → 準備中
+ * published  → 締切前なら受付中、締切後なら受付終了
+ * closed     → 受付終了
+ */
+function getEffectiveStatus(tournament) {
+  if (!tournament) return "";
+
+  if (tournament.status === "draft") {
+    return "draft";
+  }
+
+  if (tournament.status === "preparing") {
+    return "preparing";
+  }
+
+  if (tournament.status === "closed") {
+    return "closed";
+  }
+
+  if (tournament.status === "published" && tournament.application_deadline) {
+    const now = new Date();
+    const deadline = new Date(tournament.application_deadline);
+
+    if (!Number.isNaN(deadline.getTime()) && now > deadline) {
+      return "closed";
+    }
+  }
+
+  return tournament.status;
+}
+
+function getStatusLabel(tournament) {
+  const effectiveStatus = getEffectiveStatus(tournament);
+  const statusLabel = STATUS_LABEL[effectiveStatus] || effectiveStatus;
+
+  if (effectiveStatus === "published" && tournament.application_deadline) {
+    const shortDeadline = formatDeadlineShort(tournament.application_deadline);
+    return shortDeadline ? `${statusLabel}（${shortDeadline}まで）` : statusLabel;
+  }
+
+  return statusLabel;
+}
+
+function getStatusClass(tournament) {
+  const effectiveStatus = getEffectiveStatus(tournament);
+
+  if (effectiveStatus === "preparing") return "is-preparing";
+  if (effectiveStatus === "closed") return "is-closed";
+  if (effectiveStatus === "draft") return "is-draft";
+
+  return "";
+}
+
+function getDisabledApplyLabel(tournament) {
+  const effectiveStatus = getEffectiveStatus(tournament);
+
+  if (effectiveStatus === "preparing") {
+    return "現在は準備中です";
+  }
+
+  if (effectiveStatus === "closed") {
+    return "受付終了";
+  }
+
+  if (effectiveStatus === "draft") {
+    return "現在は下書きです";
+  }
+
+  return "申し込み不可";
+}
+
 export default function TournamentDetailPage() {
   const navigate = useNavigate();
   const { id } = useParams();
   const { user, loading: authLoading } = useAuth();
 
   const [tournament, setTournament] = useState(null);
+  const [classLevels, setClassLevels] = useState([]);
   const [alreadyApplied, setAlreadyApplied] = useState(false);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
@@ -74,34 +184,53 @@ export default function TournamentDetailPage() {
     setLoading(true);
     setMessage("");
 
-    const { data, error } = await supabase
-      .from("tournaments")
-      .select("*")
-      .eq("id", id)
-      .maybeSingle();
+    const [tournamentResult, classLevelsResult] = await Promise.all([
+      supabase
+        .from("tournaments")
+        .select("*")
+        .eq("id", id)
+        .maybeSingle(),
 
-    if (error) {
+      supabase
+        .from("class_levels")
+        .select("id, code, name, sort_order, is_active")
+        .eq("is_active", true)
+        .order("sort_order", { ascending: true }),
+    ]);
+
+    if (tournamentResult.error) {
       setLoading(false);
-      setMessage(`大会詳細の取得に失敗しました：${error.message}`);
+      setMessage(`大会詳細の取得に失敗しました：${tournamentResult.error.message}`);
       return;
     }
 
-    if (!data) {
+    if (classLevelsResult.error) {
+      setLoading(false);
+      setMessage(`級マスタの取得に失敗しました：${classLevelsResult.error.message}`);
+      return;
+    }
+
+    if (!tournamentResult.data) {
       setLoading(false);
       setMessage("大会が見つかりません。");
       return;
     }
 
-    setTournament(data);
+    setTournament(tournamentResult.data);
+    setClassLevels(classLevelsResult.data ?? []);
 
     if (user) {
-      const { data: appData } = await supabase
+      const { data: appData, error: appError } = await supabase
         .from("applications")
         .select("id, status")
         .eq("tournament_id", id)
         .eq("user_id", user.id)
         .neq("status", "cancelled")
         .maybeSingle();
+
+      if (appError) {
+        console.error("申込状況取得エラー:", appError.message);
+      }
 
       setAlreadyApplied(!!appData);
     } else {
@@ -113,33 +242,33 @@ export default function TournamentDetailPage() {
 
   useEffect(() => {
     fetchTournament();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, user, authLoading]);
 
-  const canApply = tournament?.status === "published" && !alreadyApplied;
-
-  const statusLabel = useMemo(() => {
+  const effectiveStatus = useMemo(() => {
     if (!tournament) return "";
-    return STATUS_LABEL[tournament.status] || tournament.status;
+    return getEffectiveStatus(tournament);
   }, [tournament]);
 
   const displayStatusLabel = useMemo(() => {
     if (!tournament) return "";
-
-    if (tournament.status === "published" && tournament.application_deadline) {
-      const shortDeadline = formatDeadlineShort(tournament.application_deadline);
-      return shortDeadline ? `${statusLabel}（${shortDeadline}まで）` : statusLabel;
-    }
-
-    return statusLabel;
-  }, [tournament, statusLabel]);
+    return getStatusLabel(tournament);
+  }, [tournament]);
 
   const statusClass = useMemo(() => {
     if (!tournament) return "";
-    if (tournament.status === "closed") return "is-closed";
-    if (tournament.status === "cancelled") return "is-cancelled";
-    if (tournament.status === "draft") return "is-draft";
-    return "";
+    return getStatusClass(tournament);
   }, [tournament]);
+
+  const allowedClassLabels = useMemo(() => {
+    if (!tournament) return "";
+    return getAllowedClassLabels(tournament, classLevels);
+  }, [tournament, classLevels]);
+
+  const canApply = useMemo(() => {
+    if (!tournament) return false;
+    return effectiveStatus === "published" && !alreadyApplied;
+  }, [tournament, effectiveStatus, alreadyApplied]);
 
   const handleApplyClick = () => {
     if (!user) {
@@ -162,6 +291,14 @@ export default function TournamentDetailPage() {
 
   return (
     <div className="tournament-detail-page">
+      <button
+        type="button"
+        className="tournament-detail-back-button"
+        onClick={() => navigate("/tournaments")}
+      >
+        ‹ 大会一覧に戻る
+      </button>
+
       {message && <p className="error-text">{message}</p>}
 
       {tournament && (
@@ -222,18 +359,11 @@ export default function TournamentDetailPage() {
             </section>
 
             <section className="detail-info-card">
-              <div className="detail-info-icon people">人</div>
+              <div className="detail-info-icon people">級</div>
               <div>
-                <h2>参加資格・定員</h2>
-                <p>
-                  {tournament.eligibility ||
-                    "参加資格は大会要項をご確認ください。"}
-                </p>
-                <p>
-                  定員：
-                  {tournament.capacity
-                    ? `${tournament.capacity}名`
-                    : "未設定"}
+                <h2>参加可能な級</h2>
+                <p className="detail-large-text">
+                  {allowedClassLabels || "参加可能な級は未設定です。"}
                 </p>
               </div>
             </section>
@@ -264,12 +394,12 @@ export default function TournamentDetailPage() {
             </section>
 
             <section className="detail-info-card detail-info-card-text">
-              <div className="detail-info-icon document">文</div>
+              <div className="detail-info-icon document">備</div>
               <div>
-                <h2>大会説明</h2>
+                <h2>大会備考</h2>
                 <p>
-                  {tournament.description ||
-                    "大会説明は現在準備中です。詳細が決まり次第、こちらに掲載します。"}
+                  {tournament.notes ||
+                    "大会備考は現在準備中です。詳細が決まり次第、こちらに掲載します。"}
                 </p>
               </div>
             </section>
@@ -289,7 +419,7 @@ export default function TournamentDetailPage() {
               </button>
             ) : (
               <button type="button" disabled>
-                申し込み不可
+                {getDisabledApplyLabel(tournament)}
                 <span>›</span>
               </button>
             )}

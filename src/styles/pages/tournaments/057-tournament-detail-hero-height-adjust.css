@@ -1,0 +1,25 @@
+/* =========================================================
+   Tournament Detail Hero Height Adjust
+   ヒーロー写真の高さを少し高くする
+========================================================= */
+
+/* PC・共通 */
+.tournament-detail-hero {
+  height: 76px !important;
+}
+
+/* 上の白いボックスは少し写真に重ねる */
+.tournament-detail-summary-card {
+  margin-top: -10px !important;
+}
+
+/* スマホ */
+@media (max-width: 480px) {
+  .tournament-detail-hero {
+    height: 68px !important;
+  }
+
+  .tournament-detail-summary-card {
+    margin-top: -8px !important;
+  }
+}

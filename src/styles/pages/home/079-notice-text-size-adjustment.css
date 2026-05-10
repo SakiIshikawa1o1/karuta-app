@@ -1,0 +1,1866 @@
+/* =========================================================
+   Notice text size adjustment
+   お知らせの日付・タイトル・重要ラベルを大きくする
+========================================================= */
+
+/* お知らせ1行の高さを少し確保 */
+.notice-item {
+  min-height: 64px;
+}
+
+/* 日付 */
+.notice-date {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+}
+
+/* 重要 / お知らせ ラベル */
+.notice-tag {
+  min-height: 28px !important;
+  padding: 0 9px !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+}
+
+/* 重要ラベル */
+.notice-tag.important {
+  font-size: 12px !important;
+  font-weight: 900 !important;
+}
+
+/* お知らせタイトル */
+.notice-text {
+  font-size: 15px !important;
+  line-height: 1.4 !important;
+  font-weight: 700 !important;
+}
+
+/* 右端の矢印 */
+.notice-arrow {
+  font-size: 22px !important;
+}
+
+/* スマホ表示 */
+@media (max-width: 768px) {
+  .notice-item {
+    min-height: 62px;
+    grid-template-columns: 76px 62px 1fr auto;
+    gap: 7px;
+    padding: 0 11px;
+  }
+
+  .notice-date {
+    font-size: 13px !important;
+  }
+
+  .notice-tag {
+    min-height: 25px !important;
+    padding: 0 7px !important;
+    font-size: 11px !important;
+  }
+
+  .notice-text {
+    font-size: 13px !important;
+    line-height: 1.35 !important;
+  }
+
+  .notice-arrow {
+    font-size: 20px !important;
+  }
+}
+
+/* 小さいスマホ表示 */
+@media (max-width: 480px) {
+  .notice-item {
+    min-height: 60px;
+    grid-template-columns: 72px 58px 1fr auto;
+  }
+
+  .notice-date {
+    font-size: 13.5px !important;
+  }
+
+  .notice-tag {
+    font-size: 10.5px !important;
+  }
+
+  .notice-text {
+    font-size: 14px !important;
+  }
+}
+
+/* =========================================
+   大会申込ページ
+========================================= */
+
+.tournament-apply-page {
+  min-height: 100vh;
+  padding: 0 18px 34px;
+  background:
+    radial-gradient(circle at 90% 12%, rgba(219, 56, 32, 0.12), transparent 28%),
+    linear-gradient(180deg, #fffaf3 0%, #fffdf9 48%, #fff8ef 100%);
+  color: #242424;
+}
+
+/* ---------- 上部タイトルエリア ---------- */
+
+.apply-hero {
+  position: relative;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 44px 0 26px;
+  overflow: hidden;
+}
+
+.apply-hero-text {
+  position: relative;
+  z-index: 2;
+}
+
+.apply-hero-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 10px;
+  color: #d7193f;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.apply-hero-label::before {
+  content: "🍁";
+  font-size: 32px;
+  line-height: 1;
+}
+
+.apply-hero h1 {
+  margin: 0 0 12px;
+  font-size: clamp(34px, 7vw, 52px);
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: 0.06em;
+}
+
+.apply-hero p:last-child {
+  margin: 0;
+  color: #333;
+  font-size: clamp(15px, 3.2vw, 20px);
+  font-weight: 600;
+  line-height: 1.7;
+}
+
+.apply-hero-leaves {
+  position: absolute;
+  top: 8px;
+  right: -20px;
+  z-index: 1;
+  display: flex;
+  gap: 2px;
+  opacity: 0.9;
+  transform: rotate(-8deg);
+  pointer-events: none;
+}
+
+.apply-hero-leaves span {
+  display: inline-block;
+  font-size: 58px;
+  filter: drop-shadow(0 8px 12px rgba(194, 79, 40, 0.18));
+}
+
+.apply-hero-leaves span:nth-child(2) {
+  margin-top: 38px;
+  font-size: 72px;
+  transform: rotate(24deg);
+}
+
+.apply-hero-leaves span:nth-child(3) {
+  margin-top: 6px;
+  font-size: 66px;
+  transform: rotate(-18deg);
+}
+
+/* ---------- 全体レイアウト ---------- */
+
+.apply-content {
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+/* ---------- 大会概要カード ---------- */
+
+.apply-tournament-card {
+  padding: 34px 30px 30px;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(214, 88, 54, 0.18);
+  border-radius: 18px;
+  box-shadow: 0 14px 34px rgba(90, 43, 24, 0.12);
+}
+
+.apply-tournament-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.apply-tournament-head h2 {
+  margin: 0;
+  font-size: clamp(24px, 5vw, 36px);
+  font-weight: 900;
+  line-height: 1.35;
+  letter-spacing: 0.04em;
+}
+
+.apply-status-badge {
+  flex: 0 0 auto;
+  margin-top: 4px;
+  padding: 10px 20px;
+  color: #fff;
+  background: #d7193f;
+  border-radius: 999px;
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.apply-info-table {
+  overflow: hidden;
+  border: 1px solid #eadfda;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.apply-info-row {
+  display: grid;
+  grid-template-columns: minmax(130px, 34%) 1fr;
+  min-height: 70px;
+  border-bottom: 1px solid #eadfda;
+}
+
+.apply-info-row:last-child {
+  border-bottom: none;
+}
+
+.apply-info-label,
+.apply-info-value {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+}
+
+.apply-info-label {
+  gap: 14px;
+  color: #d7193f;
+  font-size: clamp(16px, 3.5vw, 21px);
+  font-weight: 900;
+}
+
+.apply-info-value {
+  justify-content: flex-end;
+  color: #222;
+  font-size: clamp(17px, 3.6vw, 22px);
+  font-weight: 800;
+  line-height: 1.5;
+  text-align: right;
+  letter-spacing: 0.04em;
+}
+
+.apply-info-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  color: #d7193f;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+/* ---------- 申込者情報カード ---------- */
+
+.apply-form-card {
+  margin-top: 34px;
+  padding: 34px 30px 30px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(214, 88, 54, 0.16);
+  border-radius: 18px;
+  box-shadow: 0 14px 34px rgba(90, 43, 24, 0.1);
+}
+
+.apply-section-title {
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eadfda;
+}
+
+.apply-section-title h2 {
+  margin: 0 0 16px;
+  font-size: clamp(25px, 5vw, 35px);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.apply-section-title p {
+  margin: 0;
+  color: #555;
+  font-size: clamp(14px, 3.2vw, 18px);
+  font-weight: 600;
+  line-height: 1.7;
+}
+
+.apply-error-text {
+  margin: 0 0 20px;
+  padding: 14px 16px;
+  color: #b30022;
+  background: #fff1f3;
+  border: 1px solid rgba(215, 25, 63, 0.22);
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.apply-form-field {
+  margin-bottom: 22px;
+}
+
+.apply-form-field label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  color: #222;
+  font-size: clamp(16px, 3.5vw, 20px);
+  font-weight: 900;
+}
+
+.apply-required {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 42px;
+  padding: 3px 9px;
+  color: #d7193f;
+  background: #fff;
+  border: 1px solid rgba(215, 25, 63, 0.5);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.apply-form-field input,
+.apply-form-field select,
+.apply-form-field textarea {
+  width: 100%;
+  min-height: 66px;
+  padding: 0 20px;
+  color: #222;
+  background: #fff;
+  border: 1px solid #d9d0cc;
+  border-radius: 9px;
+  font-size: clamp(17px, 3.8vw, 22px);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  box-sizing: border-box;
+  outline: none;
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    background-color 0.18s ease;
+}
+
+.apply-form-field select {
+  appearance: auto;
+  cursor: pointer;
+}
+
+.apply-form-field textarea {
+  min-height: 120px;
+  padding-top: 16px;
+  resize: vertical;
+}
+
+.apply-form-field input:focus,
+.apply-form-field select:focus,
+.apply-form-field textarea:focus {
+  border-color: #d7193f;
+  box-shadow: 0 0 0 4px rgba(215, 25, 63, 0.1);
+}
+
+.apply-form-field input::placeholder {
+  color: #9b9490;
+}
+
+/* ---------- チェック項目 ---------- */
+
+.apply-check-list {
+  margin-top: 26px;
+}
+
+.apply-check-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.apply-check-row label {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #222;
+  font-size: clamp(16px, 3.5vw, 20px);
+  font-weight: 900;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.apply-check-row input[type="checkbox"] {
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  accent-color: #d7193f;
+  cursor: pointer;
+}
+
+.apply-check-row a {
+  flex: 0 0 auto;
+  color: #d7193f;
+  font-size: clamp(14px, 3.1vw, 17px);
+  font-weight: 900;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  white-space: nowrap;
+}
+
+.apply-note {
+  margin: 24px 0 0;
+  color: #5f5a57;
+  font-size: clamp(14px, 3.1vw, 17px);
+  font-weight: 700;
+  line-height: 1.7;
+}
+
+/* ---------- 申込ボタン ---------- */
+
+.apply-submit-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  width: 100%;
+  min-height: 78px;
+  margin-top: 36px;
+  padding: 0 24px;
+  color: #fff;
+  background: #d7193f;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 12px 26px rgba(215, 25, 63, 0.22);
+  font-size: clamp(21px, 4.6vw, 30px);
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}
+
+.apply-submit-button span:last-child {
+  position: absolute;
+  right: max(42px, calc((100vw - 920px) / 2 + 42px));
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.apply-submit-button:active {
+  transform: translateY(1px);
+}
+
+/* ---------- 読み込み ---------- */
+
+.apply-loading-card {
+  max-width: 920px;
+  margin: 40px auto;
+  padding: 28px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(90, 43, 24, 0.1);
+  font-size: 18px;
+  font-weight: 800;
+  text-align: center;
+}
+
+/* ---------- スマホ調整 ---------- */
+
+@media (max-width: 640px) {
+  .tournament-apply-page {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .apply-hero {
+    padding-top: 38px;
+  }
+
+  .apply-hero-leaves {
+    right: -42px;
+  }
+
+  .apply-hero-leaves span {
+    font-size: 48px;
+  }
+
+  .apply-hero-leaves span:nth-child(2) {
+    font-size: 62px;
+  }
+
+  .apply-hero-leaves span:nth-child(3) {
+    font-size: 54px;
+  }
+
+  .apply-tournament-card,
+  .apply-form-card {
+    padding: 28px 20px 24px;
+    border-radius: 16px;
+  }
+
+  .apply-tournament-head {
+    align-items: flex-start;
+  }
+
+  .apply-status-badge {
+    padding: 9px 15px;
+    font-size: 15px;
+  }
+
+  .apply-info-row {
+    grid-template-columns: 38% 62%;
+    min-height: 64px;
+  }
+
+  .apply-info-label,
+  .apply-info-value {
+    padding: 14px 14px;
+  }
+
+  .apply-info-label {
+    gap: 8px;
+  }
+
+  .apply-check-row {
+    align-items: flex-start;
+  }
+
+  .apply-submit-button {
+    min-height: 72px;
+    border-radius: 11px;
+  }
+
+  .apply-submit-button span:last-child {
+    right: 42px;
+  }
+}
+
+/* =========================================
+   大会申込ページ：文字サイズ・位置調整
+========================================= */
+
+/* 全体を少し上寄せ */
+.tournament-apply-page {
+  padding-top: 0;
+}
+
+/* ヒーローエリアの縦余白を縮小 */
+.apply-hero {
+  padding: 22px 0 16px;
+}
+
+/* 上部の小見出し */
+.apply-hero-label {
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+.apply-hero-label::before {
+  font-size: 24px;
+}
+
+/* ページタイトル */
+.apply-hero h1 {
+  margin-bottom: 8px;
+  font-size: clamp(26px, 5.4vw, 38px);
+  letter-spacing: 0.04em;
+}
+
+/* 説明文 */
+.apply-hero p:last-child {
+  font-size: clamp(13px, 2.8vw, 16px);
+  line-height: 1.5;
+}
+
+/* 右上の紅葉を少し小さく・上寄せ */
+.apply-hero-leaves {
+  top: -4px;
+  right: -28px;
+}
+
+.apply-hero-leaves span {
+  font-size: 42px;
+}
+
+.apply-hero-leaves span:nth-child(2) {
+  margin-top: 28px;
+  font-size: 54px;
+}
+
+.apply-hero-leaves span:nth-child(3) {
+  font-size: 48px;
+}
+
+/* 大会概要カードを少しコンパクトに */
+.apply-tournament-card {
+  padding: 24px 24px 22px;
+}
+
+.apply-tournament-head {
+  margin-bottom: 18px;
+}
+
+.apply-tournament-head h2 {
+  font-size: clamp(21px, 4.3vw, 30px);
+}
+
+.apply-status-badge {
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+/* 大会情報テーブル */
+.apply-info-row {
+  min-height: 56px;
+}
+
+.apply-info-label,
+.apply-info-value {
+  padding: 12px 16px;
+}
+
+.apply-info-label {
+  gap: 10px;
+  font-size: clamp(14px, 3vw, 17px);
+}
+
+.apply-info-value {
+  font-size: clamp(14px, 3vw, 18px);
+}
+
+.apply-info-icon {
+  width: 28px;
+  height: 28px;
+  font-size: 15px;
+}
+
+/* 申込者情報カードを上寄せ・コンパクトに */
+.apply-form-card {
+  margin-top: 24px;
+  padding: 24px 24px 22px;
+}
+
+.apply-section-title {
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+}
+
+.apply-section-title h2 {
+  margin-bottom: 10px;
+  font-size: clamp(22px, 4.4vw, 30px);
+}
+
+.apply-section-title p {
+  font-size: clamp(13px, 2.8vw, 15px);
+  line-height: 1.5;
+}
+
+/* 入力欄 */
+.apply-form-field {
+  margin-bottom: 17px;
+}
+
+.apply-form-field label {
+  margin-bottom: 7px;
+  font-size: clamp(14px, 3vw, 17px);
+}
+
+.apply-required {
+  min-width: 36px;
+  padding: 2px 8px;
+  font-size: 11px;
+}
+
+.apply-form-field input,
+.apply-form-field select,
+.apply-form-field textarea {
+  min-height: 54px;
+  padding: 0 16px;
+  font-size: clamp(15px, 3.2vw, 18px);
+}
+
+.apply-form-field textarea {
+  min-height: 96px;
+  padding-top: 12px;
+}
+
+/* チェック項目 */
+.apply-check-list {
+  margin-top: 20px;
+}
+
+.apply-check-row {
+  margin-bottom: 14px;
+}
+
+.apply-check-row label {
+  gap: 10px;
+  font-size: clamp(14px, 3vw, 17px);
+}
+
+.apply-check-row input[type="checkbox"] {
+  width: 26px;
+  height: 26px;
+}
+
+.apply-check-row a {
+  font-size: clamp(12px, 2.7vw, 15px);
+}
+
+/* 注意文 */
+.apply-note {
+  margin-top: 18px;
+  font-size: clamp(12px, 2.7vw, 15px);
+}
+
+/* 申込ボタン */
+.apply-submit-button {
+  min-height: 62px;
+  margin-top: 26px;
+  font-size: clamp(18px, 3.8vw, 24px);
+  letter-spacing: 0.08em;
+}
+
+.apply-submit-button span:last-child {
+  font-size: 34px;
+}
+
+/* スマホではさらに少し詰める */
+@media (max-width: 640px) {
+  .tournament-apply-page {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+
+  .apply-hero {
+    padding-top: 18px;
+    padding-bottom: 14px;
+  }
+
+  .apply-tournament-card,
+  .apply-form-card {
+    padding: 22px 18px 20px;
+  }
+
+  .apply-info-row {
+    min-height: 54px;
+  }
+
+  .apply-info-label,
+  .apply-info-value {
+    padding: 11px 12px;
+  }
+
+  .apply-submit-button {
+    min-height: 60px;
+  }
+}
+
+/* =========================================
+   大会申込ページ：チェックボックス・リンク位置調整
+========================================= */
+
+/* チェックボックスを小さく */
+.apply-check-row input[type="checkbox"] {
+  width: 20px !important;
+  height: 20px !important;
+  margin-top: 2px;
+}
+
+/* チェック項目の文字との間隔を少し調整 */
+.apply-check-row label {
+  gap: 9px;
+}
+
+/* 「参加要項を開く」「注意事項を開く」を少し下に配置 */
+.apply-check-row a {
+  position: relative;
+  top: 5px;
+}
+
+/* 変更不可の入力欄 */
+.apply-readonly-input,
+.apply-form-field input[readonly],
+.apply-form-field select:disabled {
+  color: #333;
+  background: #f7f4f2;
+  border-color: #ddd3ce;
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+/* disabledのselectでも文字を薄くしすぎない */
+.apply-form-field select:disabled {
+  -webkit-text-fill-color: #333;
+}
+
+.apply-submit-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* =========================================
+   大会申込ページ：さらにコンパクト化
+========================================= */
+
+/* ページ全体の上下余白を圧縮 */
+.tournament-apply-page {
+  padding-top: 0 !important;
+  padding-bottom: 22px !important;
+}
+
+/* 上部タイトルエリアを小さく */
+.apply-hero {
+  padding: 12px 0 10px !important;
+}
+
+.apply-hero-label {
+  margin-bottom: 3px !important;
+  font-size: 12px !important;
+}
+
+.apply-hero-label::before {
+  font-size: 20px !important;
+}
+
+.apply-hero h1 {
+  margin-bottom: 4px !important;
+  font-size: clamp(23px, 5vw, 32px) !important;
+  line-height: 1.15 !important;
+}
+
+.apply-hero p:last-child {
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+}
+
+/* 紅葉装飾をさらに小さく */
+.apply-hero-leaves {
+  top: -10px !important;
+  right: -34px !important;
+}
+
+.apply-hero-leaves span {
+  font-size: 34px !important;
+}
+
+.apply-hero-leaves span:nth-child(2) {
+  margin-top: 22px !important;
+  font-size: 44px !important;
+}
+
+.apply-hero-leaves span:nth-child(3) {
+  font-size: 38px !important;
+}
+
+/* 大会概要カードを小さく */
+.apply-tournament-card {
+  padding: 18px 20px 16px !important;
+  border-radius: 14px !important;
+}
+
+.apply-tournament-head {
+  margin-bottom: 12px !important;
+}
+
+.apply-tournament-head h2 {
+  font-size: clamp(18px, 4vw, 26px) !important;
+  line-height: 1.3 !important;
+}
+
+/* 念のため受付中バッジをCSSでも非表示 */
+.apply-status-badge {
+  display: none !important;
+}
+
+/* 大会情報テーブルの高さを圧縮 */
+.apply-info-row {
+  min-height: 46px !important;
+}
+
+.apply-info-label,
+.apply-info-value {
+  padding: 8px 12px !important;
+}
+
+.apply-info-label {
+  gap: 7px !important;
+  font-size: clamp(12px, 2.8vw, 15px) !important;
+}
+
+.apply-info-value {
+  font-size: clamp(13px, 2.9vw, 16px) !important;
+  line-height: 1.35 !important;
+}
+
+.apply-info-icon {
+  width: 22px !important;
+  height: 22px !important;
+  font-size: 13px !important;
+}
+
+/* 申込者情報カードも圧縮 */
+.apply-form-card {
+  margin-top: 18px !important;
+  padding: 18px 20px 16px !important;
+  border-radius: 14px !important;
+}
+
+.apply-section-title {
+  margin-bottom: 14px !important;
+  padding-bottom: 10px !important;
+}
+
+.apply-section-title h2 {
+  margin-bottom: 6px !important;
+  font-size: clamp(19px, 4vw, 26px) !important;
+}
+
+.apply-section-title p {
+  font-size: 12px !important;
+  line-height: 1.45 !important;
+}
+
+/* 入力欄の高さを小さく */
+.apply-form-field {
+  margin-bottom: 12px !important;
+}
+
+.apply-form-field label {
+  margin-bottom: 5px !important;
+  font-size: clamp(13px, 2.8vw, 15px) !important;
+}
+
+.apply-required {
+  min-width: 32px !important;
+  padding: 2px 7px !important;
+  font-size: 10px !important;
+}
+
+.apply-form-field input,
+.apply-form-field select,
+.apply-form-field textarea {
+  min-height: 44px !important;
+  padding: 0 12px !important;
+  font-size: clamp(13px, 3vw, 16px) !important;
+  border-radius: 8px !important;
+}
+
+/* チェック欄も詰める */
+.apply-check-list {
+  margin-top: 14px !important;
+}
+
+.apply-check-row {
+  margin-bottom: 10px !important;
+  gap: 10px !important;
+}
+
+.apply-check-row label {
+  gap: 8px !important;
+  font-size: clamp(13px, 2.8vw, 15px) !important;
+}
+
+.apply-check-row input[type="checkbox"] {
+  width: 18px !important;
+  height: 18px !important;
+}
+
+.apply-check-row a {
+  top: 4px !important;
+  font-size: 12px !important;
+}
+
+/* 注意文 */
+.apply-note {
+  margin-top: 12px !important;
+  font-size: 12px !important;
+  line-height: 1.45 !important;
+}
+
+/* 申込ボタンも低くする */
+.apply-submit-button {
+  min-height: 52px !important;
+  margin-top: 18px !important;
+  border-radius: 10px !important;
+  font-size: clamp(16px, 3.5vw, 21px) !important;
+  letter-spacing: 0.06em !important;
+}
+
+.apply-submit-button span:last-child {
+  font-size: 28px !important;
+}
+
+/* スマホではさらに詰める */
+@media (max-width: 640px) {
+  .tournament-apply-page {
+    padding-right: 12px !important;
+    padding-left: 12px !important;
+  }
+
+  .apply-hero {
+    padding-top: 10px !important;
+    padding-bottom: 8px !important;
+  }
+
+  .apply-tournament-card,
+  .apply-form-card {
+    padding: 16px 16px 14px !important;
+  }
+
+  .apply-info-row {
+    min-height: 44px !important;
+  }
+
+  .apply-form-field input,
+  .apply-form-field select {
+    min-height: 42px !important;
+  }
+
+  .apply-submit-button {
+    min-height: 50px !important;
+  }
+}
+
+/* =========================================
+   大会申込ページ：装飾削除・select矢印削除
+========================================= */
+
+/* 背景のモミジ・装飾を削除 */
+.tournament-apply-page {
+  background: linear-gradient(180deg, #fffaf6 0%, #fffdfb 100%) !important;
+}
+
+/* 小さい「大会申し込み」を非表示 */
+.apply-hero-label,
+.apply-hero-label::before {
+  display: none !important;
+}
+
+/* ヒーローエリア右上のモミジを非表示 */
+.apply-hero-leaves {
+  display: none !important;
+}
+
+/* ヒーローエリアを少し詰める */
+.apply-hero {
+  padding: 8px 0 8px !important;
+}
+
+.apply-hero h1 {
+  margin: 0 0 4px !important;
+  font-size: clamp(22px, 4.8vw, 30px) !important;
+  line-height: 1.2 !important;
+}
+
+.apply-hero p:last-child {
+  margin: 0 !important;
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+}
+
+/* 所属会・段位の右側の下向き▼を削除 */
+.apply-form-field select.apply-readonly-input,
+.apply-form-field select:disabled {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  background-image: none !important;
+  padding-right: 12px !important;
+}
+
+/* 古いブラウザ向け */
+.apply-form-field select.apply-readonly-input::-ms-expand,
+.apply-form-field select:disabled::-ms-expand {
+  display: none;
+}
+
+/* =========================================
+   大会概要テーブル：文字サイズ調整
+========================================= */
+
+/* 左側：開催日・会場・参加費 */
+.apply-info-label {
+  font-size: clamp(12px, 3.4vw, 19px) !important;
+  font-weight: 900 !important;
+}
+
+/* 右側：日付・会場名・金額 */
+.apply-info-value {
+  font-size: clamp(12px, 3.4vw, 19px) !important;
+  font-weight: 800 !important;
+}
+
+/* アイコンも文字に合わせて少し大きく */
+.apply-info-icon {
+  width: 26px !important;
+  height: 26px !important;
+  font-size: 15px !important;
+}
+
+/* ================================
+   申込状況ページ
+================================ */
+
+.application-status-screen {
+  min-height: 100dvh;
+  background:
+    radial-gradient(circle at 12% 12%, rgba(221, 37, 37, 0.06), transparent 26%),
+    linear-gradient(180deg, #fffaf7 0%, #ffffff 42%, #fffaf7 100%);
+  color: #222;
+}
+
+/* ヘッダー */
+.application-status-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 108px;
+  padding: 18px 42px;
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid rgba(180, 70, 40, 0.12);
+  overflow: hidden;
+}
+
+.application-status-header::after {
+  content: "🍁 🍁 🍁";
+  position: absolute;
+  top: -22px;
+  right: 90px;
+  font-size: 54px;
+  letter-spacing: -16px;
+  opacity: 0.55;
+  transform: rotate(-12deg);
+  pointer-events: none;
+}
+
+.application-status-brand {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.application-status-logo {
+  width: 74px;
+  height: 74px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #e70012, #c90012);
+  color: #ffffff;
+  font-size: 28px;
+  transform: rotate(45deg);
+  box-shadow: 0 10px 22px rgba(200, 0, 18, 0.18);
+}
+
+.application-status-brand-name {
+  margin: 0;
+  font-size: 35px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.05;
+}
+
+.application-status-brand-sub {
+  margin: 9px 0 0;
+  font-size: 19px;
+  letter-spacing: 0.16em;
+}
+
+.application-status-menu-button {
+  position: relative;
+  z-index: 1;
+  width: 82px;
+  height: 82px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: none;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.78);
+  color: #222;
+  box-shadow: 0 8px 24px rgba(70, 30, 20, 0.08);
+  cursor: pointer;
+}
+
+.application-status-menu-button span {
+  width: 46px;
+  height: 4px;
+  border-radius: 999px;
+  background: #222;
+}
+
+.application-status-menu-button small {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* メイン */
+.application-status-main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding-bottom: 38px;
+}
+
+/* ヒーローエリア */
+.application-status-hero {
+  position: relative;
+  min-height: 270px;
+  display: flex;
+  align-items: center;
+  padding: 46px 44px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.8) 40%, rgba(255, 255, 255, 0.18) 100%),
+    url("/images/karuta-hero.jpg");
+  background-size: cover;
+  background-position: center right;
+  overflow: hidden;
+}
+
+.application-status-hero::before {
+  content: "🍁";
+  position: absolute;
+  left: 410px;
+  bottom: 34px;
+  font-size: 42px;
+  opacity: 0.65;
+  transform: rotate(-18deg);
+}
+
+.application-status-hero::after {
+  content: "✦ ✦";
+  position: absolute;
+  left: 470px;
+  top: 64px;
+  color: #f0a23a;
+  font-size: 18px;
+  opacity: 0.6;
+}
+
+.application-status-hero-content {
+  position: relative;
+  z-index: 1;
+  width: 56%;
+}
+
+.application-status-title-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.application-status-title-icon {
+  width: 58px;
+  height: 58px;
+  color: #d60012;
+  font-size: 48px;
+  line-height: 1;
+}
+
+.application-status-title-row h1 {
+  margin: 0;
+  font-size: 54px;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+}
+
+.application-status-hero-content p {
+  margin: 30px 0 0;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.9;
+  letter-spacing: 0.08em;
+}
+
+/* 検索・絞り込み */
+.application-status-search-section {
+  display: grid;
+  grid-template-columns: 1fr 230px;
+  gap: 28px;
+  padding: 28px 42px 18px;
+}
+
+.application-status-search-box {
+  height: 78px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 0 24px;
+  border: 1px solid rgba(190, 84, 58, 0.26);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.application-status-search-icon {
+  font-size: 42px;
+  color: #333;
+  transform: rotate(-12deg);
+}
+
+.application-status-search-box input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 23px;
+  letter-spacing: 0.06em;
+}
+
+.application-status-search-box input::placeholder {
+  color: #8e8e8e;
+}
+
+.application-status-filter-wrap {
+  position: relative;
+}
+
+.application-status-filter-button {
+  width: 100%;
+  height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  border: 1px solid rgba(190, 84, 58, 0.26);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.88);
+  color: #d60012;
+  font-size: 23px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
+
+.application-status-filter-panel {
+  position: absolute;
+  z-index: 10;
+  top: 88px;
+  right: 0;
+  width: 240px;
+  padding: 18px;
+  border: 1px solid rgba(190, 84, 58, 0.18);
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 18px 38px rgba(80, 38, 24, 0.14);
+}
+
+.application-status-filter-panel label {
+  display: grid;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #555;
+}
+
+.application-status-filter-panel select {
+  height: 42px;
+  padding: 0 10px;
+  border: 1px solid rgba(190, 84, 58, 0.22);
+  border-radius: 10px;
+  background: #fff;
+  font-size: 15px;
+}
+
+/* タブ */
+.application-status-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 16px 42px 28px;
+}
+
+.application-status-tab {
+  position: relative;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  border: 1px solid rgba(190, 84, 58, 0.2);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.88);
+  color: #222;
+  font-size: 22px;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
+.application-status-tab strong {
+  min-width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #d60012;
+  color: #ffffff;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.application-status-tab.is-active {
+  border-color: #d60012;
+  background: linear-gradient(135deg, #e00012, #c90012);
+  color: #ffffff;
+  box-shadow: 0 12px 26px rgba(214, 0, 18, 0.2);
+}
+
+.application-status-tab.is-active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -13px;
+  width: 100%;
+  height: 4px;
+  margin: auto;
+  border-radius: 999px;
+  background: #d60012;
+}
+
+.application-status-tab.is-active strong {
+  background: #ffffff;
+  color: #d60012;
+}
+
+/* メッセージ */
+.application-status-message {
+  margin: 0 42px 20px;
+  padding: 16px 20px;
+  border-radius: 14px;
+  background: #fff3f3;
+  color: #c40012;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* カード */
+.application-status-card-list {
+  display: grid;
+  gap: 20px;
+  padding: 0 42px;
+}
+
+.application-status-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 310px 36px;
+  align-items: center;
+  gap: 18px;
+  min-height: 194px;
+  padding: 28px 26px;
+  border: 1px solid rgba(190, 84, 58, 0.18);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 12px 30px rgba(80, 38, 24, 0.06);
+}
+
+.application-status-card-left {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  min-width: 0;
+}
+
+.application-status-leaf {
+  flex: 0 0 auto;
+  width: 92px;
+  height: 92px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(190, 84, 58, 0.12);
+  border-radius: 999px;
+  background: #fffaf7;
+  font-size: 48px;
+  box-shadow: inset 0 0 0 8px rgba(255, 247, 242, 0.9);
+}
+
+.application-status-card-main {
+  min-width: 0;
+}
+
+.application-status-card-main h2 {
+  margin: 0 0 18px;
+  font-size: 32px;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  line-height: 1.25;
+}
+
+.application-status-card-main p {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 8px 0 0;
+  font-size: 23px;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.application-status-card-main p span {
+  width: 24px;
+  color: #222;
+  font-size: 22px;
+  text-align: center;
+}
+
+.application-status-card-right {
+  display: grid;
+  gap: 18px;
+}
+
+.application-status-status-pill {
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  border-radius: 18px;
+  font-size: 24px;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.application-status-status-pill.applied {
+  background: #fff2e2;
+  color: #b94b00;
+  border: 1px solid #ffd4a5;
+}
+
+.application-status-status-pill.lottery {
+  background: #fff0cf;
+  color: #c65a00;
+  border: 1px solid #ffd88f;
+}
+
+.application-status-status-pill.selected {
+  background: #ffe1e1;
+  color: #d00012;
+  border: 1px solid #ffbaba;
+}
+
+.application-status-status-pill.not-selected {
+  background: #eaf1f8;
+  color: #40566f;
+  border: 1px solid #cad8e6;
+}
+
+.application-status-status-pill.confirmed,
+.application-status-status-pill.paid {
+  background: #e9f6e5;
+  color: #16803a;
+  border: 1px solid #cbe7c3;
+}
+
+.application-status-status-pill.default {
+  background: #f3f3f3;
+  color: #555;
+  border: 1px solid #ddd;
+}
+
+.application-status-detail-button {
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  border: 2px solid #e00012;
+  border-radius: 17px;
+  background: #ffffff;
+  color: #d60012;
+  font-size: 24px;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+
+.application-status-detail-button span {
+  font-size: 40px;
+  line-height: 1;
+}
+
+.application-status-card-chevron {
+  border: none;
+  background: transparent;
+  color: #555;
+  font-size: 54px;
+  font-weight: 300;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* 空表示 */
+.application-status-empty-card {
+  margin: 0 42px;
+  padding: 44px 24px;
+  border: 1px solid rgba(190, 84, 58, 0.14);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.88);
+  color: #555;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* フッター注記 */
+.application-status-footer-note {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 42px 0;
+  color: #333;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.application-status-footer-note p {
+  margin: 0;
+}
+
+.application-status-footer-note button {
+  margin-left: 10px;
+  border: none;
+  background: transparent;
+  color: #222;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+/* スマホ向け */
+@media (max-width: 640px) {
+  .application-status-header {
+    height: 86px;
+    padding: 14px 18px;
+  }
+
+  .application-status-header::after {
+    right: 54px;
+    font-size: 38px;
+  }
+
+  .application-status-logo {
+    width: 56px;
+    height: 56px;
+    font-size: 21px;
+  }
+
+  .application-status-brand {
+    gap: 12px;
+  }
+
+  .application-status-brand-name {
+    font-size: 27px;
+  }
+
+  .application-status-brand-sub {
+    font-size: 14px;
+  }
+
+  .application-status-menu-button {
+    width: 62px;
+    height: 62px;
+    border-radius: 18px;
+    gap: 5px;
+  }
+
+  .application-status-menu-button span {
+    width: 36px;
+    height: 3px;
+  }
+
+  .application-status-menu-button small {
+    font-size: 11px;
+  }
+
+  .application-status-hero {
+    min-height: 220px;
+    padding: 34px 22px;
+  }
+
+  .application-status-hero-content {
+    width: 70%;
+  }
+
+  .application-status-title-row {
+    gap: 16px;
+  }
+
+  .application-status-title-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 38px;
+  }
+
+  .application-status-title-row h1 {
+    font-size: 40px;
+  }
+
+  .application-status-hero-content p {
+    margin-top: 22px;
+    font-size: 19px;
+    line-height: 1.8;
+  }
+
+  .application-status-search-section {
+    grid-template-columns: 1fr 132px;
+    gap: 12px;
+    padding: 22px 16px 12px;
+  }
+
+  .application-status-search-box {
+    height: 58px;
+    padding: 0 14px;
+    gap: 10px;
+  }
+
+  .application-status-search-icon {
+    font-size: 30px;
+  }
+
+  .application-status-search-box input {
+    font-size: 16px;
+  }
+
+  .application-status-filter-button {
+    height: 58px;
+    gap: 8px;
+    font-size: 16px;
+  }
+
+  .application-status-filter-button span {
+    font-size: 22px;
+  }
+
+  .application-status-tabs {
+    gap: 10px;
+    padding: 14px 16px 24px;
+    overflow-x: auto;
+  }
+
+  .application-status-tab {
+    min-width: 116px;
+    height: 54px;
+    gap: 8px;
+    font-size: 16px;
+    border-radius: 15px;
+  }
+
+  .application-status-tab strong {
+    min-width: 28px;
+    height: 28px;
+    font-size: 16px;
+  }
+
+  .application-status-card-list {
+    gap: 16px;
+    padding: 0 16px;
+  }
+
+  .application-status-card {
+    grid-template-columns: 1fr 32px;
+    gap: 10px;
+    min-height: auto;
+    padding: 22px 16px;
+  }
+
+  .application-status-card-left {
+    gap: 16px;
+  }
+
+  .application-status-leaf {
+    width: 72px;
+    height: 72px;
+    font-size: 38px;
+  }
+
+  .application-status-card-main h2 {
+    margin-bottom: 12px;
+    font-size: 25px;
+  }
+
+  .application-status-card-main p {
+    gap: 9px;
+    font-size: 17px;
+  }
+
+  .application-status-card-right {
+    grid-column: 1 / -1;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-left: 88px;
+  }
+
+  .application-status-status-pill {
+    min-height: 48px;
+    font-size: 17px;
+    border-radius: 15px;
+  }
+
+  .application-status-detail-button {
+    min-height: 48px;
+    gap: 8px;
+    font-size: 17px;
+    border-radius: 15px;
+  }
+
+  .application-status-detail-button span {
+    font-size: 30px;
+  }
+
+  .application-status-card-chevron {
+    grid-column: 2;
+    grid-row: 1;
+    font-size: 44px;
+  }
+
+  .application-status-empty-card {
+    margin: 0 16px;
+    font-size: 17px;
+  }
+
+  .application-status-footer-note {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 18px 16px 0;
+    font-size: 14px;
+  }
+}

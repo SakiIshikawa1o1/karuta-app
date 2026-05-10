@@ -1,0 +1,242 @@
+/* =========================================================
+   Tournament list card ultra compact update
+   - カードの高さをさらに低くする
+   - 受付中ラベルを会場名の左側に表示する
+   - カード内の日付ブロックを非表示にする
+   - 詳細ボタンの高さをカードの高さに近づける
+========================================================= */
+
+/* カード全体を低くする */
+.tournament-list-item {
+  position: relative;
+  min-height: 58px;
+  padding: 8px 10px;
+  border-radius: 12px;
+
+  display: grid;
+  grid-template-columns: 1fr 64px;
+  gap: 8px;
+  align-items: stretch;
+}
+
+/* 左側の日付ブロックは非表示 */
+.tournament-list-date {
+  display: none;
+}
+
+/* 大会名・会場・級のエリア */
+.tournament-list-main {
+  min-width: 0;
+  padding-right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* 大会名 */
+.tournament-list-main h3 {
+  margin: 0 0 5px;
+  font-size: 14px;
+  line-height: 1.25;
+  font-weight: 800;
+  color: #1f2937;
+}
+
+/* 会場・級の行 */
+.tournament-list-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+/* 会場名 */
+.tournament-list-meta span {
+  font-size: 10.5px;
+  line-height: 1.3;
+  font-weight: 600;
+  color: #333;
+}
+
+/* 級 */
+.tournament-list-meta small {
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: #fff1ed;
+  color: #7a3b30;
+  font-size: 9.5px;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+/* 右側の操作エリアをカードの高さに揃える */
+.tournament-list-actions {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-end;
+  gap: 0;
+  height: 100%;
+}
+
+/* 受付中ラベルを会場名の左側へ移動するため、
+   actions内のステータス表示は一旦通常配置に戻す */
+.tournament-list-status {
+  position: static;
+  min-width: auto;
+  min-height: 20px;
+  padding: 0 7px;
+  border-radius: 999px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #0f9f6e;
+  color: #fff;
+
+  font-size: 9px;
+  line-height: 1;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+/* ただし、HTML構造上ステータスは actions 側にあるため、
+   表示位置としては詳細ボタンの上には出さず、非表示にする */
+.tournament-list-actions .tournament-list-status {
+  display: none;
+}
+
+/* 会場名の左に受付中ラベルを擬似的に表示 */
+.tournament-list-meta::before {
+  content: "受付中";
+  min-height: 18px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #0f9f6e;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 9px;
+  line-height: 1;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+/* 受付終了・中止・準備中の色分けをしたい場合に備えた補助。
+   現在は擬似要素なので基本は受付中固定です。 */
+
+/* 詳細ボタンをカードの高さに近づける */
+.tournament-list-actions button {
+  width: 64px;
+  min-width: 64px;
+  height: 100%;
+  min-height: 42px;
+  margin: 0;
+
+  border-radius: 10px;
+  border: 1px solid var(--red);
+  background: #fff;
+  color: var(--red);
+
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 詳細ボタンの矢印 */
+.tournament-list-actions button span {
+  margin-left: 4px;
+  font-size: 15px;
+}
+
+/* ホバー */
+.tournament-list-actions button:hover {
+  background: var(--red-soft);
+}
+
+/* スマホ表示 */
+@media (max-width: 768px) {
+  .tournament-list-item {
+    min-height: 54px;
+    padding: 7px 8px;
+    grid-template-columns: 1fr 58px;
+    gap: 7px;
+  }
+
+  .tournament-list-main h3 {
+    margin-bottom: 4px;
+    font-size: 15px;
+    line-height: 1.25;
+  }
+
+  .tournament-list-meta {
+    gap: 4px;
+  }
+
+  .tournament-list-meta::before {
+    min-height: 17px;
+    padding: 0 5px;
+    font-size: 8.5px;
+  }
+
+  .tournament-list-meta span {
+    font-size: 10px;
+  }
+
+  .tournament-list-meta small {
+    padding: 2px 5px;
+    font-size: 9px;
+  }
+
+  .tournament-list-actions {
+    grid-column: auto;
+    padding-left: 0;
+  }
+
+  .tournament-list-actions button {
+    width: 58px;
+    min-width: 58px;
+    min-height: 40px;
+    height: 100%;
+    font-size: 11px;
+    border-radius: 9px;
+  }
+
+  .tournament-list-actions button span {
+    font-size: 14px;
+  }
+}
+
+/* 小さいスマホ表示 */
+@media (max-width: 480px) {
+  .tournament-list-item {
+    min-height: 50px;
+    padding: 7px 8px;
+    grid-template-columns: 1fr 54px;
+  }
+
+  .tournament-list-main h3 {
+    font-size: 14px;
+  }
+
+  .tournament-list-meta span {
+    font-size: 11px;
+  }
+
+  .tournament-list-meta::before {
+    font-size: 10px;
+  }
+
+  .tournament-list-actions button {
+    width: 54px;
+    min-width: 54px;
+    min-height: 38px;
+    font-size: 10.5px;
+  }
+}

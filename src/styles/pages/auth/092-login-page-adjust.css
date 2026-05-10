@@ -1,0 +1,125 @@
+/* =========================================================
+   Login Page Adjust
+   - 中央ロゴを大きく
+   - メールアドレス・パスワード文字を大きく
+   - 周囲の赤枠を削除
+========================================================= */
+
+/* 周囲の赤い枠を削除 */
+.login-page-shell {
+  border: none !important;
+  border-radius: 24px !important;
+  box-shadow: none !important;
+  background: rgba(255, 255, 255, 0.96) !important;
+}
+
+/* ロゴ周りの余白調整 */
+.login-brand {
+  padding-top: 10px !important;
+  margin-bottom: 34px !important;
+}
+
+/* 中央のlogo.pngを大きく */
+.login-brand-logo {
+  width: 88px !important;
+  height: 88px !important;
+  margin: 0 auto 14px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 999px !important;
+  overflow: hidden !important;
+}
+
+.login-brand-logo img {
+  width: 88px !important;
+  height: 88px !important;
+  object-fit: contain !important;
+  display: block !important;
+}
+
+/* 「まにまに」 */
+.login-brand h1 {
+  font-size: 30px !important;
+  line-height: 1.15 !important;
+}
+
+/* 「大会申込システム」 */
+.login-brand p {
+  font-size: 15px !important;
+  line-height: 1.35 !important;
+}
+
+/* メールアドレス・パスワードのラベル文字を大きく */
+.login-label {
+  font-size: 17px !important;
+  line-height: 1.3 !important;
+  font-weight: 900 !important;
+  gap: 10px !important;
+  margin-bottom: 10px !important;
+}
+
+/* ラベル横のアイコンも大きく */
+.login-label-icon {
+  width: 26px !important;
+  height: 26px !important;
+}
+
+.login-label-icon svg {
+  width: 26px !important;
+  height: 26px !important;
+}
+
+/* 入力欄の文字も少し大きく */
+.login-input-wrap input {
+  font-size: 15px !important;
+}
+
+/* 入力欄の高さは少しだけ維持 */
+.login-input-wrap {
+  height: 56px !important;
+}
+
+/* スマホ調整 */
+@media (max-width: 480px) {
+  .login-page-shell {
+    border: none !important;
+    border-radius: 20px !important;
+  }
+
+  .login-brand-logo {
+    width: 78px !important;
+    height: 78px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .login-brand-logo img {
+    width: 78px !important;
+    height: 78px !important;
+  }
+
+  .login-brand h1 {
+    font-size: 26px !important;
+  }
+
+  .login-brand p {
+    font-size: 13px !important;
+  }
+
+  .login-label {
+    font-size: 16px !important;
+  }
+
+  .login-label-icon,
+  .login-label-icon svg {
+    width: 24px !important;
+    height: 24px !important;
+  }
+
+  .login-input-wrap {
+    height: 54px !important;
+  }
+
+  .login-input-wrap input {
+    font-size: 14px !important;
+  }
+}

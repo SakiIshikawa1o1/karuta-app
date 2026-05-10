@@ -60,11 +60,15 @@ export default function ApplicationConfirmPage() {
       user_id: user.id,
       applicant_name: applicationForm.applicant_name,
       organization: applicationForm.organization,
-      grade: applicationForm.grade,
-      division: applicationForm.division,
       notes: applicationForm.notes,
       status: "applied",
+      applied_at: new Date().toISOString(),
       updated_by: user.id,
+      class_level_id: applicationForm.class_level_id,
+      dan_rank_id: applicationForm.dan_rank_id,
+      tournament_title: tournament?.title || applicationForm.tournament_title,
+      user_email: applicationForm.user_email || user.email,
+      school_name: applicationForm.school_name || "",
     });
 
     setSaving(false);
@@ -121,8 +125,9 @@ export default function ApplicationConfirmPage() {
             <h2>申し込み情報</h2>
             <p>氏名：{applicationForm.applicant_name}</p>
             <p>所属会：{applicationForm.organization || "未入力"}</p>
-            <p>段位：{applicationForm.grade}</p>
-            <p>参加区分：{applicationForm.division}</p>
+            <p>級：{applicationForm.class_level_name || "未入力"}</p>
+            <p>段位：{applicationForm.dan_rank_name || "未入力"}</p>
+            <p>学校名：{applicationForm.school_name || "未入力"}</p>
             <p>備考：{applicationForm.notes || "なし"}</p>
           </div>
 

@@ -1,0 +1,107 @@
+/* =========================================================
+   Month tabs position fix
+   〇月ボックスを上に移動し、左右矢印を横並びに揃える
+========================================================= */
+
+/* 月ボックス＋左右矢印のまとまり */
+.tournament-month-tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  /* ここで全体を上に移動 */
+  margin: 0 0 8px;
+  transform: translateY(-14px);
+}
+
+/* 左右の矢印 */
+.month-arrow {
+  flex: 0 0 26px;
+  width: 26px;
+  height: 34px;
+  min-height: 34px;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  background: transparent;
+  color: var(--red-dark);
+
+  font-size: 24px;
+  line-height: 1;
+}
+
+/* 月ボックスの横スクロール部分 */
+.month-tab-scroll {
+  flex: 1;
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  overflow-x: auto;
+  padding: 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 〇月ボックス */
+.month-tab {
+  flex: 0 0 56px;
+  min-height: 34px;
+  padding: 2px 0;
+  border-radius: 9px;
+
+  display: grid;
+  place-items: center;
+  gap: 0;
+}
+
+/* 〇月 */
+.month-tab strong {
+  font-size: 15px;
+  line-height: 1.05;
+}
+
+/* 〇件 */
+.month-tab span {
+  font-size: 11px;
+  line-height: 1.05;
+}
+
+/* スマホ調整 */
+@media (max-width: 768px) {
+  .tournament-month-tabs {
+    gap: 3px;
+    margin: 0 0 6px;
+    transform: translateY(-8px);
+  }
+
+  .month-arrow {
+    flex-basis: 22px;
+    width: 22px;
+    height: 32px;
+    min-height: 32px;
+    font-size: 22px;
+  }
+
+  .month-tab-scroll {
+    gap: 5px;
+  }
+
+  .month-tab {
+    flex-basis: 52px;
+    min-height: 32px;
+  }
+
+  .month-tab strong {
+    font-size: 13.5px;
+  }
+
+  .month-tab span {
+    font-size: 10px;
+  }
+}

@@ -1,0 +1,158 @@
+/* =========================================================
+   Application Status Search Fix
+   申込状況ページ：検索バー崩れ修正
+========================================================= */
+
+/* 検索エリア全体 */
+.application-status-filter {
+  margin: 0 0 12px;
+}
+
+/* 検索開閉ボタン */
+.application-status-filter-button {
+  width: 100%;
+  min-height: 42px;
+  padding: 0 13px;
+  border-radius: 13px;
+  border: 1px solid rgba(190, 40, 34, 0.14);
+  background: #ffffff;
+  color: #111111;
+  box-shadow: 0 5px 14px rgba(80, 20, 10, 0.05);
+
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+
+  white-space: nowrap;
+}
+
+/* 左側の「大会名・会場名で検索」 */
+.application-status-filter-button span {
+  display: block;
+  min-width: 0;
+  flex: 1;
+  text-align: left;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  font-size: 13px;
+  line-height: 1;
+}
+
+/* 右側の「開く」「閉じる」 */
+.application-status-filter-button em {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 38px;
+  color: var(--red-dark);
+  font-size: 12px;
+  line-height: 1;
+  font-style: normal;
+  font-weight: 900;
+
+  white-space: nowrap;
+}
+
+/* 開いた検索フォーム */
+.application-status-filter-panel {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 10px;
+  border-radius: 14px;
+  border: 1px solid rgba(190, 40, 34, 0.1);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 6px 16px rgba(80, 20, 10, 0.05);
+}
+
+/* 検索入力欄 */
+.application-status-filter-panel input {
+  width: 100%;
+  min-width: 0;
+  min-height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(120, 40, 30, 0.12);
+  background: #ffffff;
+  color: #111111;
+
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.application-status-filter-panel input::placeholder {
+  color: #9ca3af;
+}
+
+/* クリアボタン */
+.application-status-filter-panel button {
+  min-width: 56px;
+  min-height: 40px;
+  padding: 0 10px;
+  border: none;
+  border-radius: 10px;
+  background: #fff1ed;
+  color: var(--red-dark);
+
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1;
+  cursor: pointer;
+
+  white-space: nowrap;
+}
+
+/* スマホ調整 */
+@media (max-width: 768px) {
+  .application-status-filter-button {
+    min-height: 40px;
+    padding: 0 12px;
+    gap: 8px;
+  }
+
+  .application-status-filter-button span {
+    font-size: 12px;
+  }
+
+  .application-status-filter-button em {
+    min-width: 34px;
+    font-size: 11px;
+  }
+
+  .application-status-filter-panel {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 9px;
+  }
+
+  .application-status-filter-panel input {
+    min-height: 38px;
+    font-size: 12px;
+  }
+
+  .application-status-filter-panel button {
+    width: 100%;
+    min-height: 36px;
+    font-size: 12px;
+  }
+}
+
+/* 小さいスマホ */
+@media (max-width: 480px) {
+  .application-status-filter-button span {
+    max-width: calc(100vw - 96px);
+  }
+}

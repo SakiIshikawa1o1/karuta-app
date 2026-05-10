@@ -1,0 +1,166 @@
+/* =========================================================
+   申込状況ページ：5タブをページ幅内に収める
+   - 横スクロールなし
+   - 5つを均等配置
+   - それぞれがタブと分かる見た目
+========================================================= */
+
+.application-status-tabs {
+  width: 100% !important;
+  max-width: 100% !important;
+
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: 6px !important;
+
+  margin: 0 0 14px !important;
+  padding: 0 !important;
+  transform: none !important;
+
+  overflow: visible !important;
+}
+
+/* 各タブ */
+.application-status-tabs button {
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 54px !important;
+
+  padding: 6px 3px !important;
+  border-radius: 13px 13px 9px 9px !important;
+  border: 1.5px solid rgba(190, 40, 34, 0.2) !important;
+  background: rgba(255, 255, 255, 0.96) !important;
+  color: #222 !important;
+
+  box-shadow: 0 5px 12px rgba(80, 20, 10, 0.055) !important;
+  cursor: pointer !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+
+  overflow: hidden !important;
+}
+
+/* タブ文字 */
+.application-status-tabs button span {
+  display: block !important;
+  width: 100% !important;
+
+  color: inherit !important;
+  font-size: 13px !important;
+  line-height: 1.05 !important;
+  font-weight: 900 !important;
+  letter-spacing: 0 !important;
+  text-align: center !important;
+
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: clip !important;
+}
+
+/* 件数 */
+.application-status-tabs button strong {
+  min-width: 22px !important;
+  height: 19px !important;
+  padding: 0 6px !important;
+  border-radius: 999px !important;
+
+  background: #fff1ed !important;
+  color: var(--red-dark) !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  font-size: 10px !important;
+  line-height: 1 !important;
+  font-weight: 900 !important;
+}
+
+/* 選択中タブ */
+.application-status-tabs button.active {
+  position: relative !important;
+
+  background: linear-gradient(180deg, #fff5f3 0%, #ffe8e3 100%) !important;
+  border-color: var(--red) !important;
+  color: var(--red-dark) !important;
+
+  box-shadow: 0 8px 18px rgba(200, 30, 47, 0.14) !important;
+}
+
+/* 選択中の下線 */
+.application-status-tabs button.active::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 14% !important;
+  right: 14% !important;
+  bottom: -1px !important;
+
+  height: 3px !important;
+  border-radius: 999px !important;
+  background: var(--red) !important;
+}
+
+/* 選択中の件数 */
+.application-status-tabs button.active strong {
+  background: var(--red) !important;
+  color: #ffffff !important;
+}
+
+/* スマホでも横スクロールさせず、5等分のまま収める */
+@media (max-width: 768px) {
+  .application-status-tabs {
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 5px !important;
+    overflow: visible !important;
+    padding-bottom: 0 !important;
+  }
+
+  .application-status-tabs button {
+    flex: none !important;
+    min-width: 0 !important;
+    width: 100% !important;
+    min-height: 50px !important;
+    padding: 5px 2px !important;
+    border-radius: 11px 11px 8px 8px !important;
+  }
+
+  .application-status-tabs button span {
+    font-size: 12px !important;
+  }
+
+  .application-status-tabs button strong {
+    min-width: 20px !important;
+    height: 18px !important;
+    padding: 0 5px !important;
+    font-size: 9.5px !important;
+  }
+}
+
+/* 小さいスマホ */
+@media (max-width: 480px) {
+  .application-status-tabs {
+    gap: 4px !important;
+  }
+
+  .application-status-tabs button {
+    min-height: 48px !important;
+    padding: 4px 1px !important;
+  }
+
+  .application-status-tabs button span {
+    font-size: 11px !important;
+    letter-spacing: -0.04em !important;
+  }
+
+  .application-status-tabs button strong {
+    min-width: 18px !important;
+    height: 17px !important;
+    padding: 0 5px !important;
+    font-size: 9px !important;
+  }
+}

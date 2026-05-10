@@ -1,0 +1,109 @@
+/* =========================================================
+   13. Footer
+   ホーム最下部のフッター
+========================================================= */
+
+.site-footer {
+  margin: 34px -40px -64px;
+  padding: 34px 40px 24px;
+  background: linear-gradient(135deg, #9d151c, #6f0d13);
+  color: #fff;
+}
+
+.footer-main {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-logo-mark {
+  display: none;
+}
+
+.footer-logo-image {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background-image: var(--logo-image);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0 5px 14px rgba(60, 0, 0, 0.22);
+}
+
+.footer-logo strong {
+  display: block;
+  font-size: 24px;
+  letter-spacing: 0.08em;
+  font-weight: 900;
+}
+
+.footer-logo small {
+  display: block;
+  margin-top: 3px;
+  color: #ffe4e8;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.footer-description {
+  max-width: 420px;
+  margin: 12px 0 0;
+  color: #ffe4e8;
+  font-size: 12px;
+  line-height: 1.8;
+  font-weight: 600;
+}
+
+.footer-links {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+
+.footer-links h3 {
+  margin: 0 0 12px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.footer-links button {
+  display: block;
+  width: 100%;
+  margin-top: 9px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #ffe4e8;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.footer-links button:hover {
+  color: #fff;
+}
+
+.footer-bottom {
+  max-width: 1180px;
+  margin: 24px auto 0;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  color: #ffd6dc;
+  font-size: 10px;
+  font-weight: 700;
+}

@@ -1,0 +1,55 @@
+/* =========================================================
+   Buttons
+========================================================= */
+
+.system-admin-main-button {
+  width: 100%;
+  min-height: 60px;
+  margin-top: 24px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #e63212, #d71706);
+  color: #ffffff;
+  box-shadow: 0 10px 22px rgba(215, 23, 6, 0.2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
+.system-admin-main-button svg {
+  width: 26px;
+  height: 26px;
+}
+
+.system-admin-main-button.compact {
+  min-height: 50px;
+  margin-top: 16px;
+  font-size: 15px;
+}
+
+.system-admin-small-red-button {
+  min-width: 158px;
+  min-height: 46px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #e63212, #d71706);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.system-admin-small-red-button svg {
+  width: 20px;
+  height: 20px;
+}

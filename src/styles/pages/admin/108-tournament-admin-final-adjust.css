@@ -1,0 +1,279 @@
+/* =========================================================
+   Tournament Admin Final Adjust
+   - ヒーローを申込管理ページと同じサイズ感にする
+   - 公開中などのタグを削除
+   - 大会名を幅広く表示
+========================================================= */
+
+.tournament-admin-page {
+  max-width: 960px !important;
+  margin: 0 auto !important;
+  padding: 0 28px 44px !important;
+  min-height: 100dvh !important;
+}
+
+/* 申込管理ページと同じヒーローサイズ */
+.tournament-admin-hero {
+  position: relative !important;
+  margin: 0 -28px 16px !important;
+  min-height: 115px !important;
+  padding: 22px 34px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+  overflow: hidden !important;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 253, 249, 0.98) 0%,
+      rgba(255, 253, 249, 0.92) 38%,
+      rgba(255, 253, 249, 0.5) 62%,
+      rgba(255, 253, 249, 0.08) 100%
+    ),
+    var(--hero-image) !important;
+
+  background-size: cover !important;
+  background-position: center right !important;
+  background-repeat: no-repeat !important;
+  border-bottom: 1px solid rgba(190, 40, 34, 0.1) !important;
+}
+
+/* 余計な装飾を消す */
+.tournament-admin-hero::before,
+.tournament-admin-hero::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* ヒーローアイコン */
+.tournament-admin-hero-icon {
+  width: 48px !important;
+  height: 48px !important;
+  flex: 0 0 auto !important;
+  border-radius: 999px !important;
+}
+
+.tournament-admin-hero-icon svg {
+  width: 25px !important;
+  height: 25px !important;
+}
+
+/* ヒーロー文字 */
+.tournament-admin-hero-copy h1 {
+  margin: 0 !important;
+  font-size: 30px !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0.06em !important;
+  font-weight: 900 !important;
+}
+
+.tournament-admin-hero-copy p {
+  margin: 8px 0 0 !important;
+  max-width: 520px !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+  font-weight: 700 !important;
+}
+
+/* パネル */
+.tournament-admin-panel {
+  border-radius: 15px !important;
+}
+
+/* タブを小さめに */
+.tournament-admin-tabs button {
+  min-height: 48px !important;
+  padding: 0 10px !important;
+  gap: 8px !important;
+}
+
+.tournament-admin-tabs button span {
+  font-size: 15px !important;
+}
+
+.tournament-admin-tabs button strong {
+  min-width: 24px !important;
+  height: 24px !important;
+  padding: 0 7px !important;
+  font-size: 12px !important;
+}
+
+/* 大会追加ボタン */
+.tournament-admin-toolbar {
+  padding: 12px 14px 0 !important;
+}
+
+.tournament-admin-add-button {
+  min-height: 40px !important;
+  padding: 0 16px !important;
+  border-radius: 10px !important;
+  font-size: 13px !important;
+  gap: 8px !important;
+}
+
+.tournament-admin-add-button svg {
+  width: 18px !important;
+  height: 18px !important;
+}
+
+/* カード一覧 */
+.tournament-admin-card-list {
+  padding: 6px 12px 14px !important;
+}
+
+.tournament-admin-card {
+  padding: 12px !important;
+  border-radius: 13px !important;
+}
+
+/* カード上部を2列だけにして、大会名を幅広く使う */
+.tournament-admin-card-top {
+  display: grid !important;
+  grid-template-columns: 38px 1fr !important;
+  align-items: start !important;
+}
+
+.tournament-admin-card-icon {
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 10px !important;
+}
+
+.tournament-admin-card-icon svg {
+  width: 26px !important;
+  height: 26px !important;
+}
+
+/* 公開中・下書きなどのタグを完全に非表示 */
+.tournament-admin-status-badge,
+.tournament-admin-card-title-row .tournament-admin-status-badge {
+  display: none !important;
+}
+
+/* 申込者数・3点リーダーも非表示 */
+.tournament-admin-card-side,
+.tournament-admin-more-button,
+.icon-action {
+  display: none !important;
+}
+
+/* タイトル行の横並びレイアウトを解除 */
+.tournament-admin-card-title-row {
+  display: block !important;
+}
+
+/* 大会名を幅いっぱいに表示 */
+.tournament-admin-card-main {
+  min-width: 0 !important;
+  width: 100% !important;
+}
+
+.tournament-admin-card-main h2,
+.tournament-admin-card-title-row h2 {
+  width: 100% !important;
+  margin: 0 !important;
+  color: #17110d !important;
+  font-size: 17px !important;
+  line-height: 1.35 !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.03em !important;
+}
+
+/* メタ情報 */
+.tournament-admin-card-meta {
+  margin-top: 6px !important;
+  gap: 5px !important;
+}
+
+.tournament-admin-card-meta p {
+  margin: 0 !important;
+  font-size: 11.5px !important;
+  line-height: 1.4 !important;
+  gap: 6px !important;
+}
+
+.tournament-admin-card-meta svg {
+  width: 14px !important;
+  height: 14px !important;
+}
+
+/* アクションボタン2つだけ */
+.tournament-admin-card-actions {
+  grid-template-columns: 1fr 1fr !important;
+  gap: 8px !important;
+  margin-top: 10px !important;
+}
+
+.outline-action {
+  min-height: 36px !important;
+  border-radius: 10px !important;
+  font-size: 12px !important;
+  gap: 6px !important;
+}
+
+.outline-action svg {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+/* スマホ */
+@media (max-width: 768px) {
+  .tournament-admin-page {
+    padding: 0 12px 36px !important;
+  }
+
+  .tournament-admin-hero {
+    margin: 0 -12px 12px !important;
+    min-height: 96px !important;
+    padding: 18px 18px !important;
+    gap: 12px !important;
+  }
+
+  .tournament-admin-hero-icon {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .tournament-admin-hero-icon svg {
+    width: 22px !important;
+    height: 22px !important;
+  }
+
+  .tournament-admin-hero-copy h1 {
+    font-size: 24px !important;
+  }
+
+  .tournament-admin-hero-copy p {
+    margin-top: 6px !important;
+    font-size: 11px !important;
+  }
+
+  .tournament-admin-tabs button {
+    min-height: 42px !important;
+  }
+
+  .tournament-admin-tabs button span {
+    font-size: 13px !important;
+  }
+
+  .tournament-admin-tabs button strong {
+    min-width: 21px !important;
+    height: 21px !important;
+    font-size: 10px !important;
+  }
+
+  .tournament-admin-card-main h2,
+  .tournament-admin-card-title-row h2 {
+    font-size: 15px !important;
+  }
+
+  .tournament-admin-card-meta p {
+    font-size: 10.5px !important;
+  }
+
+  .outline-action {
+    min-height: 34px !important;
+    font-size: 11px !important;
+  }
+}

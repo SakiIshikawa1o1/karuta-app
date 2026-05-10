@@ -1,0 +1,253 @@
+/* =========================================================
+   My Page Compact Adjust
+   - 全体の高さを詰める
+   - 管理者メニューをロールごとに複数表示
+   - サマリーアイコンを中央配置
+========================================================= */
+
+.mypage-modern {
+  padding-top: 12px !important;
+  padding-bottom: 42px !important;
+}
+
+.mypage-modern-profile-card {
+  padding: 16px 18px !important;
+  border-radius: 18px !important;
+}
+
+.mypage-modern-name-block {
+  padding-bottom: 10px !important;
+}
+
+.mypage-modern-name-block span {
+  font-size: 12px !important;
+}
+
+.mypage-modern-name-block h2 {
+  margin-top: 4px !important;
+  font-size: 24px !important;
+  line-height: 1.22 !important;
+}
+
+.mypage-modern-name-block h2 small {
+  margin-left: 6px !important;
+  font-size: 13px !important;
+}
+
+.mypage-modern-info-list {
+  gap: 6px !important;
+  margin-top: 10px !important;
+}
+
+.mypage-modern-info-list div {
+  grid-template-columns: 22px 48px 1fr !important;
+  gap: 7px !important;
+  min-height: 28px !important;
+}
+
+.mypage-modern-info-list svg {
+  width: 19px !important;
+  height: 19px !important;
+}
+
+.mypage-modern-info-list span {
+  font-size: 12px !important;
+}
+
+.mypage-modern-info-list strong {
+  font-size: 13px !important;
+}
+
+.mypage-modern-info-list div:first-child strong {
+  min-height: 24px !important;
+  padding: 0 10px !important;
+  font-size: 12px !important;
+}
+
+/* サマリーカード全体を低く */
+.mypage-modern-summary-grid {
+  gap: 10px !important;
+  margin-top: 12px !important;
+}
+
+.mypage-modern-summary-card {
+  min-height: 118px !important;
+  padding: 14px 12px !important;
+  border-radius: 15px !important;
+  text-align: center !important;
+}
+
+/* 次の大会まで・未振り込みの大会のアイコンを真ん中へ */
+.mypage-modern-summary-icon {
+  width: 38px !important;
+  height: 38px !important;
+  margin: 0 auto 8px !important;
+}
+
+.mypage-modern-summary-icon svg {
+  width: 23px !important;
+  height: 23px !important;
+}
+
+.mypage-modern-summary-card p {
+  margin-bottom: 6px !important;
+  font-size: 13px !important;
+  line-height: 1.25 !important;
+  text-align: center !important;
+}
+
+.mypage-modern-summary-card strong {
+  margin-bottom: 5px !important;
+  font-size: 38px !important;
+  line-height: 0.95 !important;
+  text-align: center !important;
+}
+
+.mypage-modern-summary-card strong span {
+  margin-left: 4px !important;
+  font-size: 14px !important;
+}
+
+.mypage-modern-summary-card small {
+  font-size: 10.5px !important;
+  line-height: 1.35 !important;
+  text-align: center !important;
+}
+
+/* メニュータブをさらに低く */
+.mypage-modern-menu-card {
+  margin-top: 12px !important;
+  border-radius: 15px !important;
+}
+
+.mypage-modern-menu-card button {
+  min-height: 42px !important;
+  padding: 0 14px !important;
+  grid-template-columns: 22px 1fr 18px !important;
+  gap: 9px !important;
+}
+
+.mypage-modern-menu-card svg {
+  width: 19px !important;
+  height: 19px !important;
+}
+
+.mypage-modern-menu-card span {
+  font-size: 13px !important;
+  font-weight: 800 !important;
+}
+
+.mypage-modern-chevron {
+  font-size: 22px !important;
+}
+
+.mypage-modern-edit-card {
+  margin-top: 14px !important;
+  padding: 18px !important;
+  border-radius: 16px !important;
+}
+
+.mypage-modern-edit-card h2 {
+  margin-bottom: 12px !important;
+  font-size: 18px !important;
+}
+
+.mypage-modern-edit-card label {
+  margin-bottom: 12px !important;
+  font-size: 12px !important;
+}
+
+.mypage-modern-edit-card input,
+.mypage-modern-edit-card select {
+  height: 42px !important;
+  margin-top: 6px !important;
+  font-size: 13px !important;
+  border-radius: 10px !important;
+}
+
+.mypage-modern-edit-buttons {
+  gap: 8px !important;
+  margin-top: 12px !important;
+}
+
+.mypage-modern-edit-buttons button {
+  min-height: 42px !important;
+  font-size: 13px !important;
+}
+
+.mypage-modern-inline-edit .mypage-modern-edit-buttons {
+  grid-template-columns: 1fr 1fr !important;
+  width: 100% !important;
+}
+
+.mypage-modern-inline-edit .mypage-modern-edit-buttons button {
+  width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  padding: 0 16px !important;
+}
+
+.mypage-simple-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: #fff1df;
+  color: #d8321f;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 900;
+}
+
+/* スマホ */
+@media (max-width: 768px) {
+  .mypage-modern {
+    padding: 10px 12px 36px !important;
+  }
+
+  .mypage-modern-profile-card {
+    padding: 14px 14px !important;
+  }
+
+  .mypage-modern-name-block h2 {
+    font-size: 21px !important;
+  }
+
+  .mypage-modern-summary-grid {
+    gap: 8px !important;
+  }
+
+  .mypage-modern-summary-card {
+    min-height: 112px !important;
+    padding: 12px 10px !important;
+  }
+
+  .mypage-modern-summary-card strong {
+    font-size: 34px !important;
+  }
+
+  .mypage-modern-menu-card button {
+    min-height: 40px !important;
+  }
+}
+
+/* ホームページ：お知らせの日付を少し小さく */
+.notice-date {
+  font-size: 14px !important;
+}
+
+/* スマホではさらに少しだけ小さく */
+@media (max-width: 768px) {
+  .notice-date {
+    font-size: 13px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .notice-date {
+    font-size: 12px !important;
+  }
+}

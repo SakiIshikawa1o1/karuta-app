@@ -6,44 +6,42 @@ import { useAuth } from "../contexts/AuthContext";
 
 const STATUS_LABEL = {
   applied: "申込済み",
-  cancelled: "キャンセル済み",
   lottery: "抽選中",
-  lottery_wait: "抽選中",
-  not_selected: "落選",
-  selected: "当選・未入金",
-  paid: "入金済み",
-  payment_checking: "入金確認中",
+  selected: "当選",
+  rejected: "落選",
+  payment_pending: "当選・未入金",
+  payment_confirming: "入金確認中",
   payment_confirmed: "入金確認済み",
-  confirmed: "入金確認済み",
+  confirmed: "参加確定",
+  cancelled: "キャンセル済み",
 };
 
 const STATUS_CLASS = {
   applied: "status-applied",
   cancelled: "status-cancelled",
   lottery: "status-lottery",
-  lottery_wait: "status-lottery",
-  not_selected: "status-not-selected",
   selected: "status-selected",
-  paid: "status-paid",
-  payment_checking: "status-payment-checking",
+  rejected: "status-not-selected",
+  payment_pending: "status-selected",
+  payment_confirming: "status-payment-checking",
   payment_confirmed: "status-payment-confirmed",
   confirmed: "status-payment-confirmed",
+  cancelled: "status-cancelled",
 };
 
 const STATUS_OPTIONS = [
   { value: "applied", label: "申込済み" },
-  { value: "cancelled", label: "キャンセル済み" },
   { value: "lottery", label: "抽選中" },
-  { value: "not_selected", label: "落選" },
-  { value: "selected", label: "当選・未入金" },
-  { value: "paid", label: "入金済み" },
-  { value: "payment_checking", label: "入金確認中" },
+  { value: "selected", label: "当選" },
+  { value: "rejected", label: "落選" },
+  { value: "payment_pending", label: "当選・未入金" },
+  { value: "payment_confirming", label: "入金確認中" },
   { value: "payment_confirmed", label: "入金確認済み" },
+  { value: "confirmed", label: "参加確定" },
+  { value: "cancelled", label: "キャンセル済み" },
 ];
 
 function normalizeStatus(status) {
-  if (status === "lottery_wait") return "lottery";
-  if (status === "confirmed") return "payment_confirmed";
   return status;
 }
 
@@ -102,6 +100,8 @@ export default function ApplicationAdminPage() {
 
   const [applications, setApplications] = useState([]);
   const [tournaments, setTournaments] = useState([]);
+  const [classLevels, setClassLevels] = useState([]);
+  const [danRanks, setDanRanks] = useState([]);
   const [selectedTournamentId, setSelectedTournamentId] = useState("");
 
   const [nameKeyword, setNameKeyword] = useState("");
@@ -172,18 +172,34 @@ export default function ApplicationAdminPage() {
     setMessage("");
     setPendingStatuses({});
 
+    const [classLevelsResult, danRanksResult] = await Promise.all([
+      supabase
+        .from("class_levels")
+        .select("id, name, sort_order")
+        .order("sort_order", { ascending: true }),
+      supabase
+        .from("dan_ranks")
+        .select("id, name, sort_order")
+        .order("sort_order", { ascending: true }),
+    ]);
+
+    if (!classLevelsResult.error) setClassLevels(classLevelsResult.data ?? []);
+    if (!danRanksResult.error) setDanRanks(danRanksResult.data ?? []);
+
     let query = supabase
       .from("applications")
       .select(`
         id,
         applicant_name,
         organization,
-        grade,
-        division,
+        class_level_id,
+        dan_rank_id,
+        user_email,
+        school_name,
+        tournament_title,
         notes,
         status,
         applied_at,
-        cancelled_at,
         tournaments (
           id,
           title,
@@ -275,11 +291,6 @@ export default function ApplicationAdminPage() {
         .update({
           status: newStatus,
           updated_by: user?.id,
-          updated_at: new Date().toISOString(),
-          cancelled_at:
-            newStatus === "cancelled"
-              ? new Date().toISOString()
-              : application.cancelled_at,
         })
         .eq("id", application.id);
 
@@ -296,7 +307,7 @@ export default function ApplicationAdminPage() {
           old_status: oldStatus,
           new_status: newStatus,
           changed_by: user?.id,
-          comment: "申し込み管理者によるステータス一括変更",
+          created_at: new Date().toISOString(),
         });
 
       if (logError) {
@@ -315,10 +326,6 @@ export default function ApplicationAdminPage() {
         return {
           ...app,
           status: nextStatus,
-          cancelled_at:
-            nextStatus === "cancelled"
-              ? new Date().toISOString()
-              : app.cancelled_at,
         };
       })
     );
@@ -334,16 +341,18 @@ export default function ApplicationAdminPage() {
       return;
     }
 
-    const headers = ["氏名", "所属会", "段位", "参加区分", "申込状況", "備考"];
+    const headers = ["氏名", "メール", "学校名", "所属会", "級", "段位", "申込状況", "備考"];
 
     const rows = filteredApplications.map((app) => {
       const status = pendingStatuses[app.id] || normalizeStatus(app.status);
 
       return [
         app.applicant_name || "",
+        app.user_email || "",
+        app.school_name || "",
         app.organization || "",
-        app.grade || "",
-        app.division || "",
+        classLevels.find((item) => item.id === app.class_level_id)?.name || "",
+        danRanks.find((item) => item.id === app.dan_rank_id)?.name || "",
         STATUS_LABEL[status] || status,
         app.notes || "",
       ];
@@ -492,7 +501,10 @@ export default function ApplicationAdminPage() {
                 <thead>
                   <tr>
                     <th>氏名 ↕</th>
+                    <th>メール</th>
+                    <th>学校名</th>
                     <th>所属会 ↕</th>
+                    <th>級 ↕</th>
                     <th>段位 ↕</th>
                     <th>申込状況 ↕</th>
                   </tr>
@@ -506,6 +518,12 @@ export default function ApplicationAdminPage() {
                     const statusClass = STATUS_CLASS[currentStatus] || "";
                     const isChanged =
                       currentStatus !== normalizeStatus(app.status);
+                    const classLevelName =
+                      classLevels.find((item) => item.id === app.class_level_id)
+                        ?.name || "未入力";
+                    const danRankName =
+                      danRanks.find((item) => item.id === app.dan_rank_id)
+                        ?.name || "未入力";
 
                     return (
                       <tr
@@ -513,8 +531,11 @@ export default function ApplicationAdminPage() {
                         className={isChanged ? "is-changed" : ""}
                       >
                         <td>{app.applicant_name || "未入力"}</td>
+                        <td>{app.user_email || "未入力"}</td>
+                        <td>{app.school_name || "未入力"}</td>
                         <td>{app.organization || "未入力"}</td>
-                        <td>{app.grade || "未入力"}</td>
+                        <td>{classLevelName}</td>
+                        <td>{danRankName}</td>
                         <td>
                           <select
                             className={`application-admin-status-select ${statusClass}`}

@@ -1,0 +1,74 @@
+/* =========================================================
+   02. Menu
+   ハンバーガーメニューを押したときの右側メニュー
+========================================================= */
+
+/* 画面全体を覆う半透明背景 */
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* 右側から出るメニューパネル */
+.menu-panel {
+  width: min(420px, 86vw);
+  background: #fff;
+  min-height: 100vh;
+  padding: 26px;
+  box-shadow: -10px 0 28px rgba(0, 0, 0, 0.18);
+}
+
+/* メニュー上部のタイトルと閉じるボタン */
+.menu-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* メニュータイトル */
+.menu-panel-header h2 {
+  margin: 0;
+  font-size: 28px;
+}
+
+/* 閉じるボタン */
+.menu-panel-header button {
+  border: none;
+  background: #f3f4f6;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+/* メニュー項目の縦並び */
+.menu-list {
+  margin-top: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* メニュー内の各ボタン */
+.menu-list button {
+  min-height: 58px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: #fff;
+  text-align: left;
+  padding: 0 18px;
+  font-size: 17px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* ログアウトなど危険操作 */
+.menu-list .danger-text {
+  color: var(--red);
+  border-color: #fecaca;
+}

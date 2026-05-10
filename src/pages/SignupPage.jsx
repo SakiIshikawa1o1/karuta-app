@@ -1,4 +1,6 @@
-import { useState } from "react";
+// src/pages/SignupPage.jsx
+
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 
@@ -35,11 +37,33 @@ function MedalIcon() {
   );
 }
 
+function SchoolIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M12 3 2 8l10 5 8-4v6h2V8L12 3Zm-6 9.1V16c0 1.7 2.7 4 6 4s6-2.3 6-4v-3.9l-6 3-6-3Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
 function MailIcon() {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <path
         d="M3 5h18v14H3V5Zm9 7.2L5.3 7H4.8l7.2 5.6L19.2 7h-.5L12 12.2Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+function PhoneIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M6.6 10.8c1.5 3 3.6 5.1 6.6 6.6l2.2-2.2c.3-.3.8-.4 1.2-.3 1 .3 2 .5 3.1.5.7 0 1.3.6 1.3 1.3V20c0 .7-.6 1.3-1.3 1.3C10.4 21.3 2.7 13.6 2.7 4.3 2.7 3.6 3.3 3 4 3h3.3c.7 0 1.3.6 1.3 1.3 0 1.1.2 2.1.5 3.1.1.4 0 .9-.3 1.2l-2.2 2.2Z"
         fill="currentColor"
       />
     </svg>
@@ -73,26 +97,100 @@ export default function SignupPage() {
 
   const [fullName, setFullName] = useState("");
   const [displayName, setDisplayName] = useState("");
+  const [schoolName, setSchoolName] = useState("");
+  const [affiliationId, setAffiliationId] = useState("");
+  const [classLevelId, setClassLevelId] = useState("");
+  const [danRankId, setDanRankId] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
-  const [organization, setOrganization] = useState("");
-  const [grade, setGrade] = useState("");
-  const [phone, setPhone] = useState("");
   const [agreed, setAgreed] = useState(false);
 
+  const [affiliations, setAffiliations] = useState([]);
+  const [classLevels, setClassLevels] = useState([]);
+  const [danRanks, setDanRanks] = useState([]);
+
+  const [loadingMasters, setLoadingMasters] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
   const [saving, setSaving] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [signupComplete, setSignupComplete] = useState(false);
+
+  useEffect(() => {
+    const fetchMasters = async () => {
+      setLoadingMasters(true);
+      setErrorMessage("");
+
+      const [affiliationsResult, classLevelsResult, danRanksResult] =
+        await Promise.all([
+          supabase
+            .from("affiliations")
+            .select("id, name, is_active")
+            .eq("is_active", true)
+            .order("name", { ascending: true }),
+
+          supabase
+            .from("class_levels")
+            .select("id, code, name, sort_order, is_active")
+            .eq("is_active", true)
+            .order("sort_order", { ascending: true }),
+
+          supabase
+            .from("dan_ranks")
+            .select("id, code, name, sort_order, is_active")
+            .eq("is_active", true)
+            .order("sort_order", { ascending: true }),
+        ]);
+
+      setLoadingMasters(false);
+
+      if (affiliationsResult.error) {
+        setErrorMessage(
+          `所属会の取得に失敗しました：${affiliationsResult.error.message}`
+        );
+        return;
+      }
+
+      if (classLevelsResult.error) {
+        setErrorMessage(
+          `級マスタの取得に失敗しました：${classLevelsResult.error.message}`
+        );
+        return;
+      }
+
+      if (danRanksResult.error) {
+        setErrorMessage(
+          `段位マスタの取得に失敗しました：${danRanksResult.error.message}`
+        );
+        return;
+      }
+
+      setAffiliations(affiliationsResult.data ?? []);
+      setClassLevels(classLevelsResult.data ?? []);
+      setDanRanks(danRanksResult.data ?? []);
+    };
+
+    fetchMasters();
+  }, []);
 
   const handleSignup = async (e) => {
     e.preventDefault();
     setErrorMessage("");
 
-    if (!fullName || !email || !password || !organization || !grade) {
+    const normalizedEmail = email.trim();
+
+    if (
+      !fullName ||
+      !normalizedEmail ||
+      !password ||
+      !affiliationId ||
+      !classLevelId ||
+      !danRankId
+    ) {
       setErrorMessage(
-        "名前、メールアドレス、パスワード、所属会、段位は必須です。"
+        "名前、メールアドレス、パスワード、所属会、級、段位は必須です。"
       );
       return;
     }
@@ -114,58 +212,62 @@ export default function SignupPage() {
 
     setSaving(true);
 
-    const { data, error } = await supabase.auth.signUp({
-      email,
+    const { error } = await supabase.auth.signUp({
+      email: normalizedEmail,
       password,
       options: {
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
         data: {
-          full_name: fullName,
-          display_name: displayName || fullName,
-          organization,
-          grade,
-          phone,
+          full_name: fullName.trim(),
+          display_name: displayName.trim() || fullName.trim(),
+          school_name: schoolName.trim(),
+          affiliation_id: affiliationId,
+          class_level_id: classLevelId,
+          dan_rank_id: danRankId,
+          phone: phone.trim(),
         },
       },
     });
 
+    setSaving(false);
+
     if (error) {
-      setSaving(false);
       setErrorMessage(error.message);
       return;
     }
 
-    const userId = data.user?.id;
-
-    if (userId) {
-      const { error: profileError } = await supabase
-        .from("profiles")
-        .upsert(
-          {
-            id: userId,
-            email,
-            full_name: fullName,
-            display_name: displayName || fullName,
-            organization,
-            grade,
-            phone,
-            updated_at: new Date().toISOString(),
-          },
-          {
-            onConflict: "id",
-          }
-        );
-
-      if (profileError) {
-        setSaving(false);
-        setErrorMessage(`プロフィール作成に失敗しました：${profileError.message}`);
-        return;
-      }
-    }
-
-    setSaving(false);
-    alert("新規登録しました。ログインしてください。");
-    navigate("/login");
+    setSignupComplete(true);
   };
+
+  if (signupComplete) {
+    return (
+      <div className="signup-page">
+        <div className="signup-shell">
+          <div className="signup-wave-bg" aria-hidden="true" />
+
+          <div className="signup-inner">
+            <header className="signup-brand">
+              <div className="signup-brand-logo">
+                <img src="/images/logo.png" alt="まにまに" />
+              </div>
+
+              <h1>登録申請を受け付けました</h1>
+              <p>
+                確認メールを送信しました。メール認証後、所属会代表者の承認をお待ちください。
+              </p>
+            </header>
+
+            <div className="signup-login-guide">
+              <p>メール認証が完了したら、ログインして承認状況を確認できます。</p>
+              <button type="button" onClick={() => navigate("/login")}>
+                ログイン画面へ
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="signup-page">
@@ -228,7 +330,23 @@ export default function SignupPage() {
             </div>
 
             <div className="signup-field">
-              <label className="signup-label" htmlFor="organization">
+              <label className="signup-label" htmlFor="schoolName">
+                <span className="signup-label-icon">
+                  <SchoolIcon />
+                </span>
+                <span>学校名</span>
+              </label>
+              <input
+                id="schoolName"
+                type="text"
+                placeholder="例）東京第一大学"
+                value={schoolName}
+                onChange={(e) => setSchoolName(e.target.value)}
+              />
+            </div>
+
+            <div className="signup-field">
+              <label className="signup-label" htmlFor="affiliationId">
                 <span className="signup-label-icon">
                   <BuildingIcon />
                 </span>
@@ -236,23 +354,53 @@ export default function SignupPage() {
               </label>
               <div className="signup-select-wrap">
                 <select
-                  id="organization"
-                  value={organization}
-                  onChange={(e) => setOrganization(e.target.value)}
+                  id="affiliationId"
+                  value={affiliationId}
+                  onChange={(e) => setAffiliationId(e.target.value)}
                   required
+                  disabled={loadingMasters}
                 >
-                  <option value="">選択してください</option>
-                  <option value="東京かるた会">東京かるた会</option>
-                  <option value="神奈川かるた会">神奈川かるた会</option>
-                  <option value="千葉かるた会">千葉かるた会</option>
-                  <option value="埼玉かるた会">埼玉かるた会</option>
-                  <option value="その他">その他</option>
+                  <option value="">
+                    {loadingMasters ? "読み込み中..." : "選択してください"}
+                  </option>
+                  {affiliations.map((affiliation) => (
+                    <option key={affiliation.id} value={affiliation.id}>
+                      {affiliation.name}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
 
             <div className="signup-field">
-              <label className="signup-label" htmlFor="grade">
+              <label className="signup-label" htmlFor="classLevelId">
+                <span className="signup-label-icon">
+                  <MedalIcon />
+                </span>
+                <span>級</span>
+              </label>
+              <div className="signup-select-wrap">
+                <select
+                  id="classLevelId"
+                  value={classLevelId}
+                  onChange={(e) => setClassLevelId(e.target.value)}
+                  required
+                  disabled={loadingMasters}
+                >
+                  <option value="">
+                    {loadingMasters ? "読み込み中..." : "選択してください"}
+                  </option>
+                  {classLevels.map((classLevel) => (
+                    <option key={classLevel.id} value={classLevel.id}>
+                      {classLevel.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="signup-field">
+              <label className="signup-label" htmlFor="danRankId">
                 <span className="signup-label-icon">
                   <MedalIcon />
                 </span>
@@ -260,20 +408,20 @@ export default function SignupPage() {
               </label>
               <div className="signup-select-wrap">
                 <select
-                  id="grade"
-                  value={grade}
-                  onChange={(e) => setGrade(e.target.value)}
+                  id="danRankId"
+                  value={danRankId}
+                  onChange={(e) => setDanRankId(e.target.value)}
                   required
+                  disabled={loadingMasters}
                 >
-                  <option value="">選択してください</option>
-                  <option value="無段">無段</option>
-                  <option value="初段">初段</option>
-                  <option value="二段">二段</option>
-                  <option value="三段">三段</option>
-                  <option value="四段">四段</option>
-                  <option value="五段">五段</option>
-                  <option value="六段">六段</option>
-                  <option value="七段">七段</option>
+                  <option value="">
+                    {loadingMasters ? "読み込み中..." : "選択してください"}
+                  </option>
+                  {danRanks.map((danRank) => (
+                    <option key={danRank.id} value={danRank.id}>
+                      {danRank.name}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -292,6 +440,23 @@ export default function SignupPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 autoComplete="email"
+              />
+            </div>
+
+            <div className="signup-field">
+              <label className="signup-label" htmlFor="phone">
+                <span className="signup-label-icon">
+                  <PhoneIcon />
+                </span>
+                <span>電話番号</span>
+              </label>
+              <input
+                id="phone"
+                type="tel"
+                placeholder="例）090-0000-0000"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                autoComplete="tel"
               />
             </div>
 
@@ -368,7 +533,7 @@ export default function SignupPage() {
             <button
               className="signup-primary-button"
               type="submit"
-              disabled={saving}
+              disabled={saving || loadingMasters}
             >
               {saving ? "登録中..." : "登録する"}
             </button>

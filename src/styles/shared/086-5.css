@@ -1,0 +1,113 @@
+/* =========================================================
+   申込状況ページ：タブ5分割＋文字サイズ調整
+========================================================= */
+
+.application-status-tabs {
+  display: grid !important;
+  grid-template-columns: repeat(5, 1fr) !important;
+  gap: 7px !important;
+  margin: 0 0 12px !important;
+  transform: translateY(-6px) !important;
+}
+
+.application-status-tabs button {
+  min-height: 44px !important;
+  padding: 4px 4px !important;
+  border: none !important;
+  border-radius: 10px !important;
+  background: transparent !important;
+  color: #222 !important;
+  cursor: pointer !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+}
+
+.application-status-tabs button span {
+  font-size: 14px !important;
+  line-height: 1.1 !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.02em !important;
+  white-space: nowrap !important;
+}
+
+.application-status-tabs button strong {
+  min-width: 22px !important;
+  height: 20px !important;
+  padding: 0 6px !important;
+  border-radius: 999px !important;
+  background: #fff1ed !important;
+  color: var(--red-dark) !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  font-size: 11px !important;
+  line-height: 1 !important;
+  font-weight: 900 !important;
+}
+
+.application-status-tabs button.active {
+  background: linear-gradient(135deg, #d91f2f, #b91524) !important;
+  color: #fff !important;
+  box-shadow: 0 8px 16px rgba(200, 30, 47, 0.18) !important;
+}
+
+.application-status-tabs button.active strong {
+  background: #fff !important;
+  color: var(--red) !important;
+}
+
+/* スマホ */
+@media (max-width: 768px) {
+  .application-status-tabs {
+    gap: 5px !important;
+    margin-bottom: 10px !important;
+    transform: translateY(-4px) !important;
+  }
+
+  .application-status-tabs button {
+    min-height: 42px !important;
+    padding: 4px 2px !important;
+    border-radius: 9px !important;
+    gap: 3px !important;
+  }
+
+  .application-status-tabs button span {
+    font-size: 12px !important;
+  }
+
+  .application-status-tabs button strong {
+    min-width: 20px !important;
+    height: 18px !important;
+    padding: 0 5px !important;
+    font-size: 10px !important;
+  }
+}
+
+/* 小さいスマホ */
+@media (max-width: 480px) {
+  .application-status-tabs {
+    gap: 4px !important;
+  }
+
+  .application-status-tabs button {
+    min-height: 40px !important;
+    padding: 3px 1px !important;
+  }
+
+  .application-status-tabs button span {
+    font-size: 12.5px !important;
+    letter-spacing: 0 !important;
+  }
+
+  .application-status-tabs button strong {
+    min-width: 18px !important;
+    height: 17px !important;
+    font-size: 9.5px !important;
+  }
+}

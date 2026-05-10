@@ -1,0 +1,25 @@
+/* =========================================================
+   Tournament list title size
+   大会を探すページの大会名を少し大きくする
+========================================================= */
+
+.tournament-list-main h3 {
+  font-size: 14px;
+  line-height: 1.28;
+}
+
+/* スマホ表示 */
+@media (max-width: 768px) {
+  .tournament-list-main h3 {
+    font-size: 13.5px;
+    line-height: 1.28;
+  }
+}
+
+/* 小さいスマホ表示 */
+@media (max-width: 480px) {
+  .tournament-list-main h3 {
+    font-size: 13px;
+    line-height: 1.28;
+  }
+}

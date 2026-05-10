@@ -10,7 +10,7 @@ const STATUS_TABS = [
   {
     key: "scheduled",
     label: "開催予定",
-    statuses: ["published", "open"],
+    statuses: ["preparing", "published"],
   },
   {
     key: "draft",
@@ -20,7 +20,7 @@ const STATUS_TABS = [
   {
     key: "closed",
     label: "終了済み",
-    statuses: ["closed", "cancelled"],
+    statuses: ["closed"],
   },
 ];
 
@@ -35,14 +35,16 @@ function formatDate(dateString) {
 }
 
 function getTournamentGrade(tournament) {
-  return (
-    tournament.grade ||
-    tournament.target_grade ||
-    tournament.eligible_grade ||
-    tournament.eligible_grades ||
-    tournament.class_level ||
-    "級未設定"
-  );
+  const labels = [
+    tournament.allow_class_a && "A級",
+    tournament.allow_class_b && "B級",
+    tournament.allow_class_c && "C級",
+    tournament.allow_class_d && "D級",
+    tournament.allow_class_e && "E級",
+    tournament.allow_class_f && "F級",
+  ].filter(Boolean);
+
+  return labels.length > 0 ? labels.join("・") : "級未設定";
 }
 
 function ClipboardIcon() {

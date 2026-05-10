@@ -1,0 +1,124 @@
+/* =========================================================
+   申込状況ページ：ステータス位置・開催日サイズ調整
+   - 申込状況ラベルを大会名の上に配置
+   - 開催日をさらに大きく
+========================================================= */
+
+/* 申込済み・抽選待ちなどを大会名の上に置く */
+.application-status-status-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 7px;
+}
+
+/* 申込状況ラベルを少し大きめに */
+.application-status-status-row .application-status-pill {
+  min-height: 28px !important;
+  padding: 0 13px !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+}
+
+/* 大会名も少し余白を調整 */
+.application-status-card-main h2 {
+  margin: 0 0 8px !important;
+  font-size: 19px !important;
+  line-height: 1.32 !important;
+  font-weight: 900 !important;
+}
+
+/* 開催日ブロック */
+.application-status-date-block {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* 「開催日」ラベル */
+.application-status-date-label {
+  min-height: 25px !important;
+  padding: 0 10px !important;
+  border-radius: 999px !important;
+  background: #fff1ed !important;
+  color: var(--red-dark) !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  font-size: 12px !important;
+  line-height: 1 !important;
+  font-weight: 900 !important;
+  white-space: nowrap !important;
+}
+
+/* 開催日の日付文字を大きく */
+.application-status-date-value {
+  color: #111827 !important;
+  font-size: 17px !important;
+  line-height: 1.35 !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.03em !important;
+  white-space: nowrap !important;
+}
+
+/* カードの高さを少しだけ確保 */
+.application-status-card {
+  min-height: 94px !important;
+  padding: 12px 12px !important;
+}
+
+/* スマホ */
+@media (max-width: 768px) {
+  .application-status-status-row {
+    margin-bottom: 6px;
+  }
+
+  .application-status-status-row .application-status-pill {
+    min-height: 26px !important;
+    padding: 0 11px !important;
+    font-size: 12px !important;
+  }
+
+  .application-status-card-main h2 {
+    font-size: 17px !important;
+    margin-bottom: 7px !important;
+  }
+
+  .application-status-date-label {
+    min-height: 23px !important;
+    padding: 0 9px !important;
+    font-size: 11px !important;
+  }
+
+  .application-status-date-value {
+    font-size: 15px !important;
+  }
+
+  .application-status-card {
+    min-height: 88px !important;
+    padding: 11px 10px !important;
+  }
+}
+
+/* 小さいスマホ */
+@media (max-width: 480px) {
+  .application-status-status-row .application-status-pill {
+    font-size: 11.5px !important;
+  }
+
+  .application-status-card-main h2 {
+    font-size: 15px !important;
+  }
+
+  .application-status-date-value {
+    font-size: 13.5px !important;
+    white-space: normal !important;
+  }
+
+  .application-status-card {
+    min-height: 86px !important;
+  }
+}

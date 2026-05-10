@@ -1,0 +1,54 @@
+/* =========================================================
+   Common Panel
+========================================================= */
+
+.system-admin-panel {
+  margin-top: 14px !important;
+  padding: 16px !important;
+  border-radius: 16px !important;
+  background: rgba(255, 255, 255, 0.96) !important;
+  border: 1px solid rgba(120, 40, 30, 0.1) !important;
+  box-shadow: 0 8px 20px rgba(80, 20, 10, 0.055) !important;
+  overflow: hidden !important;
+}
+
+.system-admin-panel-header {
+  display: block !important;
+}
+
+.system-admin-section-title {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  margin-bottom: 12px !important;
+  color: #e63212 !important;
+}
+
+.system-admin-section-title svg {
+  width: 24px !important;
+  height: 24px !important;
+  flex: 0 0 auto !important;
+}
+
+.system-admin-section-title h2 {
+  margin: 0 !important;
+  color: #251713 !important;
+  font-size: 20px !important;
+  line-height: 1.2 !important;
+  font-weight: 900 !important;
+}
+
+.system-admin-section-title p {
+  margin: 4px 0 0 !important;
+  color: #251713 !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+
+.system-admin-section-title.compact {
+  margin-bottom: 12px !important;
+}
+
+.system-admin-section-title.compact h2 {
+  font-size: 19px !important;
+}

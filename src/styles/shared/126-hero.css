@@ -1,0 +1,70 @@
+/* =========================================================
+   Hero
+   大会管理ページと同じサイズ感
+========================================================= */
+
+.system-admin-hero {
+  position: relative !important;
+  margin: 0 -28px 16px !important;
+  min-height: 115px !important;
+  padding: 22px 34px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+  overflow: hidden !important;
+  border-radius: 0 !important;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 253, 249, 0.98) 0%,
+      rgba(255, 253, 249, 0.92) 38%,
+      rgba(255, 253, 249, 0.5) 62%,
+      rgba(255, 253, 249, 0.08) 100%
+    ),
+    var(--hero-image) !important;
+  background-size: cover !important;
+  background-position: center right !important;
+  background-repeat: no-repeat !important;
+  border-bottom: 1px solid rgba(190, 40, 34, 0.1) !important;
+}
+
+.system-admin-hero-icon {
+  width: 48px !important;
+  height: 48px !important;
+  flex: 0 0 auto !important;
+  border-radius: 999px !important;
+  background: #fff7ee !important;
+  border: 1px solid rgba(200, 30, 47, 0.12) !important;
+  color: #d8321f !important;
+  display: grid !important;
+  place-items: center !important;
+}
+
+.system-admin-hero-icon svg {
+  width: 25px !important;
+  height: 25px !important;
+}
+
+.system-admin-hero h1 {
+  margin: 0 !important;
+  color: #2b150e !important;
+  font-family:
+    "Yu Mincho",
+    "YuMincho",
+    "Hiragino Mincho ProN",
+    serif !important;
+  font-size: 30px !important;
+  line-height: 1.2 !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.06em !important;
+}
+
+.system-admin-hero p {
+  margin: 8px 0 0 !important;
+  color: #2b150e !important;
+  max-width: 520px !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+}

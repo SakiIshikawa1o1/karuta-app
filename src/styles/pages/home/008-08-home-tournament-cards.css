@@ -1,0 +1,144 @@
+/* =========================================================
+   08. Home Tournament Cards
+   ホームの大会カード
+========================================================= */
+
+.home-tournament-grid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: var(--home-tournament-card-width);
+  grid-template-columns: none;
+  gap: 14px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0 0 10px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 大会カード本体 */
+.home-tournament-card {
+  width: 100%;
+  max-width: none;
+  min-height: 162px;
+  border-radius: 16px;
+  border: 1px solid rgba(200, 30, 47, 0.16);
+  background: #ffffff;
+  box-shadow: 0 8px 18px rgba(80, 20, 10, 0.08);
+  overflow: hidden;
+  scroll-snap-align: start;
+}
+
+/* 画像エリアは使用しない */
+.home-tournament-image {
+  display: none;
+}
+
+/* カード本文 */
+.home-tournament-body {
+  height: 100%;
+  padding: 13px 13px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* ステータス行 */
+.tournament-card-top {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+/* 受付中ラベル */
+.home-tournament-card .tournament-status-label {
+  position: static;
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  min-height: 26px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: #d91f2f;
+  color: #fff;
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* 大会名 */
+.home-tournament-card .home-tournament-body h3 {
+  margin: 0 0 9px;
+  color: #111;
+  font-size: 18px;
+  line-height: 1.35;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-align: left;
+}
+
+/* 開催日・場所 */
+.home-tournament-card .home-tournament-body p {
+  margin: 0 0 5px;
+  padding: 0;
+  background: transparent;
+  color: #222;
+  font-size: 13px;
+  line-height: 1.45;
+  font-weight: 500;
+  text-align: left;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+/* 「開催日」「場所」ラベル */
+.home-tournament-card .home-tournament-body p span {
+  display: inline-block;
+  min-width: 42px;
+  margin-right: 7px;
+  color: var(--red-dark);
+  font-size: 12px;
+  font-weight: 700;
+  text-align: left;
+  flex-shrink: 0;
+}
+
+/* 詳細を見るボタン */
+.home-tournament-card .outline-detail-button {
+  width: 100%;
+  min-height: 34px;
+  margin-top: auto;
+  padding: 0 12px;
+  border: 1px solid var(--red);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--red);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  box-shadow: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.home-tournament-card .outline-detail-button:hover {
+  background: var(--red-soft);
+}
+
+.home-tournament-card .outline-detail-button span {
+  margin-left: 4px;
+  color: var(--red);
+  font-size: 16px;
+  line-height: 1;
+  font-weight: 700;
+  transform: translateY(-2px);
+}

@@ -6,24 +6,26 @@ import SiteFooter from "../components/SiteFooter";
 
 const STATUS_LABEL = {
   applied: "申込済み",
-  cancelled: "キャンセル済み",
   lottery: "抽選中",
-  not_selected: "落選",
-  selected: "当選・未入金",
-  paid: "入金済み",
-  payment_checking: "入金確認中",
+  selected: "当選",
+  rejected: "落選",
+  payment_pending: "当選・未入金",
+  payment_confirming: "入金確認中",
   payment_confirmed: "入金確認済み",
+  confirmed: "参加確定",
+  cancelled: "キャンセル済み",
 };
 
 const STATUS_CLASS = {
   applied: "status-applied",
-  cancelled: "status-cancelled",
   lottery: "status-lottery",
-  not_selected: "status-not-selected",
   selected: "status-selected",
-  paid: "status-paid",
-  payment_checking: "status-payment-checking",
+  rejected: "status-not-selected",
+  payment_pending: "status-selected",
+  payment_confirming: "status-payment-checking",
   payment_confirmed: "status-payment-confirmed",
+  confirmed: "status-payment-confirmed",
+  cancelled: "status-cancelled",
 };
 
 const STATUS_TABS = [
@@ -33,11 +35,12 @@ const STATUS_TABS = [
     statuses: [
       "applied",
       "lottery",
-      "not_selected",
       "selected",
-      "paid",
-      "payment_checking",
+      "rejected",
+      "payment_pending",
+      "payment_confirming",
       "payment_confirmed",
+      "confirmed",
     ],
   },
   {
@@ -48,17 +51,17 @@ const STATUS_TABS = [
   {
     key: "lottery",
     label: "抽選",
-    statuses: ["lottery", "not_selected"],
+    statuses: ["lottery", "rejected"],
   },
   {
     key: "payment",
     label: "振り込み",
-    statuses: ["selected", "paid", "payment_checking"],
+    statuses: ["selected", "payment_pending", "payment_confirming"],
   },
   {
     key: "confirmed",
     label: "確定",
-    statuses: ["payment_confirmed"],
+    statuses: ["payment_confirmed", "confirmed"],
   },
 ];
 
@@ -97,6 +100,8 @@ export default function ApplicationStatusPage() {
   const [activeTab, setActiveTab] = useState("all");
   const [searchText, setSearchText] = useState("");
   const [lastUpdated, setLastUpdated] = useState(null);
+  const [classLevels, setClassLevels] = useState([]);
+  const [danRanks, setDanRanks] = useState([]);
 
   const fetchApplications = async () => {
     if (!user) {
@@ -108,13 +113,18 @@ export default function ApplicationStatusPage() {
     setLoading(true);
     setMessage("");
 
-    const { data, error } = await supabase
+    const [applicationsResult, classLevelsResult, danRanksResult] =
+      await Promise.all([
+        supabase
       .from("applications")
       .select(`
         id,
         status,
         applied_at,
         applicant_name,
+        tournament_title,
+        class_level_id,
+        dan_rank_id,
         tournaments (
           id,
           title,
@@ -124,16 +134,28 @@ export default function ApplicationStatusPage() {
       `)
       .eq("user_id", user.id)
       .neq("status", "cancelled")
-      .order("applied_at", { ascending: false });
+          .order("applied_at", { ascending: false }),
+        supabase
+          .from("class_levels")
+          .select("id, name, sort_order")
+          .order("sort_order", { ascending: true }),
+        supabase
+          .from("dan_ranks")
+          .select("id, name, sort_order")
+          .order("sort_order", { ascending: true }),
+      ]);
 
     setLoading(false);
 
-    if (error) {
-      setMessage(`申し込み状況の取得に失敗しました：${error.message}`);
+    if (applicationsResult.error) {
+      setMessage(`申し込み状況の取得に失敗しました：${applicationsResult.error.message}`);
       return;
     }
 
-    const sortedData = [...(data ?? [])].sort((a, b) => {
+    if (!classLevelsResult.error) setClassLevels(classLevelsResult.data ?? []);
+    if (!danRanksResult.error) setDanRanks(danRanksResult.data ?? []);
+
+    const sortedData = [...(applicationsResult.data ?? [])].sort((a, b) => {
       const dateA = a.tournaments?.event_date ?? "";
       const dateB = b.tournaments?.event_date ?? "";
       return dateA.localeCompare(dateB);
@@ -163,6 +185,7 @@ export default function ApplicationStatusPage() {
 
     return applications.filter((app) => {
       const title = app.tournaments?.title ?? "";
+      const snapshotTitle = app.tournament_title ?? "";
       const venue = app.tournaments?.venue ?? "";
 
       const matchesTab = activeStatuses.includes(app.status);
@@ -170,6 +193,7 @@ export default function ApplicationStatusPage() {
       const matchesSearch =
         searchText.trim() === "" ||
         title.toLowerCase().includes(searchText.toLowerCase()) ||
+        snapshotTitle.toLowerCase().includes(searchText.toLowerCase()) ||
         venue.toLowerCase().includes(searchText.toLowerCase());
 
       return matchesTab && matchesSearch;
@@ -191,7 +215,6 @@ export default function ApplicationStatusPage() {
       .from("applications")
       .update({
         status: nextStatus,
-        updated_at: new Date().toISOString(),
         updated_by: user.id,
       })
       .eq("id", application.id)
@@ -296,6 +319,11 @@ export default function ApplicationStatusPage() {
           {filteredApplications.map((app) => {
             const tournament = app.tournaments;
             const statusClass = STATUS_CLASS[app.status] ?? "";
+            const classLevelName =
+              classLevels.find((item) => item.id === app.class_level_id)?.name ||
+              "";
+            const danRankName =
+              danRanks.find((item) => item.id === app.dan_rank_id)?.name || "";
 
             return (
               <article
@@ -310,7 +338,7 @@ export default function ApplicationStatusPage() {
                     </span>
                   </div>
 
-                  <h2>{tournament?.title ?? "大会名未設定"}</h2>
+                  <h2>{tournament?.title ?? app.tournament_title ?? "大会名未設定"}</h2>
 
                   <div className="application-status-date-block">
                     <span className="application-status-date-label">
@@ -320,6 +348,28 @@ export default function ApplicationStatusPage() {
                       {formatDate(tournament?.event_date)}
                     </span>
                   </div>
+
+                  <div className="application-status-date-block">
+                    <span className="application-status-date-label">
+                      申込日時
+                    </span>
+                    <span className="application-status-date-value">
+                      {formatLastUpdated(
+                        app.applied_at ? new Date(app.applied_at) : null
+                      )}
+                    </span>
+                  </div>
+
+                  {(classLevelName || danRankName) && (
+                    <div className="application-status-date-block">
+                      <span className="application-status-date-label">
+                        級・段位
+                      </span>
+                      <span className="application-status-date-value">
+                        {[classLevelName, danRankName].filter(Boolean).join(" / ")}
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 <div className="application-status-card-side">
@@ -335,24 +385,24 @@ export default function ApplicationStatusPage() {
                     </button>
                   )}
 
-                  {app.status === "selected" && (
+                  {app.status === "selected" || app.status === "payment_pending" ? (
                     <button
                       type="button"
                       className="application-status-action-button paid"
                       onClick={(event) =>
-                        updateApplicationStatus(event, app, "paid")
+                        updateApplicationStatus(event, app, "payment_confirming")
                       }
                     >
-                      入金済み
+                      入金確認依頼
                     </button>
-                  )}
+                  ) : null}
 
-                  {app.status === "payment_checking" && (
+                  {app.status === "payment_confirming" && (
                     <button
                       type="button"
                       className="application-status-action-button back-unpaid"
                       onClick={(event) =>
-                        updateApplicationStatus(event, app, "selected")
+                        updateApplicationStatus(event, app, "payment_pending")
                       }
                     >
                       未入金に戻す

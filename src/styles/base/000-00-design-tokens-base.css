@@ -1,0 +1,88 @@
+/* =========================================================
+   00. Design tokens / Base
+   サイト全体で使う色・画像パス・共通サイズ
+========================================================= */
+
+:root {
+  /* サイト全体の背景色 */
+  --bg: #f7f7f7;
+
+  /* カード・パネル背景 */
+  --surface: #ffffff;
+
+  /* 通常テキスト */
+  --text: #111111;
+
+  /* 補足テキスト */
+  --muted: #4b5563;
+
+  /* 通常の境界線 */
+  --border: #e5e7eb;
+
+  /* ブランドカラー */
+  --red: #c81e2f;
+  --red-dark: #8f1421;
+  --red-soft: #ffffff;
+  --red-border: #f4c7cd;
+
+  /* 補助色 */
+  --blue: #1f5fbf;
+  --green: #0f9f6e;
+  --orange: #f59e0b;
+
+  /* 共通の影・角丸 */
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --radius: 18px;
+
+  /* 画像パス */
+  --hero-image: url("/images/karuta-hero.jpg");
+  --logo-image: url("/images/logo.png");
+
+  /* ホームの大会カード1枚あたりの幅 */
+  --home-tournament-card-width: 45%;
+}
+
+/* padding / border を幅計算に含める */
+* {
+  box-sizing: border-box;
+}
+
+/* ページ全体の基本設定 */
+html {
+  width: 100%;
+  min-height: 100%;
+  scroll-behavior: smooth;
+}
+
+/* body全体の背景・文字・フォント設定 */
+body {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 92% 2%, rgba(220, 80, 40, 0.1), transparent 22%),
+    linear-gradient(180deg, #fffdf9 0%, #fff8f3 100%);
+  color: var(--text);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Hiragino Sans",
+    "Yu Gothic", "Yu Gothic UI", sans-serif;
+}
+
+/* フォーム要素にも同じフォントを適用 */
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+/* スマホでボタンを押したときの青いハイライトを消す */
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 画像が親要素からはみ出さないようにする */
+img {
+  max-width: 100%;
+  display: block;
+}

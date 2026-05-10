@@ -1,0 +1,76 @@
+/* =========================================================
+   Detail button horizontal layout
+   「詳細」と「＞」を横並びにする
+========================================================= */
+
+.tournament-list-actions button {
+  width: 66px;
+  min-width: 66px;
+
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  justify-content: center;
+
+  gap: 4px;
+  white-space: nowrap;
+
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.tournament-list-actions button span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-left: 0;
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 900;
+}
+
+/* スマホ */
+@media (max-width: 768px) {
+  .tournament-list-actions button {
+    width: 64px;
+    min-width: 64px;
+    font-size: 12.5px;
+  }
+
+  .tournament-list-actions button span {
+    font-size: 19px;
+  }
+}
+
+/* 小さいスマホ */
+@media (max-width: 480px) {
+  .tournament-list-actions button {
+    width: 62px;
+    min-width: 62px;
+    font-size: 12px;
+  }
+
+  .tournament-list-actions button span {
+    font-size: 18px;
+  }
+}
+
+.tournament-list-actions button {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.tournament-list-actions button span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0;
+  line-height: 1;
+  transform: translateY(-2px);
+}

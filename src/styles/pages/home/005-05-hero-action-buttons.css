@@ -1,0 +1,112 @@
+/* =========================================================
+   05. Hero Action Buttons
+   ヒーロー画像の下部に重ねる2つのボタン
+========================================================= */
+
+/* ボタンをヒーロー下部に重ねる */
+.hero-action-row {
+  position: absolute;
+  left: 40px;
+  right: 40px;
+  bottom: 10px;
+  z-index: 4;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 0;
+}
+
+/* ヒーロー上ボタン共通 */
+.hero-action-row .big-action-button {
+  min-height: 58px;
+  padding: 0 18px;
+  border-radius: 16px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 8px;
+
+  font-size: 13px;
+  line-height: 1.25;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+
+  box-shadow: 0 8px 22px rgba(120, 20, 28, 0.16);
+  cursor: pointer;
+  white-space: normal;
+}
+
+/* ボタン内の文字 */
+.hero-action-row .big-action-button span:not(.big-action-arrow):not(.big-action-icon) {
+  display: block;
+  line-height: 1.3;
+  font-weight: 500;
+  text-align: left;
+}
+
+/* 左ボタン：赤塗り */
+.hero-action-row .big-action-button.primary {
+  background: linear-gradient(135deg, #e21b12, #c9160f);
+  color: #fff;
+  border: none;
+  box-shadow: 0 10px 22px rgba(200, 30, 20, 0.24);
+}
+
+/* 右ボタン：白背景＋赤枠 */
+.hero-action-row .big-action-button.secondary {
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--red-dark);
+  border: 2px solid var(--red);
+  box-shadow: 0 8px 18px rgba(120, 20, 28, 0.1);
+}
+
+/* ボタン内アイコンspanは使用しない */
+.hero-action-row .big-action-icon {
+  display: none !important;
+}
+
+/* 「大会を探す」の虫眼鏡アイコン */
+.hero-action-row .big-action-button.primary::before {
+  content: "⌕";
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  font-size: 22px;
+  line-height: 1;
+  font-weight: 400;
+  color: #fff;
+}
+
+/* 「申込状況を確認する」の一覧アイコン */
+.hero-action-row .big-action-button.secondary::before {
+  content: "▤";
+  display: inline-grid;
+  place-items: center;
+  width: 21px;
+  height: 21px;
+  font-size: 18px;
+  line-height: 1;
+  font-weight: 400;
+  color: var(--red);
+}
+
+/* ボタン右端の矢印 */
+.hero-action-row .big-action-arrow {
+  font-size: 24px;
+  line-height: 1;
+  font-weight: 500;
+}
+
+/* ヒーロー内の文字とボタンはグラデーションより前面に出す */
+.home-hero-copy,
+.hero-action-row {
+  position: relative;
+  z-index: 2;
+}
+
+/* ヒーロー下部に重なっているボタンはさらに前面にする */
+.hero-action-row {
+  z-index: 4;
+}

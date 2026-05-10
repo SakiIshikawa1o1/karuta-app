@@ -1,0 +1,84 @@
+/* =========================================================
+   Stats
+========================================================= */
+
+.system-admin-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.system-admin-stat-card {
+  min-height: 142px;
+  padding: 18px 16px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(120, 40, 30, 0.08);
+  box-shadow: 0 8px 20px rgba(80, 20, 10, 0.06);
+}
+
+.system-admin-stat-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #251713;
+  font-size: 14px;
+  line-height: 1.2;
+  font-weight: 900;
+}
+
+.system-admin-stat-title svg {
+  width: 26px;
+  height: 26px;
+  flex: 0 0 auto;
+}
+
+.system-admin-stat-card.red .system-admin-stat-title svg {
+  color: #e63212;
+}
+
+.system-admin-stat-card.blue .system-admin-stat-title svg {
+  color: #1f5fbf;
+}
+
+.system-admin-stat-card.orange .system-admin-stat-title svg {
+  color: #e63212;
+}
+
+.system-admin-stat-card strong {
+  display: block;
+  margin-top: 22px;
+  color: #251713;
+  font-size: 34px;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.system-admin-stat-card strong small {
+  margin-left: 4px;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.system-admin-stat-card p {
+  margin: 16px 0 0;
+  color: #251713;
+  font-size: 15px;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.system-admin-stat-card p span {
+  width: 22px;
+  height: 22px;
+  margin-left: 8px;
+  border-radius: 999px;
+  background: #e63212;
+  color: #ffffff;
+  display: inline-grid;
+  place-items: center;
+  font-size: 13px;
+  line-height: 1;
+}

@@ -1,0 +1,108 @@
+/* =========================================================
+   04. Hero
+   ホーム上部の写真・コピーエリア
+========================================================= */
+
+/* ヒーロー全体 */
+.home-hero {
+  position: relative;
+  margin: 0 -40px;
+  min-height: 210px;
+  padding-bottom: 62px;
+  display: block;
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.96) 0%,
+      rgba(255, 255, 255, 0.92) 42%,
+      rgba(255, 255, 255, 0.78) 56%,
+      rgba(255, 255, 255, 0.30) 68%,
+      rgba(255, 255, 255, 0) 78%
+    ),
+    var(--hero-image);
+
+  background-size: 118% auto;
+  background-position: left center;
+  background-repeat: no-repeat;
+}
+
+/* ヒーロー写真の下側を背景になじませる */
+.home-hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 72px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 248, 245, 0) 0%,
+    rgba(255, 248, 245, 0.55) 55%,
+    rgba(255, 248, 245, 1) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 旧構成の画像専用divは使用しない */
+.hero-image {
+  display: none;
+}
+
+/* ヒーロー内のコピー配置 */
+.home-hero-copy {
+  position: relative;
+  z-index: 2;
+  width: min(420px, 48%);
+  min-height: 148px;
+  margin-left: 0;
+  margin-right: auto;
+  padding: 28px 20px 22px 42px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  transform: translateY(12px);
+}
+
+/* ヒーロー見出し */
+.home-hero-copy h1 {
+  margin: 0 0 8px;
+  color: #111111;
+  font-family:
+    "Yu Mincho",
+    "YuMincho",
+    "Hiragino Mincho ProN",
+    "Hiragino Mincho Pro",
+    "MS Mincho",
+    serif;
+  font-size: 37px;
+  line-height: 1.65;
+  letter-spacing: 0.08em;
+  font-weight: 900;
+  text-shadow: none;
+}
+
+/* 「熱い瞬間」だけ赤文字 */
+.home-hero-copy h1 span {
+  color: var(--red);
+  font-weight: 900;
+}
+
+/* ヒーロー説明文 */
+.home-hero-copy p {
+  margin: 0;
+  color: #333333;
+  font-size: 12px;
+  line-height: 2;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  text-shadow: none;
+}
+
+/* 以前のPC用CTAは、現在は2ボタンを重ねるため非表示 */
+.hero-cta {
+  display: none;
+}

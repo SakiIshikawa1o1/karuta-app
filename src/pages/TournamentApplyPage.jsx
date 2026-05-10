@@ -51,20 +51,39 @@ function formatStatus(status) {
   return status;
 }
 
+function normalizeClassCode(code) {
+  return String(code || "").trim().replace("級", "").toLowerCase();
+}
+
+function getAllowedClassColumn(classCode) {
+  const normalized = normalizeClassCode(classCode);
+  return normalized ? `allow_class_${normalized}` : "";
+}
+
+function isDeadlineFuture(value) {
+  if (!value) return false;
+  const deadline = new Date(value);
+  return !Number.isNaN(deadline.getTime()) && deadline > new Date();
+}
+
 export default function TournamentApplyPage() {
   const navigate = useNavigate();
   const { id } = useParams();
   const { profile, user } = useAuth();
 
   const [tournament, setTournament] = useState(null);
-  const [organizations, setOrganizations] = useState([]);
+  const [affiliations, setAffiliations] = useState([]);
+  const [classLevels, setClassLevels] = useState([]);
+  const [danRanks, setDanRanks] = useState([]);
+  const [alreadyApplied, setAlreadyApplied] = useState(false);
 
   const [form, setForm] = useState({
     applicant_name: "",
     email: "",
     organization: "",
-    grade: "",
-    division: "個人戦",
+    class_level_id: "",
+    dan_rank_id: "",
+    school_name: "",
     notes: "",
     checkedRequirements: false,
     checkedCautions: false,
@@ -104,30 +123,52 @@ export default function TournamentApplyPage() {
   }, [id]);
 
   useEffect(() => {
-    const fetchOrganizations = async () => {
-      const { data, error } = await supabase
-        .from("affiliations")
-        .select("name")
-        .eq("is_active", true)
-        .order("name", { ascending: true });
+    const fetchMastersAndApplication = async () => {
+      const [affiliationsResult, classLevelsResult, danRanksResult] =
+        await Promise.all([
+          supabase
+            .from("affiliations")
+            .select("id, name, is_active")
+            .eq("is_active", true)
+            .order("name", { ascending: true }),
+          supabase
+            .from("class_levels")
+            .select("id, code, name, sort_order, is_active")
+            .eq("is_active", true)
+            .order("sort_order", { ascending: true }),
+          supabase
+            .from("dan_ranks")
+            .select("id, code, name, sort_order, is_active")
+            .eq("is_active", true)
+            .order("sort_order", { ascending: true }),
+        ]);
 
-      if (error) {
-        console.warn("所属会一覧の取得に失敗しました", error.message);
-        return;
+      if (!affiliationsResult.error) setAffiliations(affiliationsResult.data ?? []);
+      if (!classLevelsResult.error) setClassLevels(classLevelsResult.data ?? []);
+      if (!danRanksResult.error) setDanRanks(danRanksResult.data ?? []);
+
+      if (user) {
+        const { data } = await supabase
+          .from("applications")
+          .select("id")
+          .eq("tournament_id", id)
+          .eq("user_id", user.id)
+          .neq("status", "cancelled")
+          .maybeSingle();
+
+        setAlreadyApplied(!!data);
       }
-
-      setOrganizations(
-        (data || [])
-          .map((item) => item.name)
-          .filter(Boolean)
-      );
     };
 
-    fetchOrganizations();
-  }, []);
+    fetchMastersAndApplication();
+  }, [id, user]);
 
   useEffect(() => {
     if (profile || user) {
+      const affiliationName =
+        affiliations.find((item) => item.id === profile?.affiliation_id)?.name ||
+        "";
+
       setForm((prev) => ({
         ...prev,
         applicant_name:
@@ -136,15 +177,13 @@ export default function TournamentApplyPage() {
           profile?.display_name ||
           "",
         email: prev.email || profile?.email || user?.email || "",
-        organization:
-          prev.organization ||
-          profile?.organization ||
-          profile?.affiliation ||
-          "",
-        grade: prev.grade || profile?.grade || "",
+        organization: prev.organization || affiliationName,
+        class_level_id: prev.class_level_id || profile?.class_level_id || "",
+        dan_rank_id: prev.dan_rank_id || profile?.dan_rank_id || "",
+        school_name: prev.school_name || profile?.school_name || "",
       }));
     }
-  }, [profile, user]);
+  }, [profile, user, affiliations]);
 
   const tournamentView = useMemo(() => {
     const title = tournament?.title || tournament?.name || "大会名未設定";
@@ -176,16 +215,26 @@ export default function TournamentApplyPage() {
     };
   }, [tournament]);
 
-  const organizationOptions = useMemo(() => {
-    const merged = [
-      form.organization,
-      profile?.organization,
-      profile?.affiliation,
-      ...organizations,
-    ].filter(Boolean);
+  const classLevelName = useMemo(
+    () => classLevels.find((item) => item.id === form.class_level_id)?.name || "",
+    [classLevels, form.class_level_id]
+  );
 
-    return Array.from(new Set(merged));
-  }, [form.organization, profile, organizations]);
+  const danRankName = useMemo(
+    () => danRanks.find((item) => item.id === form.dan_rank_id)?.name || "",
+    [danRanks, form.dan_rank_id]
+  );
+
+  const userClassLevel = useMemo(
+    () => classLevels.find((item) => item.id === profile?.class_level_id),
+    [classLevels, profile?.class_level_id]
+  );
+
+  const isUserClassAllowed = useMemo(() => {
+    if (!tournament || !userClassLevel) return false;
+    const columnName = getAllowedClassColumn(userClassLevel.code);
+    return !!columnName && tournament[columnName] === true;
+  }, [tournament, userClassLevel]);
 
   const handleChange = (field, value) => {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -206,8 +255,34 @@ export default function TournamentApplyPage() {
       return;
     }
 
-    if (!form.applicant_name || !form.email || !form.organization || !form.grade) {
-      setMessage("氏名、メールアドレス、所属会、段位は必須です。");
+    if (!tournament) {
+      setMessage("大会情報が確認できません。");
+      return;
+    }
+
+    if (tournament.status !== "published" || !isDeadlineFuture(tournament.application_deadline)) {
+      setMessage("この大会は現在申し込みできません。");
+      return;
+    }
+
+    if (alreadyApplied) {
+      setMessage("この大会にはすでに申し込み済みです。");
+      return;
+    }
+
+    if (!isUserClassAllowed) {
+      setMessage("あなたの級はこの大会の参加対象外です。");
+      return;
+    }
+
+    if (
+      !form.applicant_name ||
+      !form.email ||
+      !form.organization ||
+      !form.class_level_id ||
+      !form.dan_rank_id
+    ) {
+      setMessage("氏名、メールアドレス、所属会、級、段位は必須です。");
       return;
     }
 
@@ -236,8 +311,11 @@ ${form.email}
 【所属会】
 ${form.organization}
 
+【級】
+${classLevelName || "未設定"}
+
 【段位】
-${form.grade}
+${danRankName || "未設定"}
 
 この内容で申し込みを確定しますか？`;
 
@@ -274,11 +352,15 @@ ${form.grade}
       user_id: user.id,
       applicant_name: form.applicant_name,
       organization: form.organization,
-      grade: form.grade,
-      division: form.division || "個人戦",
       notes: form.notes || "",
       status: "applied",
+      applied_at: new Date().toISOString(),
       updated_by: user.id,
+      class_level_id: form.class_level_id,
+      dan_rank_id: form.dan_rank_id,
+      tournament_title: tournamentView.title,
+      user_email: form.email,
+      school_name: form.school_name || "",
     });
 
     setSaving(false);
@@ -396,34 +478,44 @@ ${form.grade}
               className="apply-readonly-input"
             >
               <option value="">未設定</option>
-              {organizationOptions.map((organization) => (
-                <option key={organization} value={organization}>
-                  {organization}
-                </option>
-              ))}
+              {form.organization && (
+                <option value={form.organization}>{form.organization}</option>
+              )}
             </select>
           </div>
 
           <div className="apply-form-field">
-            <label htmlFor="grade">
+            <label htmlFor="classLevel">
+              級 <span className="apply-required">必須</span>
+            </label>
+            <input
+              id="classLevel"
+              value={classLevelName || "未設定"}
+              readOnly
+              className="apply-readonly-input"
+            />
+          </div>
+
+          <div className="apply-form-field">
+            <label htmlFor="danRank">
               段位 <span className="apply-required">必須</span>
             </label>
-            <select
-              id="grade"
-              value={form.grade}
-              disabled
+            <input
+              id="danRank"
+              value={danRankName || "未設定"}
+              readOnly
               className="apply-readonly-input"
-            >
-              <option value="">未設定</option>
-              <option value="無段">無段</option>
-              <option value="初段">初段</option>
-              <option value="二段">二段</option>
-              <option value="三段">三段</option>
-              <option value="四段">四段</option>
-              <option value="五段">五段</option>
-              <option value="六段">六段</option>
-              <option value="七段">七段</option>
-            </select>
+            />
+          </div>
+
+          <div className="apply-form-field">
+            <label htmlFor="schoolName">学校名</label>
+            <input
+              id="schoolName"
+              value={form.school_name || "未設定"}
+              readOnly
+              className="apply-readonly-input"
+            />
           </div>
 
           <div className="apply-check-list">

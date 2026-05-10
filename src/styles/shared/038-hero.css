@@ -1,0 +1,76 @@
+/* =========================================================
+   Hero
+   生成画像を背景に使う
+========================================================= */
+
+.tournament-search-hero {
+  position: relative;
+  margin: 0 -28px 24px;
+  min-height: 230px;
+  padding: 42px 34px;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(190, 40, 34, 0.1);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 253, 249, 0.98) 0%,
+      rgba(255, 253, 249, 0.92) 36%,
+      rgba(255, 253, 249, 0.45) 58%,
+      rgba(255, 253, 249, 0.08) 74%,
+      rgba(255, 253, 249, 0) 100%
+    ),
+    url("/images/karuta-hero.jpg");
+
+  background-size: cover;
+  background-position: center right;
+  background-repeat: no-repeat;
+
+  display: flex;
+  align-items: center;
+}
+
+.tournament-search-hero::before,
+.tournament-search-hero::after {
+  content: none;
+  display: none;
+}
+
+.tournament-search-hero-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 520px;
+}
+
+.tournament-search-hero-copy p {
+  margin: 0 0 8px;
+  color: var(--red);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.tournament-search-hero-copy h1 {
+  margin: 0 0 12px;
+  color: #111;
+  font-family:
+    "Yu Mincho",
+    "YuMincho",
+    "Hiragino Mincho ProN",
+    "Hiragino Mincho Pro",
+    "MS Mincho",
+    serif;
+  font-size: 44px;
+  line-height: 1.25;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.tournament-search-hero-copy span {
+  display: block;
+  color: #333;
+  font-size: 16px;
+  line-height: 1.9;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}

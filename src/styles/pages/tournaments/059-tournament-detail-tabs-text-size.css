@@ -1,0 +1,16 @@
+/* =========================================================
+   Tournament Detail Tabs Text Size
+   概要・要項・アクセスの文字を大きくする
+========================================================= */
+
+.tournament-detail-tabs button {
+  font-size: 14px !important;
+  font-weight: 900;
+}
+
+/* 小さいスマホでも見やすく */
+@media (max-width: 480px) {
+  .tournament-detail-tabs button {
+    font-size: 12px !important;
+  }
+}

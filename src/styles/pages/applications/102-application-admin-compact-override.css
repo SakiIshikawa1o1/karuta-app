@@ -1,0 +1,342 @@
+/* =========================================================
+   Application Admin Compact Override
+   申し込み管理ページ：全体を低く・他ページ風ヒーローに調整
+========================================================= */
+
+/* ページ全体 */
+.application-admin-page {
+  padding: 0 28px 72px !important;
+}
+
+/* ヒーローを他ページと同じ低めの画像ヒーローに寄せる */
+.application-admin-hero {
+  margin: 0 -28px 16px !important;
+  min-height: 115px !important;
+  padding: 22px 34px !important;
+  gap: 16px !important;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 253, 249, 0.98) 0%,
+      rgba(255, 253, 249, 0.92) 38%,
+      rgba(255, 253, 249, 0.5) 62%,
+      rgba(255, 253, 249, 0.08) 100%
+    ),
+    var(--hero-image) !important;
+
+  background-size: cover !important;
+  background-position: center right !important;
+  background-repeat: no-repeat !important;
+  border-bottom: 1px solid rgba(190, 40, 34, 0.1) !important;
+}
+
+/* 以前の大きい紅葉装飾は消す */
+.application-admin-hero::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* ヒーロー左アイコンを小さく */
+.application-admin-hero-icon {
+  width: 48px !important;
+  height: 48px !important;
+  flex: 0 0 auto !important;
+}
+
+.application-admin-hero-icon svg {
+  width: 25px !important;
+  height: 25px !important;
+}
+
+/* ヒーロー文字を小さく */
+.application-admin-hero h1 {
+  font-size: 30px !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0.06em !important;
+}
+
+.application-admin-hero p {
+  margin-top: 8px !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+  font-weight: 700 !important;
+}
+
+/* パネル全体を低く */
+.application-admin-panel {
+  margin-top: 12px !important;
+  padding: 16px 18px !important;
+  border-radius: 15px !important;
+}
+
+.application-admin-panel h2 {
+  margin-bottom: 10px !important;
+  font-size: 18px !important;
+}
+
+/* 大会選択の高さを詰める */
+.application-admin-tournament-select {
+  min-height: 48px !important;
+  padding: 0 12px !important;
+  border-radius: 10px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* 大会選択のアイコン領域は使わない */
+.application-admin-select-icon {
+  display: none !important;
+}
+
+.application-admin-tournament-select select {
+  height: 46px !important;
+  font-size: 14px !important;
+  font-weight: 800 !important;
+}
+
+/* 選択中大会の補足 */
+.application-admin-selected-meta {
+  margin: 6px 0 0 !important;
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+}
+
+/* エクスポートを端に小さく配置 */
+.application-admin-export-row {
+  justify-content: flex-end !important;
+  margin-top: 10px !important;
+}
+
+.application-admin-export-row button {
+  min-width: 112px !important;
+  min-height: 34px !important;
+  padding: 0 14px !important;
+  border-radius: 999px !important;
+  font-size: 12px !important;
+  letter-spacing: 0.04em !important;
+  gap: 0 !important;
+}
+
+.application-admin-export-row button span {
+  display: none !important;
+}
+
+/* 検索エリア */
+.search-panel-modern {
+  padding-top: 16px !important;
+}
+
+.application-admin-section-title {
+  margin-bottom: 12px !important;
+  gap: 10px !important;
+}
+
+.application-admin-section-title svg {
+  width: 28px !important;
+  height: 28px !important;
+}
+
+.application-admin-section-title h2 {
+  font-size: 20px !important;
+}
+
+/* 検索入力を低く */
+.application-admin-search-grid {
+  gap: 12px !important;
+}
+
+.application-admin-search-grid label {
+  font-size: 12px !important;
+}
+
+.application-admin-input-with-icon {
+  height: 42px !important;
+  margin-top: 6px !important;
+  grid-template-columns: 32px 1fr !important;
+  padding: 0 8px !important;
+  border-radius: 9px !important;
+}
+
+.application-admin-input-with-icon svg,
+.application-admin-kana-icon {
+  width: 20px !important;
+  height: 20px !important;
+  font-size: 19px !important;
+}
+
+.application-admin-input-with-icon input {
+  height: 40px !important;
+  font-size: 13px !important;
+}
+
+/* 検索ボタン */
+.application-admin-search-button {
+  min-height: 46px !important;
+  margin-top: 14px !important;
+  border-radius: 10px !important;
+  font-size: 16px !important;
+  gap: 10px !important;
+}
+
+.application-admin-search-button svg {
+  width: 24px !important;
+  height: 24px !important;
+}
+
+/* クリアボタン */
+.application-admin-clear-row {
+  margin: 10px 0 12px !important;
+}
+
+.application-admin-clear-row button {
+  min-width: 140px !important;
+  min-height: 32px !important;
+  border-radius: 999px !important;
+  font-size: 11px !important;
+}
+
+/* 表を詰める */
+.application-admin-table {
+  min-width: 580px !important;
+}
+
+.application-admin-table th {
+  height: 40px !important;
+  padding: 0 8px !important;
+  font-size: 13px !important;
+}
+
+.application-admin-table td {
+  height: 46px !important;
+  padding: 0 8px !important;
+  font-size: 13px !important;
+}
+
+/* 申込状況のセレクトを小さく */
+.application-admin-status-select {
+  width: 116px !important;
+  height: 32px !important;
+  border-radius: 8px !important;
+  font-size: 11px !important;
+}
+
+/* 横スワイプ案内も低く */
+.application-admin-table-note {
+  min-height: 34px !important;
+  gap: 16px !important;
+  font-size: 12px !important;
+}
+
+.application-admin-table-note span {
+  font-size: 24px !important;
+}
+
+/* 空表示 */
+.application-admin-empty {
+  padding: 16px !important;
+  font-size: 13px !important;
+}
+
+/* 保存ボタンも少し低く */
+.application-admin-save-area {
+  margin: 16px -28px -72px !important;
+  padding: 12px 28px 16px !important;
+}
+
+.application-admin-save-area button {
+  min-height: 48px !important;
+  border-radius: 11px !important;
+  font-size: 15px !important;
+}
+
+/* スマホ */
+@media (max-width: 768px) {
+  .application-admin-page {
+    padding: 0 12px 72px !important;
+  }
+
+  .application-admin-hero {
+    margin: 0 -12px 12px !important;
+    min-height: 96px !important;
+    padding: 18px 18px !important;
+    gap: 12px !important;
+  }
+
+  .application-admin-hero-icon {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .application-admin-hero-icon svg {
+    width: 22px !important;
+    height: 22px !important;
+  }
+
+  .application-admin-hero h1 {
+    font-size: 24px !important;
+  }
+
+  .application-admin-hero p {
+    margin-top: 6px !important;
+    font-size: 11px !important;
+  }
+
+  .application-admin-panel {
+    margin-top: 10px !important;
+    padding: 14px 12px !important;
+  }
+
+  .application-admin-panel h2 {
+    font-size: 16px !important;
+  }
+
+  .application-admin-tournament-select {
+    min-height: 44px !important;
+  }
+
+  .application-admin-tournament-select select {
+    height: 42px !important;
+    font-size: 12.5px !important;
+  }
+
+  .application-admin-search-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  .application-admin-search-button {
+    min-height: 44px !important;
+    font-size: 15px !important;
+  }
+
+  .application-admin-table {
+    min-width: 520px !important;
+  }
+
+  .application-admin-table th {
+    height: 38px !important;
+    font-size: 12px !important;
+  }
+
+  .application-admin-table td {
+    height: 44px !important;
+    font-size: 12px !important;
+  }
+
+  .application-admin-status-select {
+    width: 104px !important;
+    height: 30px !important;
+    font-size: 10px !important;
+  }
+
+  .application-admin-save-area {
+    margin: 14px -12px -72px !important;
+    padding: 12px 12px 16px !important;
+  }
+
+  .application-admin-save-area button {
+    min-height: 46px !important;
+    font-size: 14px !important;
+  }
+}

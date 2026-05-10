@@ -1,0 +1,35 @@
+/* =========================================================
+   Message / Empty
+========================================================= */
+
+.system-admin-message {
+  margin: 0 0 14px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  color: #9a3412;
+  font-size: 13px;
+  line-height: 1.5;
+  font-weight: 800;
+}
+
+.system-admin-empty {
+  padding: 24px;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1px solid rgba(120, 40, 30, 0.1);
+  box-shadow: 0 8px 18px rgba(80, 20, 10, 0.06);
+  text-align: center;
+  color: #6b5b54;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.system-admin-empty-row {
+  padding: 18px;
+  color: #6b5b54;
+  font-size: 14px;
+  font-weight: 800;
+  text-align: center;
+}

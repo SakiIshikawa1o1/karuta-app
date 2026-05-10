@@ -1,0 +1,144 @@
+/* =========================================================
+   Tournament Detail Summary Layout Fix
+   - 上のボックスを少し下げる
+   - 受付中をボックス内の一番上に配置
+   - 開催日 → 会場の順番で表示
+========================================================= */
+
+/* 上部の白いボックスを少し下へ */
+.tournament-detail-summary-card {
+  margin-top: -4px !important;
+}
+
+/* 受付中ラベルを一番上に置く */
+.tournament-detail-status-top {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 7px;
+}
+
+/* 受付中ラベルを少しだけ小さめに */
+.tournament-detail-status-top .detail-status-pill {
+  min-width: 50px;
+  min-height: 19px;
+  padding: 0 8px;
+  font-size: 9.5px;
+}
+
+/* 大会名との余白調整 */
+.tournament-detail-summary-card h1 {
+  margin: 0 0 9px !important;
+}
+
+/* 開催日 → 会場を縦に並べる */
+.tournament-detail-summary-meta {
+  display: grid;
+  gap: 6px;
+}
+
+/* 開催日・会場の1行 */
+.detail-summary-meta-row {
+  display: grid;
+  grid-template-columns: 18px 42px 1fr;
+  align-items: center;
+  gap: 5px;
+}
+
+/* アイコンを小さく */
+.detail-summary-icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* 既存の人物アイコン風の疑似要素を消す */
+.detail-summary-icon::before,
+.detail-summary-icon::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* 開催日アイコン */
+.detail-summary-icon-date {
+  background: #fff1f1;
+  color: #d82035;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+/* 会場アイコン */
+.detail-summary-icon-venue {
+  background: #d82035;
+  color: #d82035;
+  font-size: 0;
+  position: relative;
+}
+
+.detail-summary-icon-venue::before {
+  content: "";
+  display: block !important;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #fff;
+  position: absolute;
+  top: 4px;
+  left: 5px;
+}
+
+.detail-summary-icon-venue::after {
+  content: "";
+  display: block !important;
+  width: 8px;
+  height: 5px;
+  border-radius: 999px 999px 4px 4px;
+  background: #fff;
+  position: absolute;
+  bottom: 3px;
+  left: 4px;
+}
+
+/* ラベル */
+.detail-summary-meta-row span {
+  font-size: 10px;
+  font-weight: 900;
+}
+
+/* 値 */
+.detail-summary-meta-row strong {
+  font-size: 11px;
+  line-height: 1.25;
+  font-weight: 800;
+}
+
+/* スマホ微調整 */
+@media (max-width: 480px) {
+  .tournament-detail-summary-card {
+    margin-top: -2px !important;
+  }
+
+  .tournament-detail-status-top {
+    margin-bottom: 6px;
+  }
+
+  .tournament-detail-summary-card h1 {
+    margin-bottom: 8px !important;
+  }
+
+  .tournament-detail-summary-meta {
+    gap: 5px;
+  }
+
+  .detail-summary-meta-row {
+    grid-template-columns: 17px 50px 1fr;
+    gap: 5px;
+  }
+
+  .detail-summary-meta-row span {
+    font-size: 13px;
+  }
+
+  .detail-summary-meta-row strong {
+    font-size: 15px;
+  }
+}

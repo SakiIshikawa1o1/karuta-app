@@ -1,0 +1,115 @@
+/* =========================================================
+   Affiliations
+========================================================= */
+
+.system-admin-affiliation-table {
+  overflow-x: auto !important;
+  border: 1px solid rgba(120, 40, 30, 0.12) !important;
+  border-radius: 12px !important;
+  background: #ffffff !important;
+}
+
+.system-admin-affiliation-head,
+.system-admin-affiliation-row {
+  display: grid !important;
+  grid-template-columns: 1.3fr 1fr 0.6fr 80px !important;
+  align-items: center !important;
+  gap: 8px !important;
+  min-width: 640px !important;
+}
+
+.system-admin-affiliation-head {
+  min-height: 38px !important;
+  padding: 0 12px !important;
+  background: #fff7ec !important;
+  color: #c92312 !important;
+  font-size: 11px !important;
+  font-weight: 900 !important;
+}
+
+.system-admin-affiliation-row {
+  min-height: 52px !important;
+  padding: 0 12px !important;
+  border-top: 1px solid rgba(120, 40, 30, 0.08) !important;
+  color: #251713 !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+
+.system-admin-affiliation-row strong {
+  font-size: 12px !important;
+  font-weight: 900 !important;
+}
+
+/* 所属会アイコンを消す */
+.system-admin-affiliation-icon {
+  display: none !important;
+}
+
+.system-admin-affiliation-row select,
+.system-admin-affiliation-row input {
+  width: 100% !important;
+  height: 32px !important;
+  border: 1px solid rgba(120, 40, 30, 0.16) !important;
+  border-radius: 7px !important;
+  background: #ffffff !important;
+  padding: 0 8px !important;
+  color: #251713 !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+}
+
+.system-admin-affiliation-row button {
+  min-height: 30px !important;
+  border: 1px solid rgba(200, 30, 47, 0.18) !important;
+  border-radius: 999px !important;
+  background: #ffffff !important;
+  color: var(--red) !important;
+  font-size: 11px !important;
+  font-weight: 900 !important;
+  cursor: pointer !important;
+}
+
+.system-admin-affiliation-form {
+  display: grid !important;
+  grid-template-columns: 1.2fr 1fr 0.7fr !important;
+  gap: 8px !important;
+  margin-top: 12px !important;
+}
+
+.system-admin-affiliation-form input,
+.system-admin-affiliation-form select {
+  height: 36px !important;
+  border: 1px solid rgba(120, 40, 30, 0.16) !important;
+  border-radius: 8px !important;
+  padding: 0 10px !important;
+  background: #ffffff !important;
+  color: #251713 !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+
+/* 所属会追加ボタンを入力欄の下に配置 */
+.system-admin-main-button.compact {
+  width: 100% !important;
+  min-height: 42px !important;
+  margin-top: 12px !important;
+  border: none !important;
+  border-radius: 10px !important;
+  background: linear-gradient(135deg, #e63212, #d71706) !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 18px rgba(215, 23, 6, 0.16) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 9px !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.05em !important;
+  cursor: pointer !important;
+}
+
+.system-admin-main-button.compact svg {
+  width: 18px !important;
+  height: 18px !important;
+}

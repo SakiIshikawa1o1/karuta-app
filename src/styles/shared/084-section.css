@@ -1,0 +1,228 @@
+/* =========================================================
+   申込状況ページ：カード表示調整
+   - 開催場所、級、個人戦などは非表示
+   - 大会名を大きく
+   - ステータスを大きく
+   - 開催日を分かりやすく大きく
+========================================================= */
+
+.application-status-list {
+  display: grid;
+  gap: 10px;
+}
+
+.application-status-card {
+  min-height: 84px;
+  padding: 12px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(120, 40, 30, 0.1);
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 6px 14px rgba(80, 20, 10, 0.055);
+
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+
+  cursor: pointer;
+  transition:
+    transform 0.14s ease,
+    box-shadow 0.14s ease,
+    border-color 0.14s ease;
+}
+
+.application-status-card:hover {
+  transform: translateY(-1px);
+  border-color: rgba(200, 30, 47, 0.24);
+  box-shadow: 0 8px 18px rgba(80, 20, 10, 0.08);
+}
+
+.application-status-card-main {
+  min-width: 0;
+}
+
+.application-status-card-main h2 {
+  margin: 0 0 8px;
+  color: #1f2937;
+  font-size: 18px;
+  line-height: 1.35;
+  font-weight: 900;
+  letter-spacing: 0.03em;
+}
+
+/* ステータスと開催日を並べる */
+.application-status-card-info-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* 申込済みなどのステータス */
+.application-status-pill {
+  min-height: 26px;
+  padding: 0 12px;
+  border-radius: 999px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #fff;
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.application-status-pill.status-applied {
+  background: #1f5fbf;
+}
+
+.application-status-pill.status-lottery {
+  background: #f59e0b;
+}
+
+.application-status-pill.status-selected {
+  background: #d91f2f;
+}
+
+.application-status-pill.status-not-selected {
+  background: #6b7280;
+}
+
+.application-status-pill.status-confirmed,
+.application-status-pill.status-paid {
+  background: #0f9f6e;
+}
+
+/* 開催日ブロック */
+.application-status-date-block {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.application-status-date-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 24px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: #fff1ed;
+  color: var(--red-dark);
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.application-status-date-value {
+  color: #111827;
+  font-size: 15px;
+  line-height: 1.4;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.application-status-card-side {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.application-status-cancel {
+  min-width: 42px;
+  min-height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid #fecaca;
+  background: #fff;
+  color: #dc2626;
+  font-size: 10px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.application-status-chevron {
+  color: var(--red);
+  font-size: 28px;
+  line-height: 1;
+  font-weight: 800;
+  transform: translateY(-1px);
+}
+
+/* スマホ */
+@media (max-width: 768px) {
+  .application-status-card {
+    min-height: 78px;
+    padding: 11px 10px;
+  }
+
+  .application-status-card-main h2 {
+    font-size: 16px;
+    margin-bottom: 7px;
+  }
+
+  .application-status-card-info-row {
+    gap: 8px;
+  }
+
+  .application-status-pill {
+    min-height: 24px;
+    padding: 0 10px;
+    font-size: 11px;
+  }
+
+  .application-status-date-label {
+    min-height: 22px;
+    padding: 0 8px;
+    font-size: 10px;
+  }
+
+  .application-status-date-value {
+    font-size: 13px;
+  }
+
+  .application-status-cancel {
+    min-width: 38px;
+    min-height: 26px;
+    font-size: 9.5px;
+  }
+
+  .application-status-chevron {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .application-status-card {
+    grid-template-columns: 1fr 44px;
+    padding: 10px 9px;
+  }
+
+  .application-status-card-main h2 {
+    font-size: 15px;
+  }
+
+  .application-status-card-info-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .application-status-pill {
+    font-size: 10.5px;
+  }
+
+  .application-status-date-value {
+    font-size: 12.5px;
+    white-space: normal;
+  }
+
+  .application-status-cancel {
+    display: none;
+  }
+}

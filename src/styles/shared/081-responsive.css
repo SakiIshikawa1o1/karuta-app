@@ -1,0 +1,135 @@
+/* =========================================================
+   Responsive
+========================================================= */
+
+@media (max-width: 768px) {
+  .application-status-page {
+    padding: 0 12px 44px;
+  }
+
+  .application-status-hero {
+    margin: 0 -12px 14px;
+    min-height: 100px;
+    padding: 20px 18px;
+    background-position: center right;
+  }
+
+  .application-status-hero-copy h1 {
+    font-size: 24px;
+  }
+
+  .application-status-hero-copy span {
+    font-size: 10px;
+    line-height: 1.5;
+  }
+
+  .application-status-tabs {
+    gap: 6px;
+    margin-bottom: 8px;
+    transform: translateY(-4px);
+  }
+
+  .application-status-tabs button {
+    min-height: 32px;
+    padding: 0 5px;
+  }
+
+  .application-status-tabs button span {
+    font-size: 11px;
+  }
+
+  .application-status-tabs button strong {
+    min-width: 18px;
+    height: 18px;
+    font-size: 10px;
+  }
+
+  .application-status-filter-button {
+    min-height: 40px;
+    font-size: 12.5px;
+  }
+
+  .application-status-filter-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .application-status-list {
+    gap: 6px;
+  }
+
+  .application-status-card {
+    min-height: 56px;
+    padding: 8px;
+  }
+
+  .application-status-card-main h2 {
+    font-size: 14px;
+  }
+
+  .application-status-pill {
+    font-size: 8.5px;
+    min-height: 17px;
+    padding: 0 6px;
+  }
+
+  .application-status-date,
+  .application-status-sub-meta span {
+    font-size: 10px;
+  }
+
+  .application-status-sub-meta small {
+    font-size: 9px;
+  }
+
+  .application-status-cancel {
+    min-width: 36px;
+    min-height: 24px;
+    font-size: 9.5px;
+  }
+
+  .application-status-chevron {
+    font-size: 22px;
+  }
+
+  .application-status-footer-note {
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .application-status-hero {
+    min-height: 94px;
+    padding: 18px 16px;
+  }
+
+  .application-status-hero-copy h1 {
+    font-size: 22px;
+  }
+
+  .application-status-card {
+    grid-template-columns: 1fr 44px;
+  }
+
+  .application-status-card-main h2 {
+    font-size: 13.5px;
+  }
+
+  .application-status-date,
+  .application-status-sub-meta span {
+    font-size: 9.5px;
+  }
+
+  .application-status-sub-meta small {
+    font-size: 8.8px;
+  }
+
+  .application-status-card-side {
+    justify-content: flex-end;
+  }
+
+  .application-status-cancel {
+    display: none;
+  }
+}

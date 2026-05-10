@@ -58,17 +58,14 @@ function formatDate(value) {
 }
 
 function normalizeNotice(notice) {
+  const label = notice.label || "お知らせ";
   return {
     id: notice.id,
     date: formatDate(getNoticeDate(notice)),
-    tag: notice.tag || notice.category || "お知らせ",
-    important: Boolean(notice.important || notice.is_important),
-    title: notice.title || notice.subject || "タイトル未設定",
-    body:
-      notice.body ||
-      notice.content ||
-      notice.description ||
-      "お知らせの本文は登録されていません。",
+    tag: label,
+    important: label === "重要",
+    title: notice.title || "タイトル未設定",
+    body: notice.body || "お知らせの本文は登録されていません。",
   };
 }
 
@@ -87,8 +84,10 @@ export default function NoticesPage() {
       setFetchError("");
 
       const { data, error } = await supabase
-        .from("announcements")
-        .select("*");
+        .from("notices")
+        .select("id, title, body, label, is_published, published_at, created_at")
+        .eq("is_published", true)
+        .order("published_at", { ascending: false });
 
       if (!mounted) return;
 

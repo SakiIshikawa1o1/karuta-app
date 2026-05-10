@@ -1,0 +1,123 @@
+/* =========================================================
+   Tournament Admin Hero = Application Admin Hero
+   大会管理ページのヒーローを申込管理ページと同じにする
+========================================================= */
+
+.tournament-admin-page {
+  max-width: 960px !important;
+  margin: 0 auto !important;
+  padding: 0 28px 44px !important;
+  min-height: 100dvh !important;
+}
+
+/* 申込管理ページと同じヒーロー */
+.tournament-admin-hero {
+  position: relative !important;
+  margin: 0 -28px 16px !important;
+  min-height: 115px !important;
+  padding: 22px 34px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+  overflow: hidden !important;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 253, 249, 0.98) 0%,
+      rgba(255, 253, 249, 0.92) 38%,
+      rgba(255, 253, 249, 0.5) 62%,
+      rgba(255, 253, 249, 0.08) 100%
+    ),
+    var(--hero-image) !important;
+
+  background-size: cover !important;
+  background-position: center right !important;
+  background-repeat: no-repeat !important;
+  border-bottom: 1px solid rgba(190, 40, 34, 0.1) !important;
+}
+
+/* 既存の大きいヒーロー装飾を消す */
+.tournament-admin-hero::before,
+.tournament-admin-hero::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* 申込管理ページと同じくらいのアイコン */
+.tournament-admin-hero-icon {
+  width: 48px !important;
+  height: 48px !important;
+  flex: 0 0 auto !important;
+  border-radius: 999px !important;
+  background: #fff7ee !important;
+  border: 1px solid rgba(200, 30, 47, 0.12) !important;
+  color: #d8321f !important;
+
+  display: grid !important;
+  place-items: center !important;
+}
+
+.tournament-admin-hero-icon svg {
+  width: 25px !important;
+  height: 25px !important;
+}
+
+/* 大会管理の文字 */
+.tournament-admin-hero h1 {
+  margin: 0 !important;
+  color: #2b150e !important;
+  font-family:
+    "Yu Mincho",
+    "YuMincho",
+    "Hiragino Mincho ProN",
+    serif !important;
+  font-size: 30px !important;
+  line-height: 1.2 !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.06em !important;
+}
+
+/* 説明文 */
+.tournament-admin-hero p {
+  margin: 8px 0 0 !important;
+  color: #2b150e !important;
+  max-width: 520px !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+}
+
+/* スマホ */
+@media (max-width: 768px) {
+  .tournament-admin-page {
+    padding: 0 12px 36px !important;
+  }
+
+  .tournament-admin-hero {
+    margin: 0 -12px 12px !important;
+    min-height: 96px !important;
+    padding: 18px 18px !important;
+    gap: 12px !important;
+  }
+
+  .tournament-admin-hero-icon {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .tournament-admin-hero-icon svg {
+    width: 22px !important;
+    height: 22px !important;
+  }
+
+  .tournament-admin-hero h1 {
+    font-size: 24px !important;
+  }
+
+  .tournament-admin-hero p {
+    margin-top: 6px !important;
+    font-size: 11px !important;
+  }
+}

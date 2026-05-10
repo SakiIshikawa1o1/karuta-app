@@ -1,0 +1,400 @@
+/* =========================================================
+   Signup Page
+   新規登録画面
+   - logo.png 使用
+   - 背景モミジなし
+   - 赤い外枠なし
+========================================================= */
+
+.signup-page {
+  min-height: 100dvh;
+  background: linear-gradient(180deg, #fffdfc 0%, #fff8f5 100%);
+  padding: 0;
+}
+
+.signup-shell {
+  position: relative;
+  width: 100%;
+  max-width: 430px;
+  min-height: 100dvh;
+  margin: 0 auto;
+  overflow: hidden;
+  border: none;
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.signup-inner {
+  position: relative;
+  z-index: 2;
+  padding: 28px 28px 34px;
+}
+
+.signup-back-button {
+  position: absolute;
+  top: 20px;
+  left: 22px;
+  z-index: 5;
+  width: 34px;
+  height: 34px;
+  border: none;
+  background: transparent;
+  color: #111;
+  font-size: 42px;
+  line-height: 1;
+  font-weight: 300;
+  cursor: pointer;
+}
+
+/* 上部 */
+.signup-brand {
+  text-align: center;
+  padding-top: 18px;
+  margin-bottom: 22px;
+}
+
+.signup-brand-logo {
+  width: 86px;
+  height: 86px;
+  margin: 0 auto 10px;
+  display: grid;
+  place-items: center;
+}
+
+.signup-brand-logo img {
+  width: 86px;
+  height: 86px;
+  object-fit: contain;
+  display: block;
+}
+
+.signup-brand h1 {
+  margin: 0;
+  color: #1f1f1f;
+  font-size: 30px;
+  line-height: 1.2;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.signup-brand p {
+  margin: 8px 0 0;
+  color: #333;
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+/* フォーム */
+.signup-form {
+  position: relative;
+}
+
+.signup-error-text {
+  margin: 0 0 14px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #fff1f1;
+  border: 1px solid #ffc9c9;
+  color: #cc0012;
+  font-size: 12px;
+  line-height: 1.5;
+  font-weight: 700;
+}
+
+.signup-field {
+  margin-bottom: 17px;
+}
+
+.signup-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  color: #111;
+  font-size: 16px;
+  line-height: 1.3;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.signup-label-icon {
+  width: 25px;
+  height: 25px;
+  color: #111;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.signup-label-icon svg {
+  width: 25px;
+  height: 25px;
+}
+
+.signup-field input,
+.signup-field select,
+.signup-password-wrap {
+  width: 100%;
+  height: 54px;
+  border: 1.5px solid #d6d6d6;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.94);
+  color: #222;
+  font-size: 14px;
+  line-height: 1.2;
+  font-weight: 500;
+}
+
+.signup-field input,
+.signup-field select {
+  padding: 0 16px;
+}
+
+.signup-field input::placeholder {
+  color: #a0a0a0;
+}
+
+.signup-select-wrap {
+  position: relative;
+}
+
+.signup-select-wrap select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 44px;
+  color: #222;
+}
+
+.signup-select-wrap::after {
+  content: "⌄";
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  transform: translateY(-58%);
+  color: #111;
+  font-size: 24px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.signup-password-wrap {
+  display: flex;
+  align-items: center;
+  padding: 0 8px 0 16px;
+}
+
+.signup-password-wrap input {
+  height: 100%;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  flex: 1;
+}
+
+.signup-password-wrap button {
+  width: 38px;
+  height: 38px;
+  border: none;
+  background: transparent;
+  color: #111;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+.signup-password-wrap button svg {
+  width: 25px;
+  height: 25px;
+}
+
+/* 同意チェック */
+.signup-agree {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 4px 0 18px;
+  color: #222;
+  font-size: 13px;
+  line-height: 1.7;
+  font-weight: 700;
+}
+
+.signup-agree input {
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  accent-color: #d60012;
+  flex: 0 0 auto;
+}
+
+.signup-agree span {
+  display: inline;
+}
+
+.signup-agree button {
+  border: none;
+  background: transparent;
+  color: #d60012;
+  padding: 0 3px;
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+/* ボタン */
+.signup-primary-button {
+  width: 100%;
+  min-height: 56px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #e60012 0%, #c90012 100%);
+  color: #fff;
+  box-shadow: 0 10px 20px rgba(218, 0, 18, 0.16);
+  font-size: 17px;
+  line-height: 1.2;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}
+
+.signup-primary-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* ログイン誘導 */
+.signup-login-guide {
+  text-align: center;
+  margin-top: 22px;
+  padding-bottom: 42px;
+}
+
+.signup-login-guide p {
+  margin: 0 0 9px;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.5;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.signup-login-guide button {
+  border: none;
+  background: transparent;
+  color: #d60012;
+  padding: 0;
+  font-size: 16px;
+  line-height: 1.4;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+
+/* 下の青海波風背景 */
+.signup-wave-bg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 180px;
+  opacity: 0.2;
+  background:
+    radial-gradient(circle at 24px 24px, transparent 22px, rgba(220, 50, 50, 0.14) 22px, rgba(220, 50, 50, 0.14) 24px, transparent 24px) 0 0 / 48px 24px repeat,
+    radial-gradient(circle at 24px 24px, transparent 22px, rgba(220, 50, 50, 0.14) 22px, rgba(220, 50, 50, 0.14) 24px, transparent 24px) 24px 12px / 48px 24px repeat;
+  pointer-events: none;
+}
+
+/* スマホ */
+@media (max-width: 480px) {
+  .signup-inner {
+    padding: 24px 22px 30px;
+  }
+
+  .signup-back-button {
+    top: 16px;
+    left: 16px;
+    font-size: 38px;
+  }
+
+  .signup-brand {
+    padding-top: 16px;
+    margin-bottom: 20px;
+  }
+
+  .signup-brand-logo {
+    width: 76px;
+    height: 76px;
+    margin-bottom: 8px;
+  }
+
+  .signup-brand-logo img {
+    width: 76px;
+    height: 76px;
+  }
+
+  .signup-brand h1 {
+    font-size: 27px;
+  }
+
+  .signup-brand p {
+    font-size: 13px;
+  }
+
+  .signup-field {
+    margin-bottom: 15px;
+  }
+
+  .signup-label {
+    font-size: 15px;
+  }
+
+  .signup-label-icon,
+  .signup-label-icon svg {
+    width: 23px;
+    height: 23px;
+  }
+
+  .signup-field input,
+  .signup-field select,
+  .signup-password-wrap {
+    height: 50px;
+    border-radius: 13px;
+    font-size: 13px;
+  }
+
+  .signup-primary-button {
+    min-height: 52px;
+    font-size: 16px;
+  }
+}
+
+.header-login-button {
+  border: none;
+  background: transparent;
+  color: var(--red-dark);
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.header-login-button {
+  min-height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(200, 30, 47, 0.24);
+  background: #fff;
+  color: var(--red-dark);
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.header-login-button:hover {
+  background: #fff1ed;
+}

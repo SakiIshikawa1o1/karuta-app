@@ -1,0 +1,119 @@
+/* =========================================================
+   Affiliations
+========================================================= */
+
+.system-admin-affiliation-table {
+  border: 1px solid rgba(120, 40, 30, 0.12);
+  border-radius: 12px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.system-admin-affiliation-head,
+.system-admin-affiliation-row {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 0.7fr 116px;
+  align-items: center;
+  gap: 10px;
+}
+
+.system-admin-affiliation-head {
+  min-height: 42px;
+  padding: 0 16px;
+  background: #fff7ec;
+  color: #c92312;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.system-admin-affiliation-row {
+  min-height: 68px;
+  padding: 0 16px;
+  border-top: 1px solid rgba(120, 40, 30, 0.08);
+  color: #251713;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.system-admin-affiliation-row > div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.system-admin-affiliation-row strong {
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.system-admin-affiliation-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+}
+
+.system-admin-affiliation-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.system-admin-affiliation-icon.color-0 {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.system-admin-affiliation-icon.color-1 {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.system-admin-affiliation-icon.color-2 {
+  background: #ffedd5;
+  color: #ea580c;
+}
+
+.system-admin-affiliation-icon.color-3 {
+  background: #f3e8ff;
+  color: #7e22ce;
+}
+
+.system-admin-affiliation-row button {
+  min-height: 34px;
+  border: 1px solid rgba(200, 30, 47, 0.18);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--red);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.system-admin-affiliation-row button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.system-admin-affiliation-form {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 0.7fr;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.system-admin-affiliation-form input {
+  height: 40px;
+  border: 1px solid rgba(120, 40, 30, 0.16);
+  border-radius: 8px;
+  padding: 0 12px;
+  background: #ffffff;
+  color: #251713;
+  font-size: 13px;
+  font-weight: 600;
+}

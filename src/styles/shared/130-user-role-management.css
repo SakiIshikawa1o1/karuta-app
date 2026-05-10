@@ -1,0 +1,118 @@
+/* =========================================================
+   User Role Management
+========================================================= */
+
+.system-admin-search-row {
+  margin-bottom: 10px !important;
+}
+
+.system-admin-search-row input {
+  width: 100% !important;
+  height: 38px !important;
+  border: 1px solid rgba(120, 40, 30, 0.16) !important;
+  border-radius: 9px !important;
+  background: #ffffff !important;
+  padding: 0 12px !important;
+  color: #251713 !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+}
+
+.system-admin-table-wrap {
+  overflow-x: auto !important;
+  border: 1px solid rgba(120, 40, 30, 0.12) !important;
+  border-radius: 12px !important;
+  background: #ffffff !important;
+}
+
+.system-admin-user-table {
+  width: 100% !important;
+  min-width: 680px !important;
+  border-collapse: collapse !important;
+}
+
+.system-admin-user-table th {
+  height: 40px !important;
+  background: #fff7ec !important;
+  color: #251713 !important;
+  font-size: 12px !important;
+  font-weight: 900 !important;
+  text-align: center !important;
+  border-bottom: 1px solid rgba(120, 40, 30, 0.12) !important;
+}
+
+.system-admin-user-table td {
+  height: 58px !important;
+  padding: 0 10px !important;
+  border-bottom: 1px solid rgba(120, 40, 30, 0.08) !important;
+  color: #251713 !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+
+.system-admin-user-table tr:last-child td {
+  border-bottom: none !important;
+}
+
+.system-admin-user-cell {
+  display: block !important;
+}
+
+.system-admin-user-cell strong {
+  display: block !important;
+  color: #251713 !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+}
+
+.system-admin-user-cell span {
+  display: block !important;
+  margin-top: 3px !important;
+  color: #4b3b35 !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+}
+
+/* ユーザーアイコンを消す */
+.system-admin-user-avatar {
+  display: none !important;
+}
+
+.system-admin-user-table select {
+  min-width: 150px !important;
+  height: 34px !important;
+  border: 1px solid rgba(120, 40, 30, 0.18) !important;
+  border-radius: 8px !important;
+  background: #ffffff !important;
+  color: #251713 !important;
+  padding: 0 10px !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+}
+
+/* 三点リーダーを消す */
+.system-admin-icon-button {
+  display: none !important;
+}
+
+/* 更新ボタン */
+.system-admin-update-button {
+  min-width: 58px !important;
+  min-height: 32px !important;
+  border: 1px solid rgba(200, 30, 47, 0.22) !important;
+  border-radius: 999px !important;
+  background: #ffffff !important;
+  color: var(--red) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 12px !important;
+  line-height: 1 !important;
+  font-weight: 900 !important;
+  cursor: pointer !important;
+}
+
+/* 新規ユーザー追加ボタンを消す */
+.system-admin-panel > .system-admin-main-button:not(.compact) {
+  display: none !important;
+}

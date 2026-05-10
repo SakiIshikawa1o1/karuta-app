@@ -1,0 +1,40 @@
+/* =========================================================
+   Home tournament detail button text size
+   ホームページ大会カードの「詳細を見る」を大きくする
+========================================================= */
+
+.home-tournament-card .outline-detail-button {
+  font-size: 14px !important;
+  font-weight: 800 !important;
+  min-height: 36px !important;
+}
+
+/* 「詳細を見る」の右の ＞ も少し大きくする */
+.home-tournament-card .outline-detail-button span {
+  font-size: 18px !important;
+  transform: translateY(-2px) !important;
+}
+
+/* スマホ表示 */
+@media (max-width: 768px) {
+  .home-tournament-card .outline-detail-button {
+    font-size: 13px !important;
+    min-height: 34px !important;
+  }
+
+  .home-tournament-card .outline-detail-button span {
+    font-size: 17px !important;
+  }
+}
+
+/* 小さいスマホ表示 */
+@media (max-width: 480px) {
+  .home-tournament-card .outline-detail-button {
+    font-size: 12.5px !important;
+    min-height: 33px !important;
+  }
+
+  .home-tournament-card .outline-detail-button span {
+    font-size: 16px !important;
+  }
+}

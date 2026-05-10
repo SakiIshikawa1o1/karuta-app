@@ -1,0 +1,87 @@
+/* =========================================================
+   申込状況ページ：操作ボタン追加
+========================================================= */
+
+.application-status-card-side {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.application-status-action-button {
+  min-height: 30px !important;
+  padding: 0 10px !important;
+  border-radius: 999px !important;
+  background: #ffffff !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  font-size: 11px !important;
+  line-height: 1 !important;
+  font-weight: 900 !important;
+  white-space: nowrap !important;
+  cursor: pointer !important;
+}
+
+.application-status-action-button.cancel {
+  border: 1px solid #fecaca !important;
+  color: #dc2626 !important;
+}
+
+.application-status-action-button.paid {
+  border: 1px solid #86efac !important;
+  color: #15803d !important;
+}
+
+.application-status-action-button.back-unpaid {
+  border: 1px solid #fed7aa !important;
+  color: #c2410c !important;
+}
+
+.application-status-pill.status-cancelled {
+  background: #6b7280 !important;
+}
+
+.application-status-pill.status-lottery {
+  background: #f59e0b !important;
+}
+
+.application-status-pill.status-not-selected {
+  background: #6b7280 !important;
+}
+
+.application-status-pill.status-selected {
+  background: #d91f2f !important;
+}
+
+.application-status-pill.status-paid {
+  background: #0f9f6e !important;
+}
+
+.application-status-pill.status-payment-checking {
+  background: #f59e0b !important;
+}
+
+.application-status-pill.status-payment-confirmed {
+  background: #0f9f6e !important;
+}
+
+@media (max-width: 480px) {
+  .application-status-card-side {
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    gap: 4px !important;
+  }
+
+  .application-status-action-button {
+    min-height: 26px !important;
+    padding: 0 8px !important;
+    font-size: 9.5px !important;
+  }
+
+  .application-status-action-button.back-unpaid {
+    font-size: 8.5px !important;
+  }
+}

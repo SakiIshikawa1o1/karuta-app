@@ -1,0 +1,615 @@
+/* =========================================================
+   Application Admin Page
+   申し込み管理ページ
+========================================================= */
+
+.application-admin-page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 32px 88px;
+  min-height: 100dvh;
+  color: #26140f;
+}
+
+/* ヒーロー */
+.application-admin-hero {
+  position: relative;
+  margin: 0 -32px 18px;
+  min-height: 210px;
+  padding: 52px 56px 34px;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  overflow: hidden;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 253, 249, 0.96) 0%,
+      rgba(255, 250, 244, 0.92) 48%,
+      rgba(255, 247, 236, 0.65) 72%,
+      rgba(255, 247, 236, 0.32) 100%
+    ),
+    radial-gradient(circle at 90% 20%, rgba(230, 100, 20, 0.18), transparent 24%),
+    linear-gradient(135deg, #fffdf9 0%, #fff2df 100%);
+  border-bottom: 1px solid rgba(190, 40, 34, 0.1);
+}
+
+.application-admin-hero::after {
+  content: "🍁";
+  position: absolute;
+  right: 56px;
+  top: 26px;
+  font-size: 98px;
+  opacity: 0.42;
+  transform: rotate(12deg);
+}
+
+.application-admin-hero-icon {
+  position: relative;
+  z-index: 1;
+  width: 88px;
+  height: 88px;
+  border-radius: 999px;
+  background: #fff7ee;
+  border: 1px solid rgba(200, 30, 47, 0.12);
+  color: #d8321f;
+  display: grid;
+  place-items: center;
+}
+
+.application-admin-hero-icon svg {
+  width: 46px;
+  height: 46px;
+}
+
+.application-admin-hero h1 {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: #2b150e;
+  font-family:
+    "Yu Mincho",
+    "YuMincho",
+    "Hiragino Mincho ProN",
+    serif;
+  font-size: 50px;
+  line-height: 1.25;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.application-admin-hero p {
+  position: relative;
+  z-index: 1;
+  margin: 24px 0 0;
+  color: #2b150e;
+  font-size: 20px;
+  line-height: 1.7;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+/* 共通パネル */
+.application-admin-panel {
+  margin-top: 18px;
+  padding: 28px 30px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(120, 40, 30, 0.1);
+  box-shadow: 0 10px 24px rgba(80, 20, 10, 0.065);
+}
+
+.application-admin-panel h2 {
+  margin: 0 0 18px;
+  color: #2b150e;
+  font-size: 24px;
+  line-height: 1.3;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+/* メッセージ */
+.application-admin-message {
+  margin: 14px 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  color: #9a3412;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+/* 大会選択 */
+.application-admin-tournament-select {
+  position: relative;
+  min-height: 76px;
+  border: 1.5px solid rgba(120, 40, 30, 0.2);
+  border-radius: 10px;
+  background: #fff;
+  display: grid;
+  grid-template-columns: 54px 1fr;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.application-admin-select-icon {
+  color: #d8321f;
+  display: grid;
+  place-items: center;
+}
+
+.application-admin-select-icon svg {
+  width: 34px;
+  height: 34px;
+}
+
+.application-admin-tournament-select select {
+  width: 100%;
+  height: 72px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #2b150e;
+  font-size: 21px;
+  line-height: 1.3;
+  font-weight: 900;
+  appearance: auto;
+}
+
+.application-admin-selected-meta {
+  margin: 8px 0 0 70px;
+  color: #3b241c;
+  font-size: 17px;
+  line-height: 1.5;
+  font-weight: 700;
+}
+
+.application-admin-export-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 22px;
+}
+
+.application-admin-export-row button {
+  min-width: 260px;
+  min-height: 52px;
+  border-radius: 8px;
+  border: 1.5px solid #e0311b;
+  background: #fff;
+  color: #2b150e;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.application-admin-export-row button span {
+  color: #e0311b;
+  font-size: 26px;
+}
+
+/* 検索 */
+.search-panel-modern {
+  padding-top: 26px;
+}
+
+.application-admin-section-title {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 22px;
+  color: #d8321f;
+}
+
+.application-admin-section-title svg {
+  width: 42px;
+  height: 42px;
+}
+
+.application-admin-section-title h2 {
+  margin: 0;
+  color: #2b150e;
+  font-size: 28px;
+}
+
+.application-admin-search-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+.application-admin-search-grid label {
+  color: #2b150e;
+  font-size: 15px;
+  line-height: 1.4;
+  font-weight: 800;
+}
+
+.application-admin-input-with-icon {
+  height: 54px;
+  margin-top: 10px;
+  border: 1.5px solid rgba(120, 40, 30, 0.2);
+  border-radius: 8px;
+  background: #fff;
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.application-admin-input-with-icon svg {
+  width: 26px;
+  height: 26px;
+  color: #2b150e;
+}
+
+.application-admin-kana-icon {
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  color: #2b150e;
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.application-admin-input-with-icon input {
+  width: 100%;
+  height: 50px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #2b150e;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.application-admin-input-with-icon input::placeholder {
+  color: #9ca3af;
+}
+
+.application-admin-search-button {
+  width: 100%;
+  min-height: 64px;
+  margin-top: 24px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #e62b12, #cf170b);
+  color: #fff;
+  box-shadow: 0 10px 22px rgba(200, 30, 20, 0.18);
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.application-admin-search-button svg {
+  width: 34px;
+  height: 34px;
+}
+
+.application-admin-clear-row {
+  display: flex;
+  justify-content: flex-end;
+  margin: 18px 0 20px;
+}
+
+.application-admin-clear-row button {
+  min-width: 210px;
+  min-height: 42px;
+  border-radius: 8px;
+  border: 1px solid rgba(120, 40, 30, 0.2);
+  background: #fff;
+  color: #4b3a34;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* テーブル */
+.application-admin-table-card {
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid rgba(120, 40, 30, 0.12);
+  background: #fff;
+}
+
+.application-admin-table-scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.application-admin-table {
+  width: 100%;
+  min-width: 780px;
+  border-collapse: collapse;
+}
+
+.application-admin-table th {
+  height: 56px;
+  background: #fff3e9;
+  border-right: 1px solid rgba(120, 40, 30, 0.12);
+  border-bottom: 1px solid rgba(120, 40, 30, 0.12);
+  color: #2b150e;
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.application-admin-table th:last-child {
+  border-right: none;
+}
+
+.application-admin-table td {
+  height: 64px;
+  padding: 0 16px;
+  border-right: 1px solid rgba(120, 40, 30, 0.08);
+  border-bottom: 1px solid rgba(120, 40, 30, 0.08);
+  color: #2b150e;
+  font-size: 17px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.application-admin-table td:last-child {
+  border-right: none;
+}
+
+.application-admin-table tr:last-child td {
+  border-bottom: none;
+}
+
+.application-admin-table tr.is-changed td {
+  background: #fffdf2;
+}
+
+/* ステータスセレクト */
+.application-admin-status-select {
+  width: 150px;
+  height: 42px;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 15px;
+  font-weight: 900;
+  text-align: center;
+  cursor: pointer;
+}
+
+.application-admin-status-select.status-applied {
+  border: 1.5px solid #86efac;
+  color: #15803d;
+  background: #f0fdf4;
+}
+
+.application-admin-status-select.status-lottery,
+.application-admin-status-select.status-payment-checking {
+  border: 1.5px solid #facc15;
+  color: #b45309;
+  background: #fffbeb;
+}
+
+.application-admin-status-select.status-not-selected,
+.application-admin-status-select.status-cancelled {
+  border: 1.5px solid #d1d5db;
+  color: #4b5563;
+  background: #f9fafb;
+}
+
+.application-admin-status-select.status-selected {
+  border: 1.5px solid #fca5a5;
+  color: #dc2626;
+  background: #fff1f2;
+}
+
+.application-admin-status-select.status-paid,
+.application-admin-status-select.status-payment-confirmed {
+  border: 1.5px solid #93c5fd;
+  color: #1d4ed8;
+  background: #eff6ff;
+}
+
+.application-admin-table-note {
+  min-height: 46px;
+  color: #7a675c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.application-admin-table-note span {
+  font-size: 34px;
+  line-height: 1;
+}
+
+/* 空表示 */
+.application-admin-empty {
+  padding: 24px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid rgba(120, 40, 30, 0.1);
+  color: #4b3a34;
+  font-size: 15px;
+  font-weight: 800;
+  text-align: center;
+}
+
+/* 保存ボタン */
+.application-admin-save-area {
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+  margin: 22px -32px -88px;
+  padding: 16px 32px 20px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 248, 243, 0),
+    rgba(255, 248, 243, 0.96) 35%,
+    rgba(255, 248, 243, 1)
+  );
+}
+
+.application-admin-save-area button {
+  width: 100%;
+  min-height: 58px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #e60012, #c90012);
+  color: #fff;
+  box-shadow: 0 10px 22px rgba(200, 0, 18, 0.2);
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
+.application-admin-save-area button:disabled {
+  background: #d1d5db;
+  color: #6b7280;
+  box-shadow: none;
+  cursor: default;
+}
+
+/* スマホ */
+@media (max-width: 768px) {
+  .application-admin-page {
+    padding: 0 16px 82px;
+  }
+
+  .application-admin-hero {
+    margin: 0 -16px 14px;
+    min-height: 150px;
+    padding: 32px 24px 24px;
+    gap: 16px;
+  }
+
+  .application-admin-hero::after {
+    right: 20px;
+    top: 14px;
+    font-size: 68px;
+  }
+
+  .application-admin-hero-icon {
+    width: 58px;
+    height: 58px;
+  }
+
+  .application-admin-hero-icon svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .application-admin-hero h1 {
+    font-size: 34px;
+  }
+
+  .application-admin-hero p {
+    margin-top: 12px;
+    font-size: 15px;
+  }
+
+  .application-admin-panel {
+    margin-top: 14px;
+    padding: 20px 16px;
+    border-radius: 16px;
+  }
+
+  .application-admin-panel h2 {
+    font-size: 20px;
+  }
+
+  .application-admin-tournament-select {
+    min-height: 64px;
+    grid-template-columns: 42px 1fr;
+    padding: 0 10px;
+  }
+
+  .application-admin-select-icon svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .application-admin-tournament-select select {
+    height: 60px;
+    font-size: 15px;
+  }
+
+  .application-admin-selected-meta {
+    margin-left: 52px;
+    font-size: 13px;
+  }
+
+  .application-admin-export-row button {
+    width: 100%;
+    min-width: 0;
+    min-height: 46px;
+    font-size: 14px;
+  }
+
+  .application-admin-search-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .application-admin-section-title svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .application-admin-section-title h2 {
+    font-size: 22px;
+  }
+
+  .application-admin-search-button {
+    min-height: 54px;
+    font-size: 18px;
+  }
+
+  .application-admin-clear-row button {
+    min-width: 170px;
+    min-height: 38px;
+    font-size: 13px;
+  }
+
+  .application-admin-table {
+    min-width: 680px;
+  }
+
+  .application-admin-table th {
+    height: 48px;
+    font-size: 14px;
+  }
+
+  .application-admin-table td {
+    height: 56px;
+    font-size: 14px;
+  }
+
+  .application-admin-status-select {
+    width: 132px;
+    height: 38px;
+    font-size: 13px;
+  }
+
+  .application-admin-save-area {
+    margin: 18px -16px -82px;
+    padding: 14px 16px 18px;
+  }
+
+  .application-admin-save-area button {
+    min-height: 52px;
+    font-size: 15px;
+  }
+}

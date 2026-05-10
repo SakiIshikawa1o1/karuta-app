@@ -1,0 +1,149 @@
+/* =========================================================
+   01. Header
+   画面上部の共通ヘッダー
+========================================================= */
+
+/* ヘッダー全体。stickyでスクロール時も上部に残す */
+.site-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 80;
+  width: 100%;
+  height: 82px;
+  padding: 0 40px;
+  background:
+    linear-gradient(180deg, rgba(255, 253, 248, 0.98), rgba(255, 250, 246, 0.96));
+  border-bottom: 1px solid rgba(190, 40, 34, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* ロゴ全体 */
+.site-logo {
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  color: var(--text);
+  min-width: 0;
+}
+
+/* 旧ロゴが残っている場合は非表示 */
+.logo-flower {
+  display: none;
+}
+
+/* ヘッダー用画像ロゴ */
+.logo-image {
+  width: 50px;
+  height: 50px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background-image: var(--logo-image);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0 5px 14px rgba(190, 35, 22, 0.18);
+}
+
+
+
+/* サイト名「まにまに」 */
+.site-logo strong {
+  display: block;
+  font-size: 24px;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  transform: translateY(1px);
+}
+
+/* サブタイトル「大会申込システム」 */
+.site-logo small {
+  display: block;
+  margin-top: 0;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  transform: translateY(5px);
+}
+
+/* PC表示時のナビゲーション */
+.pc-nav {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+}
+
+/* PCナビの各ボタン */
+.pc-nav button {
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+  padding: 29px 0 23px;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+}
+
+/* 現在表示中・ホバー時のナビ */
+.pc-nav button:hover,
+.pc-nav button.active {
+  color: var(--red);
+  border-bottom-color: var(--red);
+}
+
+/* ヘッダー右側のログイン・メニュー領域 */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+/* ログイン・ログアウトボタン */
+.header-login-button {
+  border: none;
+  background: transparent;
+  color: var(--red-dark);
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* ハンバーガーボタン */
+.hamburger-button {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: center;
+  cursor: pointer;
+  transform: translateY(-3px);
+}
+
+/* ハンバーガーの3本線 */
+.hamburger-button span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--text);
+}
+
+/* 「メニュー」文字 */
+.hamburger-button::after {
+  bottom: -10px;
+}

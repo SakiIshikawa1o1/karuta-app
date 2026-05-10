@@ -1,0 +1,9 @@
+/* =========================================================
+   Signup select arrow position
+   新規登録ページ：所属会・段位の下矢印を少し上にする
+========================================================= */
+
+.signup-select-wrap::after {
+  top: 34% !important;
+  transform: translateY(-58%) !important;
+}

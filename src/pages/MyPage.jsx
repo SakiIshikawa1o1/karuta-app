@@ -38,20 +38,34 @@ function getDaysUntil(dateString) {
   return Math.ceil(diff / (1000 * 60 * 60 * 24));
 }
 
+function getMasterName(items, id) {
+  if (!id) return "";
+  return items.find((item) => item.id === id)?.name || "";
+}
+
 export default function MyPage() {
   const navigate = useNavigate();
   const { user, profile, roles, hasRole, refreshMe } = useAuth();
 
   const [isEditing, setIsEditing] = useState(false);
   const [applications, setApplications] = useState([]);
+
+  const [affiliations, setAffiliations] = useState([]);
+  const [classLevels, setClassLevels] = useState([]);
+  const [danRanks, setDanRanks] = useState([]);
+
   const [form, setForm] = useState({
     display_name: "",
     full_name: "",
     email: "",
     phone: "",
-    organization: "",
-    grade: "",
+    school_name: "",
+    affiliation_id: "",
+    class_level_id: "",
+    dan_rank_id: "",
   });
+
+  const [loadingMasters, setLoadingMasters] = useState(true);
   const [saving, setSaving] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -59,6 +73,9 @@ export default function MyPage() {
   const isSystemAdmin = hasRole(ROLE.SYSTEM_ADMIN);
   const isTournamentAdmin = isSystemAdmin || hasRole(ROLE.TOURNAMENT_ADMIN);
   const isApplicationAdmin = isSystemAdmin || hasRole(ROLE.APPLICATION_ADMIN);
+  const isAffiliationRepresentative = affiliations.some(
+    (affiliation) => affiliation.representative_user_id === user?.id
+  );
 
   const availableAdminMenus = [
     isSystemAdmin && {
@@ -79,7 +96,70 @@ export default function MyPage() {
       path: "/admin/application",
       icon: "申",
     },
+    (isSystemAdmin || isAffiliationRepresentative) && {
+      key: "affiliation-approvals",
+      label: "所属会申請の確認",
+      path: "/admin/affiliation-approvals",
+      icon: "承",
+    },
   ].filter(Boolean);
+
+  useEffect(() => {
+    const fetchMasters = async () => {
+      setLoadingMasters(true);
+      setErrorMessage("");
+
+      const [affiliationsResult, classLevelsResult, danRanksResult] =
+        await Promise.all([
+          supabase
+            .from("affiliations")
+            .select("id, name, is_active, representative_user_id")
+            .eq("is_active", true)
+            .order("name", { ascending: true }),
+
+          supabase
+            .from("class_levels")
+            .select("id, code, name, sort_order, is_active")
+            .eq("is_active", true)
+            .order("sort_order", { ascending: true }),
+
+          supabase
+            .from("dan_ranks")
+            .select("id, code, name, sort_order, is_active")
+            .eq("is_active", true)
+            .order("sort_order", { ascending: true }),
+        ]);
+
+      setLoadingMasters(false);
+
+      if (affiliationsResult.error) {
+        setErrorMessage(
+          `所属会の取得に失敗しました：${affiliationsResult.error.message}`
+        );
+        return;
+      }
+
+      if (classLevelsResult.error) {
+        setErrorMessage(
+          `級マスタの取得に失敗しました：${classLevelsResult.error.message}`
+        );
+        return;
+      }
+
+      if (danRanksResult.error) {
+        setErrorMessage(
+          `段位マスタの取得に失敗しました：${danRanksResult.error.message}`
+        );
+        return;
+      }
+
+      setAffiliations(affiliationsResult.data ?? []);
+      setClassLevels(classLevelsResult.data ?? []);
+      setDanRanks(danRanksResult.data ?? []);
+    };
+
+    fetchMasters();
+  }, []);
 
   useEffect(() => {
     setForm({
@@ -87,8 +167,10 @@ export default function MyPage() {
       full_name: profile?.full_name ?? "",
       email: profile?.email ?? user?.email ?? "",
       phone: profile?.phone ?? "",
-      organization: profile?.organization ?? "",
-      grade: profile?.grade ?? "",
+      school_name: profile?.school_name ?? "",
+      affiliation_id: profile?.affiliation_id ?? "",
+      class_level_id: profile?.class_level_id ?? "",
+      dan_rank_id: profile?.dan_rank_id ?? "",
     });
   }, [profile, user]);
 
@@ -101,6 +183,7 @@ export default function MyPage() {
         .select(`
           id,
           status,
+          tournament_title,
           tournaments (
             id,
             title,
@@ -111,7 +194,7 @@ export default function MyPage() {
         .neq("status", "cancelled");
 
       if (error) {
-        console.error(error);
+        console.error("申込情報取得エラー:", error.message);
         return;
       }
 
@@ -126,6 +209,24 @@ export default function MyPage() {
 
   const mainRoleLabel =
     roles && roles.length > 0 ? ROLE_LABEL[roles[0]] || roles[0] : "会員";
+  const approvalStatusLabel =
+    {
+      pending: "承認待ち",
+      approved: "承認済み",
+      rejected: "却下",
+    }[profile?.approval_status] || "承認待ち";
+
+  const affiliationName = useMemo(() => {
+    return getMasterName(affiliations, profile?.affiliation_id);
+  }, [affiliations, profile?.affiliation_id]);
+
+  const classLevelName = useMemo(() => {
+    return getMasterName(classLevels, profile?.class_level_id);
+  }, [classLevels, profile?.class_level_id]);
+
+  const danRankName = useMemo(() => {
+    return getMasterName(danRanks, profile?.dan_rank_id);
+  }, [danRanks, profile?.dan_rank_id]);
 
   const nextApplication = useMemo(() => {
     const today = new Date();
@@ -147,7 +248,10 @@ export default function MyPage() {
   }, [applications]);
 
   const daysUntilNext = getDaysUntil(nextApplication?.tournaments?.event_date);
-  const unpaidCount = applications.filter((app) => app.status === "selected").length;
+
+  const unpaidCount = applications.filter((app) =>
+    ["selected", "payment_pending"].includes(app.status)
+  ).length;
 
   const handleChange = (field, value) => {
     setForm((prev) => ({
@@ -159,24 +263,33 @@ export default function MyPage() {
   const handleSave = async () => {
     if (!user) return;
 
+    if (
+      !form.full_name ||
+      !form.affiliation_id ||
+      !form.class_level_id ||
+      !form.dan_rank_id
+    ) {
+      setErrorMessage("氏名、所属会、級、段位は必須です。");
+      return;
+    }
+
     setSaving(true);
     setErrorMessage("");
 
-    const { error } = await supabase.from("profiles").upsert(
-      {
-        id: user.id,
+    const { error } = await supabase
+      .from("profiles")
+      .update({
         display_name: form.display_name,
         full_name: form.full_name,
         email: user.email,
         phone: form.phone,
-        organization: form.organization,
-        grade: form.grade,
+        school_name: form.school_name,
+        affiliation_id: form.affiliation_id,
+        class_level_id: form.class_level_id,
+        dan_rank_id: form.dan_rank_id,
         updated_at: new Date().toISOString(),
-      },
-      {
-        onConflict: "id",
-      }
-    );
+      })
+      .eq("id", user.id);
 
     setSaving(false);
 
@@ -196,8 +309,10 @@ export default function MyPage() {
       full_name: profile?.full_name ?? "",
       email: profile?.email ?? user?.email ?? "",
       phone: profile?.phone ?? "",
-      organization: profile?.organization ?? "",
-      grade: profile?.grade ?? "",
+      school_name: profile?.school_name ?? "",
+      affiliation_id: profile?.affiliation_id ?? "",
+      class_level_id: profile?.class_level_id ?? "",
+      dan_rank_id: profile?.dan_rank_id ?? "",
     });
 
     setErrorMessage("");
@@ -239,15 +354,33 @@ export default function MyPage() {
             </div>
 
             <div>
+              <SimpleIcon>承</SimpleIcon>
+              <span>承認状態</span>
+              <strong>{approvalStatusLabel}</strong>
+            </div>
+
+            <div>
               <SimpleIcon>所</SimpleIcon>
               <span>所属</span>
-              <strong>{profile?.organization || "未設定"}</strong>
+              <strong>{affiliationName || "未設定"}</strong>
+            </div>
+
+            <div>
+              <SimpleIcon>級</SimpleIcon>
+              <span>級</span>
+              <strong>{classLevelName || "未設定"}</strong>
             </div>
 
             <div>
               <SimpleIcon>段</SimpleIcon>
               <span>段位</span>
-              <strong>{profile?.grade || "未設定"}</strong>
+              <strong>{danRankName || "未設定"}</strong>
+            </div>
+
+            <div>
+              <SimpleIcon>学</SimpleIcon>
+              <span>学校</span>
+              <strong>{profile?.school_name || "未設定"}</strong>
             </div>
           </div>
         </div>
@@ -279,6 +412,7 @@ export default function MyPage() {
 
             <small>
               {nextApplication?.tournaments?.title ||
+                nextApplication?.tournament_title ||
                 "申込中の大会はありません"}
             </small>
 
@@ -352,29 +486,65 @@ export default function MyPage() {
             </label>
 
             <label>
-              所属会
+              学校名
               <input
-                value={form.organization}
-                onChange={(e) => handleChange("organization", e.target.value)}
-                placeholder="東京かるた会"
+                value={form.school_name}
+                onChange={(e) => handleChange("school_name", e.target.value)}
+                placeholder="東京第一大学"
               />
+            </label>
+
+            <label>
+              所属会
+              <select
+                value={form.affiliation_id}
+                onChange={(e) => handleChange("affiliation_id", e.target.value)}
+                disabled={loadingMasters}
+              >
+                <option value="">
+                  {loadingMasters ? "読み込み中..." : "選択してください"}
+                </option>
+                {affiliations.map((affiliation) => (
+                  <option key={affiliation.id} value={affiliation.id}>
+                    {affiliation.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label>
+              級
+              <select
+                value={form.class_level_id}
+                onChange={(e) => handleChange("class_level_id", e.target.value)}
+                disabled={loadingMasters}
+              >
+                <option value="">
+                  {loadingMasters ? "読み込み中..." : "選択してください"}
+                </option>
+                {classLevels.map((classLevel) => (
+                  <option key={classLevel.id} value={classLevel.id}>
+                    {classLevel.name}
+                  </option>
+                ))}
+              </select>
             </label>
 
             <label>
               段位
               <select
-                value={form.grade}
-                onChange={(e) => handleChange("grade", e.target.value)}
+                value={form.dan_rank_id}
+                onChange={(e) => handleChange("dan_rank_id", e.target.value)}
+                disabled={loadingMasters}
               >
-                <option value="">選択してください</option>
-                <option value="無段">無段</option>
-                <option value="初段">初段</option>
-                <option value="二段">二段</option>
-                <option value="三段">三段</option>
-                <option value="四段">四段</option>
-                <option value="五段">五段</option>
-                <option value="六段">六段</option>
-                <option value="七段">七段</option>
+                <option value="">
+                  {loadingMasters ? "読み込み中..." : "選択してください"}
+                </option>
+                {danRanks.map((danRank) => (
+                  <option key={danRank.id} value={danRank.id}>
+                    {danRank.name}
+                  </option>
+                ))}
               </select>
             </label>
 

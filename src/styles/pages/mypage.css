@@ -1,0 +1,556 @@
+/* Pages Mypage */
+
+.mypage-modern-hero p {
+margin: 0 0 8px;
+  color: var(--red);
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+}
+
+.mypage-modern-hero h1 {
+margin: 0;
+  font-family:
+    "Yu Mincho",
+    "YuMincho",
+    "Hiragino Mincho ProN",
+    serif;
+  font-size: 52px;
+  line-height: 1.2;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.mypage-modern-profile-card::after {
+content: "";
+  position: absolute;
+  right: 26px;
+  bottom: 18px;
+  font-size: 54px;
+  opacity: 0.6;
+  transform: rotate(18deg);
+}
+
+.mypage-modern-avatar-face {
+width: 156px;
+  height: 156px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #4a261a 0%, #2b160f 100%);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 64px;
+  font-weight: 900;
+  box-shadow: inset 0 -22px 0 rgba(255, 255, 255, 0.08);
+}
+
+.mypage-modern-summary-card.next {
+border: 2px solid #f0a33a;
+}
+
+.mypage-modern-summary-card.unpaid {
+border: 2px solid #ef6b6b;
+}
+
+.mypage-modern-summary-card.unpaid .mypage-modern-summary-icon {
+background: linear-gradient(135deg, #e60012, #c90012);
+  color: #fff;
+}
+
+.mypage-modern-menu-card button:last-child {
+border-bottom: none;
+}
+
+.mypage-modern-edit-card, .mypage-modern-admin-card {
+margin-top: 28px;
+  padding: 26px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(200, 30, 47, 0.12);
+  box-shadow: 0 12px 28px rgba(80, 20, 10, 0.08);
+}
+
+.mypage-modern-edit-card h2, .mypage-modern-admin-card h2 {
+margin: 0 0 18px;
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.mypage-modern-edit-buttons button:first-child {
+border: none;
+  background: var(--red);
+  color: #fff;
+}
+
+.mypage-modern-edit-buttons button:last-child {
+border: 1px solid var(--red);
+  background: #fff;
+  color: var(--red);
+}
+
+.mypage-modern-admin-grid {
+display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.mypage-modern-admin-grid button {
+min-height: 96px;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(200, 30, 47, 0.14);
+  background: #fff;
+  text-align: left;
+  cursor: pointer;
+}
+
+.mypage-modern-admin-grid span {
+display: block;
+  margin-bottom: 8px;
+  color: #35160f;
+  font-size: 17px;
+  font-weight: 900;
+}
+
+.mypage-modern-admin-grid small {
+color: #555;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .mypage-modern-hero h1 {
+  font-size: 38px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mypage-modern-avatar {
+  width: 116px;
+      height: 116px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mypage-modern-avatar-face {
+  width: 86px;
+      height: 86px;
+      font-size: 36px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mypage-modern-name-block {
+  padding-bottom: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mypage-modern-name-block span {
+  font-size: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mypage-modern-info-list {
+  gap: 8px;
+      margin-top: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mypage-modern-info-list svg {
+  width: 20px;
+      height: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mypage-modern-info-list div:first-child strong {
+  min-width: 68px;
+      min-height: 26px;
+      padding: 0 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mypage-modern-summary-icon {
+  width: 44px;
+      height: 44px;
+      margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mypage-modern-summary-icon svg {
+  width: 26px;
+      height: 26px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mypage-modern-summary-card p {
+  font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mypage-modern-summary-card strong span {
+  font-size: 17px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mypage-modern-summary-card small {
+  font-size: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mypage-modern-menu-card {
+  margin-top: 18px;
+      border-radius: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mypage-modern-admin-grid {
+  grid-template-columns: 1fr;
+  }
+}
+
+.mypage-modern-hero {
+display: none !important;
+}
+
+.mypage-modern-avatar {
+display: none !important;
+}
+
+.mypage-modern-profile-main {
+width: 100% !important;
+  min-width: 0 !important;
+}
+
+@media (max-width: 768px) {
+  .mypage-modern-name-block h2 small {
+  font-size: 13px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .mypage-modern-info-list div {
+  grid-template-columns: 22px 48px 1fr !important;
+      gap: 7px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .mypage-modern-info-list span {
+  font-size: 12px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .mypage-modern-info-list strong {
+  font-size: 13px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .mypage-modern-menu-card svg {
+  width: 21px !important;
+      height: 21px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .mypage-modern-menu-card span {
+  font-size: 15px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .mypage-modern-chevron {
+  font-size: 26px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .mypage-modern-profile-card {
+  padding: 16px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .mypage-modern-name-block h2 {
+  font-size: 22px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .mypage-modern-menu-card button {
+  min-height: 46px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .mypage-modern-menu-card span {
+  font-size: 14px !important;
+  }
+}
+
+.mypage-modern {
+padding-top: 12px !important;
+  padding-bottom: 42px !important;
+}
+
+.mypage-modern-profile-card {
+padding: 16px 18px !important;
+  border-radius: 18px !important;
+}
+
+.mypage-modern-name-block {
+padding-bottom: 10px !important;
+}
+
+.mypage-modern-name-block span {
+font-size: 12px !important;
+}
+
+.mypage-modern-name-block h2 {
+margin-top: 4px !important;
+  font-size: 24px !important;
+  line-height: 1.22 !important;
+}
+
+.mypage-modern-name-block h2 small {
+margin-left: 6px !important;
+  font-size: 13px !important;
+}
+
+.mypage-modern-info-list {
+gap: 6px !important;
+  margin-top: 10px !important;
+}
+
+.mypage-modern-info-list div {
+grid-template-columns: 22px 48px 1fr !important;
+  gap: 7px !important;
+  min-height: 28px !important;
+}
+
+.mypage-modern-info-list svg {
+width: 19px !important;
+  height: 19px !important;
+}
+
+.mypage-modern-info-list span {
+font-size: 12px !important;
+}
+
+.mypage-modern-info-list strong {
+font-size: 13px !important;
+}
+
+.mypage-modern-info-list div:first-child strong {
+min-height: 24px !important;
+  padding: 0 10px !important;
+  font-size: 12px !important;
+}
+
+.mypage-modern-summary-grid {
+gap: 10px !important;
+  margin-top: 12px !important;
+}
+
+.mypage-modern-summary-card {
+min-height: 118px !important;
+  padding: 14px 12px !important;
+  border-radius: 15px !important;
+  text-align: center !important;
+}
+
+.mypage-modern-summary-icon {
+width: 38px !important;
+  height: 38px !important;
+  margin: 0 auto 8px !important;
+}
+
+.mypage-modern-summary-icon svg {
+width: 23px !important;
+  height: 23px !important;
+}
+
+.mypage-modern-summary-card p {
+margin-bottom: 6px !important;
+  font-size: 13px !important;
+  line-height: 1.25 !important;
+  text-align: center !important;
+}
+
+.mypage-modern-summary-card strong {
+margin-bottom: 5px !important;
+  font-size: 38px !important;
+  line-height: 0.95 !important;
+  text-align: center !important;
+}
+
+.mypage-modern-summary-card strong span {
+margin-left: 4px !important;
+  font-size: 14px !important;
+}
+
+.mypage-modern-summary-card small {
+font-size: 10.5px !important;
+  line-height: 1.35 !important;
+  text-align: center !important;
+}
+
+.mypage-modern-menu-card {
+margin-top: 12px !important;
+  border-radius: 15px !important;
+}
+
+.mypage-modern-menu-card button {
+min-height: 42px !important;
+  padding: 0 14px !important;
+  grid-template-columns: 22px 1fr 18px !important;
+  gap: 9px !important;
+}
+
+.mypage-modern-menu-card svg {
+width: 19px !important;
+  height: 19px !important;
+}
+
+.mypage-modern-menu-card span {
+font-size: 13px !important;
+  font-weight: 800 !important;
+}
+
+.mypage-modern-chevron {
+font-size: 22px !important;
+}
+
+.mypage-modern-edit-card {
+margin-top: 14px !important;
+  padding: 18px !important;
+  border-radius: 16px !important;
+}
+
+.mypage-modern-edit-card h2 {
+margin-bottom: 12px !important;
+  font-size: 18px !important;
+}
+
+.mypage-modern-edit-card label {
+margin-bottom: 12px !important;
+  font-size: 12px !important;
+}
+
+.mypage-modern-edit-card input, .mypage-modern-edit-card select {
+height: 42px !important;
+  margin-top: 6px !important;
+  font-size: 13px !important;
+  border-radius: 10px !important;
+}
+
+.mypage-modern-edit-buttons {
+gap: 8px !important;
+  margin-top: 12px !important;
+}
+
+.mypage-modern-edit-buttons button {
+min-height: 42px !important;
+  font-size: 13px !important;
+}
+
+.mypage-modern-inline-edit .mypage-modern-edit-buttons {
+grid-template-columns: 1fr 1fr !important;
+  width: 100% !important;
+}
+
+.mypage-modern-inline-edit .mypage-modern-edit-buttons button {
+width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  padding: 0 16px !important;
+}
+
+.mypage-simple-icon {
+width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: #fff1df;
+  color: #d8321f;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 900;
+}
+
+@media (max-width: 768px) {
+  .mypage-modern {
+  padding: 10px 12px 36px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .mypage-modern-profile-card {
+  padding: 14px 14px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .mypage-modern-name-block h2 {
+  font-size: 21px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .mypage-modern-summary-grid {
+  gap: 8px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .mypage-modern-summary-card {
+  min-height: 112px !important;
+      padding: 12px 10px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .mypage-modern-summary-card strong {
+  font-size: 34px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .mypage-modern-menu-card button {
+  min-height: 40px !important;
+  }
+}
+
+.mypage-modern-inline-edit {
+margin: 0;
+  padding: 24px 30px 28px;
+  border-width: 0 0 1px;
+  border-radius: 0;
+  box-shadow: none;
+  background: #fffaf5;
+}
+
+.mypage-modern-inline-edit h2 {
+color: #35160f;
+}
+
+@media (max-width: 640px) {
+  .mypage-modern-inline-edit {
+  padding: 22px 18px 24px;
+  }
+}

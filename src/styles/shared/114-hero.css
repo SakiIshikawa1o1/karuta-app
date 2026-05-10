@@ -1,0 +1,59 @@
+/* =========================================================
+   Hero
+========================================================= */
+
+.system-admin-hero {
+  margin: 0 -22px 22px;
+  min-height: 230px;
+  padding: 40px 34px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  overflow: hidden;
+  border-radius: 0 0 20px 20px;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 253, 249, 0.96) 0%,
+      rgba(255, 250, 243, 0.92) 50%,
+      rgba(255, 246, 233, 0.35) 100%
+    ),
+    var(--hero-image);
+  background-size: cover;
+  background-position: center right;
+  background-repeat: no-repeat;
+  border-bottom: 1px solid rgba(190, 40, 34, 0.1);
+}
+
+.system-admin-hero-icon {
+  width: 108px;
+  height: 108px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #e63212, #d21306);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+}
+
+.system-admin-hero-icon svg {
+  width: 68px;
+  height: 68px;
+}
+
+.system-admin-hero h1 {
+  margin: 0;
+  color: #251713;
+  font-size: 46px;
+  line-height: 1.25;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+}
+
+.system-admin-hero p {
+  margin: 16px 0 0;
+  color: #251713;
+  font-size: 19px;
+  line-height: 1.6;
+  font-weight: 700;
+}

@@ -1,0 +1,197 @@
+/* =========================================================
+   Tournament Detail Page Super Compact Override
+   情報量を減らして、高さをかなり小さくする
+========================================================= */
+
+/* ページ全体の余白をさらに小さく */
+.tournament-detail-page {
+  padding: 0 10px;
+}
+
+/* 戻るボタン */
+.tournament-detail-back {
+  top: 62px;
+  left: -40pt;
+  width: 200px;
+  height: 28px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* 上の画像エリアをかなり低くする */
+.tournament-detail-hero {
+  height: 58px;
+  margin: 0 -10px;
+  background-size: cover;
+  background-position: center;
+}
+
+/* 上部の大会概要カード */
+.tournament-detail-summary-card {
+  margin: -18px 0 10px;
+  padding: 13px 14px 12px;
+  border-radius: 15px;
+}
+
+/* 大会名 */
+.tournament-detail-summary-card h1 {
+  margin: 0 0 8px;
+  font-size: 17px;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+}
+
+/* 受付中＋開催日 */
+.tournament-detail-summary-date-row {
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.tournament-detail-summary-date-row strong {
+  font-size: 13px;
+  line-height: 1.1;
+}
+
+/* 受付中ラベル */
+.detail-status-pill {
+  min-width: 52px;
+  min-height: 20px;
+  padding: 0 8px;
+  font-size: 10px;
+}
+
+/* 上部カードの会場行 */
+.tournament-detail-summary-meta {
+  gap: 6px;
+}
+
+.detail-summary-meta-row {
+  grid-template-columns: 18px 36px 1fr;
+  gap: 5px;
+}
+
+/* 上部カードの丸アイコンを小さく */
+.detail-summary-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.detail-summary-icon::before {
+  width: 5px;
+  height: 5px;
+  top: 4px;
+}
+
+.detail-summary-icon::after {
+  width: 8px;
+  height: 5px;
+  bottom: 3px;
+}
+
+.detail-summary-meta-row span {
+  font-size: 10px;
+}
+
+.detail-summary-meta-row strong {
+  font-size: 11px;
+  line-height: 1.25;
+}
+
+/* タブを低くする */
+.tournament-detail-tabs {
+  top: 58px;
+  margin-bottom: 8px;
+}
+
+.tournament-detail-tabs button {
+  min-height: 31px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
+.tournament-detail-tabs button.active::after {
+  height: 2px;
+}
+
+/* カード間余白 */
+.tournament-detail-content {
+  gap: 6px;
+}
+
+/* 情報カードをかなり低くする */
+.detail-info-card {
+  grid-template-columns: 34px 1fr;
+  gap: 8px;
+  min-height: 54px;
+  padding: 9px 10px;
+  border-radius: 12px;
+}
+
+/* 左アイコンを小さく */
+.detail-info-icon {
+  width: 30px;
+  height: 30px;
+  font-size: 14px;
+}
+
+/* 見出し */
+.detail-info-card h2 {
+  margin: 0 0 2px;
+  font-size: 12.5px;
+  line-height: 1.2;
+}
+
+/* 通常文章 */
+.detail-info-card p {
+  font-size: 10.5px;
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+}
+
+/* 2行目以降の説明は非表示にして高さを削る */
+.detail-info-card p + p {
+  display: none;
+}
+
+/* 注意書きも非表示にする */
+.detail-note {
+  display: none !important;
+}
+
+/* 大きめ表示の日付・金額も小さく */
+.detail-large-text {
+  font-size: 15px !important;
+  line-height: 1.15 !important;
+  letter-spacing: 0.04em !important;
+}
+
+/* 参加費の補足 */
+.detail-fee-note {
+  margin-left: 4px;
+  font-size: 10px;
+}
+
+/* 下部ボタン用の余白 */
+.tournament-detail-bottom-space {
+  height: 56px;
+}
+
+/* 下部固定ボタン */
+.tournament-detail-bottom-cta {
+  left: max(10px, calc((100vw - 520px) / 2 + 10px));
+  right: max(10px, calc((100vw - 520px) / 2 + 10px));
+  bottom: 8px;
+}
+
+.tournament-detail-bottom-cta button {
+  min-height: 44px;
+  border-radius: 11px;
+  gap: 24px;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+}
+
+.tournament-detail-bottom-cta button span {
+  font-size: 22px;
+  transform: translateY(-1px);
+}

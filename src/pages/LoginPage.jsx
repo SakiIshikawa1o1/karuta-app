@@ -53,7 +53,7 @@ export default function LoginPage() {
     setErrorMessage("");
     setSaving(true);
 
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
@@ -62,6 +62,17 @@ export default function LoginPage() {
 
     if (error) {
       setErrorMessage(error.message);
+      return;
+    }
+
+    const { data: profileData } = await supabase
+      .from("profiles")
+      .select("approval_status")
+      .eq("id", data.user.id)
+      .maybeSingle();
+
+    if (profileData?.approval_status !== "approved") {
+      navigate("/approval-pending", { replace: true });
       return;
     }
 

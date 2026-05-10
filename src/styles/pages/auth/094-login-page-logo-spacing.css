@@ -1,0 +1,37 @@
+/* =========================================================
+   Login Page Logo Spacing
+   ロゴ上下の余白を半分にする
+========================================================= */
+
+/* ロゴエリア全体の上下余白を詰める */
+.login-brand {
+  padding-top: 5px !important;
+  margin-bottom: 15px !important;
+}
+
+/* ロゴ下の余白を半分にする */
+.login-brand-logo {
+  margin: 0 auto 8px !important;
+}
+
+/* タイトル下の余白も少し詰める */
+.login-brand p {
+  margin-top: 4px !important;
+}
+
+/* スマホ */
+@media (max-width: 480px) {
+  .login-brand {
+    padding-top: 4px !important;
+    margin-bottom: 14px !important;
+  }
+
+  .login-brand-logo {
+    margin-bottom: -14px !important;
+  }
+
+  .login-brand p {
+    margin-top: 3px !important;
+    margin-bottom: 10pt !important;
+  }
+}

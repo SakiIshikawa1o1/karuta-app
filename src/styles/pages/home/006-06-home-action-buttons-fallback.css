@@ -1,0 +1,62 @@
+/* =========================================================
+   06. Home Action Buttons fallback
+   ヒーロー外にボタンが残っている場合の基本指定
+   ※基本は .hero-action-row を使用
+========================================================= */
+
+.home-action-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 26px;
+}
+
+.big-action-button {
+  min-height: 92px;
+  padding: 0 22px;
+  border-radius: 14px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 10px;
+  font-size: 28px;
+  line-height: 1.25;
+  font-weight: 900;
+  cursor: pointer;
+  white-space: normal;
+}
+
+.big-action-button span:not(.big-action-arrow):not(.big-action-icon) {
+  display: block;
+  line-height: 1.25;
+}
+
+.big-action-button.primary {
+  background: var(--red);
+  color: #fff;
+  border: 2px solid var(--red);
+}
+
+.big-action-button.secondary {
+  background: #fff;
+  color: var(--red-dark);
+  border: 2px solid var(--red);
+}
+
+.big-action-icon {
+  display: none !important;
+}
+
+.big-action-arrow {
+  font-size: 32px;
+  line-height: 1;
+}
+
+.big-action-button.primary:hover {
+  background: var(--red-dark);
+  border-color: var(--red-dark);
+}
+
+.big-action-button.secondary:hover {
+  background: var(--red-soft);
+}

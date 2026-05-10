@@ -1,0 +1,115 @@
+/* =========================================================
+   Tournament list clickable card
+   詳細ボタンをなくし、カード全体をクリック可能にする
+========================================================= */
+
+/* カード全体をクリック可能なUIにする */
+.tournament-list-clickable {
+  cursor: pointer;
+  position: relative;
+
+  /* 右端の ＞ の分だけ余白を確保 */
+  grid-template-columns: 1fr 28px;
+  align-items: center;
+
+  transition:
+    transform 0.14s ease,
+    box-shadow 0.14s ease,
+    border-color 0.14s ease,
+    background 0.14s ease;
+}
+
+/* hover時：カードが押せることを分かりやすくする */
+.tournament-list-clickable:hover {
+  transform: translateY(-1px);
+  border-color: rgba(200, 30, 47, 0.24);
+  background: #fffdfb;
+  box-shadow: 0 8px 18px rgba(80, 20, 10, 0.09);
+}
+
+/* キーボード操作時のフォーカス表示 */
+.tournament-list-clickable:focus {
+  outline: none;
+  border-color: rgba(200, 30, 47, 0.38);
+  box-shadow:
+    0 0 0 3px rgba(200, 30, 47, 0.1),
+    0 8px 18px rgba(80, 20, 10, 0.09);
+}
+
+/* 以前の詳細ボタンエリアは使わない */
+.tournament-list-actions {
+  display: none;
+}
+
+/* カード右端の ＞ */
+.tournament-card-arrow {
+  width: 26px;
+  height: 26px;
+
+  display: inline-grid;
+  place-items: center;
+
+  border-radius: 999px;
+  background: #fff4f1;
+  color: var(--red);
+
+  font-size: 22px;
+  line-height: 1;
+  font-weight: 800;
+
+  /* 見た目の縦ズレを補正 */
+  transform: translateY(-1px);
+}
+
+/* hover時の ＞ */
+.tournament-list-clickable:hover .tournament-card-arrow {
+  background: var(--red);
+  color: #fff;
+}
+
+/* メタ情報の行構造 */
+.tournament-list-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+}
+
+/* 1行目：受付中 */
+.tournament-status-row {
+  display: flex;
+  align-items: center;
+}
+
+/* 2行目：級 + 場所 */
+.tournament-place-grade-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+/* スマホ表示 */
+@media (max-width: 768px) {
+  .tournament-list-clickable {
+    grid-template-columns: 1fr 24px;
+  }
+
+  .tournament-card-arrow {
+    width: 24px;
+    height: 24px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tournament-list-clickable {
+    grid-template-columns: 1fr 22px;
+  }
+
+  .tournament-card-arrow {
+    width: 22px;
+    height: 22px;
+    font-size: 18px;
+  }
+}

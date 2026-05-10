@@ -1,0 +1,89 @@
+/* =========================================================
+   Responsive
+========================================================= */
+
+@media (max-width: 768px) {
+  .system-admin-page {
+    padding: 0 12px 36px !important;
+  }
+
+  .system-admin-hero {
+    margin: 0 -12px 12px !important;
+    min-height: 96px !important;
+    padding: 18px 18px !important;
+    gap: 12px !important;
+  }
+
+  .system-admin-hero-icon {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .system-admin-hero-icon svg {
+    width: 22px !important;
+    height: 22px !important;
+  }
+
+  .system-admin-hero h1 {
+    font-size: 24px !important;
+  }
+
+  .system-admin-hero p {
+    margin-top: 6px !important;
+    font-size: 11px !important;
+  }
+
+  .system-admin-stats-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 6px !important;
+  }
+
+  .system-admin-stat-card {
+    min-height: 82px !important;
+    padding: 10px 6px !important;
+  }
+
+  .system-admin-stat-title {
+    gap: 4px !important;
+    font-size: 9px !important;
+  }
+
+  .system-admin-stat-title svg {
+    width: 15px !important;
+    height: 15px !important;
+  }
+
+  .system-admin-stat-card strong {
+    margin-top: 10px !important;
+    font-size: 17px !important;
+  }
+
+  .system-admin-stat-card strong small {
+    font-size: 9px !important;
+  }
+
+  .system-admin-panel {
+    padding: 13px !important;
+    border-radius: 14px !important;
+  }
+
+  .system-admin-section-title h2 {
+    font-size: 17px !important;
+  }
+
+  .system-admin-section-title p {
+    font-size: 10.5px !important;
+  }
+
+  .system-admin-affiliation-form {
+    grid-template-columns: 1fr !important;
+  }
+
+  .system-admin-notice-item {
+    grid-template-columns: 58px 1fr auto !important;
+  }
+
+  .system-admin-notice-item small {
+    display: none !important;
+  }
+}

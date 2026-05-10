@@ -1,4 +1,8 @@
 import SiteFooter from "../components/SiteFooter";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "../lib/supabase";
+import { useAuth } from "../contexts/AuthContext";
 
 function SupportPageLayout({ title, lead, children }) {
   return (
@@ -99,6 +103,49 @@ export function PrivacyPage() {
 }
 
 export function ContactPage() {
+  const navigate = useNavigate();
+  const { user, loading } = useAuth();
+  const [subject, setSubject] = useState("");
+  const [body, setBody] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setMessage("");
+
+    if (!user) {
+      setMessage("問い合わせにはログインが必要です。");
+      navigate("/login");
+      return;
+    }
+
+    if (!subject.trim() || !body.trim()) {
+      setMessage("件名と内容を入力してください。");
+      return;
+    }
+
+    setSaving(true);
+
+    const { error } = await supabase.from("inquiries").insert({
+      user_id: user.id,
+      subject: subject.trim(),
+      body: body.trim(),
+      status: "open",
+    });
+
+    setSaving(false);
+
+    if (error) {
+      setMessage(`問い合わせの送信に失敗しました：${error.message}`);
+      return;
+    }
+
+    setSubject("");
+    setBody("");
+    setMessage("問い合わせを送信しました。");
+  };
+
   return (
     <SupportPageLayout
       title="問い合わせ"
@@ -113,18 +160,39 @@ export function ContactPage() {
       </section>
 
       <section>
-        <h2>連絡時に記載してほしい内容</h2>
-        <p>
-          お名前、登録メールアドレス、大会名、発生している内容を添えてご連絡ください。
-          画面にエラーメッセージが出ている場合は、その文面も一緒にお知らせください。
-        </p>
+        <h2>問い合わせフォーム</h2>
+        {message && <p>{message}</p>}
+        {!loading && !user ? (
+          <p>問い合わせを送信するにはログインしてください。</p>
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <p>
+              <input
+                value={subject}
+                onChange={(event) => setSubject(event.target.value)}
+                placeholder="件名"
+              />
+            </p>
+            <p>
+              <textarea
+                value={body}
+                onChange={(event) => setBody(event.target.value)}
+                placeholder="問い合わせ内容"
+                rows={6}
+              />
+            </p>
+            <button type="submit" disabled={saving || loading}>
+              {saving ? "送信中..." : "送信する"}
+            </button>
+          </form>
+        )}
       </section>
 
-      <section className="support-contact-card">
-        <h2>問い合わせ先</h2>
+      <section>
+        <h2>連絡時に記載してほしい内容</h2>
         <p>
-          現在、問い合わせフォームは準備中です。大会主催者から案内されている連絡先、
-          または運営管理者へお問い合わせください。
+          大会名、発生している内容を添えてご連絡ください。
+          画面にエラーメッセージが出ている場合は、その文面も一緒にお知らせください。
         </p>
       </section>
     </SupportPageLayout>

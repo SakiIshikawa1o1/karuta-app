@@ -1,0 +1,119 @@
+/* =========================================================
+   Tournament card arrow circle and meta text adjustment
+   - 「＞」の丸背景だけを少し下げる
+   - 受付中・級・開催場所の文字を大きくする
+========================================================= */
+
+/* 右端の「＞」全体 */
+.tournament-card-arrow {
+  position: relative;
+  width: 28px;
+  height: 28px;
+
+  display: inline-grid;
+  place-items: center;
+
+  color: var(--red);
+  font-size: 24px;
+  line-height: 1;
+  font-weight: 800;
+
+  /* ＞自体の位置はそのまま */
+  transform: none;
+}
+
+/* 丸背景だけを疑似要素で作り、少し下にずらす */
+.tournament-card-arrow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: #fff4f1;
+
+  /* 丸背景だけ下げる */
+  transform: translateY(5px);
+  z-index: -1;
+}
+
+/* hover時の丸背景 */
+.tournament-list-clickable:hover .tournament-card-arrow::before {
+  background: var(--red);
+}
+
+/* hover時の＞ */
+.tournament-list-clickable:hover .tournament-card-arrow {
+  color: #fff;
+}
+
+/* 受付中ラベルを大きく */
+.tournament-inline-status {
+  min-height: 20px;
+  padding: 0 7px;
+  font-size: 9.5px;
+  font-weight: 800;
+}
+
+/* 級を大きく */
+.tournament-grade {
+  padding: 2px 7px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+/* 開催場所を大きく */
+.tournament-venue {
+  font-size: 10.5px;
+  line-height: 1.35;
+  font-weight: 600;
+}
+
+/* スマホ調整 */
+@media (max-width: 768px) {
+  .tournament-card-arrow {
+    width: 26px;
+    height: 26px;
+    font-size: 22px;
+  }
+
+  .tournament-card-arrow::before {
+    transform: translateY(5px);
+  }
+
+  .tournament-inline-status {
+    min-height: 19px;
+    padding: 0 6px;
+    font-size: 9px;
+  }
+
+  .tournament-grade {
+    font-size: 9.5px;
+  }
+
+  .tournament-venue {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tournament-card-arrow {
+    width: 24px;
+    height: 24px;
+    font-size: 20px;
+  }
+
+    .tournament-card-arrow::before {
+    transform: translateY(5px);
+  }
+
+  .tournament-inline-status {
+    font-size: 11px;
+  }
+
+  .tournament-grade {
+    font-size: 11px;
+  }
+
+  .tournament-venue {
+    font-size: 11px;
+  }
+}

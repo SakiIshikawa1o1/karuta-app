@@ -1,0 +1,104 @@
+/* =========================================================
+   User Role Table
+========================================================= */
+
+.system-admin-table-wrap {
+  overflow-x: auto;
+  border: 1px solid rgba(120, 40, 30, 0.12);
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.system-admin-user-table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+}
+
+.system-admin-user-table th {
+  height: 52px;
+  background: #fff7ec;
+  color: #251713;
+  font-size: 14px;
+  font-weight: 900;
+  text-align: center;
+  border-bottom: 1px solid rgba(120, 40, 30, 0.12);
+}
+
+.system-admin-user-table td {
+  height: 82px;
+  padding: 0 14px;
+  border-bottom: 1px solid rgba(120, 40, 30, 0.08);
+  color: #251713;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.system-admin-user-table tr:last-child td {
+  border-bottom: none;
+}
+
+.system-admin-user-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.system-admin-user-cell strong {
+  display: block;
+  color: #251713;
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.system-admin-user-cell span {
+  display: block;
+  margin-top: 4px;
+  color: #4b3b35;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.system-admin-user-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #dd8a52, #c96b34);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+}
+
+.system-admin-user-avatar svg {
+  width: 28px;
+  height: 28px;
+}
+
+.system-admin-user-table select {
+  min-width: 174px;
+  height: 40px;
+  border: 1px solid rgba(120, 40, 30, 0.18);
+  border-radius: 8px;
+  background: #ffffff;
+  color: #251713;
+  padding: 0 12px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.system-admin-icon-button {
+  width: 34px;
+  height: 34px;
+  border: none;
+  background: transparent;
+  color: #6b2b1a;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.system-admin-icon-button svg {
+  width: 22px;
+  height: 22px;
+}

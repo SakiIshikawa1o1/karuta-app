@@ -168,6 +168,9 @@ export function AuthProvider({ children }) {
   }, []);
 
   const isLoggedIn = !!user;
+  const approvalStatus = profile?.approval_status || "pending";
+  const isEmailConfirmed = !!(user?.email_confirmed_at || user?.confirmed_at);
+  const isApproved = approvalStatus === "approved";
 
   const hasRole = (roleCode) => {
     return roles.includes(roleCode);
@@ -191,12 +194,25 @@ export function AuthProvider({ children }) {
       roles,
       loading,
       isLoggedIn,
+      approvalStatus,
+      isApproved,
+      isEmailConfirmed,
       hasRole,
       canAccessAdmin,
       refreshMe,
       setProfile,
     }),
-    [session, user, profile, roles, loading, isLoggedIn]
+    [
+      session,
+      user,
+      profile,
+      roles,
+      loading,
+      isLoggedIn,
+      approvalStatus,
+      isApproved,
+      isEmailConfirmed,
+    ]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

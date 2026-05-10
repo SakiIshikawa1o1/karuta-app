@@ -5,7 +5,7 @@ import { useAuth } from "../contexts/AuthContext";
 
 export default function ProtectedRoute({ children, allowedRoles }) {
   const location = useLocation();
-  const { loading, isLoggedIn, canAccessAdmin } = useAuth();
+  const { loading, isLoggedIn, canAccessAdmin, isApproved } = useAuth();
 
   if (loading) {
     return (
@@ -19,6 +19,16 @@ export default function ProtectedRoute({ children, allowedRoles }) {
     return (
       <Navigate
         to="/login"
+        replace
+        state={{ from: location.pathname }}
+      />
+    );
+  }
+
+  if (!isApproved && location.pathname !== "/approval-pending") {
+    return (
+      <Navigate
+        to="/approval-pending"
         replace
         state={{ from: location.pathname }}
       />

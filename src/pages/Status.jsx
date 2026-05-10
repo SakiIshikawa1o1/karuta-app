@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { supabase } from "../lib/supabaseClient";
+import { supabase } from "../lib/supabase";
 
 function Status({ session }) {
   const [applications, setApplications] = useState([]);
@@ -11,12 +11,8 @@ function Status({ session }) {
       .from("applications")
       .select(`
         id,
-        application_status,
-        payment_status,
+        status,
         applied_at,
-        cancelled_at,
-        payment_reported_at,
-        payment_confirmed_at,
         tournament_id,
         tournaments (
           id,
@@ -41,18 +37,18 @@ function Status({ session }) {
     fetchApplications();
   }, []);
 
-  const getApplicationStatusLabel = (status) => {
-    if (status === "applied") return "申込済み";
-    if (status === "cancelled") return "キャンセル済み";
-    return status || "-";
-  };
-
-  const getPaymentStatusLabel = (status) => {
-    if (status === "not_reported") return "未入金連絡";
-    if (status === "reported") return "入金連絡済み";
-    if (status === "confirmed") return "入金確認済み";
-    return status || "-";
-  };
+  const getApplicationStatusLabel = (status) =>
+    ({
+      applied: "申込済み",
+      lottery: "抽選中",
+      selected: "当選",
+      rejected: "落選",
+      payment_pending: "当選・未入金",
+      payment_confirming: "入金確認中",
+      payment_confirmed: "入金確認済み",
+      confirmed: "参加確定",
+      cancelled: "キャンセル済み",
+    }[status] || status || "-");
 
   const handleCancel = async (applicationId, applicationStatus) => {
     if (applicationStatus !== "applied") {
@@ -63,8 +59,7 @@ function Status({ session }) {
     const { error } = await supabase
       .from("applications")
       .update({
-        application_status: "cancelled",
-        cancelled_at: new Date().toISOString(),
+        status: "cancelled",
       })
       .eq("id", applicationId);
 
@@ -77,21 +72,15 @@ function Status({ session }) {
   };
 
   const handleReportPayment = async (applicationId, applicationStatus, paymentStatus) => {
-    if (applicationStatus !== "applied") {
-      alert("申込済みのものだけ入金連絡できます。");
-      return;
-    }
-
-    if (paymentStatus !== "not_reported") {
-      alert("すでに入金連絡済みです。");
+    if (!["selected", "payment_pending"].includes(applicationStatus || paymentStatus)) {
+      alert("未入金のものだけ入金確認依頼できます。");
       return;
     }
 
     const { error } = await supabase
       .from("applications")
       .update({
-        payment_status: "reported",
-        payment_reported_at: new Date().toISOString(),
+        status: "payment_confirming",
       })
       .eq("id", applicationId);
 
@@ -120,8 +109,7 @@ function Status({ session }) {
               <div>大会名: {app.tournaments?.title}</div>
               <div>開催日: {app.tournaments?.event_date}</div>
               <div>会場: {app.tournaments?.venue}</div>
-              <div>申込状態: {getApplicationStatusLabel(app.application_status)}</div>
-              <div>入金状態: {getPaymentStatusLabel(app.payment_status)}</div>
+              <div>申込状態: {getApplicationStatusLabel(app.status)}</div>
               <div>申込日時: {app.applied_at}</div>
 
               <div style={{ marginTop: "8px" }}>
@@ -134,13 +122,12 @@ function Status({ session }) {
                   onClick={() =>
                     handleReportPayment(
                       app.id,
-                      app.application_status,
-                      app.payment_status
+                      app.status,
+                      app.status
                     )
                   }
                   disabled={
-                    app.application_status !== "applied" ||
-                    app.payment_status !== "not_reported"
+                    !["selected", "payment_pending"].includes(app.status)
                   }
                 >
                   入金連絡
@@ -149,9 +136,9 @@ function Status({ session }) {
                 <button
                   style={{ marginLeft: "8px" }}
                   onClick={() =>
-                    handleCancel(app.id, app.application_status)
+                    handleCancel(app.id, app.status)
                   }
-                  disabled={app.application_status !== "applied"}
+                  disabled={app.status !== "applied"}
                 >
                   キャンセル
                 </button>

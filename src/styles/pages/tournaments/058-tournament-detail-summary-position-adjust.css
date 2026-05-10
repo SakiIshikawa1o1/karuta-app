@@ -1,0 +1,15 @@
+/* =========================================================
+   Tournament Detail Summary Position Adjust
+   上部の白いボックスをちょっと上に配置
+========================================================= */
+
+.tournament-detail-summary-card {
+  margin-top: -12px !important;
+}
+
+/* スマホでは少しだけ控えめに上げる */
+@media (max-width: 480px) {
+  .tournament-detail-summary-card {
+    margin-top: -20px !important;
+  }
+}

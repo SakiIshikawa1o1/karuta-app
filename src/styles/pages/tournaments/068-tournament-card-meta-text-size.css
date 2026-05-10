@@ -1,0 +1,71 @@
+/* =========================================================
+   Tournament card meta text size
+   受付中・級・開催場所の文字を大きくする
+========================================================= */
+
+/* 受付中（〇月〇日まで） */
+.tournament-inline-status {
+  min-height: 22px;
+  padding: 0 8px;
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 800;
+}
+
+/* 級 */
+.tournament-grade {
+  padding: 3px 12px;
+  font-size: 12px;
+  line-height: 1.2;
+  font-weight: 800;
+}
+
+/* 開催場所 */
+.tournament-venue {
+  font-size: 12px;
+  line-height: 1.45;
+  font-weight: 700;
+}
+
+/* 受付中と、級・開催場所の行間 */
+.tournament-list-meta {
+  gap: 5px;
+}
+
+/* 級 + 開催場所の横並び間隔 */
+.tournament-place-grade-row {
+  gap: 7px;
+}
+
+/* スマホ */
+@media (max-width: 768px) {
+  .tournament-inline-status {
+    min-height: 21px;
+    padding: 0 7px;
+    font-size: 10.5px;
+  }
+
+  .tournament-grade {
+    padding: 3px 10px;
+    font-size: 11.5px;
+  }
+
+  .tournament-venue {
+    font-size: 13px;
+  }
+}
+
+/* 小さいスマホ */
+@media (max-width: 480px) {
+  .tournament-inline-status {
+    font-size: 10.5px;
+  }
+
+  .tournament-grade {
+    font-size: 11.5px;
+  }
+
+  .tournament-venue {
+    font-size: 13px;
+  }
+}

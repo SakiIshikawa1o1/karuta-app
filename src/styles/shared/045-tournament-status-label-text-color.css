@@ -1,0 +1,10 @@
+/* =========================================================
+   Tournament status label text color
+   受付中ラベルの文字を白にする
+========================================================= */
+
+.tournament-inline-status,
+.tournament-list-status,
+.home-tournament-card .tournament-status-label {
+  color: #ffffff !important;
+}

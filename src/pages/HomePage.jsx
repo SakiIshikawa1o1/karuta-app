@@ -6,8 +6,8 @@ import SiteFooter from "../components/SiteFooter";
 const STATUS_LABEL = {
   published: "受付中",
   closed: "受付終了",
-  cancelled: "中止",
-  draft: "準備中",
+  preparing: "準備中",
+  draft: "下書き",
 };
 
 function formatDate(value) {
@@ -43,13 +43,24 @@ export default function HomePage() {
     const fetchTournaments = async () => {
       setLoadingTournaments(true);
 
-      const today = new Date().toISOString().slice(0, 10);
+      const now = new Date();
+
+      // 今日の翌日 0:00
+      // 「今日より後」なので、今日締切の大会は除外する
+      const tomorrow = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() + 1,
+        0,
+        0,
+        0
+      );
 
       const { data, error } = await supabase
         .from("tournaments")
         .select("*")
         .eq("status", "published")
-        .gte("event_date", today)
+        .gte("application_deadline", tomorrow.toISOString())
         .order("event_date", { ascending: true })
         .limit(5);
 
@@ -68,7 +79,7 @@ export default function HomePage() {
 
       const { data, error } = await supabase
         .from("notices")
-        .select("id, title, published_at")
+        .select("id, title, published_at, label")
         .eq("is_published", true)
         .order("published_at", { ascending: false })
         .limit(3);
@@ -139,7 +150,7 @@ export default function HomePage() {
         {loadingTournaments ? (
           <div className="empty-card">大会を読み込み中です...</div>
         ) : tournaments.length === 0 ? (
-          <div className="empty-card">現在、開催予定の大会はありません。</div>
+          <div className="empty-card">現在、受付中の大会はありません。</div>
         ) : (
           <div className="home-tournament-grid">
             {tournaments.map((tournament) => {
@@ -201,17 +212,27 @@ export default function HomePage() {
           <div className="empty-card">現在、公開中のお知らせはありません。</div>
         ) : (
           <div className="notice-panel">
-            {notices.map((notice, index) => (
+            {notices.map((notice) => (
               <button
                 type="button"
                 className="notice-item"
                 key={notice.id}
                 onClick={() => navigate("/notices")}
               >
-                <span className="notice-date">{formatDate(notice.published_at)}</span>
-                <span className={index === 0 ? "notice-tag important" : "notice-tag"}>
-                  {index === 0 ? "重要" : "お知らせ"}
+                <span className="notice-date">
+                  {formatDate(notice.published_at)}
                 </span>
+
+                <span
+                  className={
+                    notice.label === "重要"
+                      ? "notice-tag important"
+                      : "notice-tag"
+                  }
+                >
+                  {notice.label || "お知らせ"}
+                </span>
+
                 <span className="notice-text">{notice.title}</span>
                 <span className="notice-arrow">›</span>
               </button>

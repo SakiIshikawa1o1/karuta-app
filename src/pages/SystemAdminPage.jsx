@@ -1,6 +1,7 @@
 // src/pages/SystemAdminPage.jsx
 
 import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "../contexts/AuthContext";
 
@@ -99,11 +100,7 @@ function getDisplayName(targetUser) {
 }
 
 function getInquiryTitle(inquiry) {
-  return inquiry?.subject || inquiry?.title || "問い合わせ";
-}
-
-function getInquiryName(inquiry) {
-  return inquiry?.name || inquiry?.full_name || inquiry?.sender_name || "未設定";
+  return inquiry?.subject || "問い合わせ";
 }
 
 function isInquiryHandled(inquiry) {
@@ -117,6 +114,7 @@ function getInquiryStatus(inquiry) {
 }
 
 export default function SystemAdminPage() {
+  const navigate = useNavigate();
   const { user } = useAuth();
 
   const [users, setUsers] = useState([]);
@@ -124,6 +122,8 @@ export default function SystemAdminPage() {
   const [userRoles, setUserRoles] = useState([]);
   const [notices, setNotices] = useState([]);
   const [affiliations, setAffiliations] = useState([]);
+  const [classLevels, setClassLevels] = useState([]);
+  const [danRanks, setDanRanks] = useState([]);
   const [inquiries, setInquiries] = useState([]);
 
   const [pendingRoleByUser, setPendingRoleByUser] = useState({});
@@ -131,6 +131,8 @@ export default function SystemAdminPage() {
 
   const [pendingAffiliationById, setPendingAffiliationById] = useState({});
   const [affiliationName, setAffiliationName] = useState("");
+  const [affiliationRepresentativeUserId, setAffiliationRepresentativeUserId] =
+    useState("");
   const [selectedNoticeId, setSelectedNoticeId] = useState("");
   const [noticeEditLabel, setNoticeEditLabel] = useState("");
   const [noticeEditTitle, setNoticeEditTitle] = useState("");
@@ -165,15 +167,17 @@ export default function SystemAdminPage() {
     return users.filter((targetUser) => {
       const name = getDisplayName(targetUser).toLowerCase();
       const email = String(targetUser.email || "").toLowerCase();
-      const organization = String(targetUser.organization || "").toLowerCase();
+      const affiliationName =
+        affiliations.find((item) => item.id === targetUser.affiliation_id)
+          ?.name || "";
 
       return (
         name.includes(keyword) ||
         email.includes(keyword) ||
-        organization.includes(keyword)
+        affiliationName.toLowerCase().includes(keyword)
       );
     });
-  }, [users, userSearch]);
+  }, [users, userSearch, affiliations]);
 
   const unresolvedInquiryCount = useMemo(() => {
     return inquiries.filter((item) => !isInquiryHandled(item)).length;
@@ -217,7 +221,7 @@ export default function SystemAdminPage() {
   const fetchProfilesAndRoles = async () => {
     const { data: profileData, error: profileError } = await supabase
       .from("profiles")
-      .select("id, display_name, full_name, email, organization, grade")
+      .select("id, display_name, full_name, email, affiliation_id, class_level_id, dan_rank_id")
       .order("created_at", { ascending: false });
 
     if (profileError) {
@@ -296,41 +300,43 @@ export default function SystemAdminPage() {
 
     affiliationList.forEach((affiliation) => {
       pending[affiliation.id] = {
-        representative: affiliation.representative || "",
-        member_count:
-          affiliation.member_count === null ||
-          affiliation.member_count === undefined
-            ? ""
-            : String(affiliation.member_count),
+        representative_user_id: affiliation.representative_user_id || "",
+        is_active: affiliation.is_active !== false,
       };
     });
 
     setPendingAffiliationById(pending);
   };
 
+  const fetchMasters = async () => {
+    const [classLevelsResult, danRanksResult] = await Promise.all([
+      supabase
+        .from("class_levels")
+        .select("id, name, sort_order")
+        .order("sort_order", { ascending: true }),
+      supabase
+        .from("dan_ranks")
+        .select("id, name, sort_order")
+        .order("sort_order", { ascending: true }),
+    ]);
+
+    if (!classLevelsResult.error) setClassLevels(classLevelsResult.data ?? []);
+    if (!danRanksResult.error) setDanRanks(danRanksResult.data ?? []);
+  };
+
   const fetchInquiries = async () => {
     const { data, error } = await supabase
-      .from("contacts")
-      .select("*")
-      .order("created_at", { ascending: false });
-
-    if (!error) {
-      setInquiries(data ?? []);
-      return;
-    }
-
-    const { data: inquiryData, error: inquiryError } = await supabase
       .from("inquiries")
       .select("*")
       .order("created_at", { ascending: false });
 
-    if (inquiryError) {
-      console.error("問い合わせ取得エラー:", inquiryError.message);
+    if (error) {
+      console.error("問い合わせ取得エラー:", error.message);
       setInquiries([]);
       return;
     }
 
-    setInquiries(inquiryData ?? []);
+    setInquiries(data ?? []);
   };
 
   const fetchApplicationCount = async () => {
@@ -355,6 +361,7 @@ export default function SystemAdminPage() {
       fetchProfilesAndRoles(),
       fetchNotices(),
       fetchAffiliations(),
+      fetchMasters(),
       fetchInquiries(),
       fetchApplicationCount(),
     ]);
@@ -426,8 +433,8 @@ export default function SystemAdminPage() {
 
     const payload = {
       name: affiliationName.trim(),
-      created_by: user?.id,
-      updated_by: user?.id,
+      is_active: true,
+      representative_user_id: affiliationRepresentativeUserId || null,
     };
 
     const { error } = await supabase.from("affiliations").insert(payload);
@@ -438,6 +445,7 @@ export default function SystemAdminPage() {
     }
 
     setAffiliationName("");
+    setAffiliationRepresentativeUserId("");
     setMessage("所属会を追加しました。");
     fetchAffiliations();
   };
@@ -453,9 +461,8 @@ export default function SystemAdminPage() {
     const { error } = await supabase
       .from("affiliations")
       .update({
-        representative: pending.representative || null,
-        member_count: pending.member_count ? Number(pending.member_count) : null,
-        updated_by: user?.id,
+        representative_user_id: pending.representative_user_id || null,
+        is_active: pending.is_active,
         updated_at: new Date().toISOString(),
       })
       .eq("id", affiliationId);
@@ -570,28 +577,20 @@ export default function SystemAdminPage() {
     }
 
     const { error } = await supabase
-      .from("contacts")
+      .from("inquiries")
       .update({
         status: nextStatus,
-        updated_by: user?.id,
+        handled_by: ["handled", "closed"].includes(nextStatus) ? user?.id : null,
+        handled_at: ["handled", "closed"].includes(nextStatus)
+          ? new Date().toISOString()
+          : null,
         updated_at: new Date().toISOString(),
       })
       .eq("id", inquiry.id);
 
     if (error) {
-      const { error: inquiryError } = await supabase
-        .from("inquiries")
-        .update({
-          status: nextStatus,
-          updated_by: user?.id,
-          updated_at: new Date().toISOString(),
-        })
-        .eq("id", inquiry.id);
-
-      if (inquiryError) {
-        setMessage(`問い合わせステータス更新に失敗しました：${inquiryError.message}`);
-        return;
-      }
+      setMessage(`問い合わせステータス更新に失敗しました：${error.message}`);
+      return;
     }
 
     setMessage("問い合わせステータスを更新しました。");
@@ -637,6 +636,21 @@ export default function SystemAdminPage() {
           </section>
 
           <section className="system-admin-panel">
+            <div className="system-admin-section-title compact">
+              <UsersIcon />
+              <h2>所属会申請</h2>
+            </div>
+
+            <button
+              type="button"
+              className="system-admin-main-button compact"
+              onClick={() => navigate("/admin/affiliation-approvals")}
+            >
+              申請を確認する
+            </button>
+          </section>
+
+          <section className="system-admin-panel">
             <div className="system-admin-section-title">
               <div>
                 <h2>ユーザー権限管理</h2>
@@ -670,6 +684,17 @@ export default function SystemAdminPage() {
                       pendingRoleByUser[targetUser.id] ||
                       activeRole?.role_id ||
                       "";
+                    const targetAffiliationName =
+                      affiliations.find(
+                        (item) => item.id === targetUser.affiliation_id
+                      )?.name || "未設定";
+                    const targetClassLevelName =
+                      classLevels.find(
+                        (item) => item.id === targetUser.class_level_id
+                      )?.name || "未設定";
+                    const targetDanRankName =
+                      danRanks.find((item) => item.id === targetUser.dan_rank_id)
+                        ?.name || "未設定";
 
                     return (
                       <tr key={targetUser.id}>
@@ -682,7 +707,13 @@ export default function SystemAdminPage() {
                           </div>
                         </td>
 
-                        <td>{targetUser.organization || "未設定"}</td>
+                        <td>
+                          {targetAffiliationName}
+                          <br />
+                          <small>
+                            {targetClassLevelName} / {targetDanRankName}
+                          </small>
+                        </td>
 
                         <td>
                           <select
@@ -730,7 +761,7 @@ export default function SystemAdminPage() {
               <div className="system-admin-affiliation-head">
                 <span>所属会名</span>
                 <span>代表者</span>
-                <span>会員数</span>
+                <span>有効</span>
                 <span>操作</span>
               </div>
 
@@ -741,12 +772,9 @@ export default function SystemAdminPage() {
               ) : (
                 affiliations.map((affiliation) => {
                   const pending = pendingAffiliationById[affiliation.id] || {
-                    representative: affiliation.representative || "",
-                    member_count:
-                      affiliation.member_count === null ||
-                      affiliation.member_count === undefined
-                        ? ""
-                        : String(affiliation.member_count),
+                    representative_user_id:
+                      affiliation.representative_user_id || "",
+                    is_active: affiliation.is_active !== false,
                   };
 
                   return (
@@ -757,13 +785,13 @@ export default function SystemAdminPage() {
                       <strong>{affiliation.name}</strong>
 
                       <select
-                        value={pending.representative}
+                        value={pending.representative_user_id}
                         onChange={(event) =>
                           setPendingAffiliationById((prev) => ({
                             ...prev,
                             [affiliation.id]: {
                               ...pending,
-                              representative: event.target.value,
+                              representative_user_id: event.target.value,
                             },
                           }))
                         }
@@ -772,26 +800,28 @@ export default function SystemAdminPage() {
                         {users.map((targetUser) => (
                           <option
                             key={targetUser.id}
-                            value={getDisplayName(targetUser)}
+                            value={targetUser.id}
                           >
                             {getDisplayName(targetUser)}
                           </option>
                         ))}
                       </select>
 
-                      <input
-                        type="number"
-                        value={pending.member_count}
+                      <select
+                        value={pending.is_active ? "true" : "false"}
                         onChange={(event) =>
                           setPendingAffiliationById((prev) => ({
                             ...prev,
                             [affiliation.id]: {
                               ...pending,
-                              member_count: event.target.value,
+                              is_active: event.target.value === "true",
                             },
                           }))
                         }
-                      />
+                      >
+                        <option value="true">有効</option>
+                        <option value="false">無効</option>
+                      </select>
 
                       <button
                         type="button"
@@ -811,6 +841,19 @@ export default function SystemAdminPage() {
                 onChange={(event) => setAffiliationName(event.target.value)}
                 placeholder="所属会名"
               />
+              <select
+                value={affiliationRepresentativeUserId}
+                onChange={(event) =>
+                  setAffiliationRepresentativeUserId(event.target.value)
+                }
+              >
+                <option value="">代表者未設定</option>
+                {users.map((targetUser) => (
+                  <option key={targetUser.id} value={targetUser.id}>
+                    {getDisplayName(targetUser)}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <button
@@ -983,7 +1026,7 @@ export default function SystemAdminPage() {
                             </span>
                           </td>
 
-                          <td>{getInquiryName(inquiry)}</td>
+                          <td>{getDisplayName(users.find((item) => item.id === inquiry.user_id))}</td>
                           <td>{getInquiryTitle(inquiry)}</td>
                           <td>{formatDate(inquiry.created_at)}</td>
 

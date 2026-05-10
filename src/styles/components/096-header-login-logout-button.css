@@ -1,0 +1,72 @@
+/* =========================================================
+   Header Login / Logout Button
+   ログイン・ログアウトボタンをハンバーガー横に表示
+========================================================= */
+
+.header-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+.header-login-button {
+  min-height: 34px !important;
+  padding: 0 13px !important;
+  border-radius: 999px !important;
+  border: 1px solid rgba(200, 30, 47, 0.24) !important;
+  background: #ffffff !important;
+  color: var(--red-dark) !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  font-size: 13px !important;
+  line-height: 1 !important;
+  font-weight: 900 !important;
+  white-space: nowrap !important;
+  cursor: pointer !important;
+}
+
+.header-login-button:hover {
+  background: #fff1ed !important;
+}
+
+.header-login-button:disabled {
+  opacity: 0.65 !important;
+  cursor: not-allowed !important;
+}
+
+/* スマホでもログイン・ログアウトボタンは非表示にしない */
+@media (max-width: 768px) {
+  .pc-nav {
+    display: none !important;
+  }
+
+  .header-actions {
+    gap: 8px !important;
+  }
+
+  .header-login-button {
+    display: inline-flex !important;
+    min-height: 30px !important;
+    padding: 0 10px !important;
+    font-size: 11px !important;
+  }
+
+  .hamburger-button {
+    flex: 0 0 auto !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-actions {
+    gap: 6px !important;
+  }
+
+  .header-login-button {
+    min-height: 28px !important;
+    padding: 0 8px !important;
+    font-size: 10.5px !important;
+  }
+}

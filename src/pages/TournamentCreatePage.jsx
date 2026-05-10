@@ -45,6 +45,15 @@ function sanitizeNumber(value) {
   return Number.isNaN(number) ? null : number;
 }
 
+const CLASS_OPTIONS = [
+  { key: "allow_class_a", label: "A級" },
+  { key: "allow_class_b", label: "B級" },
+  { key: "allow_class_c", label: "C級" },
+  { key: "allow_class_d", label: "D級" },
+  { key: "allow_class_e", label: "E級" },
+  { key: "allow_class_f", label: "F級" },
+];
+
 export default function TournamentCreatePage() {
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -55,12 +64,16 @@ export default function TournamentCreatePage() {
     venue: "",
     application_start_at: "",
     application_deadline: "",
-    department_grade: "",
-    capacity: "",
     entry_fee: "",
-    description: "",
+    notes: "",
     address: "",
     status: "draft",
+    allow_class_a: false,
+    allow_class_b: false,
+    allow_class_c: false,
+    allow_class_d: false,
+    allow_class_e: false,
+    allow_class_f: false,
   });
 
   const [requirementFile, setRequirementFile] = useState(null);
@@ -80,8 +93,9 @@ export default function TournamentCreatePage() {
     if (!form.venue.trim()) return "会場は必須です。";
     if (!form.application_start_at) return "申込開始日は必須です。";
     if (!form.application_deadline) return "申込締切日は必須です。";
-    if (!form.department_grade) return "部門・級は必須です。";
-    if (!form.capacity) return "定員は必須です。";
+    if (!CLASS_OPTIONS.some((item) => form[item.key])) {
+      return "参加可能な級を1つ以上選択してください。";
+    }
     if (!form.entry_fee) return "参加費は必須です。";
     return "";
   };
@@ -99,20 +113,22 @@ export default function TournamentCreatePage() {
 
     const payload = {
       title: form.title.trim(),
-      description: form.description.trim(),
+      notes: form.notes.trim() || null,
       event_date: form.event_date,
       venue: form.venue.trim(),
       address: form.address.trim(),
-      capacity: sanitizeNumber(form.capacity),
       entry_fee: sanitizeNumber(form.entry_fee),
       application_start_at: form.application_start_at || null,
       application_deadline: form.application_deadline || null,
       status: nextStatus,
       created_by: user?.id,
       updated_by: user?.id,
-
-      // tournaments テーブルに grade カラムがない場合は、この1行を削除してください
-      grade: form.department_grade,
+      allow_class_a: form.allow_class_a,
+      allow_class_b: form.allow_class_b,
+      allow_class_c: form.allow_class_c,
+      allow_class_d: form.allow_class_d,
+      allow_class_e: form.allow_class_e,
+      allow_class_f: form.allow_class_f,
     };
 
     const { error } = await supabase.from("tournaments").insert(payload);
@@ -216,47 +232,24 @@ export default function TournamentCreatePage() {
 
           <div className="tournament-create-row">
             <div className="tournament-create-label">
-              <span>部門・級</span>
+              <span>参加可能な級</span>
               <strong>必須</strong>
             </div>
 
-            <div>
-              <select
-                value={form.department_grade}
-                onChange={(e) =>
-                  handleChange("department_grade", e.target.value)
-                }
-              >
-                <option value="">選択してください</option>
-                <option value="A級">A級</option>
-                <option value="B級">B級</option>
-                <option value="C級">C級</option>
-                <option value="D級">D級</option>
-                <option value="E級">E級</option>
-                <option value="全級">全級</option>
-              </select>
-
+            <div className="tournament-create-radio-list">
+              {CLASS_OPTIONS.map((item) => (
+                <label key={item.key}>
+                  <input
+                    type="checkbox"
+                    checked={form[item.key]}
+                    onChange={(e) => handleChange(item.key, e.target.checked)}
+                  />
+                  <span>{item.label}参加可</span>
+                </label>
+              ))}
               <p className="tournament-create-help">
-                複数の部門・級を設定できます（登録後に編集可能）
+                複数の級を選択できます。
               </p>
-            </div>
-          </div>
-
-          <div className="tournament-create-row">
-            <div className="tournament-create-label">
-              <span>定員</span>
-              <strong>必須</strong>
-            </div>
-
-            <div className="tournament-create-inline-input">
-              <input
-                type="text"
-                inputMode="numeric"
-                value={form.capacity}
-                onChange={(e) => handleChange("capacity", e.target.value)}
-                placeholder="例）100"
-              />
-              <span>人</span>
             </div>
           </div>
 
@@ -280,19 +273,19 @@ export default function TournamentCreatePage() {
 
           <div className="tournament-create-row">
             <div className="tournament-create-label">
-              <span>大会概要</span>
+              <span>大会備考</span>
               <em>任意</em>
             </div>
 
             <div>
               <textarea
-                value={form.description}
-                onChange={(e) => handleChange("description", e.target.value)}
+                value={form.notes}
+                onChange={(e) => handleChange("notes", e.target.value)}
                 maxLength={1000}
-                placeholder="大会の概要や見どころなどを入力してください"
+                placeholder="大会備考や参加時の注意などを入力してください"
               />
               <p className="tournament-create-count">
-                {form.description.length} / 1000
+                {form.notes.length} / 1000
               </p>
             </div>
           </div>
@@ -353,6 +346,34 @@ export default function TournamentCreatePage() {
                 <span>
                   公開する
                   <small>登録後すぐに大会ページが公開されます</small>
+                </span>
+              </label>
+
+              <label>
+                <input
+                  type="radio"
+                  name="status"
+                  value="preparing"
+                  checked={form.status === "preparing"}
+                  onChange={(e) => handleChange("status", e.target.value)}
+                />
+                <span>
+                  準備中
+                  <small>大会ページは表示し、申込は受け付けません</small>
+                </span>
+              </label>
+
+              <label>
+                <input
+                  type="radio"
+                  name="status"
+                  value="closed"
+                  checked={form.status === "closed"}
+                  onChange={(e) => handleChange("status", e.target.value)}
+                />
+                <span>
+                  受付終了
+                  <small>新規申込を停止します</small>
                 </span>
               </label>
             </div>

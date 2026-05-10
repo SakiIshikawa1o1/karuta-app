@@ -1,0 +1,57 @@
+/* =========================================================
+   Tournament detail button text size
+   詳細ボタンの文字を大きくする
+========================================================= */
+
+.tournament-list-actions button {
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.tournament-list-actions button span {
+  font-size: 16px;
+}
+
+/* スマホ */
+@media (max-width: 768px) {
+  .tournament-list-actions button {
+    font-size: 12.5px;
+  }
+
+  .tournament-list-actions button span {
+    font-size: 15px;
+  }
+}
+
+/* 小さいスマホ */
+@media (max-width: 480px) {
+  .tournament-list-actions button {
+    font-size: 12px;
+  }
+
+  .tournament-list-actions button span {
+    font-size: 14px;
+  }
+}
+
+/* 詳細ボタンの「＞」を大きくする */
+.tournament-list-actions button span {
+  margin-left: 5px;
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 900;
+}
+
+/* スマホ */
+@media (max-width: 768px) {
+  .tournament-list-actions button span {
+    font-size: 19px;
+  }
+}
+
+/* 小さいスマホ */
+@media (max-width: 480px) {
+  .tournament-list-actions button span {
+    font-size: 18px;
+  }
+}
