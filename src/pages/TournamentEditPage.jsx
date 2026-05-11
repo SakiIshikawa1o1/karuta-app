@@ -5,6 +5,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "../contexts/AuthContext";
 import { ROLE } from "../utils/roles";
+import {
+  buildGuidelineFilePath,
+  getGuidelineContentType,
+  GUIDELINE_FILE_ACCEPT,
+  TOURNAMENT_FILE_BUCKET,
+  validateGuidelineFile,
+} from "../utils/tournamentFiles";
 
 const STATUS_LABEL = {
   draft: "下書き",
@@ -113,6 +120,7 @@ export default function TournamentEditPage() {
   });
 
   const [requirementFile, setRequirementFile] = useState(null);
+  const [removeGuidelineFile, setRemoveGuidelineFile] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
@@ -140,6 +148,7 @@ export default function TournamentEditPage() {
       allow_class_f: false,
     });
     setRequirementFile(null);
+    setRemoveGuidelineFile(false);
   };
 
   const fillFormFromTournament = (selected) => {
@@ -246,6 +255,8 @@ export default function TournamentEditPage() {
     }
 
     fillFormFromTournament(selected);
+    setRequirementFile(null);
+    setRemoveGuidelineFile(false);
   };
 
   const handleChange = (field, value) => {
@@ -253,6 +264,28 @@ export default function TournamentEditPage() {
       ...prev,
       [field]: value,
     }));
+  };
+
+  const handleGuidelineFileChange = (event) => {
+    const file = event.target.files?.[0] ?? null;
+    const validationMessage = validateGuidelineFile(file);
+
+    if (validationMessage) {
+      setMessage(validationMessage);
+      setRequirementFile(null);
+      event.target.value = "";
+      return;
+    }
+
+    setMessage("");
+    setRequirementFile(file);
+    setRemoveGuidelineFile(false);
+  };
+
+  const handleRemoveGuidelineFile = () => {
+    setRequirementFile(null);
+    setRemoveGuidelineFile(true);
+    setMessage("");
   };
 
   const validateForm = () => {
@@ -316,6 +349,45 @@ export default function TournamentEditPage() {
       allow_class_f: form.allow_class_f,
     };
 
+    const oldFilePath = selectedTournament?.guideline_file_path ?? null;
+    let uploadedFilePath = "";
+
+    if (requirementFile) {
+      uploadedFilePath = buildGuidelineFilePath(selectedId, requirementFile.name);
+
+      const { error: uploadError } = await supabase.storage
+        .from(TOURNAMENT_FILE_BUCKET)
+        .upload(uploadedFilePath, requirementFile, {
+          cacheControl: "3600",
+          upsert: false,
+          contentType: getGuidelineContentType(requirementFile),
+        });
+
+      if (uploadError) {
+        console.error("要項ファイルアップロードエラー:", {
+          message: uploadError.message,
+          statusCode: uploadError.statusCode,
+          error: uploadError.error,
+          fileName: requirementFile.name,
+          fileType: requirementFile.type,
+          fileSize: requirementFile.size,
+          filePath: uploadedFilePath,
+        });
+
+        setSaving(false);
+        setMessage(
+          `要項ファイルのアップロードに失敗しました：${uploadError.message}`
+        );
+        return;
+      }
+
+      updatePayload.guideline_file_path = uploadedFilePath;
+      updatePayload.guideline_file_name = requirementFile.name;
+    } else if (removeGuidelineFile) {
+      updatePayload.guideline_file_path = null;
+      updatePayload.guideline_file_name = null;
+    }
+
     const { error } = await supabase
       .from("tournaments")
       .update(updatePayload)
@@ -324,9 +396,36 @@ export default function TournamentEditPage() {
     setSaving(false);
 
     if (error) {
+      if (uploadedFilePath) {
+        const { error: removeUploadedError } = await supabase.storage
+          .from(TOURNAMENT_FILE_BUCKET)
+          .remove([uploadedFilePath]);
+
+        if (removeUploadedError) {
+          console.warn("要項ファイル削除エラー:", removeUploadedError.message);
+        }
+      }
+
       setMessage(`更新に失敗しました：${error.message}`);
       return;
     }
+
+    if (
+      oldFilePath &&
+      (removeGuidelineFile || uploadedFilePath) &&
+      oldFilePath !== uploadedFilePath
+    ) {
+      const { error: removeOldError } = await supabase.storage
+        .from(TOURNAMENT_FILE_BUCKET)
+        .remove([oldFilePath]);
+
+      if (removeOldError) {
+        console.warn("要項ファイル削除エラー:", removeOldError.message);
+      }
+    }
+
+    setRequirementFile(null);
+    setRemoveGuidelineFile(false);
 
     setMessage("大会情報を更新しました。");
     alert("大会情報を更新しました。");
@@ -530,22 +629,46 @@ export default function TournamentEditPage() {
                     <em>任意</em>
                   </div>
 
-                  <label className="tournament-edit-upload">
-                    <input
-                      type="file"
-                      accept=".pdf,.doc,.docx,.xls,.xlsx"
-                      onChange={(e) =>
-                        setRequirementFile(e.target.files?.[0] ?? null)
-                      }
-                    />
-                    <UploadIcon />
-                    <span>
-                      {requirementFile
-                        ? requirementFile.name
-                        : "ファイルを選択 またはドラッグ＆ドロップ"}
-                    </span>
-                    <small>PDF・Word・Excel（最大10MB）</small>
-                  </label>
+                  <div>
+                    {selectedTournament?.guideline_file_path &&
+                      !removeGuidelineFile && (
+                        <div className="tournament-edit-current-file">
+                          <p>
+                            現在の要項ファイル：
+                            {selectedTournament.guideline_file_name ||
+                              "大会要項ファイル"}
+                          </p>
+                          <button
+                            type="button"
+                            className="tournament-edit-remove-file-button"
+                            onClick={handleRemoveGuidelineFile}
+                          >
+                            削除する
+                          </button>
+                        </div>
+                      )}
+
+                    {removeGuidelineFile && (
+                      <p className="tournament-edit-help">
+                        保存すると現在の要項ファイルを削除します。
+                      </p>
+                    )}
+
+                    <label className="tournament-edit-upload">
+                      <input
+                        type="file"
+                        accept={GUIDELINE_FILE_ACCEPT}
+                        onChange={handleGuidelineFileChange}
+                      />
+                      <UploadIcon />
+                      <span>
+                        {requirementFile
+                          ? requirementFile.name
+                          : "PDFファイルを選択 またはドラッグ＆ドロップ"}
+                      </span>
+                      <small>PDFのみ・最大10MB</small>
+                    </label>
+                  </div>
                 </div>
 
                 <div className="tournament-edit-row">

@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "../contexts/AuthContext";
+import { ROLE } from "../utils/roles";
 
 const STATUS_LABEL = {
   applied: "申込済み",
@@ -11,7 +12,6 @@ const STATUS_LABEL = {
   rejected: "落選",
   payment_pending: "当選・未入金",
   payment_confirming: "入金確認中",
-  payment_confirmed: "入金確認済み",
   confirmed: "参加確定",
   cancelled: "キャンセル済み",
 };
@@ -24,7 +24,6 @@ const STATUS_CLASS = {
   rejected: "status-not-selected",
   payment_pending: "status-selected",
   payment_confirming: "status-payment-checking",
-  payment_confirmed: "status-payment-confirmed",
   confirmed: "status-payment-confirmed",
   cancelled: "status-cancelled",
 };
@@ -36,12 +35,12 @@ const STATUS_OPTIONS = [
   { value: "rejected", label: "落選" },
   { value: "payment_pending", label: "当選・未入金" },
   { value: "payment_confirming", label: "入金確認中" },
-  { value: "payment_confirmed", label: "入金確認済み" },
   { value: "confirmed", label: "参加確定" },
   { value: "cancelled", label: "キャンセル済み" },
 ];
 
 function normalizeStatus(status) {
+  if (status === "payment_confirmed") return "confirmed";
   return status;
 }
 
@@ -96,7 +95,8 @@ function KanaIcon() {
 }
 
 export default function ApplicationAdminPage() {
-  const { user } = useAuth();
+  const { user, profile, hasRole } = useAuth();
+  const isSystemAdmin = hasRole(ROLE.SYSTEM_ADMIN);
 
   const [applications, setApplications] = useState([]);
   const [tournaments, setTournaments] = useState([]);
@@ -162,9 +162,6 @@ export default function ApplicationAdminPage() {
 
     setTournaments(data ?? []);
 
-    if (!selectedTournamentId && data && data.length > 0) {
-      setSelectedTournamentId(data[0].id);
-    }
   };
 
   const fetchApplications = async (tournamentId = selectedTournamentId) => {
@@ -186,10 +183,42 @@ export default function ApplicationAdminPage() {
     if (!classLevelsResult.error) setClassLevels(classLevelsResult.data ?? []);
     if (!danRanksResult.error) setDanRanks(danRanksResult.data ?? []);
 
+    let scopedUserIds = null;
+
+    if (!isSystemAdmin) {
+      if (!profile?.affiliation_id) {
+        setApplications([]);
+        setLoading(false);
+        setMessage("所属会が設定されていないため、申込一覧を表示できません。");
+        return;
+      }
+
+      const { data: sameAffiliationUsers, error: profileError } = await supabase
+        .from("profiles")
+        .select("id")
+        .eq("affiliation_id", profile.affiliation_id);
+
+      if (profileError) {
+        setApplications([]);
+        setLoading(false);
+        setMessage(`所属会ユーザーの取得に失敗しました：${profileError.message}`);
+        return;
+      }
+
+      scopedUserIds = (sameAffiliationUsers ?? []).map((item) => item.id);
+
+      if (scopedUserIds.length === 0) {
+        setApplications([]);
+        setLoading(false);
+        return;
+      }
+    }
+
     let query = supabase
       .from("applications")
       .select(`
         id,
+        user_id,
         applicant_name,
         organization,
         class_level_id,
@@ -213,6 +242,10 @@ export default function ApplicationAdminPage() {
       query = query.eq("tournament_id", tournamentId);
     }
 
+    if (scopedUserIds) {
+      query = query.in("user_id", scopedUserIds);
+    }
+
     const { data, error } = await query;
 
     setLoading(false);
@@ -231,7 +264,7 @@ export default function ApplicationAdminPage() {
 
   useEffect(() => {
     fetchApplications(selectedTournamentId);
-  }, [selectedTournamentId]);
+  }, [selectedTournamentId, profile?.affiliation_id, isSystemAdmin]);
 
   const handleSearch = () => {
     setAppliedSearch({

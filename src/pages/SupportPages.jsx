@@ -149,51 +149,62 @@ export function ContactPage() {
   return (
     <SupportPageLayout
       title="問い合わせ"
-      lead="大会申込やアカウント情報についてお困りの場合はこちらをご確認ください。"
+      lead="大会申込、アカウント、承認状況についてお困りの内容を送信できます。"
     >
-      <section>
-        <h2>問い合わせ前に確認すること</h2>
-        <p>
-          申込状況はマイページまたは申込状況ページから確認できます。
-          大会の締切、会場、参加費などは大会詳細ページをご確認ください。
-        </p>
-      </section>
+      <section className="support-contact-card">
+        <div className="support-contact-heading">
+          <span>CONTACT</span>
+          <h2>問い合わせフォーム</h2>
+          <p>
+            内容を確認後、運営側で対応します。大会名や発生している画面名がある場合は本文に含めてください。
+          </p>
+        </div>
 
-      <section>
-        <h2>問い合わせフォーム</h2>
-        {message && <p>{message}</p>}
+        {message && <p className="support-form-message">{message}</p>}
+
         {!loading && !user ? (
-          <p>問い合わせを送信するにはログインしてください。</p>
+          <div className="support-login-required">
+            <p>問い合わせを送信するにはログインしてください。</p>
+            <button type="button" onClick={() => navigate("/login")}>
+              ログインへ
+            </button>
+          </div>
         ) : (
-          <form onSubmit={handleSubmit}>
-            <p>
+          <form className="support-contact-form" onSubmit={handleSubmit}>
+            <label>
+              <span>件名</span>
               <input
                 value={subject}
                 onChange={(event) => setSubject(event.target.value)}
-                placeholder="件名"
+                placeholder="例）所属会承認について"
               />
-            </p>
-            <p>
+            </label>
+
+            <label>
+              <span>内容</span>
               <textarea
                 value={body}
                 onChange={(event) => setBody(event.target.value)}
-                placeholder="問い合わせ内容"
-                rows={6}
+                placeholder="問い合わせ内容を入力してください"
+                rows={8}
               />
-            </p>
+            </label>
+
             <button type="submit" disabled={saving || loading}>
-              {saving ? "送信中..." : "送信する"}
+              {saving ? "送信中..." : "問い合わせを送信"}
             </button>
           </form>
         )}
       </section>
 
-      <section>
-        <h2>連絡時に記載してほしい内容</h2>
-        <p>
-          大会名、発生している内容を添えてご連絡ください。
-          画面にエラーメッセージが出ている場合は、その文面も一緒にお知らせください。
-        </p>
+      <section className="support-page-tips">
+        <h2>書くと伝わりやすい内容</h2>
+        <div>
+          <span>大会名</span>
+          <span>操作していた画面</span>
+          <span>表示されたエラー文</span>
+          <span>承認待ち・申込状況などの状態</span>
+        </div>
       </section>
     </SupportPageLayout>
   );

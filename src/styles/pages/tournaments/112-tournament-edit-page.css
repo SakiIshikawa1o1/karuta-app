@@ -262,6 +262,41 @@
   font-weight: 700;
 }
 
+.tournament-edit-current-file {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+  padding: 10px 12px;
+  border: 1px solid rgba(120, 40, 30, 0.14);
+  border-radius: 8px;
+  background: #fff8f5;
+}
+
+.tournament-edit-current-file p {
+  margin: 0;
+  color: #3a2118;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.tournament-edit-remove-file-button {
+  flex: 0 0 auto;
+  border: 1px solid rgba(190, 40, 34, 0.25);
+  border-radius: 999px;
+  background: #fff;
+  color: #9b241d;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.tournament-edit-remove-file-button:hover {
+  background: #fff0ed;
+}
+
 /* ラジオ */
 .tournament-edit-radio-list {
   display: grid;

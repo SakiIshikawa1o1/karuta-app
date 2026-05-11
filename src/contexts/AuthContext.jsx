@@ -170,7 +170,8 @@ export function AuthProvider({ children }) {
   const isLoggedIn = !!user;
   const approvalStatus = profile?.approval_status || "pending";
   const isEmailConfirmed = !!(user?.email_confirmed_at || user?.confirmed_at);
-  const isApproved = approvalStatus === "approved";
+  const isSystemAdmin = roles.includes(ROLE.SYSTEM_ADMIN);
+  const isApproved = approvalStatus === "approved" || isSystemAdmin;
 
   const hasRole = (roleCode) => {
     return roles.includes(roleCode);
@@ -196,6 +197,7 @@ export function AuthProvider({ children }) {
       isLoggedIn,
       approvalStatus,
       isApproved,
+      isSystemAdmin,
       isEmailConfirmed,
       hasRole,
       canAccessAdmin,
@@ -211,6 +213,7 @@ export function AuthProvider({ children }) {
       isLoggedIn,
       approvalStatus,
       isApproved,
+      isSystemAdmin,
       isEmailConfirmed,
     ]
   );

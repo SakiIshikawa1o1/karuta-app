@@ -9,9 +9,9 @@ const STATUS_LABEL = {
   lottery: "抽選中",
   selected: "当選",
   rejected: "落選",
+  rejected_acknowledged: "落選確認済み",
   payment_pending: "当選・未入金",
   payment_confirming: "入金確認中",
-  payment_confirmed: "入金確認済み",
   confirmed: "参加確定",
   cancelled: "キャンセル済み",
 };
@@ -21,9 +21,9 @@ const STATUS_CLASS = {
   lottery: "status-lottery",
   selected: "status-selected",
   rejected: "status-not-selected",
+  rejected_acknowledged: "status-not-selected",
   payment_pending: "status-selected",
   payment_confirming: "status-payment-checking",
-  payment_confirmed: "status-payment-confirmed",
   confirmed: "status-payment-confirmed",
   cancelled: "status-cancelled",
 };
@@ -39,7 +39,6 @@ const STATUS_TABS = [
       "rejected",
       "payment_pending",
       "payment_confirming",
-      "payment_confirmed",
       "confirmed",
     ],
   },
@@ -61,9 +60,14 @@ const STATUS_TABS = [
   {
     key: "confirmed",
     label: "確定",
-    statuses: ["payment_confirmed", "confirmed"],
+    statuses: ["confirmed"],
   },
 ];
+
+function normalizeStatus(status) {
+  if (status === "payment_confirmed") return "confirmed";
+  return status;
+}
 
 function formatDate(dateString) {
   if (!dateString) return "日程未定";
@@ -134,6 +138,7 @@ export default function ApplicationStatusPage() {
       `)
       .eq("user_id", user.id)
       .neq("status", "cancelled")
+      .neq("status", "rejected_acknowledged")
           .order("applied_at", { ascending: false }),
         supabase
           .from("class_levels")
@@ -161,7 +166,12 @@ export default function ApplicationStatusPage() {
       return dateA.localeCompare(dateB);
     });
 
-    setApplications(sortedData);
+    setApplications(
+      sortedData.map((app) => ({
+        ...app,
+        status: normalizeStatus(app.status),
+      }))
+    );
     setLastUpdated(new Date());
   };
 
@@ -173,7 +183,7 @@ export default function ApplicationStatusPage() {
   const tabCounts = useMemo(() => {
     return STATUS_TABS.reduce((acc, tab) => {
       acc[tab.key] = applications.filter((app) =>
-        tab.statuses.includes(app.status)
+        tab.statuses.includes(normalizeStatus(app.status))
       ).length;
       return acc;
     }, {});
@@ -188,7 +198,7 @@ export default function ApplicationStatusPage() {
       const snapshotTitle = app.tournament_title ?? "";
       const venue = app.tournaments?.venue ?? "";
 
-      const matchesTab = activeStatuses.includes(app.status);
+      const matchesTab = activeStatuses.includes(normalizeStatus(app.status));
 
       const matchesSearch =
         searchText.trim() === "" ||
@@ -225,11 +235,15 @@ export default function ApplicationStatusPage() {
       return;
     }
 
-    if (nextStatus === "cancelled") {
+    if (nextStatus === "cancelled" || nextStatus === "rejected_acknowledged") {
       setApplications((prev) =>
         prev.filter((item) => item.id !== application.id)
       );
-      setMessage("申し込みをキャンセルしました。");
+      setMessage(
+        nextStatus === "cancelled"
+          ? "申し込みをキャンセルしました。"
+          : "落選結果を確認済みにしました。"
+      );
       return;
     }
 
@@ -318,7 +332,8 @@ export default function ApplicationStatusPage() {
         <section className="application-status-list">
           {filteredApplications.map((app) => {
             const tournament = app.tournaments;
-            const statusClass = STATUS_CLASS[app.status] ?? "";
+            const appStatus = normalizeStatus(app.status);
+            const statusClass = STATUS_CLASS[appStatus] ?? "";
             const classLevelName =
               classLevels.find((item) => item.id === app.class_level_id)?.name ||
               "";
@@ -334,7 +349,7 @@ export default function ApplicationStatusPage() {
                 <div className="application-status-card-main">
                   <div className="application-status-status-row">
                     <span className={`application-status-pill ${statusClass}`}>
-                      {STATUS_LABEL[app.status] || app.status}
+                      {STATUS_LABEL[appStatus] || appStatus}
                     </span>
                   </div>
 
@@ -385,6 +400,22 @@ export default function ApplicationStatusPage() {
                     </button>
                   )}
 
+                  {app.status === "rejected" && (
+                    <button
+                      type="button"
+                      className="application-status-action-button cancel"
+                      onClick={(event) =>
+                        updateApplicationStatus(
+                          event,
+                          app,
+                          "rejected_acknowledged"
+                        )
+                      }
+                    >
+                      確認
+                    </button>
+                  )}
+
                   {app.status === "selected" || app.status === "payment_pending" ? (
                     <button
                       type="button"
@@ -393,7 +424,7 @@ export default function ApplicationStatusPage() {
                         updateApplicationStatus(event, app, "payment_confirming")
                       }
                     >
-                      入金確認依頼
+                      入金済みにする
                     </button>
                   ) : null}
 

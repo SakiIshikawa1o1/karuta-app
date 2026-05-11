@@ -40,14 +40,7 @@ export default function App() {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/auth/callback" element={<AuthCallbackPage />} />
           <Route path="/approval-pending" element={<ApprovalPendingPage />} />
-          <Route
-            path="/tournaments"
-            element={
-              <ProtectedRoute>
-                <TournamentListPage />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/tournaments" element={<TournamentListPage />} />
           <Route path="/notices" element={<NoticesPage />} />
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />

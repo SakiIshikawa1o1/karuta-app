@@ -92,8 +92,8 @@ function formatDate(dateString) {
 
 function getDisplayName(targetUser) {
   return (
-    targetUser?.display_name ||
     targetUser?.full_name ||
+    targetUser?.display_name ||
     targetUser?.email ||
     "未設定"
   );
@@ -431,13 +431,10 @@ export default function SystemAdminPage() {
       return;
     }
 
-    const payload = {
-      name: affiliationName.trim(),
-      is_active: true,
-      representative_user_id: affiliationRepresentativeUserId || null,
-    };
-
-    const { error } = await supabase.from("affiliations").insert(payload);
+    const { error } = await supabase.rpc("admin_create_affiliation", {
+      p_name: affiliationName.trim(),
+      p_representative_user_id: affiliationRepresentativeUserId || null,
+    });
 
     if (error) {
       setMessage(`所属会の追加に失敗しました：${error.message}`);
@@ -458,14 +455,11 @@ export default function SystemAdminPage() {
       return;
     }
 
-    const { error } = await supabase
-      .from("affiliations")
-      .update({
-        representative_user_id: pending.representative_user_id || null,
-        is_active: pending.is_active,
-        updated_at: new Date().toISOString(),
-      })
-      .eq("id", affiliationId);
+    const { error } = await supabase.rpc("admin_update_affiliation", {
+      p_affiliation_id: affiliationId,
+      p_representative_user_id: pending.representative_user_id || null,
+      p_is_active: pending.is_active,
+    });
 
     if (error) {
       setMessage(`所属会の更新に失敗しました：${error.message}`);
@@ -566,6 +560,41 @@ export default function SystemAdminPage() {
 
     setMessage("お知らせの公開状態を更新しました。");
     fetchNotices();
+  };
+
+  const handleDeleteNotice = async () => {
+    if (!selectedNoticeId) return;
+
+    const ok = window.confirm("選択中のお知らせを削除しますか？");
+    if (!ok) return;
+
+    const { error } = await supabase
+      .from("notices")
+      .delete()
+      .eq("id", selectedNoticeId);
+
+    if (error) {
+      const { error: unpublishError } = await supabase
+        .from("notices")
+        .update({
+          is_published: false,
+          updated_by: user?.id,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", selectedNoticeId);
+
+      if (unpublishError) {
+        setMessage(`お知らせの削除に失敗しました：${unpublishError.message}`);
+        return;
+      }
+    }
+
+    setSelectedNoticeId("");
+    setNoticeEditLabel("");
+    setNoticeEditTitle("");
+    setNoticeEditBody("");
+    setMessage("お知らせを削除しました。");
+    setNotices((prev) => prev.filter((notice) => notice.id !== selectedNoticeId));
   };
 
   const handleUpdateInquiryStatus = async (inquiry) => {
@@ -970,6 +999,16 @@ export default function SystemAdminPage() {
                   </button>
                 )}
 
+                {selectedNoticeId && (
+                  <button
+                    type="button"
+                    className="system-admin-secondary-button danger"
+                    onClick={handleDeleteNotice}
+                  >
+                    削除する
+                  </button>
+                )}
+
                 <button
                   type="button"
                   className="system-admin-main-button compact"
@@ -995,6 +1034,7 @@ export default function SystemAdminPage() {
                     <th>状態</th>
                     <th>氏名</th>
                     <th>件名</th>
+                    <th>内容</th>
                     <th>日付</th>
                     <th>ステータス変更</th>
                     <th>操作</th>
@@ -1004,7 +1044,7 @@ export default function SystemAdminPage() {
                 <tbody>
                   {inquiries.length === 0 ? (
                     <tr>
-                      <td colSpan="6">問い合わせはありません。</td>
+                      <td colSpan="7">問い合わせはありません。</td>
                     </tr>
                   ) : (
                     inquiries.map((inquiry) => {
@@ -1028,6 +1068,9 @@ export default function SystemAdminPage() {
 
                           <td>{getDisplayName(users.find((item) => item.id === inquiry.user_id))}</td>
                           <td>{getInquiryTitle(inquiry)}</td>
+                          <td className="system-admin-inquiry-body-cell">
+                            {inquiry.body || "未入力"}
+                          </td>
                           <td>{formatDate(inquiry.created_at)}</td>
 
                           <td>

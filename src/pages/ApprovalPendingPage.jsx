@@ -6,21 +6,27 @@ import { useAuth } from "../contexts/AuthContext";
 function getStatusMessage({ isEmailConfirmed, approvalStatus }) {
   if (!isEmailConfirmed) {
     return {
-      title: "メール認証が完了していません",
-      body: "確認メールをご確認ください。認証後、所属会代表者の承認待ちになります。",
+      badge: "メール確認待ち",
+      title: "確認メールをご確認ください",
+      body: "メール認証が完了すると、所属会代表者による承認待ちに進みます。",
+      step: 1,
     };
   }
 
   if (approvalStatus === "rejected") {
     return {
+      badge: "申請却下",
       title: "申請が却下されました",
       body: "内容を確認し、必要に応じてお問い合わせください。",
+      step: 3,
     };
   }
 
   return {
+    badge: "承認待ち",
     title: "所属会代表者の承認待ちです",
-    body: "メール認証は完了しています。代表者の承認後、会員として利用できます。",
+    body: "メール認証は完了しています。代表者が承認すると、会員として利用できます。",
+    step: 2,
   };
 }
 
@@ -44,8 +50,17 @@ export default function ApprovalPendingPage() {
 
   const handleLogout = async () => {
     setLoggingOut(true);
-    await supabase.auth.signOut();
+
+    const { error } = await supabase.auth.signOut({
+      scope: "local",
+    });
+
     setLoggingOut(false);
+
+    if (error) {
+      console.warn("ログアウトエラー:", error.message);
+    }
+
     navigate("/", { replace: true });
   };
 
@@ -55,21 +70,16 @@ export default function ApprovalPendingPage() {
 
   if (!user) {
     return (
-      <div className="mypage-modern">
-        <section className="mypage-modern-profile-card">
-          <div className="mypage-modern-profile-main">
-            <div className="mypage-modern-name-block">
-              <span>承認状況</span>
-              <h2>ログインが必要です</h2>
-              <p>登録時のメールアドレスでログインしてください。</p>
-            </div>
+      <div className="approval-page">
+        <section className="approval-card">
+          <span className="approval-badge">ログインが必要です</span>
+          <h1>承認状況を確認できません</h1>
+          <p>登録時のメールアドレスでログインしてください。</p>
+          <div className="approval-actions">
+            <button type="button" onClick={() => navigate("/login")}>
+              ログインへ
+            </button>
           </div>
-        </section>
-
-        <section className="mypage-modern-menu-card">
-          <button type="button" onClick={() => navigate("/login")}>
-            <span>ログインへ</span>
-          </button>
         </section>
       </div>
     );
@@ -77,53 +87,73 @@ export default function ApprovalPendingPage() {
 
   if (isApproved) {
     return (
-      <div className="mypage-modern">
-        <section className="mypage-modern-profile-card">
-          <div className="mypage-modern-profile-main">
-            <div className="mypage-modern-name-block">
-              <span>承認済み</span>
-              <h2>登録は完了しています</h2>
-              <p>通常機能をご利用いただけます。</p>
-            </div>
+      <div className="approval-page">
+        <section className="approval-card">
+          <span className="approval-badge approved">承認済み</span>
+          <h1>登録は完了しています</h1>
+          <p>通常機能をご利用いただけます。</p>
+          <div className="approval-actions">
+            <button type="button" onClick={() => navigate("/mypage")}>
+              マイページへ
+            </button>
           </div>
-        </section>
-
-        <section className="mypage-modern-menu-card">
-          <button type="button" onClick={() => navigate("/mypage")}>
-            <span>マイページへ</span>
-          </button>
         </section>
       </div>
     );
   }
 
   return (
-    <div className="mypage-modern">
-      <section className="mypage-modern-profile-card">
-        <div className="mypage-modern-profile-main">
-          <div className="mypage-modern-name-block">
-            <span>承認状況</span>
-            <h2>{statusMessage.title}</h2>
-            <p>{statusMessage.body}</p>
-            {approvalStatus === "rejected" && profile?.rejection_reason && (
-              <p>理由：{profile.rejection_reason}</p>
-            )}
+    <div className="approval-page">
+      <section className="approval-card">
+        <span
+          className={`approval-badge ${
+            approvalStatus === "rejected" ? "rejected" : ""
+          }`}
+        >
+          {statusMessage.badge}
+        </span>
+        <h1>{statusMessage.title}</h1>
+        <p>{statusMessage.body}</p>
+
+        {approvalStatus === "rejected" && profile?.rejection_reason && (
+          <div className="approval-reason">
+            <strong>却下理由</strong>
+            <p>{profile.rejection_reason}</p>
           </div>
+        )}
+
+        <div className="approval-steps" aria-label="登録完了までの流れ">
+          {["メール認証", "代表者承認", "利用開始"].map((label, index) => (
+            <div
+              className={`approval-step ${
+                statusMessage.step > index ? "active" : ""
+              }`}
+              key={label}
+            >
+              <span>{index + 1}</span>
+              <strong>{label}</strong>
+            </div>
+          ))}
         </div>
-      </section>
 
-      <section className="mypage-modern-menu-card">
-        <button type="button" onClick={refreshMe}>
-          <span>承認状況を再確認</span>
-        </button>
+        <div className="approval-actions">
+          <button type="button" onClick={refreshMe}>
+            承認状況を再確認
+          </button>
 
-        <button type="button" onClick={() => navigate("/contact")}>
-          <span>問い合わせる</span>
-        </button>
+          <button type="button" className="secondary" onClick={() => navigate("/contact")}>
+            問い合わせる
+          </button>
 
-        <button type="button" onClick={handleLogout} disabled={loggingOut}>
-          <span>{loggingOut ? "ログアウト中..." : "ログアウト"}</span>
-        </button>
+          <button
+            type="button"
+            className="ghost"
+            onClick={handleLogout}
+            disabled={loggingOut}
+          >
+            {loggingOut ? "ログアウト中..." : "ログアウト"}
+          </button>
+        </div>
       </section>
     </div>
   );

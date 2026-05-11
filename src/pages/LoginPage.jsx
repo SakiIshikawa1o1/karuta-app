@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
+import { ROLE } from "../utils/roles";
 
 function UserIcon() {
   return (
@@ -71,7 +72,21 @@ export default function LoginPage() {
       .eq("id", data.user.id)
       .maybeSingle();
 
-    if (profileData?.approval_status !== "approved") {
+    const { data: roleData } = await supabase
+      .from("user_roles")
+      .select(`
+        roles (
+          code
+        )
+      `)
+      .eq("user_id", data.user.id)
+      .eq("is_active", true);
+
+    const roleCodes =
+      roleData?.map((item) => item.roles?.code).filter(Boolean) ?? [];
+    const isSystemAdmin = roleCodes.includes(ROLE.SYSTEM_ADMIN);
+
+    if (profileData?.approval_status !== "approved" && !isSystemAdmin) {
       navigate("/approval-pending", { replace: true });
       return;
     }

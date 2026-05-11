@@ -18,7 +18,7 @@
 
 .system-admin-inquiry-table {
   width: 100% !important;
-  min-width: 760px !important;
+  min-width: 920px !important;
   border-collapse: collapse !important;
 }
 
@@ -72,4 +72,41 @@
   color: #251713 !important;
   font-size: 11px !important;
   font-weight: 700 !important;
+}
+
+.system-admin-inquiry-body-cell {
+  max-width: 320px !important;
+  white-space: normal !important;
+  text-align: left !important;
+  line-height: 1.5 !important;
+}
+
+.affiliation-approval-scroll {
+  overflow-x: auto !important;
+}
+
+.affiliation-approval-table {
+  min-width: 1120px !important;
+}
+
+.affiliation-approval-table th,
+.affiliation-approval-table td {
+  white-space: nowrap !important;
+  vertical-align: middle !important;
+}
+
+.affiliation-approval-actions {
+  display: grid !important;
+  grid-template-columns: auto minmax(160px, 1fr) auto !important;
+  gap: 8px !important;
+  align-items: center !important;
+  min-width: 360px !important;
+}
+
+.affiliation-approval-actions input {
+  min-width: 0 !important;
+  height: 34px !important;
+  border: 1px solid rgba(120, 40, 30, 0.16) !important;
+  border-radius: 8px !important;
+  padding: 0 10px !important;
 }

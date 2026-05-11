@@ -24,13 +24,14 @@ export default function Header() {
   const handleLogout = async () => {
     setLoggingOut(true);
 
-    const { error } = await supabase.auth.signOut();
+    const { error } = await supabase.auth.signOut({
+      scope: "local",
+    });
 
     setLoggingOut(false);
 
     if (error) {
-      alert(`ログアウトに失敗しました：${error.message}`);
-      return;
+      console.warn("ログアウトエラー:", error.message);
     }
 
     setMenuOpen(false);

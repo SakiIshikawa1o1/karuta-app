@@ -205,11 +205,21 @@ export default function MyPage() {
   }, [user]);
 
   const displayName =
-    profile?.display_name || profile?.full_name || user?.email || "未設定";
+    profile?.full_name || profile?.display_name || user?.email || "未設定";
 
-  const mainRoleLabel =
-    roles && roles.length > 0 ? ROLE_LABEL[roles[0]] || roles[0] : "会員";
+  const rolePriority = [
+    ROLE.SYSTEM_ADMIN,
+    ROLE.TOURNAMENT_ADMIN,
+    ROLE.APPLICATION_ADMIN,
+    ROLE.MEMBER,
+  ];
+  const mainRole =
+    rolePriority.find((role) => roles.includes(role)) || roles[0] || ROLE.MEMBER;
+  const mainRoleLabel = ROLE_LABEL[mainRole] || mainRole;
   const approvalStatusLabel =
+    isSystemAdmin
+      ? "承認済み"
+      :
     {
       pending: "承認待ち",
       approved: "承認済み",
@@ -322,13 +332,14 @@ export default function MyPage() {
   const handleLogout = async () => {
     setLoggingOut(true);
 
-    const { error } = await supabase.auth.signOut();
+    const { error } = await supabase.auth.signOut({
+      scope: "local",
+    });
 
     setLoggingOut(false);
 
     if (error) {
-      alert(`ログアウトに失敗しました：${error.message}`);
-      return;
+      console.warn("ログアウトエラー:", error.message);
     }
 
     navigate("/");

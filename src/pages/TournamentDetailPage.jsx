@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "../contexts/AuthContext";
+import { TOURNAMENT_FILE_BUCKET } from "../utils/tournamentFiles";
 
 const STATUS_LABEL = {
   draft: "下書き",
@@ -281,6 +282,23 @@ export default function TournamentDetailPage() {
     }
   };
 
+  const handleOpenGuidelineFile = async () => {
+    if (!tournament?.guideline_file_path) return;
+
+    setMessage("");
+
+    const { data, error } = await supabase.storage
+      .from(TOURNAMENT_FILE_BUCKET)
+      .createSignedUrl(tournament.guideline_file_path, 60 * 10);
+
+    if (error) {
+      setMessage(`大会要項を開けませんでした：${error.message}`);
+      return;
+    }
+
+    window.open(data.signedUrl, "_blank", "noopener,noreferrer");
+  };
+
   if (loading || authLoading) {
     return (
       <div className="tournament-detail-page">
@@ -392,6 +410,25 @@ export default function TournamentDetailPage() {
                 </p>
               </div>
             </section>
+
+            {tournament.guideline_file_path && (
+              <section className="detail-info-card">
+                <div className="detail-info-icon document">要</div>
+                <div>
+                  <h2>大会要項</h2>
+                  <p className="detail-large-text">
+                    {tournament.guideline_file_name || "大会要項ファイル"}
+                  </p>
+                  <button
+                    type="button"
+                    className="detail-guideline-button"
+                    onClick={handleOpenGuidelineFile}
+                  >
+                    大会要項を見る
+                  </button>
+                </div>
+              </section>
+            )}
 
             <section className="detail-info-card detail-info-card-text">
               <div className="detail-info-icon document">備</div>

@@ -91,6 +91,23 @@
   font-weight: 800;
 }
 
+.detail-guideline-button {
+  margin-top: 8px;
+  border: 1px solid rgba(190, 40, 34, 0.18);
+  border-radius: 999px;
+  background: #fff7f4;
+  color: #8f1f19;
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(80, 20, 10, 0.08);
+}
+
+.detail-guideline-button:hover {
+  background: #fff;
+}
+
 /* 2行目も表示する */
 .detail-info-card p + p {
   display: block !important;

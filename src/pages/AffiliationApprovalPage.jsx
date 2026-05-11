@@ -48,7 +48,18 @@ export default function AffiliationApprovalPage() {
     return Object.fromEntries(profiles.map((profile) => [profile.id, profile]));
   }, [profiles]);
 
+  const representativeAffiliationIds = useMemo(() => {
+    return representativeAffiliations.map((affiliation) => affiliation.id);
+  }, [representativeAffiliations]);
+
   const canReview = isSystemAdmin || representativeAffiliations.length > 0;
+
+  const canReviewRequest = (request) => {
+    return (
+      isSystemAdmin ||
+      representativeAffiliationIds.includes(request.affiliation_id)
+    );
+  };
 
   const fetchData = async () => {
     if (!user) return;
@@ -111,7 +122,13 @@ export default function AffiliationApprovalPage() {
       return;
     }
 
-    const requestList = requestData ?? [];
+    const requestList = isSystemAdmin
+      ? requestData ?? []
+      : (requestData ?? []).filter((request) =>
+          representativeList.some(
+            (affiliation) => affiliation.id === request.affiliation_id
+          )
+        );
     setRequests(requestList);
 
     const userIds = [...new Set(requestList.map((request) => request.user_id))];
@@ -144,6 +161,11 @@ export default function AffiliationApprovalPage() {
   }, [user?.id, isSystemAdmin]);
 
   const handleApprove = async (request) => {
+    if (!canReviewRequest(request)) {
+      setMessage("この申請を承認する権限がありません。");
+      return;
+    }
+
     setProcessingId(request.id);
     setMessage("");
 
@@ -163,6 +185,11 @@ export default function AffiliationApprovalPage() {
   };
 
   const handleReject = async (request) => {
+    if (!canReviewRequest(request)) {
+      setMessage("この申請を却下する権限がありません。");
+      return;
+    }
+
     const reason = rejectReasons[request.id]?.trim() || "";
 
     setProcessingId(request.id);
@@ -204,14 +231,17 @@ export default function AffiliationApprovalPage() {
           <p>確認できる所属会申請はありません。</p>
         </section>
       ) : (
-        <section className="application-admin-table-card">
-          <div className="application-admin-table-wrap">
-            <table className="application-admin-table">
+        <section className="application-admin-table-card affiliation-approval-card">
+          <div className="application-admin-table-scroll affiliation-approval-scroll">
+            <table className="application-admin-table affiliation-approval-table">
               <thead>
                 <tr>
                   <th>申請者</th>
+                  <th>メール</th>
                   <th>所属会</th>
-                  <th>学校 / 級段位</th>
+                  <th>学校名</th>
+                  <th>級</th>
+                  <th>段位</th>
                   <th>申請日時</th>
                   <th>状態</th>
                   <th>操作</th>
@@ -221,7 +251,7 @@ export default function AffiliationApprovalPage() {
               <tbody>
                 {requests.length === 0 ? (
                   <tr>
-                    <td colSpan="6">申請はありません。</td>
+                    <td colSpan="9">申請はありません。</td>
                   </tr>
                 ) : (
                   requests.map((request) => {
@@ -237,23 +267,20 @@ export default function AffiliationApprovalPage() {
                       <tr key={request.id}>
                         <td>
                           <strong>{applicantName}</strong>
-                          <br />
-                          <small>{applicant?.email || ""}</small>
                         </td>
+                        <td>{applicant?.email || "未設定"}</td>
                         <td>
                           {getName(affiliations, request.affiliation_id) ||
                             "未設定"}
                         </td>
+                        <td>{applicant?.school_name || "未設定"}</td>
                         <td>
-                          {applicant?.school_name || "未設定"}
-                          <br />
-                          <small>
-                            {getName(classLevels, applicant?.class_level_id) ||
-                              "未設定"}{" "}
-                            /{" "}
-                            {getName(danRanks, applicant?.dan_rank_id) ||
-                              "未設定"}
-                          </small>
+                          {getName(classLevels, applicant?.class_level_id) ||
+                            "未設定"}
+                        </td>
+                        <td>
+                          {getName(danRanks, applicant?.dan_rank_id) ||
+                            "未設定"}
                         </td>
                         <td>{formatDateTime(request.requested_at)}</td>
                         <td>
@@ -262,7 +289,7 @@ export default function AffiliationApprovalPage() {
                         </td>
                         <td>
                           {isPending ? (
-                            <div className="application-admin-action-stack">
+                            <div className="application-admin-action-stack affiliation-approval-actions">
                               <button
                                 type="button"
                                 onClick={() => handleApprove(request)}

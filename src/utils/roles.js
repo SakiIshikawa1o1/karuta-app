@@ -11,5 +11,5 @@ export const ROLE_LABEL = {
   [ROLE.MEMBER]: "会員",
   [ROLE.SYSTEM_ADMIN]: "システム管理者",
   [ROLE.TOURNAMENT_ADMIN]: "大会管理者",
-  [ROLE.APPLICATION_ADMIN]: "申し込み管理者",
+  [ROLE.APPLICATION_ADMIN]: "申込管理者",
 };

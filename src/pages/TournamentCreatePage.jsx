@@ -4,6 +4,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "../contexts/AuthContext";
+import {
+  buildGuidelineFilePath,
+  getGuidelineContentType,
+  GUIDELINE_FILE_ACCEPT,
+  TOURNAMENT_FILE_BUCKET,
+  validateGuidelineFile,
+} from "../utils/tournamentFiles";
 
 function CheckIcon() {
   return (
@@ -87,6 +94,21 @@ export default function TournamentCreatePage() {
     }));
   };
 
+  const handleGuidelineFileChange = (event) => {
+    const file = event.target.files?.[0] ?? null;
+    const validationMessage = validateGuidelineFile(file);
+
+    if (validationMessage) {
+      setErrorMessage(validationMessage);
+      setRequirementFile(null);
+      event.target.value = "";
+      return;
+    }
+
+    setErrorMessage("");
+    setRequirementFile(file);
+  };
+
   const validateRequired = () => {
     if (!form.title.trim()) return "大会名は必須です。";
     if (!form.event_date) return "開催日は必須です。";
@@ -131,14 +153,78 @@ export default function TournamentCreatePage() {
       allow_class_f: form.allow_class_f,
     };
 
-    const { error } = await supabase.from("tournaments").insert(payload);
-
-    setSaving(false);
+    const { data: tournament, error } = await supabase
+      .from("tournaments")
+      .insert(payload)
+      .select("id")
+      .single();
 
     if (error) {
+      setSaving(false);
       setErrorMessage(error.message);
       return;
     }
+
+    if (requirementFile) {
+      const filePath = buildGuidelineFilePath(
+        tournament.id,
+        requirementFile.name
+      );
+
+      const { error: uploadError } = await supabase.storage
+        .from(TOURNAMENT_FILE_BUCKET)
+        .upload(filePath, requirementFile, {
+          cacheControl: "3600",
+          upsert: false,
+          contentType: getGuidelineContentType(requirementFile),
+        });
+
+      if (uploadError) {
+        console.error("要項ファイルアップロードエラー:", {
+          message: uploadError.message,
+          statusCode: uploadError.statusCode,
+          error: uploadError.error,
+          fileName: requirementFile.name,
+          fileType: requirementFile.type,
+          fileSize: requirementFile.size,
+          filePath,
+        });
+
+        setSaving(false);
+        setErrorMessage(
+          `大会は作成されましたが、要項ファイルのアップロードに失敗しました：${uploadError.message}`
+        );
+        return;
+      }
+
+      const { error: fileUpdateError } = await supabase
+        .from("tournaments")
+        .update({
+          guideline_file_path: filePath,
+          guideline_file_name: requirementFile.name,
+          updated_by: user?.id,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", tournament.id);
+
+      if (fileUpdateError) {
+        const { error: removeError } = await supabase.storage
+          .from(TOURNAMENT_FILE_BUCKET)
+          .remove([filePath]);
+
+        if (removeError) {
+          console.warn("要項ファイル削除エラー:", removeError.message);
+        }
+
+        setSaving(false);
+        setErrorMessage(
+          `要項ファイル情報の保存に失敗しました：${fileUpdateError.message}`
+        );
+        return;
+      }
+    }
+
+    setSaving(false);
 
     alert(nextStatus === "draft" ? "下書き保存しました。" : "大会を登録しました。");
     navigate("/admin/tournament");
@@ -299,10 +385,8 @@ export default function TournamentCreatePage() {
             <label className="tournament-create-upload">
               <input
                 type="file"
-                accept=".pdf,.doc,.docx,.xls,.xlsx"
-                onChange={(e) =>
-                  setRequirementFile(e.target.files?.[0] ?? null)
-                }
+                accept={GUIDELINE_FILE_ACCEPT}
+                onChange={handleGuidelineFileChange}
               />
               <UploadIcon />
               <span>
@@ -310,7 +394,7 @@ export default function TournamentCreatePage() {
                   ? requirementFile.name
                   : "ファイルを選択 またはドラッグ＆ドロップ"}
               </span>
-              <small>PDF・Word・Excel（最大10MB）</small>
+              <small>PDFのみ・最大10MB</small>
             </label>
           </div>
 
