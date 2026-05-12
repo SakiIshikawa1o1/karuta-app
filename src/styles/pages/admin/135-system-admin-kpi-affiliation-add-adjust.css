@@ -119,7 +119,7 @@
 /* 所属会追加フォーム：所属会名だけ */
 .system-admin-affiliation-form {
   display: grid !important;
-  grid-template-columns: 1fr !important;
+  grid-template-columns: 1fr 180px 1fr !important;
   gap: 8px !important;
   margin-top: 12px !important;
 }
@@ -382,13 +382,19 @@
 
 .approval-page {
   min-height: calc(100vh - 80px);
+  width: 100%;
+  max-width: 1180px;
+  box-sizing: border-box;
+  margin: 0 auto;
   display: grid;
   place-items: center;
   padding: 36px 20px 64px;
+  overflow-x: hidden;
 }
 
 .approval-card {
   width: min(760px, 100%);
+  box-sizing: border-box;
   display: grid;
   gap: 18px;
   border: 1px solid rgba(200, 30, 47, 0.12);
@@ -426,7 +432,7 @@
 
 .approval-steps {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
 }
 
@@ -535,6 +541,31 @@
 }
 
 @media (max-width: 640px) {
+  .approval-page {
+    padding: 24px 12px 48px;
+  }
+
+  .approval-card {
+    padding: 22px 16px;
+    border-radius: 16px;
+  }
+
+  .approval-steps {
+    grid-template-columns: 1fr;
+  }
+
+  .approval-actions {
+    width: 100%;
+  }
+
+  .approval-actions button {
+    width: 100%;
+  }
+
+  .system-admin-affiliation-form {
+    grid-template-columns: 1fr !important;
+  }
+
   .support-page {
     padding: 24px 16px 48px;
   }

@@ -3,16 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "../contexts/AuthContext";
 
-function getStatusMessage({ isEmailConfirmed, approvalStatus }) {
-  if (!isEmailConfirmed) {
-    return {
-      badge: "メール確認待ち",
-      title: "確認メールをご確認ください",
-      body: "メール認証が完了すると、所属会代表者による承認待ちに進みます。",
-      step: 1,
-    };
-  }
-
+function getStatusMessage({ approvalStatus }) {
   if (approvalStatus === "rejected") {
     return {
       badge: "申請却下",
@@ -25,8 +16,8 @@ function getStatusMessage({ isEmailConfirmed, approvalStatus }) {
   return {
     badge: "承認待ち",
     title: "所属会代表者の承認待ちです",
-    body: "メール認証は完了しています。代表者が承認すると、会員として利用できます。",
-    step: 2,
+    body: "代表者が承認すると、会員として利用できます。",
+    step: 1,
   };
 }
 
@@ -38,14 +29,13 @@ export default function ApprovalPendingPage() {
     loading,
     approvalStatus,
     isApproved,
-    isEmailConfirmed,
     refreshMe,
   } = useAuth();
   const [loggingOut, setLoggingOut] = useState(false);
 
   const statusMessage = useMemo(
-    () => getStatusMessage({ isEmailConfirmed, approvalStatus }),
-    [isEmailConfirmed, approvalStatus]
+    () => getStatusMessage({ approvalStatus }),
+    [approvalStatus]
   );
 
   const handleLogout = async () => {
@@ -123,7 +113,7 @@ export default function ApprovalPendingPage() {
         )}
 
         <div className="approval-steps" aria-label="登録完了までの流れ">
-          {["メール認証", "代表者承認", "利用開始"].map((label, index) => (
+          {["代表者承認", "利用開始"].map((label, index) => (
             <div
               className={`approval-step ${
                 statusMessage.step > index ? "active" : ""

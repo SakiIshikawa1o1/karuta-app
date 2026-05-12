@@ -99,6 +99,7 @@ export default function SignupPage() {
   const [displayName, setDisplayName] = useState("");
   const [schoolName, setSchoolName] = useState("");
   const [affiliationId, setAffiliationId] = useState("");
+  const [affiliationCode, setAffiliationCode] = useState("");
   const [classLevelId, setClassLevelId] = useState("");
   const [danRankId, setDanRankId] = useState("");
   const [email, setEmail] = useState("");
@@ -186,6 +187,7 @@ export default function SignupPage() {
       !normalizedEmail ||
       !password ||
       !affiliationId ||
+      !affiliationCode ||
       !classLevelId ||
       !danRankId
     ) {
@@ -205,6 +207,11 @@ export default function SignupPage() {
       return;
     }
 
+    if (!/^\d{4}$/.test(affiliationCode)) {
+      setErrorMessage("所属会コードは4桁で入力してください");
+      return;
+    }
+
     if (!agreed) {
       setErrorMessage("利用規約とプライバシーポリシーへの同意が必要です。");
       return;
@@ -212,16 +219,34 @@ export default function SignupPage() {
 
     setSaving(true);
 
+    const { data: isValidAffiliationCode, error: codeError } =
+      await supabase.rpc("validate_affiliation_code", {
+        p_affiliation_id: affiliationId,
+        p_input_code: affiliationCode,
+      });
+
+    if (codeError) {
+      setSaving(false);
+      setErrorMessage("登録申請を送信できませんでした");
+      return;
+    }
+
+    if (!isValidAffiliationCode) {
+      setSaving(false);
+      setErrorMessage("所属会コードが正しくありません");
+      return;
+    }
+
     const { error } = await supabase.auth.signUp({
       email: normalizedEmail,
       password,
       options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
         data: {
           full_name: fullName.trim(),
           display_name: displayName.trim() || fullName.trim(),
           school_name: schoolName.trim(),
           affiliation_id: affiliationId,
+          affiliation_approval_code: affiliationCode,
           class_level_id: classLevelId,
           dan_rank_id: danRankId,
           phone: phone.trim(),
@@ -253,12 +278,12 @@ export default function SignupPage() {
 
               <h1>登録申請を受け付けました</h1>
               <p>
-                確認メールを送信しました。メール認証後、所属会代表者の承認をお待ちください。
+                所属会代表者の承認をお待ちください。
               </p>
             </header>
 
             <div className="signup-login-guide">
-              <p>メール認証が完了したら、ログインして承認状況を確認できます。</p>
+              <p>ログイン後、承認状況を確認できます。</p>
               <button type="button" onClick={() => navigate("/login")}>
                 ログイン画面へ
               </button>
@@ -370,6 +395,28 @@ export default function SignupPage() {
                   ))}
                 </select>
               </div>
+            </div>
+
+            <div className="signup-field">
+              <label className="signup-label" htmlFor="affiliationCode">
+                <span className="signup-label-icon">
+                  <LockIcon />
+                </span>
+                <span>所属会コード（4桁）</span>
+              </label>
+              <input
+                id="affiliationCode"
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]{4}"
+                maxLength={4}
+                placeholder="例：1234"
+                value={affiliationCode}
+                onChange={(e) =>
+                  setAffiliationCode(e.target.value.replace(/\D/g, "").slice(0, 4))
+                }
+                autoComplete="one-time-code"
+              />
             </div>
 
             <div className="signup-field">

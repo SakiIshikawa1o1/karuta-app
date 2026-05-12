@@ -12,10 +12,10 @@
 .system-admin-affiliation-head,
 .system-admin-affiliation-row {
   display: grid !important;
-  grid-template-columns: 1.3fr 1fr 0.6fr 80px !important;
+  grid-template-columns: 1.2fr 1fr 0.75fr 0.55fr 80px !important;
   align-items: center !important;
   gap: 8px !important;
-  min-width: 640px !important;
+  min-width: 760px !important;
 }
 
 .system-admin-affiliation-head {

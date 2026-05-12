@@ -131,6 +131,7 @@ export default function SystemAdminPage() {
 
   const [pendingAffiliationById, setPendingAffiliationById] = useState({});
   const [affiliationName, setAffiliationName] = useState("");
+  const [affiliationApprovalCode, setAffiliationApprovalCode] = useState("");
   const [affiliationRepresentativeUserId, setAffiliationRepresentativeUserId] =
     useState("");
   const [selectedNoticeId, setSelectedNoticeId] = useState("");
@@ -302,6 +303,7 @@ export default function SystemAdminPage() {
       pending[affiliation.id] = {
         representative_user_id: affiliation.representative_user_id || "",
         is_active: affiliation.is_active !== false,
+        approval_code: affiliation.approval_code || "",
       };
     });
 
@@ -431,9 +433,15 @@ export default function SystemAdminPage() {
       return;
     }
 
+    if (!/^\d{4}$/.test(affiliationApprovalCode)) {
+      setMessage("所属会コードは4桁の数字で入力してください。");
+      return;
+    }
+
     const { error } = await supabase.rpc("admin_create_affiliation", {
       p_name: affiliationName.trim(),
       p_representative_user_id: affiliationRepresentativeUserId || null,
+      p_approval_code: affiliationApprovalCode,
     });
 
     if (error) {
@@ -442,6 +450,7 @@ export default function SystemAdminPage() {
     }
 
     setAffiliationName("");
+    setAffiliationApprovalCode("");
     setAffiliationRepresentativeUserId("");
     setMessage("所属会を追加しました。");
     fetchAffiliations();
@@ -455,10 +464,16 @@ export default function SystemAdminPage() {
       return;
     }
 
+    if (!/^\d{4}$/.test(pending.approval_code || "")) {
+      setMessage("所属会コードは4桁の数字で入力してください。");
+      return;
+    }
+
     const { error } = await supabase.rpc("admin_update_affiliation", {
       p_affiliation_id: affiliationId,
       p_representative_user_id: pending.representative_user_id || null,
       p_is_active: pending.is_active,
+      p_approval_code: pending.approval_code,
     });
 
     if (error) {
@@ -568,23 +583,18 @@ export default function SystemAdminPage() {
     const ok = window.confirm("選択中のお知らせを削除しますか？");
     if (!ok) return;
 
-    const { error } = await supabase
-      .from("notices")
-      .delete()
-      .eq("id", selectedNoticeId);
+    const { error } = await supabase.rpc("admin_delete_notice", {
+      p_notice_id: selectedNoticeId,
+    });
 
     if (error) {
-      const { error: unpublishError } = await supabase
+      const { error: deleteError } = await supabase
         .from("notices")
-        .update({
-          is_published: false,
-          updated_by: user?.id,
-          updated_at: new Date().toISOString(),
-        })
+        .delete()
         .eq("id", selectedNoticeId);
 
-      if (unpublishError) {
-        setMessage(`お知らせの削除に失敗しました：${unpublishError.message}`);
+      if (deleteError) {
+        setMessage(`お知らせの削除に失敗しました：${deleteError.message}`);
         return;
       }
     }
@@ -594,7 +604,7 @@ export default function SystemAdminPage() {
     setNoticeEditTitle("");
     setNoticeEditBody("");
     setMessage("お知らせを削除しました。");
-    setNotices((prev) => prev.filter((notice) => notice.id !== selectedNoticeId));
+    fetchNotices();
   };
 
   const handleUpdateInquiryStatus = async (inquiry) => {
@@ -790,6 +800,7 @@ export default function SystemAdminPage() {
               <div className="system-admin-affiliation-head">
                 <span>所属会名</span>
                 <span>代表者</span>
+                <span>所属会コード</span>
                 <span>有効</span>
                 <span>操作</span>
               </div>
@@ -804,6 +815,7 @@ export default function SystemAdminPage() {
                     representative_user_id:
                       affiliation.representative_user_id || "",
                     is_active: affiliation.is_active !== false,
+                    approval_code: affiliation.approval_code || "",
                   };
 
                   return (
@@ -835,6 +847,26 @@ export default function SystemAdminPage() {
                           </option>
                         ))}
                       </select>
+
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        pattern="[0-9]{4}"
+                        maxLength={4}
+                        value={pending.approval_code}
+                        onChange={(event) =>
+                          setPendingAffiliationById((prev) => ({
+                            ...prev,
+                            [affiliation.id]: {
+                              ...pending,
+                              approval_code: event.target.value
+                                .replace(/\D/g, "")
+                                .slice(0, 4),
+                            },
+                          }))
+                        }
+                        placeholder="例：1234"
+                      />
 
                       <select
                         value={pending.is_active ? "true" : "false"}
@@ -869,6 +901,19 @@ export default function SystemAdminPage() {
                 value={affiliationName}
                 onChange={(event) => setAffiliationName(event.target.value)}
                 placeholder="所属会名"
+              />
+              <input
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]{4}"
+                maxLength={4}
+                value={affiliationApprovalCode}
+                onChange={(event) =>
+                  setAffiliationApprovalCode(
+                    event.target.value.replace(/\D/g, "").slice(0, 4)
+                  )
+                }
+                placeholder="所属会コード（例：1234）"
               />
               <select
                 value={affiliationRepresentativeUserId}

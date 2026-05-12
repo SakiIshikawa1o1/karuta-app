@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 
-const fallbackNotices = [
+const FALLBACK_NOTICES = [
   {
     id: "sample-1",
     date: "2026.04.30",
@@ -94,11 +94,11 @@ export default function NoticesPage() {
       if (error) {
         console.error("お知らせの取得に失敗しました:", error);
         setFetchError(
-          "お知らせ情報を取得できなかったため、サンプルのお知らせを表示しています。"
+          "お知らせ情報を取得できませんでした。時間をおいて再度お試しください。"
         );
-        setNotices(fallbackNotices);
+        setNotices([]);
       } else {
-        setNotices(data && data.length > 0 ? data : fallbackNotices);
+        setNotices(data ?? []);
       }
 
       setLoading(false);
@@ -143,27 +143,31 @@ export default function NoticesPage() {
         <>
           {fetchError && <div className="error-text">{fetchError}</div>}
 
-          <section className="notice-list-page">
-            {sortedNotices.map((notice) => (
-              <article key={notice.id} className="notice-detail-card">
-                <div className="notice-detail-meta">
-                  <span className="notice-date">{notice.date}</span>
-                  <span
-                    className={`notice-tag ${
-                      notice.important ? "important" : ""
-                    }`}
-                  >
-                    {notice.tag}
-                  </span>
-                </div>
+          {sortedNotices.length === 0 ? (
+            <div className="empty-card">現在、公開中のお知らせはありません。</div>
+          ) : (
+            <section className="notice-list-page">
+              {sortedNotices.map((notice) => (
+                <article key={notice.id} className="notice-detail-card">
+                  <div className="notice-detail-meta">
+                    <span className="notice-date">{notice.date}</span>
+                    <span
+                      className={`notice-tag ${
+                        notice.important ? "important" : ""
+                      }`}
+                    >
+                      {notice.tag}
+                    </span>
+                  </div>
 
-                <div>
-                  <h2>{notice.title}</h2>
-                  <p>{notice.body}</p>
-                </div>
-              </article>
-            ))}
-          </section>
+                  <div>
+                    <h2>{notice.title}</h2>
+                    <p>{notice.body}</p>
+                  </div>
+                </article>
+              ))}
+            </section>
+          )}
         </>
       )}
     </main>
