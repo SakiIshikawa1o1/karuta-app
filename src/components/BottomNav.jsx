@@ -1,14 +1,15 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import AppIcon from "./AppIcon";
 
 export default function BottomNav() {
   const navigate = useNavigate();
   const location = useLocation();
 
   const navItems = [
-    { label: "ホーム", path: "/", icon: "🏠" },
-    { label: "大会一覧", path: "/tournaments", icon: "📋" },
-    { label: "申込状況", path: "/applications/status", icon: "✅" },
-    { label: "マイページ", path: "/mypage", icon: "👤" },
+    { label: "ホーム", path: "/", icon: "home" },
+    { label: "大会一覧", path: "/tournaments", icon: "tournaments" },
+    { label: "申込状況", path: "/applications/status", icon: "applications" },
+    { label: "マイページ", path: "/mypage", icon: "mypage" },
   ];
 
   return (
@@ -21,8 +22,9 @@ export default function BottomNav() {
             key={item.path}
             className={active ? "nav-item active" : "nav-item"}
             onClick={() => navigate(item.path)}
+            type="button"
           >
-            <span>{item.icon}</span>
+            <AppIcon name={item.icon} />
             <span>{item.label}</span>
           </button>
         );

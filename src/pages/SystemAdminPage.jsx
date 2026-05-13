@@ -580,7 +580,7 @@ export default function SystemAdminPage() {
   const handleDeleteNotice = async () => {
     if (!selectedNoticeId) return;
 
-    const ok = window.confirm("選択中のお知らせを削除しますか？");
+    const ok = window.confirm("選択中のお知らせを非公開にしますか？");
     if (!ok) return;
 
     const { error } = await supabase.rpc("admin_delete_notice", {
@@ -588,13 +588,17 @@ export default function SystemAdminPage() {
     });
 
     if (error) {
-      const { error: deleteError } = await supabase
+      const { error: unpublishError } = await supabase
         .from("notices")
-        .delete()
+        .update({
+          is_published: false,
+          updated_by: user?.id,
+          updated_at: new Date().toISOString(),
+        })
         .eq("id", selectedNoticeId);
 
-      if (deleteError) {
-        setMessage(`お知らせの削除に失敗しました：${deleteError.message}`);
+      if (unpublishError) {
+        setMessage(`お知らせの非公開化に失敗しました：${unpublishError.message}`);
         return;
       }
     }
@@ -603,7 +607,7 @@ export default function SystemAdminPage() {
     setNoticeEditLabel("");
     setNoticeEditTitle("");
     setNoticeEditBody("");
-    setMessage("お知らせを削除しました。");
+    setMessage("お知らせを非公開にしました。");
     fetchNotices();
   };
 

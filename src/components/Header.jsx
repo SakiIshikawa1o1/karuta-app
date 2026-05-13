@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "../contexts/AuthContext";
+import AppIcon from "./AppIcon";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -55,6 +56,7 @@ export default function Header() {
             className={isActive("/") ? "active" : ""}
             onClick={() => goTo("/")}
           >
+            <AppIcon name="home" />
             ホーム
           </button>
 
@@ -63,6 +65,7 @@ export default function Header() {
             className={isActive("/tournaments") ? "active" : ""}
             onClick={() => goTo("/tournaments")}
           >
+            <AppIcon name="tournaments" />
             大会を探す
           </button>
 
@@ -71,6 +74,7 @@ export default function Header() {
             className={isActive("/applications") ? "active" : ""}
             onClick={() => goTo("/applications/status")}
           >
+            <AppIcon name="applications" />
             申込状況
           </button>
 
@@ -79,6 +83,7 @@ export default function Header() {
             className={isActive("/notices") ? "active" : ""}
             onClick={() => goTo("/notices")}
           >
+            <AppIcon name="notices" />
             お知らせ
           </button>
 
@@ -87,6 +92,7 @@ export default function Header() {
             className={isActive("/mypage") ? "active" : ""}
             onClick={() => goTo("/mypage")}
           >
+            <AppIcon name="mypage" />
             マイページ
           </button>
         </nav>

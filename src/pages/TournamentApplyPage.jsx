@@ -347,7 +347,7 @@ ${danRankName || "未設定"}
       return;
     }
 
-    const { error } = await supabase.from("applications").insert({
+    const applicationPayload = {
       tournament_id: id,
       user_id: user.id,
       applicant_name: form.applicant_name,
@@ -361,7 +361,32 @@ ${danRankName || "未設定"}
       tournament_title: tournamentView.title,
       user_email: form.email,
       school_name: form.school_name || "",
-    });
+    };
+
+    const { data: cancelledApplication, error: cancelledCheckError } =
+      await supabase
+        .from("applications")
+        .select("id")
+        .eq("tournament_id", id)
+        .eq("user_id", user.id)
+        .eq("status", "cancelled")
+        .order("applied_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+    if (cancelledCheckError) {
+      setSaving(false);
+      setMessage(`キャンセル済み申込の確認に失敗しました：${cancelledCheckError.message}`);
+      return;
+    }
+
+    const { error } = cancelledApplication
+      ? await supabase
+          .from("applications")
+          .update(applicationPayload)
+          .eq("id", cancelledApplication.id)
+          .eq("user_id", user.id)
+      : await supabase.from("applications").insert(applicationPayload);
 
     setSaving(false);
 

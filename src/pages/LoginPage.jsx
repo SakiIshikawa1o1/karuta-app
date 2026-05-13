@@ -2,28 +2,7 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { ROLE } from "../utils/roles";
-
-function UserIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path
-        d="M12 12c2.76 0 5-2.24 5-5S14.76 2 12 2 7 4.24 7 7s2.24 5 5 5Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
-
-function LockIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path
-        d="M17 9h-1V7a4 4 0 1 0-8 0v2H7a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2Zm-7-2a2 2 0 1 1 4 0v2h-4V7Zm2 10a2 2 0 0 1-1-3.73V12h2v1.27A2 2 0 0 1 12 17Z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
+import AppIcon from "../components/AppIcon";
 
 function EyeIcon() {
   return (
@@ -113,7 +92,7 @@ export default function LoginPage() {
             <div className="login-field">
               <label className="login-label" htmlFor="email">
                 <span className="login-label-icon">
-                  <UserIcon />
+                  <AppIcon name="login" />
                 </span>
                 <span>メールアドレス</span>
               </label>
@@ -133,7 +112,7 @@ export default function LoginPage() {
             <div className="login-field">
               <label className="login-label" htmlFor="password">
                 <span className="login-label-icon">
-                  <LockIcon />
+                  <AppIcon name="hidden" />
                 </span>
                 <span>パスワード</span>
               </label>
@@ -188,13 +167,6 @@ export default function LoginPage() {
               新規登録はこちら
             </button>
 
-            <div className="login-signup-guide">
-              <p>すでにアカウントをお持ちでない方</p>
-              <button type="button" onClick={() => navigate("/signup")}>
-                はじめての方は新規登録へ
-                <span>›</span>
-              </button>
-            </div>
           </form>
         </div>
       </div>

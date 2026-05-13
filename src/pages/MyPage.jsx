@@ -6,9 +6,14 @@ import { supabase } from "../lib/supabase";
 import { useAuth } from "../contexts/AuthContext";
 import { ROLE, ROLE_LABEL } from "../utils/roles";
 import SiteFooter from "../components/SiteFooter";
+import AppIcon from "../components/AppIcon";
 
-function SimpleIcon({ children }) {
-  return <span className="mypage-simple-icon">{children}</span>;
+function SimpleIcon({ name, children }) {
+  return (
+    <span className="mypage-simple-icon">
+      {name ? <AppIcon name={name} /> : children}
+    </span>
+  );
 }
 
 function ChevronIcon() {
@@ -82,25 +87,25 @@ export default function MyPage() {
       key: "system",
       label: "システム管理",
       path: "/admin/system",
-      icon: "管",
+      icon: "admin",
     },
     isTournamentAdmin && {
       key: "tournament",
       label: "大会管理",
       path: "/admin/tournament",
-      icon: "大",
+      icon: "create",
     },
     isApplicationAdmin && {
       key: "application",
       label: "申込管理",
       path: "/admin/application",
-      icon: "申",
+      icon: "applications",
     },
     (isSystemAdmin || isAffiliationRepresentative) && {
       key: "affiliation-approvals",
       label: "所属会申請の確認",
       path: "/admin/affiliation-approvals",
-      icon: "承",
+      icon: "approval",
     },
   ].filter(Boolean);
 
@@ -359,37 +364,37 @@ export default function MyPage() {
 
           <div className="mypage-modern-info-list">
             <div>
-              <SimpleIcon>権</SimpleIcon>
+              <SimpleIcon name="users" />
               <span>ロール</span>
               <strong>{mainRoleLabel}</strong>
             </div>
 
             <div>
-              <SimpleIcon>承</SimpleIcon>
+              <SimpleIcon name="pending" />
               <span>承認状態</span>
               <strong>{approvalStatusLabel}</strong>
             </div>
 
             <div>
-              <SimpleIcon>所</SimpleIcon>
+              <SimpleIcon name="affiliation" />
               <span>所属</span>
               <strong>{affiliationName || "未設定"}</strong>
             </div>
 
             <div>
-              <SimpleIcon>級</SimpleIcon>
+              <SimpleIcon name="mypage" />
               <span>級</span>
               <strong>{classLevelName || "未設定"}</strong>
             </div>
 
             <div>
-              <SimpleIcon>段</SimpleIcon>
+              <SimpleIcon name="approved" />
               <span>段位</span>
               <strong>{danRankName || "未設定"}</strong>
             </div>
 
             <div>
-              <SimpleIcon>学</SimpleIcon>
+              <SimpleIcon name="detail" />
               <span>学校</span>
               <strong>{profile?.school_name || "未設定"}</strong>
             </div>
@@ -403,10 +408,6 @@ export default function MyPage() {
           className="mypage-modern-summary-card next"
           onClick={() => navigate("/applications/status")}
         >
-          <div className="mypage-modern-summary-icon">
-            <SimpleIcon>次</SimpleIcon>
-          </div>
-
           <div>
             <p>次の大会まで</p>
 
@@ -440,10 +441,6 @@ export default function MyPage() {
           className="mypage-modern-summary-card unpaid"
           onClick={() => navigate("/applications/status")}
         >
-          <div className="mypage-modern-summary-icon">
-            <SimpleIcon>支</SimpleIcon>
-          </div>
-
           <div>
             <p>未振込の大会</p>
 
@@ -462,7 +459,6 @@ export default function MyPage() {
 
       <section className="mypage-modern-menu-card">
         <button type="button" onClick={() => setIsEditing(true)}>
-          <SimpleIcon>編</SimpleIcon>
           <span>プロフィール編集</span>
           <ChevronIcon />
         </button>
@@ -586,20 +582,17 @@ export default function MyPage() {
             key={menu.key}
             onClick={() => navigate(menu.path)}
           >
-            <SimpleIcon>{menu.icon}</SimpleIcon>
             <span>{menu.label}</span>
             <ChevronIcon />
           </button>
         ))}
 
         <button type="button" onClick={() => navigate("/contact")}>
-          <SimpleIcon>問</SimpleIcon>
           <span>問い合わせ</span>
           <ChevronIcon />
         </button>
 
         <button type="button" onClick={handleLogout} disabled={loggingOut}>
-          <SimpleIcon>出</SimpleIcon>
           <span>{loggingOut ? "ログアウト中..." : "ログアウト"}</span>
           <ChevronIcon />
         </button>

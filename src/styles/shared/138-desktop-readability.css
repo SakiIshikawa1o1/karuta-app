@@ -1,0 +1,276 @@
+/* =========================================================
+   Desktop readability
+   PC幅だけ余白・文字・カード密度を整える。スマホUIには触れない。
+========================================================= */
+
+@media (min-width: 1024px) {
+  .page {
+    padding-bottom: 24px;
+  }
+
+  .home-page,
+  .tournament-search-page,
+  .application-status-page,
+  .application-admin-page,
+  .system-admin-page,
+  .mypage-modern,
+  .support-page {
+    max-width: 1240px;
+    padding-right: 48px;
+    padding-left: 48px;
+  }
+
+  .content-section,
+  .application-admin-panel,
+  .application-admin-table-card,
+  .system-admin-panel,
+  .mypage-modern-profile-card,
+  .mypage-modern-menu-card,
+  .support-page-content section {
+    border-radius: 16px;
+  }
+
+  .home-hero,
+  .tournament-search-hero,
+  .application-status-hero,
+  .application-admin-hero,
+  .system-admin-hero,
+  .tournament-admin-hero,
+  .tournament-create-hero,
+  .tournament-edit-hero {
+    min-height: 180px;
+    padding: 36px 44px;
+  }
+
+  .home-hero-copy h1,
+  .tournament-search-hero-copy h1,
+  .application-status-hero-copy h1,
+  .application-admin-hero h1,
+  .system-admin-hero h1,
+  .tournament-admin-hero h1 {
+    font-size: 40px;
+    line-height: 1.18;
+  }
+
+  .home-hero-copy p,
+  .tournament-search-hero-copy span,
+  .application-status-hero-copy span,
+  .application-admin-hero p,
+  .system-admin-hero p,
+  .tournament-admin-hero p {
+    max-width: 680px;
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+  .section-heading {
+    margin-bottom: 18px;
+  }
+
+  .section-heading h2 {
+    font-size: 28px;
+  }
+
+  .home-tournament-grid {
+    grid-auto-flow: initial;
+    grid-auto-columns: initial;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    overflow: visible;
+    padding-bottom: 0;
+  }
+
+  .home-tournament-card {
+    min-height: 210px;
+    border-radius: 14px;
+  }
+
+  .home-tournament-body {
+    padding: 20px;
+  }
+
+  .home-tournament-card .home-tournament-body h3 {
+    font-size: 20px;
+  }
+
+  .home-tournament-card .home-tournament-body p,
+  .notice-text {
+    font-size: 15px !important;
+  }
+
+  .notice-panel {
+    display: grid;
+    gap: 10px;
+  }
+
+  .notice-item {
+    min-height: 70px;
+    padding-right: 18px;
+    padding-left: 18px;
+    border-radius: 12px;
+  }
+
+  .tournament-filter-panel,
+  .application-status-filter-panel,
+  .as-search-box,
+  .system-admin-search-row {
+    min-height: 56px;
+  }
+
+  .tournament-list-stack,
+  .application-status-list {
+    gap: 12px;
+  }
+
+  .tournament-list-item,
+  .tournament-list-clickable,
+  .application-status-card {
+    min-height: 104px;
+    padding: 20px 22px;
+    border-radius: 14px;
+  }
+
+  .tournament-list-main h3,
+  .application-status-card-main h2 {
+    font-size: 20px;
+    line-height: 1.35;
+  }
+
+  .tournament-list-meta span,
+  .tournament-list-meta small,
+  .application-status-date-value,
+  .application-status-date-label {
+    font-size: 13px;
+  }
+
+  .application-status-tabs {
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  .application-status-tabs button {
+    min-height: 52px;
+    border-radius: 12px;
+  }
+
+  .application-status-tabs button span {
+    font-size: 14px;
+  }
+
+  .application-status-tabs button strong {
+    min-width: 26px;
+    height: 26px;
+    font-size: 12px;
+  }
+
+  .tournament-detail-page {
+    max-width: 1040px;
+    padding-right: 36px;
+    padding-left: 36px;
+  }
+
+  .tournament-detail-hero {
+    height: 210px;
+    margin-right: -36px;
+    margin-left: -36px;
+  }
+
+  .tournament-detail-summary-card {
+    padding: 34px 38px;
+  }
+
+  .tournament-detail-summary-card h1 {
+    font-size: 34px;
+  }
+
+  .tournament-detail-content {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .detail-info-card {
+    min-height: 132px;
+  }
+
+  .tournament-detail-bottom-cta {
+    left: 50%;
+    right: auto;
+    width: min(640px, calc(100% - 96px));
+    transform: translateX(-50%);
+  }
+
+  .tournament-apply-page {
+    padding-right: 48px;
+    padding-left: 48px;
+  }
+
+  .apply-hero,
+  .apply-content {
+    max-width: 1040px;
+  }
+
+  .apply-content {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 22px;
+    align-items: start;
+  }
+
+  .apply-form-card,
+  .apply-tournament-card {
+    padding: 32px;
+  }
+
+  .apply-submit-button {
+    grid-column: 1 / -1;
+    max-width: 520px;
+    margin: 8px auto 0;
+  }
+
+  .system-admin-page {
+    max-width: 1280px;
+  }
+
+  .system-admin-stats-grid {
+    gap: 16px;
+  }
+
+  .system-admin-stat-card {
+    min-height: 104px !important;
+  }
+
+  .system-admin-panel {
+    padding: 26px;
+  }
+
+  .system-admin-user-table,
+  .application-admin-table,
+  .system-admin-inquiry-table {
+    font-size: 13px;
+  }
+
+  .system-admin-user-table th,
+  .system-admin-user-table td,
+  .application-admin-table th,
+  .application-admin-table td,
+  .system-admin-inquiry-table th,
+  .system-admin-inquiry-table td {
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+
+  .system-admin-notice-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .system-admin-notice-item {
+    min-height: 92px;
+    padding: 16px;
+  }
+
+  .login-page-inner,
+  .signup-inner {
+    max-width: 520px;
+  }
+}

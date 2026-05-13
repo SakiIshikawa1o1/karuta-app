@@ -1,0 +1,97 @@
+/* =========================================================
+   App icon image set
+========================================================= */
+
+.app-icon {
+  width: 1.25em;
+  height: 1.25em;
+  display: inline-block;
+  object-fit: contain;
+  flex: 0 0 auto;
+  vertical-align: middle;
+  pointer-events: none;
+  opacity: 1;
+  mix-blend-mode: normal;
+  border-radius: 999px;
+}
+
+.pc-nav button,
+.section-heading button,
+.bottom-nav .nav-item {
+  display: inline-flex;
+  align-items: center;
+}
+
+.section-heading h2 {
+  display: inline-flex;
+  align-items: center;
+}
+
+.pc-nav button {
+  gap: 7px;
+}
+
+.pc-nav .app-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.section-heading h2 .app-icon {
+  width: 48px;
+  height: 48px;
+  margin-right: 12px;
+}
+
+.section-heading button .app-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 6px;
+}
+
+.bottom-nav .app-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.mypage-simple-icon .app-icon,
+.mypage-modern-summary-icon .app-icon {
+  width: 100%;
+  height: 100%;
+}
+
+.mypage-modern-info-list div {
+  column-gap: 16px !important;
+}
+
+.mypage-modern-profile-card::after {
+  content: none !important;
+  display: none !important;
+}
+
+.mypage-simple-icon,
+.login-label-icon,
+.signup-label-icon {
+  background: rgba(255, 246, 240, 0.72) !important;
+  box-shadow: none !important;
+}
+
+.mypage-modern-menu-card > button {
+  grid-template-columns: 1fr 32px !important;
+}
+
+.login-label-icon .app-icon,
+.signup-label-icon .app-icon {
+  width: 22px;
+  height: 22px;
+}
+
+@media (max-width: 768px) {
+  .pc-nav .app-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .mypage-modern-menu-card > button {
+    grid-template-columns: 1fr 18px !important;
+  }
+}

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import SiteFooter from "../components/SiteFooter";
+import AppIcon from "../components/AppIcon";
 
 const STATUS_LABEL = {
   published: "受付中",
@@ -138,7 +139,7 @@ export default function HomePage() {
       <section className="content-section">
         <div className="section-heading">
           <h2>
-            <span>受</span>
+            <AppIcon name="tournaments" />
             受付中の大会
           </h2>
           <button type="button" onClick={() => navigate("/tournaments")}>
@@ -197,7 +198,7 @@ export default function HomePage() {
       <section className="content-section">
         <div className="section-heading">
           <h2>
-            <span>知</span>
+            <AppIcon name="notices" />
             お知らせ
           </h2>
           <button type="button" onClick={() => navigate("/notices")}>

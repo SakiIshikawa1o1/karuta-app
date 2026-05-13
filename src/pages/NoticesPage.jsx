@@ -1,8 +1,8 @@
 // src/pages/NoticesPage.jsx
 
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
+import SiteFooter from "../components/SiteFooter";
 
 const FALLBACK_NOTICES = [
   {
@@ -70,8 +70,6 @@ function normalizeNotice(notice) {
 }
 
 export default function NoticesPage() {
-  const navigate = useNavigate();
-
   const [notices, setNotices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [fetchError, setFetchError] = useState("");
@@ -126,16 +124,14 @@ export default function NoticesPage() {
   }, [notices]);
 
   return (
-    <main className="page-shell">
-      <button className="back-link" onClick={() => navigate("/")}>
-        ← ホームへ戻る
-      </button>
-
-      <div className="page-title-block">
-        <p>NEWS</p>
-        <h1>お知らせ一覧</h1>
-        <span>大会申込システムからのお知らせを掲載しています。</span>
-      </div>
+    <main className="tournament-search-page notices-page">
+      <section className="tournament-search-hero">
+        <div className="tournament-search-hero-copy">
+          <p>NEWS</p>
+          <h1>お知らせ一覧</h1>
+          <span>大会申込システムからのお知らせを掲載しています。</span>
+        </div>
+      </section>
 
       {loading ? (
         <div className="empty-card">お知らせを読み込んでいます。</div>
@@ -170,6 +166,8 @@ export default function NoticesPage() {
           )}
         </>
       )}
+
+      <SiteFooter />
     </main>
   );
 }

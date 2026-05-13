@@ -55,7 +55,7 @@ export default function ApplicationConfirmPage() {
       return;
     }
 
-    const { error } = await supabase.from("applications").insert({
+    const applicationPayload = {
       tournament_id: id,
       user_id: user.id,
       applicant_name: applicationForm.applicant_name,
@@ -69,7 +69,32 @@ export default function ApplicationConfirmPage() {
       tournament_title: tournament?.title || applicationForm.tournament_title,
       user_email: applicationForm.user_email || user.email,
       school_name: applicationForm.school_name || "",
-    });
+    };
+
+    const { data: cancelledApplication, error: cancelledCheckError } =
+      await supabase
+        .from("applications")
+        .select("id")
+        .eq("tournament_id", id)
+        .eq("user_id", user.id)
+        .eq("status", "cancelled")
+        .order("applied_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+    if (cancelledCheckError) {
+      setSaving(false);
+      setMessage(`キャンセル済み申込の確認に失敗しました：${cancelledCheckError.message}`);
+      return;
+    }
+
+    const { error } = cancelledApplication
+      ? await supabase
+          .from("applications")
+          .update(applicationPayload)
+          .eq("id", cancelledApplication.id)
+          .eq("user_id", user.id)
+      : await supabase.from("applications").insert(applicationPayload);
 
     setSaving(false);
 

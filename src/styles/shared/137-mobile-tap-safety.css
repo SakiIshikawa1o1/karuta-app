@@ -1,0 +1,164 @@
+/* =========================================================
+   Mobile tap safety
+   装飾レイヤーがスマホのタップを奪わないようにする
+========================================================= */
+
+html,
+body,
+#root,
+.app,
+.page {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+button,
+a,
+.btn,
+[role="button"],
+[class*="button"] {
+  position: relative;
+  z-index: 2;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+.btn,
+[role="button"],
+[class*="button"] {
+  min-height: 44px;
+}
+
+button::before,
+button::after,
+a::before,
+a::after,
+.btn::before,
+.btn::after,
+[class*="button"]::before,
+[class*="button"]::after {
+  pointer-events: none;
+}
+
+.home-hero::before,
+.home-hero::after,
+.tournament-search-hero::before,
+.tournament-search-hero::after,
+.tournament-detail-hero::before,
+.tournament-detail-hero::after,
+.apply-hero::before,
+.apply-hero::after,
+.application-status-hero::before,
+.application-status-hero::after,
+.application-status-header::after,
+.application-admin-hero::before,
+.application-admin-hero::after,
+.tournament-admin-hero::before,
+.tournament-admin-hero::after,
+.tournament-create-hero::before,
+.tournament-create-hero::after,
+.tournament-edit-hero::before,
+.tournament-edit-hero::after,
+.system-admin-hero::before,
+.system-admin-hero::after,
+.mypage-modern-profile-card::before,
+.mypage-modern-profile-card::after,
+.detail-summary-icon::before,
+.detail-summary-icon::after,
+.tournament-card-arrow::before,
+.tournament-list-meta::before,
+.signup-select-wrap::after {
+  pointer-events: none !important;
+}
+
+.login-wave-bg,
+.signup-wave-bg,
+.login-leaf,
+.apply-hero-leaves,
+.apply-hero-leaves span,
+.application-status-leaf,
+.logo-flower,
+.hero-image,
+.big-action-icon,
+.system-admin-hero-icon,
+.tournament-admin-hero-icon {
+  pointer-events: none !important;
+}
+
+.site-header,
+.menu-overlay,
+.menu-panel,
+.tournament-detail-bottom-cta,
+.tournament-detail-back,
+.tournament-detail-back-button {
+  isolation: isolate;
+}
+
+.hero-action-row,
+.tournament-detail-bottom-cta,
+.tournament-create-actions,
+.tournament-edit-actions,
+.apply-submit-button,
+.application-status-tabs,
+.application-status-filter-button,
+.application-status-filter-panel,
+.application-admin-action-stack,
+.system-admin-notice-button-row,
+.system-admin-main-button,
+.tournament-admin-add-button,
+.tournament-admin-card-buttons,
+.mypage-modern-menu-card,
+.mypage-modern-edit-buttons {
+  position: relative;
+  z-index: 5;
+}
+
+.tournament-detail-bottom-cta {
+  z-index: 110;
+}
+
+.menu-overlay {
+  z-index: 120;
+}
+
+.menu-panel,
+.menu-panel button {
+  position: relative;
+  z-index: 2;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .tournament-list-clickable:hover,
+  .application-status-card:hover,
+  .login-primary-button:hover,
+  .login-outline-button:hover,
+  .tournament-detail-back-button:hover,
+  .tournament-edit-remove-file-button:hover {
+    transform: none;
+  }
+
+  .tournament-list-clickable:hover {
+    background: var(--surface);
+  }
+}
+
+@media (max-width: 768px) {
+  button,
+  .btn,
+  [role="button"],
+  [class*="button"] {
+    min-height: 44px;
+  }
+
+  .site-header {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .tournament-detail-bottom-cta,
+  .hero-action-row {
+    max-width: calc(100% - 24px);
+  }
+}

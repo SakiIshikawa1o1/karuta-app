@@ -135,3 +135,6 @@ import "./shared/133-inquiries.css";
 import "./shared/134-responsive.css";
 import "./pages/admin/135-system-admin-kpi-affiliation-add-adjust.css";
 import "./pages/tournaments/136-tournament-detail-back-button.css";
+import "./shared/137-mobile-tap-safety.css";
+import "./shared/138-desktop-readability.css";
+import "./shared/139-app-icons.css";
