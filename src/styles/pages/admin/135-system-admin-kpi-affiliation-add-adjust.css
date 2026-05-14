@@ -60,6 +60,56 @@
 }
 
 /* 所属会追加フォーム：所属会名 + 会員数の2列 */
+.system-admin-tabs {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  align-items: end !important;
+  gap: 0 !important;
+  margin: 12px 0 -1px !important;
+  padding: 0 !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+.system-admin-tabs button {
+  min-height: 34px !important;
+  border: 1px solid rgba(120, 40, 30, 0.1) !important;
+  border-bottom-color: rgba(120, 40, 30, 0.1) !important;
+  border-radius: 8px 8px 0 0 !important;
+  background: rgba(255, 255, 255, 0.96) !important;
+  color: #251713 !important;
+  padding: 0 10px !important;
+  width: 100% !important;
+  font-size: 11px !important;
+  font-weight: 900 !important;
+  cursor: pointer !important;
+  box-shadow: none !important;
+}
+
+.system-admin-tabs button.active {
+  min-height: 38px !important;
+  border-color: rgba(120, 40, 30, 0.1) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.96) !important;
+  background: rgba(255, 255, 255, 0.96) !important;
+  color: #251713 !important;
+  transform: translateY(1px) !important;
+  box-shadow: 0 -4px 12px rgba(80, 20, 10, 0.04) !important;
+}
+
+.system-admin-tabs ~ .system-admin-panel:not([hidden]) {
+  margin-top: 0 !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  border-top-color: rgba(120, 40, 30, 0.1) !important;
+  background: rgba(255, 255, 255, 0.96) !important;
+}
+
+.system-admin-tabs[hidden],
+.system-admin-stats-grid[hidden],
+.system-admin-panel[hidden] {
+  display: none !important;
+}
+
 .system-admin-affiliation-form {
   display: grid !important;
   grid-template-columns: 1fr 140px !important;
@@ -184,6 +234,31 @@
 
 .mypage-modern-inline-edit h2 {
   color: #35160f;
+}
+
+.system-admin-affiliation-head,
+.system-admin-affiliation-row {
+  grid-template-columns: 1.1fr 1fr 1fr 0.75fr 0.55fr 80px !important;
+  min-width: 900px !important;
+}
+
+.system-admin-affiliation-form {
+  grid-template-columns: 1fr 1fr 180px 1fr !important;
+}
+
+.system-admin-affiliation-kana-field {
+  display: grid;
+  gap: 4px;
+}
+
+.system-admin-affiliation-kana-field span {
+  color: #7a5147;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.system-admin-affiliation-kana-field input {
+  width: 100%;
 }
 
 .tournament-detail-applied-message {

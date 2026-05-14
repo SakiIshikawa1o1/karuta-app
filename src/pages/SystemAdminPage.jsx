@@ -1,9 +1,9 @@
 // src/pages/SystemAdminPage.jsx
 
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "../contexts/AuthContext";
+import { sortAffiliationsByKana } from "../utils/affiliations";
 
 function UsersIcon() {
   return (
@@ -114,7 +114,6 @@ function getInquiryStatus(inquiry) {
 }
 
 export default function SystemAdminPage() {
-  const navigate = useNavigate();
   const { user } = useAuth();
 
   const [users, setUsers] = useState([]);
@@ -131,6 +130,7 @@ export default function SystemAdminPage() {
 
   const [pendingAffiliationById, setPendingAffiliationById] = useState({});
   const [affiliationName, setAffiliationName] = useState("");
+  const [affiliationNameKana, setAffiliationNameKana] = useState("");
   const [affiliationApprovalCode, setAffiliationApprovalCode] = useState("");
   const [affiliationRepresentativeUserId, setAffiliationRepresentativeUserId] =
     useState("");
@@ -147,6 +147,7 @@ export default function SystemAdminPage() {
   const [applicationCount, setApplicationCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
+  const [activeAdminTab, setActiveAdminTab] = useState("users");
 
   const activeUserRoleMap = useMemo(() => {
     const map = {};
@@ -184,6 +185,17 @@ export default function SystemAdminPage() {
     return inquiries.filter((item) => !isInquiryHandled(item)).length;
   }, [inquiries]);
 
+  const sortedInquiries = useMemo(() => {
+    return [...inquiries].sort((a, b) => {
+      const handledA = isInquiryHandled(a) ? 1 : 0;
+      const handledB = isInquiryHandled(b) ? 1 : 0;
+
+      if (handledA !== handledB) return handledA - handledB;
+
+      return new Date(b.created_at || 0) - new Date(a.created_at || 0);
+    });
+  }, [inquiries]);
+
   const stats = [
     {
       key: "users",
@@ -217,6 +229,13 @@ export default function SystemAdminPage() {
       icon: <BellIcon />,
       color: "red",
     },
+  ];
+
+  const adminTabs = [
+    { key: "users", label: "ユーザー" },
+    { key: "affiliations", label: "所属会" },
+    { key: "notices", label: "お知らせ" },
+    { key: "inquiries", label: "問い合わせ" },
   ];
 
   const fetchProfilesAndRoles = async () => {
@@ -286,7 +305,8 @@ export default function SystemAdminPage() {
     const { data, error } = await supabase
       .from("affiliations")
       .select("*")
-      .order("created_at", { ascending: false });
+      .order("name_kana", { ascending: true })
+      .order("name", { ascending: true });
 
     if (error) {
       console.error("所属会取得エラー:", error.message);
@@ -294,7 +314,7 @@ export default function SystemAdminPage() {
       return;
     }
 
-    const affiliationList = data ?? [];
+    const affiliationList = sortAffiliationsByKana(data);
     setAffiliations(affiliationList);
 
     const pending = {};
@@ -304,6 +324,7 @@ export default function SystemAdminPage() {
         representative_user_id: affiliation.representative_user_id || "",
         is_active: affiliation.is_active !== false,
         approval_code: affiliation.approval_code || "",
+        name_kana: affiliation.name_kana || "",
       };
     });
 
@@ -449,7 +470,38 @@ export default function SystemAdminPage() {
       return;
     }
 
+    if (affiliationNameKana.trim()) {
+      const { data: createdAffiliation, error: findError } = await supabase
+        .from("affiliations")
+        .select("id")
+        .eq("name", affiliationName.trim())
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (findError) {
+        setMessage(`所属会名（フリガナ）の保存に失敗しました：${findError.message}`);
+        return;
+      }
+
+      if (createdAffiliation?.id) {
+        const { error: kanaError } = await supabase
+          .from("affiliations")
+          .update({
+            name_kana: affiliationNameKana.trim(),
+            updated_at: new Date().toISOString(),
+          })
+          .eq("id", createdAffiliation.id);
+
+        if (kanaError) {
+          setMessage(`所属会名（フリガナ）の保存に失敗しました：${kanaError.message}`);
+          return;
+        }
+      }
+    }
+
     setAffiliationName("");
+    setAffiliationNameKana("");
     setAffiliationApprovalCode("");
     setAffiliationRepresentativeUserId("");
     setMessage("所属会を追加しました。");
@@ -482,6 +534,19 @@ export default function SystemAdminPage() {
     }
 
     setMessage("所属会を更新しました。");
+    const { error: kanaError } = await supabase
+      .from("affiliations")
+      .update({
+        name_kana: pending.name_kana?.trim() || null,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", affiliationId);
+
+    if (kanaError) {
+      setMessage(`所属会名（フリガナ）の更新に失敗しました：${kanaError.message}`);
+      return;
+    }
+
     fetchAffiliations();
   };
 
@@ -659,7 +724,22 @@ export default function SystemAdminPage() {
         <div className="system-admin-empty">読み込み中...</div>
       ) : (
         <>
-          <section className="system-admin-stats-grid">
+          <nav className="system-admin-tabs" aria-label="システム管理メニュー" hidden>
+            {adminTabs.map((tab) => (
+              <button
+                type="button"
+                key={tab.key}
+                className={activeAdminTab === tab.key ? "active" : ""}
+                onClick={() => setActiveAdminTab(tab.key)}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </nav>
+
+          <section
+            className="system-admin-stats-grid"
+          >
             {stats.map((item) => (
               <article
                 className={`system-admin-stat-card ${item.color}`}
@@ -678,7 +758,23 @@ export default function SystemAdminPage() {
             ))}
           </section>
 
-          <section className="system-admin-panel">
+          <nav className="system-admin-tabs" aria-label="システム管理メニュー">
+            {adminTabs.map((tab) => (
+              <button
+                type="button"
+                key={tab.key}
+                className={activeAdminTab === tab.key ? "active" : ""}
+                onClick={() => setActiveAdminTab(tab.key)}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </nav>
+
+          <section
+            className="system-admin-panel"
+            hidden
+          >
             <div className="system-admin-section-title compact">
               <UsersIcon />
               <h2>所属会申請</h2>
@@ -687,13 +783,15 @@ export default function SystemAdminPage() {
             <button
               type="button"
               className="system-admin-main-button compact"
-              onClick={() => navigate("/admin/affiliation-approvals")}
             >
               申請を確認する
             </button>
           </section>
 
-          <section className="system-admin-panel">
+          <section
+            className="system-admin-panel"
+            hidden={activeAdminTab !== "users"}
+          >
             <div className="system-admin-section-title">
               <div>
                 <h2>ユーザー権限管理</h2>
@@ -794,7 +892,10 @@ export default function SystemAdminPage() {
             </div>
           </section>
 
-          <section className="system-admin-panel">
+          <section
+            className="system-admin-panel"
+            hidden={activeAdminTab !== "affiliations"}
+          >
             <div className="system-admin-section-title compact">
               <BuildingIcon />
               <h2>所属会の追加 / 編集</h2>
@@ -803,6 +904,7 @@ export default function SystemAdminPage() {
             <div className="system-admin-affiliation-table">
               <div className="system-admin-affiliation-head">
                 <span>所属会名</span>
+                <span>所属会名（フリガナ）</span>
                 <span>代表者</span>
                 <span>所属会コード</span>
                 <span>有効</span>
@@ -820,6 +922,7 @@ export default function SystemAdminPage() {
                       affiliation.representative_user_id || "",
                     is_active: affiliation.is_active !== false,
                     approval_code: affiliation.approval_code || "",
+                    name_kana: affiliation.name_kana || "",
                   };
 
                   return (
@@ -828,6 +931,22 @@ export default function SystemAdminPage() {
                       key={affiliation.id}
                     >
                       <strong>{affiliation.name}</strong>
+
+                      <input
+                        type="text"
+                        value={pending.name_kana}
+                        onChange={(event) =>
+                          setPendingAffiliationById((prev) => ({
+                            ...prev,
+                            [affiliation.id]: {
+                              ...pending,
+                              name_kana: event.target.value,
+                            },
+                          }))
+                        }
+                        aria-label="所属会名（フリガナ）"
+                        placeholder="例）カゼソヨグ"
+                      />
 
                       <select
                         value={pending.representative_user_id}
@@ -906,6 +1025,15 @@ export default function SystemAdminPage() {
                 onChange={(event) => setAffiliationName(event.target.value)}
                 placeholder="所属会名"
               />
+              <label className="system-admin-affiliation-kana-field">
+                <span>所属会名（フリガナ）</span>
+                <input
+                  type="text"
+                  value={affiliationNameKana}
+                  onChange={(event) => setAffiliationNameKana(event.target.value)}
+                  placeholder="例）カゼソヨグ"
+                />
+              </label>
               <input
                 type="text"
                 inputMode="numeric"
@@ -944,7 +1072,10 @@ export default function SystemAdminPage() {
             </button>
           </section>
 
-          <section className="system-admin-panel">
+          <section
+            className="system-admin-panel"
+            hidden={activeAdminTab !== "notices"}
+          >
             <div className="system-admin-section-title compact">
               <BellIcon />
               <h2>お知らせの追加 / 編集</h2>
@@ -1070,7 +1201,10 @@ export default function SystemAdminPage() {
             </div>
           </section>
 
-          <section className="system-admin-panel">
+          <section
+            className="system-admin-panel"
+            hidden={activeAdminTab !== "inquiries"}
+          >
             <div className="system-admin-section-title compact">
               <MailIcon />
               <h2>問い合わせ確認 / 対応</h2>
@@ -1082,6 +1216,7 @@ export default function SystemAdminPage() {
                   <tr>
                     <th>状態</th>
                     <th>氏名</th>
+                    <th>メールアドレス</th>
                     <th>件名</th>
                     <th>内容</th>
                     <th>日付</th>
@@ -1091,12 +1226,15 @@ export default function SystemAdminPage() {
                 </thead>
 
                 <tbody>
-                  {inquiries.length === 0 ? (
+                  {sortedInquiries.length === 0 ? (
                     <tr>
-                      <td colSpan="7">問い合わせはありません。</td>
+                      <td colSpan="8">問い合わせはありません。</td>
                     </tr>
                   ) : (
-                    inquiries.map((inquiry) => {
+                    sortedInquiries.map((inquiry) => {
+                      const inquiryUser = users.find(
+                        (item) => item.id === inquiry.user_id
+                      );
                       const currentStatus =
                         pendingInquiryStatusById[inquiry.id] ||
                         getInquiryStatus(inquiry);
@@ -1115,7 +1253,8 @@ export default function SystemAdminPage() {
                             </span>
                           </td>
 
-                          <td>{getDisplayName(users.find((item) => item.id === inquiry.user_id))}</td>
+                          <td>{getDisplayName(inquiryUser)}</td>
+                          <td>{inquiryUser?.email || "未設定"}</td>
                           <td>{getInquiryTitle(inquiry)}</td>
                           <td className="system-admin-inquiry-body-cell">
                             {inquiry.body || "未入力"}

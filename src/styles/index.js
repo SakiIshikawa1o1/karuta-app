@@ -96,6 +96,7 @@ import "./pages/auth/094-login-page-logo-spacing.css";
 import "./pages/auth/095-signup-page.css";
 import "./components/096-header-login-logout-button.css";
 import "./pages/auth/097-signup-select-arrow-position.css";
+import "./pages/legal-pages.css";
 import "./pages/mypage/098-my-page-modern.css";
 import "./pages/mypage/099-my-page-adjust.css";
 import "./pages/mypage/100-my-page-compact-adjust.css";

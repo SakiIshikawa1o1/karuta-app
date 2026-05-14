@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "../contexts/AuthContext";
 import { ROLE } from "../utils/roles";
+import { sortAffiliationsByKana } from "../utils/affiliations";
 
 const REQUEST_STATUS_LABEL = {
   pending: "承認待ち",
@@ -75,11 +76,14 @@ export default function AffiliationApprovalPage() {
     ] = await Promise.all([
       supabase
         .from("affiliations")
-        .select("id, name, representative_user_id")
-        .eq("representative_user_id", user.id),
+        .select("id, name, name_kana, representative_user_id")
+        .eq("representative_user_id", user.id)
+        .order("name_kana", { ascending: true })
+        .order("name", { ascending: true }),
       supabase
         .from("affiliations")
-        .select("id, name, representative_user_id")
+        .select("id, name, name_kana, representative_user_id")
+        .order("name_kana", { ascending: true })
         .order("name", { ascending: true }),
       supabase
         .from("class_levels")
@@ -91,9 +95,9 @@ export default function AffiliationApprovalPage() {
         .order("sort_order", { ascending: true }),
     ]);
 
-    const representativeList = representativeResult.data ?? [];
+    const representativeList = sortAffiliationsByKana(representativeResult.data);
     setRepresentativeAffiliations(representativeList);
-    setAffiliations(affiliationResult.data ?? []);
+    setAffiliations(sortAffiliationsByKana(affiliationResult.data));
     setClassLevels(classLevelResult.data ?? []);
     setDanRanks(danRankResult.data ?? []);
 

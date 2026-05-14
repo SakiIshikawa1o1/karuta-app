@@ -8,8 +8,12 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 import AuthCallbackPage from "./pages/AuthCallbackPage";
 import ApprovalPendingPage from "./pages/ApprovalPendingPage";
+import TermsPage from "./pages/TermsPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import TournamentListPage from "./pages/TournamentListPage";
 import TournamentDetailPage from "./pages/TournamentDetailPage";
 import TournamentApplyPage from "./pages/TournamentApplyPage";
@@ -23,7 +27,7 @@ import TournamentEditPage from "./pages/TournamentEditPage";
 import ApplicationAdminPage from "./pages/ApplicationAdminPage";
 import AffiliationApprovalPage from "./pages/AffiliationApprovalPage";
 import NoticesPage from "./pages/NoticesPage";
-import { ContactPage, PrivacyPage, TermsPage } from "./pages/SupportPages";
+import { ContactPage } from "./pages/SupportPages";
 
 import { ROLE } from "./utils/roles";
 
@@ -38,12 +42,14 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/auth/callback" element={<AuthCallbackPage />} />
           <Route path="/approval-pending" element={<ApprovalPendingPage />} />
           <Route path="/tournaments" element={<TournamentListPage />} />
           <Route path="/notices" element={<NoticesPage />} />
           <Route path="/terms" element={<TermsPage />} />
-          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/privacy" element={<PrivacyPolicyPage />} />
           <Route path="/contact" element={<ContactPage />} />
 
           {/* ログイン必須ページ */}

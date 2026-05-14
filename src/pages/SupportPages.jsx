@@ -1,10 +1,14 @@
 import SiteFooter from "../components/SiteFooter";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "../contexts/AuthContext";
 
 function SupportPageLayout({ title, lead, children }) {
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, []);
+
   return (
     <div className="support-page">
       <section className="support-page-hero">

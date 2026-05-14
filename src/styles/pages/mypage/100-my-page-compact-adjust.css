@@ -190,16 +190,11 @@
 }
 
 .mypage-simple-icon {
-  width: 34px;
-  height: 34px;
-  border-radius: 999px;
-  background: #fff1df;
-  color: #d8321f;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 15px;
-  font-weight: 900;
+  display: none !important;
+}
+
+.mypage-modern-info-list div {
+  grid-template-columns: 78px 1fr !important;
 }
 
 /* スマホ */

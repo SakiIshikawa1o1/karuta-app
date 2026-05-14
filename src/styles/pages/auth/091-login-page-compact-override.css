@@ -100,6 +100,18 @@
   font-weight: 700 !important;
 }
 
+.login-success-text {
+  margin: 0 0 14px !important;
+  padding: 10px 12px !important;
+  border-radius: 12px !important;
+  background: #effaf3 !important;
+  border: 1px solid #bfe8cb !important;
+  color: #16723a !important;
+  font-size: 12px !important;
+  line-height: 1.5 !important;
+  font-weight: 700 !important;
+}
+
 /* 入力項目間 */
 .login-field + .login-field {
   margin-top: 20px !important;

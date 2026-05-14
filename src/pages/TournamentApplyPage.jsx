@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "../contexts/AuthContext";
+import { sortAffiliationsByKana } from "../utils/affiliations";
 
 const WEEKDAYS = ["日", "月", "火", "水", "木", "金", "土"];
 
@@ -128,8 +129,9 @@ export default function TournamentApplyPage() {
         await Promise.all([
           supabase
             .from("affiliations")
-            .select("id, name, is_active")
+            .select("id, name, name_kana, is_active")
             .eq("is_active", true)
+            .order("name_kana", { ascending: true })
             .order("name", { ascending: true }),
           supabase
             .from("class_levels")
@@ -143,7 +145,9 @@ export default function TournamentApplyPage() {
             .order("sort_order", { ascending: true }),
         ]);
 
-      if (!affiliationsResult.error) setAffiliations(affiliationsResult.data ?? []);
+      if (!affiliationsResult.error) {
+        setAffiliations(sortAffiliationsByKana(affiliationsResult.data));
+      }
       if (!classLevelsResult.error) setClassLevels(classLevelsResult.data ?? []);
       if (!danRanksResult.error) setDanRanks(danRanksResult.data ?? []);
 

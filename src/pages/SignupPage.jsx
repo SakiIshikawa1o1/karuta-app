@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
+import { sortAffiliationsByKana } from "../utils/affiliations";
 
 function UserIcon() {
   return (
@@ -128,8 +129,9 @@ export default function SignupPage() {
         await Promise.all([
           supabase
             .from("affiliations")
-            .select("id, name, is_active")
+            .select("id, name, name_kana, is_active")
             .eq("is_active", true)
+            .order("name_kana", { ascending: true })
             .order("name", { ascending: true }),
 
           supabase
@@ -168,7 +170,7 @@ export default function SignupPage() {
         return;
       }
 
-      setAffiliations(affiliationsResult.data ?? []);
+      setAffiliations(sortAffiliationsByKana(affiliationsResult.data));
       setClassLevels(classLevelsResult.data ?? []);
       setDanRanks(danRanksResult.data ?? []);
     };

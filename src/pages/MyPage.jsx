@@ -5,15 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "../contexts/AuthContext";
 import { ROLE, ROLE_LABEL } from "../utils/roles";
+import { sortAffiliationsByKana } from "../utils/affiliations";
 import SiteFooter from "../components/SiteFooter";
-import AppIcon from "../components/AppIcon";
 
-function SimpleIcon({ name, children }) {
-  return (
-    <span className="mypage-simple-icon">
-      {name ? <AppIcon name={name} /> : children}
-    </span>
-  );
+function SimpleIcon() {
+  return null;
 }
 
 function ChevronIcon() {
@@ -118,8 +114,9 @@ export default function MyPage() {
         await Promise.all([
           supabase
             .from("affiliations")
-            .select("id, name, is_active, representative_user_id")
+            .select("id, name, name_kana, is_active, representative_user_id")
             .eq("is_active", true)
+            .order("name_kana", { ascending: true })
             .order("name", { ascending: true }),
 
           supabase
@@ -158,7 +155,7 @@ export default function MyPage() {
         return;
       }
 
-      setAffiliations(affiliationsResult.data ?? []);
+      setAffiliations(sortAffiliationsByKana(affiliationsResult.data));
       setClassLevels(classLevelsResult.data ?? []);
       setDanRanks(danRanksResult.data ?? []);
     };
@@ -506,7 +503,7 @@ export default function MyPage() {
               <select
                 value={form.affiliation_id}
                 onChange={(e) => handleChange("affiliation_id", e.target.value)}
-                disabled={loadingMasters}
+                disabled
               >
                 <option value="">
                   {loadingMasters ? "読み込み中..." : "選択してください"}

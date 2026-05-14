@@ -69,6 +69,16 @@ export default function SiteFooter() {
         </div>
       </div>
 
+      <div className="footer-legal-links" aria-label="法務リンク">
+        <button type="button" onClick={() => goTo("/terms")}>
+          利用規約
+        </button>
+        <span aria-hidden="true">|</span>
+        <button type="button" onClick={() => goTo("/privacy")}>
+          プライバシーポリシー
+        </button>
+      </div>
+
       <div className="footer-bottom">
         <span>© 2026 まにまに</span>
         <span>Karuta Tournament Application System</span>

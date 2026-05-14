@@ -93,6 +93,18 @@
   font-weight: 700;
 }
 
+.login-success-text {
+  margin: 0 0 18px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: #effaf3;
+  border: 1px solid #bfe8cb;
+  color: #16723a;
+  font-size: 13px;
+  line-height: 1.5;
+  font-weight: 700;
+}
+
 .login-field + .login-field {
   margin-top: 34px;
 }
