@@ -321,8 +321,6 @@ export default function TournamentDetailPage() {
 
       {tournament && (
         <>
-          <section className="tournament-detail-hero" />
-
           <section className="tournament-detail-summary-card">
             <div className="tournament-detail-status-top">
               <span className={`detail-status-pill ${statusClass}`}>

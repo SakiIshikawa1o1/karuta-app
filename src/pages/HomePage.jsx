@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
+import { useAuth } from "../contexts/AuthContext";
 import SiteFooter from "../components/SiteFooter";
 import AppIcon from "../components/AppIcon";
 
@@ -32,11 +33,22 @@ function formatShortDate(value) {
   return `${date.getMonth() + 1}/${date.getDate()}`;
 }
 
+function normalizeClassCode(code) {
+  return String(code || "").trim().replace("級", "").toLowerCase();
+}
+
+function getAllowedClassColumn(classCode) {
+  const normalized = normalizeClassCode(classCode);
+  return normalized ? `allow_class_${normalized}` : "";
+}
+
 export default function HomePage() {
   const navigate = useNavigate();
+  const { profile } = useAuth();
 
   const [tournaments, setTournaments] = useState([]);
   const [notices, setNotices] = useState([]);
+  const [userClassLevel, setUserClassLevel] = useState(null);
   const [loadingTournaments, setLoadingTournaments] = useState(true);
   const [loadingNotices, setLoadingNotices] = useState(true);
 
@@ -57,22 +69,48 @@ export default function HomePage() {
         0
       );
 
-      const { data, error } = await supabase
+      const tournamentsQuery = await supabase
         .from("tournaments")
         .select("*")
         .eq("status", "published")
         .gte("application_deadline", tomorrow.toISOString())
-        .order("event_date", { ascending: true })
-        .limit(5);
+        .order("event_date", { ascending: true });
+      const { data, error } = tournamentsQuery;
 
       setLoadingTournaments(false);
 
-      if (error) {
+      if (tournamentsQuery.error) {
         console.error("大会取得エラー:", error.message);
+        console.error(tournamentsQuery.error.message);
         return;
       }
 
       setTournaments(data ?? []);
+      const { data: classLevelsData, error: classLevelsError } = await supabase
+        .from("class_levels")
+        .select("id, code, name, sort_order, is_active")
+        .eq("is_active", true)
+        .order("sort_order", { ascending: true });
+
+      if (classLevelsError) {
+        console.error("級マスタ取得エラー:", classLevelsError.message);
+      }
+
+      const classLevel =
+        (classLevelsData ?? []).find(
+          (item) => item.id === profile?.class_level_id
+        ) || null;
+      const allowedClassColumn = getAllowedClassColumn(classLevel?.code);
+      const tournamentList = data ?? [];
+
+      setUserClassLevel(classLevel);
+      setTournaments(
+        allowedClassColumn
+          ? tournamentList
+              .filter((tournament) => tournament[allowedClassColumn] === true)
+              .slice(0, 5)
+          : tournamentList.slice(0, 5)
+      );
     };
 
     const fetchNotices = async () => {
@@ -97,7 +135,7 @@ export default function HomePage() {
 
     fetchTournaments();
     fetchNotices();
-  }, []);
+  }, [profile?.class_level_id]);
 
   return (
     <div className="home-page">
@@ -130,7 +168,7 @@ export default function HomePage() {
             type="button"
           >
             <span className="big-action-icon" aria-hidden="true" />
-            <span>申込状況を確認する</span>
+            <span>申込状況を確認</span>
             <span className="big-action-arrow">›</span>
           </button>
         </div>
@@ -178,6 +216,13 @@ export default function HomePage() {
                       <span>会場</span>
                       {tournament.venue || "会場未設定"}
                     </p>
+
+                    {userClassLevel && (
+                      <p>
+                        <span>対象級</span>
+                        {userClassLevel.name}
+                      </p>
+                    )}
 
                     <button
                       type="button"

@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { ROLE } from "../utils/roles";
-import AppIcon from "../components/AppIcon";
 
 function EyeIcon() {
   return (
@@ -92,7 +91,6 @@ export default function LoginPage() {
             <div className="login-field">
               <label className="login-label" htmlFor="email">
                 <span className="login-label-icon">
-                  <AppIcon name="login" />
                 </span>
                 <span>メールアドレス</span>
               </label>
@@ -112,7 +110,6 @@ export default function LoginPage() {
             <div className="login-field">
               <label className="login-label" htmlFor="password">
                 <span className="login-label-icon">
-                  <AppIcon name="hidden" />
                 </span>
                 <span>パスワード</span>
               </label>

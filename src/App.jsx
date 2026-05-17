@@ -1,5 +1,6 @@
 // src/App.jsx
 
+import { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import Header from "./components/Header";
@@ -20,16 +21,17 @@ import TournamentApplyPage from "./pages/TournamentApplyPage";
 import ApplicationConfirmPage from "./pages/ApplicationConfirmPage";
 import ApplicationStatusPage from "./pages/ApplicationStatusPage";
 import MyPage from "./pages/MyPage";
-import SystemAdminPage from "./pages/SystemAdminPage";
-import TournamentAdminPage from "./pages/TournamentAdminPage";
-import TournamentCreatePage from "./pages/TournamentCreatePage";
-import TournamentEditPage from "./pages/TournamentEditPage";
-import ApplicationAdminPage from "./pages/ApplicationAdminPage";
-import AffiliationApprovalPage from "./pages/AffiliationApprovalPage";
 import NoticesPage from "./pages/NoticesPage";
 import { ContactPage } from "./pages/SupportPages";
 
 import { ROLE } from "./utils/roles";
+
+const SystemAdminPage = lazy(() => import("./pages/SystemAdminPage"));
+const TournamentAdminPage = lazy(() => import("./pages/TournamentAdminPage"));
+const TournamentCreatePage = lazy(() => import("./pages/TournamentCreatePage"));
+const TournamentEditPage = lazy(() => import("./pages/TournamentEditPage"));
+const ApplicationAdminPage = lazy(() => import("./pages/ApplicationAdminPage"));
+const AffiliationApprovalPage = lazy(() => import("./pages/AffiliationApprovalPage"));
 
 export default function App() {
   return (
@@ -37,7 +39,8 @@ export default function App() {
       <Header />
 
       <main className="page">
-        <Routes>
+        <Suspense fallback={<div className="page-loading">読み込み中...</div>}>
+          <Routes>
           {/* ログイン前でも閲覧できるページ */}
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
@@ -156,7 +159,8 @@ export default function App() {
           />
 
           <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+          </Routes>
+        </Suspense>
       </main>
     </div>
   );

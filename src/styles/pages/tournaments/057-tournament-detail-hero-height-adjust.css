@@ -6,6 +6,8 @@
 /* PC・共通 */
 .tournament-detail-hero {
   height: 76px !important;
+  margin-top: -1px !important;
+  background-position: center top !important;
 }
 
 /* 上の白いボックスは少し写真に重ねる */
@@ -17,6 +19,8 @@
 @media (max-width: 480px) {
   .tournament-detail-hero {
     height: 68px !important;
+    margin-top: -1px !important;
+    background-position: center top !important;
   }
 
   .tournament-detail-summary-card {

@@ -22,6 +22,23 @@
   width: min(680px, 68%) !important;
 }
 
+.hero-action-row .big-action-button {
+  font-size: 20px !important;
+  white-space: nowrap !important;
+}
+
+.hero-action-row .big-action-button span:not(.big-action-arrow):not(.big-action-icon) {
+  white-space: nowrap !important;
+}
+
+.section-heading h2 {
+  gap: 2px !important;
+}
+
+.section-heading h2 .app-icon {
+  margin-right: 0 !important;
+}
+
 /* スマホ */
 @media (max-width: 768px) {
   .home-hero-copy h1 {
@@ -36,6 +53,12 @@
 
   .home-hero-copy {
     width: 64% !important;
+  }
+
+  .hero-action-row .big-action-button {
+    font-size: 17px !important;
+    letter-spacing: 0.02em !important;
+    padding-inline: 10px !important;
   }
 }
 
@@ -52,5 +75,12 @@
 
   .home-hero-copy {
     width: 66% !important;
+  }
+
+  .hero-action-row .big-action-button {
+    font-size: 16px !important;
+    letter-spacing: 0 !important;
+    gap: 4px !important;
+    padding-inline: 6px !important;
   }
 }

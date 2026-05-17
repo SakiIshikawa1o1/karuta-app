@@ -36,6 +36,10 @@
   flex-wrap: wrap;
 }
 
+.application-status-date-block + .application-status-date-block {
+  margin-top: 5px !important;
+}
+
 /* 「開催日」ラベル */
 .application-status-date-label {
   min-height: 25px !important;
