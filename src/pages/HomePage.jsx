@@ -159,7 +159,6 @@ export default function HomePage() {
           >
             <span className="big-action-icon" aria-hidden="true" />
             <span>大会を探す</span>
-            <span className="big-action-arrow">›</span>
           </button>
 
           <button
@@ -169,7 +168,6 @@ export default function HomePage() {
           >
             <span className="big-action-icon" aria-hidden="true" />
             <span>申込状況を確認</span>
-            <span className="big-action-arrow">›</span>
           </button>
         </div>
       </section>
