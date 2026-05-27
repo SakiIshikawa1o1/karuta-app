@@ -480,7 +480,7 @@ export default function TournamentCreatePage() {
           type="button"
           className="tournament-create-submit-button"
           disabled={saving}
-          onClick={() => handleSave(form.status === "draft" ? "published" : form.status)}
+          onClick={() => handleSave(form.status)}
         >
           <CheckIcon />
           {saving ? "登録中..." : "大会を登録する"}

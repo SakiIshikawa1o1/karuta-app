@@ -1,0 +1,44 @@
+/* =========================================================
+   My Page Scroll / Mobile Menu Color
+========================================================= */
+
+.mypage-modern {
+  overflow-x: hidden;
+  overflow-y: visible;
+  overscroll-behavior-y: auto;
+  -webkit-overflow-scrolling: touch;
+  touch-action: auto;
+}
+
+.mypage-modern *,
+.mypage-modern *::before,
+.mypage-modern *::after {
+  touch-action: auto;
+}
+
+.mypage-modern .mypage-modern-summary-card,
+.mypage-modern .mypage-modern-menu-card > button,
+.mypage-modern .mypage-modern-admin-grid button {
+  touch-action: pan-y;
+}
+
+.mypage-modern input,
+.mypage-modern select,
+.mypage-modern textarea {
+  touch-action: manipulation;
+}
+
+.menu-panel-header h2,
+.menu-list button {
+  color: var(--red-dark) !important;
+}
+
+.menu-list button {
+  border-color: rgba(200, 30, 47, 0.18) !important;
+}
+
+.menu-list button:hover,
+.menu-list button:focus-visible {
+  background: #fff1ed !important;
+  border-color: rgba(200, 30, 47, 0.32) !important;
+}

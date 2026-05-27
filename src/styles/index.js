@@ -141,3 +141,4 @@ import "./shared/138-desktop-readability.css";
 import "./shared/139-app-icons.css";
 import "./pages/home/140-home-hero-action-spacing.css";
 import "./pages/tournaments/141-tournament-form-mobile-overflow-fix.css";
+import "./pages/mypage/142-my-page-scroll-and-menu-color.css";

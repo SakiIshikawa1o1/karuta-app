@@ -33,6 +33,20 @@
   box-sizing: border-box;
 }
 
+.tournament-create-radio-list input[type="checkbox"],
+.tournament-create-radio-list input[type="radio"],
+.tournament-edit-radio-list input[type="checkbox"],
+.tournament-edit-radio-list input[type="radio"] {
+  width: 22px !important;
+  max-width: 22px !important;
+  min-width: 22px !important;
+  height: 22px !important;
+  min-height: 22px !important;
+  padding: 0 !important;
+  flex: 0 0 22px !important;
+  box-sizing: border-box;
+}
+
 .tournament-create-upload,
 .tournament-edit-upload,
 .tournament-edit-current-file {
