@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "../contexts/AuthContext";
 import { sortAffiliationsByKana } from "../utils/affiliations";
+import { getClassEntryFeeText } from "../utils/classEntryFees";
 
 const WEEKDAYS = ["日", "月", "火", "水", "木", "金", "土"];
 
@@ -234,6 +235,10 @@ export default function TournamentApplyPage() {
     [classLevels, profile?.class_level_id]
   );
 
+  const userEntryFeeText = useMemo(() => {
+    return getClassEntryFeeText(userClassLevel?.code);
+  }, [userClassLevel]);
+
   const isUserClassAllowed = useMemo(() => {
     if (!tournament || !userClassLevel) return false;
     const columnName = getAllowedClassColumn(userClassLevel.code);
@@ -454,7 +459,7 @@ ${danRankName || "未設定"}
                 <span className="apply-info-icon">￥</span>
                 <span>参加費</span>
               </div>
-              <div className="apply-info-value">{tournamentView.fee}</div>
+              <div className="apply-info-value">{userEntryFeeText}</div>
             </div>
           </div>
         </section>

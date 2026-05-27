@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "../contexts/AuthContext";
 import { TOURNAMENT_FILE_BUCKET } from "../utils/tournamentFiles";
+import { getSelectedClassEntryFeeText } from "../utils/classEntryFees";
 
 const STATUS_LABEL = {
   draft: "下書き",
@@ -52,15 +53,6 @@ function formatDeadlineShort(value) {
   if (Number.isNaN(date.getTime())) return "";
 
   return `${date.getMonth() + 1}月${date.getDate()}日`;
-}
-
-function formatYen(value) {
-  if (value === null || value === undefined || value === "") return "未設定";
-
-  const numberValue = Number(value);
-  if (Number.isNaN(numberValue)) return String(value);
-
-  return `${numberValue.toLocaleString("ja-JP")}円`;
 }
 
 function normalizeClassCode(code) {
@@ -270,6 +262,11 @@ export default function TournamentDetailPage() {
     return getAllowedClassLabels(tournament, classLevels);
   }, [tournament, classLevels]);
 
+  const entryFeeText = useMemo(() => {
+    if (!tournament) return "未設定";
+    return getSelectedClassEntryFeeText(tournament, classLevels);
+  }, [tournament, classLevels]);
+
   const canApply = useMemo(() => {
     if (!tournament) return false;
     return effectiveStatus === "published" && !alreadyApplied;
@@ -403,12 +400,7 @@ export default function TournamentDetailPage() {
               <div>
                 <h2>参加費</h2>
                 <p className="detail-large-text">
-                  {formatYen(tournament.entry_fee)}
-                  {tournament.fee_note && (
-                    <span className="detail-fee-note">
-                      {tournament.fee_note}
-                    </span>
-                  )}
+                  {entryFeeText}
                 </p>
               </div>
             </section>

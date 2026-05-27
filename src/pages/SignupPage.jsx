@@ -530,7 +530,7 @@ export default function SignupPage() {
                   onClick={() => setShowPassword((prev) => !prev)}
                   aria-label="パスワードを表示"
                 >
-                  <EyeIcon />
+                  {showPassword ? "非表示" : "表示"}
                 </button>
               </div>
             </div>
@@ -556,7 +556,7 @@ export default function SignupPage() {
                   onClick={() => setShowPasswordConfirm((prev) => !prev)}
                   aria-label="確認用パスワードを表示"
                 >
-                  <EyeIcon />
+                  {showPasswordConfirm ? "非表示" : "表示"}
                 </button>
               </div>
             </div>

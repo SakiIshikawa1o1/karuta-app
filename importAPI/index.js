@@ -8,6 +8,13 @@ const app = express();
 
 const BASE_URL = "https://www.karuta.or.jp";
 const LIST_URL = "https://www.karuta.or.jp/cup-info/";
+const CLASS_ENTRY_FEES = {
+  A: 2500,
+  B: 2500,
+  C: 2000,
+  D: 2000,
+  E: 1500,
+};
 
 const supabase = createClient(
   process.env.SUPABASE_URL,
@@ -21,6 +28,18 @@ function toAbsoluteUrl(href) {
 
 function cleanText(text) {
   return String(text || "").replace(/\s+/g, " ").trim();
+}
+
+function getTodayDateInputValue() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function getDefaultEntryFeeForGrades(grades) {
+  const fees = (grades || [])
+    .map((grade) => CLASS_ENTRY_FEES[grade])
+    .filter((fee) => Number.isFinite(fee));
+
+  return fees.length > 0 ? Math.min(...fees) : 2500;
 }
 
 function isTournamentDetailUrl(url) {
@@ -144,10 +163,9 @@ function buildTournamentData({
 
   const venue = findByLabel(labeledItems, ["会場", "場所"]) || "会場未確認";
 
-  // 級判定だけはPDF名や本文全体を使わない。
-  // 詳細ページ上の「級」「参加級」「対象」項目だけを見る。
   const rawGrades = findByLabel(labeledItems, ["級", "参加級", "対象"]);
   const grades = normalizeGrades(rawGrades);
+  const fixedEntryFee = getDefaultEntryFeeForGrades(grades);
 
   const entryFee = extractEntryFee(
     findByLabel(labeledItems, ["参加費", "会費", "出場料"]) || bodyText
@@ -168,21 +186,16 @@ function buildTournamentData({
     event_date: eventDate,
     venue: venue || "会場未確認",
     address: null,
-    entry_fee: entryFee,
-    application_start_at: null,
+    entry_fee: fixedEntryFee,
+    application_start_at: getTodayDateInputValue(),
     application_deadline: null,
     status: "draft",
-    notes,
-
-    // PDF/Excel等のファイル情報は保存する
     guideline_file_name: fileUrls.length > 0 ? fileUrls[0].split("/").pop() : null,
     guideline_file_path: fileUrls.length > 0 ? fileUrls[0] : null,
-
     source_url: detailUrl,
     source_name: "全日本かるた協会",
     imported_at: new Date().toISOString(),
 
-    // 参加可能級は「級」欄だけから判定
     allow_class_a: grades.includes("A"),
     allow_class_b: grades.includes("B"),
     allow_class_c: grades.includes("C"),
@@ -215,7 +228,7 @@ app.post("/import-tournaments", async (req, res) => {
     const savedResults = [];
     const skippedResults = [];
 
-    for (const detailUrl of detailUrls.slice(0, 5)) {
+    for (const detailUrl of detailUrls) {
       const detailResponse = await axios.get(detailUrl);
       const detail$ = cheerio.load(detailResponse.data);
 
@@ -259,7 +272,6 @@ app.post("/import-tournaments", async (req, res) => {
         venue: tournamentData.venue,
         raw_grade_text:
           findByLabel(labeledItems, ["級", "参加級", "対象"]) || null,
-        fileUrls,
         guideline_file_name: tournamentData.guideline_file_name,
         guideline_file_path: tournamentData.guideline_file_path,
         allow_class_a: tournamentData.allow_class_a,
@@ -308,6 +320,7 @@ app.post("/import-tournaments", async (req, res) => {
 
     return res.json({
       success: true,
+      targetListUrl: LIST_URL,
       foundDetailUrls: detailUrls.length,
       checkedCount: parsedResults.length,
       savedCount: savedResults.length,

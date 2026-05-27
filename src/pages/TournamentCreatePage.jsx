@@ -11,6 +11,10 @@ import {
   TOURNAMENT_FILE_BUCKET,
   validateGuidelineFile,
 } from "../utils/tournamentFiles";
+import {
+  getDefaultEntryFeeForTournament,
+  getFormClassEntryFeeItems,
+} from "../utils/classEntryFees";
 
 function CheckIcon() {
   return (
@@ -52,6 +56,14 @@ function sanitizeNumber(value) {
   return Number.isNaN(number) ? null : number;
 }
 
+function getTodayDateInputValue() {
+  const now = new Date();
+  const offset = now.getTimezoneOffset();
+  const localDate = new Date(now.getTime() - offset * 60 * 1000);
+
+  return localDate.toISOString().slice(0, 10);
+}
+
 const CLASS_OPTIONS = [
   { key: "allow_class_a", label: "A級" },
   { key: "allow_class_b", label: "B級" },
@@ -69,9 +81,9 @@ export default function TournamentCreatePage() {
     title: "",
     event_date: "",
     venue: "",
-    application_start_at: "",
+    application_start_at: getTodayDateInputValue(),
     application_deadline: "",
-    entry_fee: "",
+    entry_fee: "2500",
     notes: "",
     address: "",
     status: "draft",
@@ -86,6 +98,7 @@ export default function TournamentCreatePage() {
   const [requirementFile, setRequirementFile] = useState(null);
   const [saving, setSaving] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const entryFeeItems = getFormClassEntryFeeItems(form, CLASS_OPTIONS);
 
   const handleChange = (field, value) => {
     setForm((prev) => ({
@@ -139,7 +152,7 @@ export default function TournamentCreatePage() {
       event_date: form.event_date,
       venue: form.venue.trim(),
       address: form.address.trim(),
-      entry_fee: sanitizeNumber(form.entry_fee),
+      entry_fee: getDefaultEntryFeeForTournament(form),
       application_start_at: form.application_start_at || null,
       application_deadline: form.application_deadline || null,
       status: nextStatus,
@@ -345,16 +358,20 @@ export default function TournamentCreatePage() {
               <strong>必須</strong>
             </div>
 
-            <div className="tournament-create-inline-input">
-              <input
-                type="text"
-                inputMode="numeric"
-                value={form.entry_fee}
-                onChange={(e) => handleChange("entry_fee", e.target.value)}
-                placeholder="例）2,000"
-              />
-              <span>円</span>
-            </div>
+            {entryFeeItems.length > 0 ? (
+              <ul className="tournament-create-fee-list">
+                {entryFeeItems.map((item) => (
+                  <li key={item.code}>
+                    <span>{item.label}</span>
+                    <strong>{item.feeText}</strong>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="tournament-create-help">
+                参加可能な級を選択すると参加費が表示されます。
+              </p>
+            )}
           </div>
 
           <div className="tournament-create-row">

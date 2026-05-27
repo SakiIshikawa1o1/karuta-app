@@ -1,0 +1,50 @@
+/* =========================================================
+   Tournament Class Fee List
+========================================================= */
+
+.tournament-create-fee-list,
+.tournament-edit-fee-list {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.tournament-create-fee-list li,
+.tournament-edit-fee-list li {
+  min-height: 44px;
+  border: 1.5px solid rgba(120, 40, 30, 0.14);
+  border-radius: 8px;
+  background: #fffaf8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+}
+
+.tournament-create-fee-list span,
+.tournament-edit-fee-list span {
+  color: #4b2a22;
+  font-size: 14px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.tournament-create-fee-list strong,
+.tournament-edit-fee-list strong {
+  color: var(--red-dark);
+  font-size: 15px;
+  font-weight: 900;
+  text-align: right;
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .tournament-create-fee-list li,
+  .tournament-edit-fee-list li {
+    padding: 9px 12px;
+  }
+}

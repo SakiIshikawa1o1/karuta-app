@@ -1,0 +1,23 @@
+/* =========================================================
+   Auth Pages: No Small Icons
+========================================================= */
+
+.login-label-icon,
+.signup-label-icon {
+  display: none !important;
+}
+
+.password-toggle-button,
+.signup-password-wrap button {
+  min-width: 56px;
+  padding: 0 10px;
+  color: var(--red-dark);
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.password-toggle-button svg,
+.signup-password-wrap button svg {
+  display: none !important;
+}

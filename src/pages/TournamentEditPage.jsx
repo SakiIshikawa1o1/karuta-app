@@ -12,6 +12,10 @@ import {
   TOURNAMENT_FILE_BUCKET,
   validateGuidelineFile,
 } from "../utils/tournamentFiles";
+import {
+  getDefaultEntryFeeForTournament,
+  getFormClassEntryFeeItems,
+} from "../utils/classEntryFees";
 
 const STATUS_LABEL = {
   draft: "下書き",
@@ -124,6 +128,7 @@ export default function TournamentEditPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
+  const entryFeeItems = getFormClassEntryFeeItems(form, CLASS_OPTIONS);
 
   const selectedTournament = useMemo(() => {
     return tournaments.find((tournament) => tournament.id === selectedId);
@@ -298,14 +303,6 @@ export default function TournamentEditPage() {
     if (!CLASS_OPTIONS.some((item) => form[item.key])) {
       return "参加可能な級を1つ以上選択してください。";
     }
-    if (!form.entry_fee) return "参加費は必須です。";
-
-    const entryFee = sanitizeNumber(form.entry_fee);
-
-    if (entryFee !== null && entryFee < 0) {
-      return "参加費は0以上で入力してください。";
-    }
-
     if (
       form.application_start_at &&
       form.application_deadline &&
@@ -335,7 +332,7 @@ export default function TournamentEditPage() {
       event_date: form.event_date,
       venue: form.venue.trim(),
       address: form.address.trim() || null,
-      entry_fee: sanitizeNumber(form.entry_fee),
+      entry_fee: getDefaultEntryFeeForTournament(form),
       application_start_at: form.application_start_at || null,
       application_deadline: form.application_deadline || null,
       status: nextStatus,
@@ -588,18 +585,20 @@ export default function TournamentEditPage() {
                     <strong>必須</strong>
                   </div>
 
-                  <div className="tournament-edit-inline-input">
-                    <input
-                      type="text"
-                      inputMode="numeric"
-                      value={form.entry_fee}
-                      onChange={(e) =>
-                        handleChange("entry_fee", e.target.value)
-                      }
-                      placeholder="例）2,000"
-                    />
-                    <span>円</span>
-                  </div>
+                  {entryFeeItems.length > 0 ? (
+                    <ul className="tournament-edit-fee-list">
+                      {entryFeeItems.map((item) => (
+                        <li key={item.code}>
+                          <span>{item.label}</span>
+                          <strong>{item.feeText}</strong>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="tournament-edit-help">
+                      参加可能な級を選択すると参加費が表示されます。
+                    </p>
+                  )}
                 </div>
 
                 <div className="tournament-edit-row">

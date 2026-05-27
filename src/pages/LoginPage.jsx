@@ -3,17 +3,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { ROLE } from "../utils/roles";
 
-function EyeIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path
-        d="M12 5C6 5 2.06 10.02 1 12c1.06 1.98 5 7 11 7s9.94-5.02 11-7c-1.06-1.98-5-7-11-7Zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8Z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
-
 export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -130,7 +119,7 @@ export default function LoginPage() {
                   onClick={() => setShowPassword((prev) => !prev)}
                   aria-label="パスワードを表示"
                 >
-                  <EyeIcon />
+                  {showPassword ? "非表示" : "表示"}
                 </button>
               </div>
             </div>
