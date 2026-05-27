@@ -28,7 +28,7 @@ export function TermsPage() {
   return (
     <SupportPageLayout
       title="利用規約"
-      lead="まにまに大会申込システムをご利用いただく際の基本ルールです。"
+      lead="まにまに大会申込管理アプリをご利用いただく際の基本ルールです。"
     >
       <section>
         <h2>1. サービスの利用</h2>

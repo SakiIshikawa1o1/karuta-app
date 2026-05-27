@@ -56,7 +56,11 @@ function formatDeadlineShort(value) {
 
 function formatYen(value) {
   if (value === null || value === undefined || value === "") return "未設定";
-  return `${Number(value).toLocaleString("ja-JP")}円`;
+
+  const numberValue = Number(value);
+  if (Number.isNaN(numberValue)) return String(value);
+
+  return `${numberValue.toLocaleString("ja-JP")}円`;
 }
 
 function normalizeClassCode(code) {

@@ -82,7 +82,7 @@ export default function LoginPage() {
             </div>
 
             <h1>まにまに</h1>
-            <p>大会申込システム</p>
+            <p>大会申込管理アプリ</p>
           </header>
 
           <form className="login-form" onSubmit={handleLogin}>

@@ -69,6 +69,10 @@
   white-space: nowrap;
 }
 
+.home-tournament-card .tournament-status-label.status-closed {
+  background: #6b7280;
+}
+
 /* 大会名 */
 .home-tournament-card .home-tournament-body h3 {
   margin: 0 0 9px;

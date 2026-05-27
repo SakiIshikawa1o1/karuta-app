@@ -46,7 +46,7 @@ export default function Header() {
           <span className="logo-image" />
           <span>
             <strong>まにまに</strong>
-            <small>大会申込システム</small>
+            <small>大会申込管理アプリ</small>
           </span>
         </button>
 

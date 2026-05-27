@@ -1,0 +1,150 @@
+/* =========================================================
+   Tournament Form Mobile Overflow Fix
+   Keep create/edit form controls inside the viewport on small screens.
+========================================================= */
+
+.tournament-create-page,
+.tournament-edit-page,
+.tournament-create-card,
+.tournament-edit-card,
+.tournament-create-form,
+.tournament-edit-form,
+.tournament-create-row,
+.tournament-edit-row,
+.tournament-create-row > *,
+.tournament-edit-row > *,
+.tournament-create-inline-input,
+.tournament-edit-inline-input,
+.tournament-create-actions,
+.tournament-edit-actions {
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.tournament-create-row input,
+.tournament-create-row select,
+.tournament-create-row textarea,
+.tournament-edit-row input,
+.tournament-edit-row select,
+.tournament-edit-row textarea {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.tournament-create-upload,
+.tournament-edit-upload,
+.tournament-edit-current-file {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .tournament-create-page,
+  .tournament-edit-page {
+    width: 100%;
+    max-width: 100%;
+    padding-inline: 10px !important;
+    overflow-x: hidden;
+  }
+
+  .tournament-create-hero,
+  .tournament-edit-hero {
+    max-width: calc(100vw - 20px);
+    box-sizing: border-box;
+  }
+
+  .tournament-create-card,
+  .tournament-edit-card {
+    width: 100%;
+    max-width: 100%;
+    padding-inline: 12px !important;
+  }
+
+  .tournament-create-row,
+  .tournament-edit-row {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .tournament-create-label,
+  .tournament-edit-label {
+    flex-wrap: wrap;
+    max-width: 100%;
+  }
+
+  .tournament-create-inline-input,
+  .tournament-edit-inline-input {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+  }
+
+  .tournament-create-radio-list label,
+  .tournament-edit-radio-list label {
+    min-width: 0;
+  }
+
+  .tournament-create-radio-list label span,
+  .tournament-edit-radio-list label span,
+  .tournament-create-help,
+  .tournament-edit-help,
+  .tournament-create-upload span,
+  .tournament-edit-upload span,
+  .tournament-create-upload small,
+  .tournament-edit-upload small,
+  .tournament-edit-current-file p {
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  .tournament-edit-current-file {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .tournament-edit-remove-file-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .tournament-create-page,
+  .tournament-edit-page {
+    padding-inline: 8px !important;
+  }
+
+  .tournament-create-hero,
+  .tournament-edit-hero {
+    margin-inline: -8px !important;
+    max-width: 100vw;
+    padding-inline: 14px !important;
+  }
+
+  .tournament-create-card,
+  .tournament-edit-card {
+    padding-inline: 10px !important;
+  }
+
+  .tournament-create-row input,
+  .tournament-create-row select,
+  .tournament-create-row textarea,
+  .tournament-edit-row input,
+  .tournament-edit-row select,
+  .tournament-edit-row textarea {
+    padding-inline: 10px !important;
+  }
+
+  .tournament-create-inline-input,
+  .tournament-edit-inline-input {
+    gap: 6px;
+  }
+
+  .tournament-create-actions button,
+  .tournament-edit-actions button {
+    width: 100%;
+    padding-inline: 10px;
+    white-space: normal;
+  }
+}

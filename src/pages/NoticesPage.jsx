@@ -10,7 +10,7 @@ const FALLBACK_NOTICES = [
     date: "2026.04.30",
     tag: "重要",
     important: true,
-    title: "大会申込システムの試験運用を開始しました",
+    title: "大会申込管理アプリの試験運用を開始しました",
     body: "大会情報の閲覧、申込状況の確認などを順次利用できるようにしています。利用中に気になる点がある場合は、運営担当者までご連絡ください。",
   },
   {
@@ -129,7 +129,7 @@ export default function NoticesPage() {
         <div className="tournament-search-hero-copy">
           <p>NEWS</p>
           <h1>お知らせ一覧</h1>
-          <span>大会申込システムからのお知らせを掲載しています。</span>
+          <span>大会申込管理アプリからのお知らせを掲載しています。</span>
         </div>
       </section>
 

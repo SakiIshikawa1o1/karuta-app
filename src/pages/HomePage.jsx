@@ -197,7 +197,9 @@ export default function HomePage() {
                 <article className="home-tournament-card" key={tournament.id}>
                   <div className="home-tournament-body">
                     <div className="tournament-card-top">
-                      <span className="tournament-status-label">
+                      <span
+                        className={`tournament-status-label status-${tournament.status}`}
+                      >
                         {STATUS_LABEL[tournament.status] || tournament.status}
                         {deadline && ` (${formatShortDate(deadline)}まで)`}
                       </span>

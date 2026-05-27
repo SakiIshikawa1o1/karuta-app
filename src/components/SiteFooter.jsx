@@ -20,7 +20,7 @@ export default function SiteFooter() {
             <div className="footer-logo-image" />
             <div>
               <strong>まにまに</strong>
-              <small>大会申込システム</small>
+              <small>大会申込管理アプリ</small>
             </div>
           </div>
 

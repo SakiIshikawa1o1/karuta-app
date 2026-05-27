@@ -22,3 +22,13 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+.env
+.env.local
+.env.*.local
+importAPI/.env
+
+importAPI/.env
+.env
+.env.local
+.env.*.local
