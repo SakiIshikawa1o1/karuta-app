@@ -30,16 +30,6 @@ export default function AuthCallbackPage() {
         return;
       }
 
-      await supabase
-        .from("profiles")
-        .update({
-          email: data.session.user.email,
-          updated_at: new Date().toISOString(),
-        })
-        .eq("id", data.session.user.id);
-
-      await refreshMe();
-
       const { data: profileData } = await supabase
         .from("profiles")
         .select("approval_status")
@@ -59,10 +49,21 @@ export default function AuthCallbackPage() {
       const roleCodes =
         roleData?.map((item) => item.roles?.code).filter(Boolean) ?? [];
 
-      if (
+      const canSyncProfileEmail =
         profileData?.approval_status === "approved" ||
-        roleCodes.includes(ROLE.SYSTEM_ADMIN)
-      ) {
+        roleCodes.includes(ROLE.SYSTEM_ADMIN);
+
+      if (canSyncProfileEmail) {
+        await supabase
+          .from("profiles")
+          .update({
+            email: data.session.user.email,
+            updated_at: new Date().toISOString(),
+          })
+          .eq("id", data.session.user.id);
+
+        await refreshMe();
+
         navigate("/mypage", { replace: true });
         return;
       }
