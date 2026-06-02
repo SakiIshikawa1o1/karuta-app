@@ -1,4 +1,4 @@
-// src/pages/MyPage.jsx
+﻿// src/pages/MyPage.jsx
 
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -42,6 +42,10 @@ function getDaysUntil(dateString) {
 function getMasterName(items, id) {
   if (!id) return "";
   return items.find((item) => item.id === id)?.name || "";
+}
+
+function isValidEmail(value) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value || "").trim());
 }
 
 export default function MyPage() {
@@ -275,25 +279,46 @@ export default function MyPage() {
   const handleSave = async () => {
     if (!user) return;
 
+    const normalizedEmail = form.email.trim();
+    const currentEmail = (user.email || "").trim();
+
     if (
       !form.full_name ||
+      !normalizedEmail ||
       !form.affiliation_id ||
       !form.class_level_id ||
       !form.dan_rank_id
     ) {
-      setErrorMessage("氏名、所属会、級、段位は必須です。");
+      setErrorMessage("氏名、メールアドレス、所属会、級、段位は必須です。");
+      return;
+    }
+
+    if (!isValidEmail(normalizedEmail)) {
+      setErrorMessage("メールアドレスの形式が正しくありません。");
       return;
     }
 
     setSaving(true);
     setErrorMessage("");
 
+    if (normalizedEmail !== currentEmail) {
+      const { error: emailUpdateError } = await supabase.auth.updateUser({
+        email: normalizedEmail,
+      });
+
+      if (emailUpdateError) {
+        setSaving(false);
+        setErrorMessage(`メールアドレス変更に失敗しました：${emailUpdateError.message}`);
+        return;
+      }
+    }
+
     const { error } = await supabase
       .from("profiles")
       .update({
         display_name: form.display_name,
         full_name: form.full_name,
-        email: user.email,
+        email: normalizedEmail,
         phone: form.phone,
         school_name: form.school_name,
         affiliation_id: form.affiliation_id,
@@ -486,7 +511,12 @@ export default function MyPage() {
 
             <label>
               メールアドレス
-              <input value={form.email} disabled />
+              <input
+                type="email"
+                value={form.email}
+                onChange={(e) => handleChange("email", e.target.value)}
+                autoComplete="email"
+              />
             </label>
 
             <label>

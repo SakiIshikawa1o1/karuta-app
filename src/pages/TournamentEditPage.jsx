@@ -293,13 +293,15 @@ export default function TournamentEditPage() {
     setMessage("");
   };
 
-  const validateForm = () => {
+  const validateForm = (nextStatus = form.status) => {
+    const requiresApplicationPeriod = nextStatus !== "preparing";
+
     if (!selectedId) return "変更対象の大会を選択してください。";
     if (!form.title.trim()) return "大会名は必須です。";
     if (!form.event_date) return "開催日は必須です。";
     if (!form.venue.trim()) return "会場は必須です。";
-    if (!form.application_start_at) return "申込開始日は必須です。";
-    if (!form.application_deadline) return "申込締切日は必須です。";
+    if (requiresApplicationPeriod && !form.application_start_at) return "申込開始日は必須です。";
+    if (requiresApplicationPeriod && !form.application_deadline) return "申込締切日は必須です。";
     if (!CLASS_OPTIONS.some((item) => form[item.key])) {
       return "参加可能な級を1つ以上選択してください。";
     }
@@ -317,7 +319,7 @@ export default function TournamentEditPage() {
   const handleUpdate = async (nextStatus = form.status) => {
     setMessage("");
 
-    const validationMessage = validateForm();
+    const validationMessage = validateForm(nextStatus);
 
     if (validationMessage) {
       setMessage(validationMessage);

@@ -42,6 +42,23 @@ function getAllowedClassColumn(classCode) {
   return normalized ? `allow_class_${normalized}` : "";
 }
 
+function isHomeTournamentVisible(tournament) {
+  if (tournament.status !== "published") {
+    return true;
+  }
+
+  if (!tournament.application_deadline) {
+    return true;
+  }
+
+  const deadline = new Date(tournament.application_deadline);
+  if (Number.isNaN(deadline.getTime())) {
+    return true;
+  }
+
+  return deadline >= new Date();
+}
+
 export default function HomePage() {
   const navigate = useNavigate();
   const { profile } = useAuth();
@@ -56,14 +73,11 @@ export default function HomePage() {
     const fetchTournaments = async () => {
       setLoadingTournaments(true);
 
-      const now = new Date();
-
-      // 今日の翌日 0:00
-      // 「今日より後」なので、今日締切の大会は除外する
-      const tomorrow = new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate() + 1,
+      const today = new Date();
+      const todayStart = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate(),
         0,
         0,
         0
@@ -72,8 +86,8 @@ export default function HomePage() {
       const tournamentsQuery = await supabase
         .from("tournaments")
         .select("*")
-        .eq("status", "published")
-        .gte("application_deadline", tomorrow.toISOString())
+        .in("status", ["published", "preparing"])
+        .gte("event_date", todayStart.toISOString().slice(0, 10))
         .order("event_date", { ascending: true });
       const { data, error } = tournamentsQuery;
 
@@ -101,7 +115,7 @@ export default function HomePage() {
           (item) => item.id === profile?.class_level_id
         ) || null;
       const allowedClassColumn = getAllowedClassColumn(classLevel?.code);
-      const tournamentList = data ?? [];
+      const tournamentList = (data ?? []).filter(isHomeTournamentVisible);
 
       setUserClassLevel(classLevel);
       setTournaments(
@@ -176,7 +190,7 @@ export default function HomePage() {
         <div className="section-heading">
           <h2>
             <AppIcon name="tournaments" />
-            受付中の大会
+            今後実施される大会
           </h2>
           <button type="button" onClick={() => navigate("/tournaments")}>
             すべての大会を見る
@@ -187,7 +201,7 @@ export default function HomePage() {
         {loadingTournaments ? (
           <div className="empty-card">大会を読み込み中です...</div>
         ) : tournaments.length === 0 ? (
-          <div className="empty-card">現在、受付中の大会はありません。</div>
+          <div className="empty-card">現在、今後実施される大会はありません。</div>
         ) : (
           <div className="home-tournament-grid">
             {tournaments.map((tournament) => {
@@ -201,7 +215,9 @@ export default function HomePage() {
                         className={`tournament-status-label status-${tournament.status}`}
                       >
                         {STATUS_LABEL[tournament.status] || tournament.status}
-                        {deadline && ` (${formatShortDate(deadline)}まで)`}
+                        {tournament.status === "published" &&
+                          deadline &&
+                          ` (${formatShortDate(deadline)}まで)`}
                       </span>
                     </div>
 

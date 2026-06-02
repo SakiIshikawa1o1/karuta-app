@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+﻿import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import SiteFooter from "../components/SiteFooter";
@@ -179,7 +179,6 @@ export default function TournamentListPage() {
   const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
   const [selectedClassCode, setSelectedClassCode] = useState("");
-  const [visibleCount, setVisibleCount] = useState(8);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
@@ -275,11 +274,9 @@ export default function TournamentListPage() {
     selectedClassCode,
   ]);
 
-  const visibleTournaments = filteredTournaments.slice(0, visibleCount);
-
   const groupedTournaments = useMemo(
-    () => Array.from(groupByDate(visibleTournaments).entries()),
-    [visibleTournaments]
+    () => Array.from(groupByDate(filteredTournaments).entries()),
+    [filteredTournaments]
   );
 
   const activeFilterCount = [
@@ -292,7 +289,6 @@ export default function TournamentListPage() {
     setKeyword("");
     setSelectedStatus("");
     setSelectedClassCode("");
-    setVisibleCount(8);
   };
 
   return (
@@ -323,7 +319,6 @@ export default function TournamentListPage() {
                 }
                 onClick={() => {
                   setSelectedMonth(month.key);
-                  setVisibleCount(8);
                 }}
               >
                 <strong>{month.label}</strong>
@@ -355,7 +350,6 @@ export default function TournamentListPage() {
               value={keyword}
               onChange={(event) => {
                 setKeyword(event.target.value);
-                setVisibleCount(8);
               }}
               placeholder="大会名・会場・級で検索"
             />
@@ -364,7 +358,6 @@ export default function TournamentListPage() {
               value={selectedStatus}
               onChange={(event) => {
                 setSelectedStatus(event.target.value);
-                setVisibleCount(8);
               }}
             >
               {STATUS_OPTIONS.map((option) => (
@@ -378,7 +371,6 @@ export default function TournamentListPage() {
               value={selectedClassCode}
               onChange={(event) => {
                 setSelectedClassCode(event.target.value);
-                setVisibleCount(8);
               }}
             >
               <option value="">すべての級</option>
@@ -468,17 +460,6 @@ export default function TournamentListPage() {
               </div>
             </div>
           ))}
-
-          {visibleCount < filteredTournaments.length && (
-            <button
-              type="button"
-              className="load-more-tournaments"
-              onClick={() => setVisibleCount((prev) => prev + 8)}
-            >
-              さらに先の大会を表示
-              <span>›</span>
-            </button>
-          )}
         </section>
       )}
 
