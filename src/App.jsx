@@ -21,6 +21,7 @@ import TournamentApplyPage from "./pages/TournamentApplyPage";
 import ApplicationConfirmPage from "./pages/ApplicationConfirmPage";
 import ApplicationStatusPage from "./pages/ApplicationStatusPage";
 import MyPage from "./pages/MyPage";
+import EmailChangePage from "./pages/EmailChangePage";
 import NoticesPage from "./pages/NoticesPage";
 import { ContactPage } from "./pages/SupportPages";
 
@@ -97,6 +98,15 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <MyPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/mypage/email"
+            element={
+              <ProtectedRoute>
+                <EmailChangePage />
               </ProtectedRoute>
             }
           />

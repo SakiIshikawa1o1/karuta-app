@@ -144,3 +144,4 @@ import "./pages/tournaments/141-tournament-form-mobile-overflow-fix.css";
 import "./pages/mypage/142-my-page-scroll-and-menu-color.css";
 import "./pages/tournaments/143-tournament-class-fee-list.css";
 import "./pages/auth/144-auth-no-small-icons.css";
+import "./pages/mypage/145-email-change-page.css";

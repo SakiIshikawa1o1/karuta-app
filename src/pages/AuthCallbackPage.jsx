@@ -30,6 +30,14 @@ export default function AuthCallbackPage() {
         return;
       }
 
+      await supabase
+        .from("profiles")
+        .update({
+          email: data.session.user.email,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", data.session.user.id);
+
       await refreshMe();
 
       const { data: profileData } = await supabase

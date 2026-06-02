@@ -44,10 +44,6 @@ function getMasterName(items, id) {
   return items.find((item) => item.id === id)?.name || "";
 }
 
-function isValidEmail(value) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value || "").trim());
-}
-
 export default function MyPage() {
   const navigate = useNavigate();
   const { user, profile, roles, hasRole, refreshMe } = useAuth();
@@ -279,46 +275,25 @@ export default function MyPage() {
   const handleSave = async () => {
     if (!user) return;
 
-    const normalizedEmail = form.email.trim();
-    const currentEmail = (user.email || "").trim();
-
     if (
       !form.full_name ||
-      !normalizedEmail ||
       !form.affiliation_id ||
       !form.class_level_id ||
       !form.dan_rank_id
     ) {
-      setErrorMessage("氏名、メールアドレス、所属会、級、段位は必須です。");
-      return;
-    }
-
-    if (!isValidEmail(normalizedEmail)) {
-      setErrorMessage("メールアドレスの形式が正しくありません。");
+      setErrorMessage("氏名、所属会、級、段位は必須です。");
       return;
     }
 
     setSaving(true);
     setErrorMessage("");
 
-    if (normalizedEmail !== currentEmail) {
-      const { error: emailUpdateError } = await supabase.auth.updateUser({
-        email: normalizedEmail,
-      });
-
-      if (emailUpdateError) {
-        setSaving(false);
-        setErrorMessage(`メールアドレス変更に失敗しました：${emailUpdateError.message}`);
-        return;
-      }
-    }
-
     const { error } = await supabase
       .from("profiles")
       .update({
         display_name: form.display_name,
         full_name: form.full_name,
-        email: normalizedEmail,
+        email: user.email,
         phone: form.phone,
         school_name: form.school_name,
         affiliation_id: form.affiliation_id,
@@ -511,12 +486,7 @@ export default function MyPage() {
 
             <label>
               メールアドレス
-              <input
-                type="email"
-                value={form.email}
-                onChange={(e) => handleChange("email", e.target.value)}
-                autoComplete="email"
-              />
+              <input value={form.email} disabled />
             </label>
 
             <label>
@@ -602,6 +572,11 @@ export default function MyPage() {
             </div>
           </section>
         )}
+
+        <button type="button" onClick={() => navigate("/mypage/email")}>
+          <span>メールアドレスの変更</span>
+          <ChevronIcon />
+        </button>
 
         {availableAdminMenus.map((menu) => (
           <button
