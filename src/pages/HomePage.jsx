@@ -59,6 +59,24 @@ function isHomeTournamentVisible(tournament) {
   return deadline >= new Date();
 }
 
+function sortHomeTournaments(a, b) {
+  const statusPriority = {
+    published: 0,
+    preparing: 1,
+  };
+
+  const priorityA = statusPriority[a.status] ?? 9;
+  const priorityB = statusPriority[b.status] ?? 9;
+
+  if (priorityA !== priorityB) {
+    return priorityA - priorityB;
+  }
+
+  const dateA = a.event_date ?? "";
+  const dateB = b.event_date ?? "";
+  return dateA.localeCompare(dateB);
+}
+
 export default function HomePage() {
   const navigate = useNavigate();
   const { profile } = useAuth();
@@ -115,7 +133,9 @@ export default function HomePage() {
           (item) => item.id === profile?.class_level_id
         ) || null;
       const allowedClassColumn = getAllowedClassColumn(classLevel?.code);
-      const tournamentList = (data ?? []).filter(isHomeTournamentVisible);
+      const tournamentList = (data ?? [])
+        .filter(isHomeTournamentVisible)
+        .sort(sortHomeTournaments);
 
       setUserClassLevel(classLevel);
       setTournaments(
