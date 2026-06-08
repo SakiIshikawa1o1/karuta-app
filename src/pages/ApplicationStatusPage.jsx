@@ -94,6 +94,14 @@ function formatLastUpdated(date) {
   return `${year}/${month}/${day} ${hour}:${minute}`;
 }
 
+function isApplicationDeadlineClosed(application) {
+  const value = application?.tournaments?.application_deadline;
+  if (!value) return false;
+
+  const deadline = new Date(value);
+  return !Number.isNaN(deadline.getTime()) && deadline <= new Date();
+}
+
 export default function ApplicationStatusPage() {
   const navigate = useNavigate();
   const { user, loading: authLoading } = useAuth();
@@ -133,6 +141,7 @@ export default function ApplicationStatusPage() {
           id,
           title,
           event_date,
+          application_deadline,
           venue
         )
       `)
@@ -212,6 +221,11 @@ export default function ApplicationStatusPage() {
 
   const updateApplicationStatus = async (event, application, nextStatus) => {
     event.stopPropagation();
+
+    if (nextStatus === "cancelled" && isApplicationDeadlineClosed(application)) {
+      setMessage("申込受付終了後はキャンセルできません。");
+      return;
+    }
 
     const statusText = STATUS_LABEL[nextStatus] ?? nextStatus;
 
@@ -334,6 +348,7 @@ export default function ApplicationStatusPage() {
             const tournament = app.tournaments;
             const appStatus = normalizeStatus(app.status);
             const statusClass = STATUS_CLASS[appStatus] ?? "";
+            const isCancellationClosed = isApplicationDeadlineClosed(app);
             const classLevelName =
               classLevels.find((item) => item.id === app.class_level_id)?.name ||
               "";
@@ -404,6 +419,7 @@ export default function ApplicationStatusPage() {
                     <button
                       type="button"
                       className="application-status-action-button cancel"
+                      disabled={isCancellationClosed}
                       onClick={(event) =>
                         updateApplicationStatus(
                           event,

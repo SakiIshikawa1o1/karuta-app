@@ -40,6 +40,14 @@
   color: #c2410c !important;
 }
 
+.application-status-action-button:disabled {
+  border-color: #d1d5db !important;
+  color: #9ca3af !important;
+  background: #f3f4f6 !important;
+  cursor: not-allowed !important;
+  opacity: 1 !important;
+}
+
 .application-status-pill.status-cancelled {
   background: #6b7280 !important;
 }
